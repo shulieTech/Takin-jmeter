@@ -153,15 +153,16 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
         //添加 transactionurl
         responseMetrics.setTransactionUrl(transactionUrl);
         //add end
-        Set<ErrorInfo> errorInfos = errors.keySet()
-            .stream()
-            .map(integer -> {
-                ErrorInfo errorInfo = new ErrorInfo();
-                errorInfo.setResponseCode(integer.getResponseCode());
-                errorInfo.setResponseMessage(integer.getResponseMessage());
-                return errorInfo;
-            }).collect(Collectors.toSet());
-        responseMetrics.setErrorInfos(errorInfos);
+//        Set<ErrorInfo> errorInfos = errors.keySet()
+//            .stream()
+//            .map(integer -> {
+//                ErrorInfo errorInfo = new ErrorInfo();
+//                errorInfo.setResponseCode(integer.getResponseCode());
+//                errorInfo.setResponseMessage(integer.getResponseMessage());
+//                return errorInfo;
+//            }).collect(Collectors.toSet());
+        //modify by lipeng 错误信息走jtl 不走metrics， 防止错误信息太大导致请求不稳定
+        responseMetrics.setErrorInfos(new HashSet<>());
         //add by lipeng 添加sumRt
         responseMetrics.setSumRt(sumRt);
         influxdbMetricsManager.addMetric(responseMetrics);
