@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to you under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE document
+[
+<!ENTITY hellip   "&#x02026;" >
+]>
+<document>
+  <properties>
+    <title>Building and Contributing to JMeter</title>
+  </properties>
+<body>
+<section name="Building JMeter" >
+
+Before you can compile JMeter, you will need a few things:
+<ul>
+<li>a Java 8 compatible JDK (Java Development Kit)</li>
+<li>Optional: <a href="https://gradle.org/">Gradle</a> installation</li>
+<li>the JMeter sources as shown in the next section</li>
+</ul>
+
+<h3>Acquiring the source</h3>
+<p>The official source releases of Apache JMeter can be downloaded from <a href="download_jmeter.cgi">download page</a>.</p>
+
+<h3>Compiling and packaging JMeter using Gradle</h3>
+<p>
+JMeter can be built entirely using Gradle.
+The basic command is:</p>
+<source>
+./gradlew build
+</source>
+<p>
+See the list of available tasks via <code>./gradlew tasks</code> (or <code>./gradlew tasks --all</code>)
+for the other tasks that can be used. More detailed information about the available tasks can be found
+in <a href="https://github.com/apache/jmeter/blob/master/gradle.md">gradle.md</a>.
+</p>
+
+<h3>Opening project via IntelliJ IDEA</h3>
+    <p>You require IntelliJ 2018.3.1 or newer.</p>
+
+    <ul>
+        <li>Open the build.gradle.kts file with IntelliJ IDEA and choose "Open as Project"</li>
+        <li>Make sure "Create separate module per source set" is selected</li>
+        <li>Make sure "Use default gradle wrapper" is selected</li>
+        <li>In the "File already exists" dialogue, choose "Yes" to overwrite</li>
+        <li>In the "Open Project" dialogue, choose "Delete Existing Project and Import"</li>
+    </ul>
+
+<h3>Compiling and packaging JMeter using Eclipse</h3>
+<h4>Option 1 : Importing Eclipse project via Eclipse's "import Gradle project" wizard</h4>
+Recent Eclipse versions can import Gradle projects automatically, so use
+<menuchoice>
+    <guimenuitem>File</guimenuitem>
+    <guimenuitem>Import...</guimenuitem>
+</menuchoice>
+Then choose <menuchoice><guimenuitem>Existing Gradle Project</guimenuitem></menuchoice> and proceed
+with the import.
+
+<h4>Option 2 : Setting up Eclipse project with Gradle task</h4>
+Once you have downloaded the sources, you can setup the Eclipse project by running:
+
+<source>./gradlew eclipse</source>
+
+You can then import the project using
+<menuchoice>
+    <guimenuitem>File</guimenuitem>
+    <guimenuitem>Import</guimenuitem>
+    <guimenuitem>Existing projects into Workspace</guimenuitem>
+</menuchoice> and select the folder containing JMeter sources.
+
+</section>
+<section name="Contributing to JMeter">
+<h2>We love contribution</h2>
+<p>
+We are very grateful to you if you take some time to contribute to the project.
+If you have some time to spend on the project you can pick existing enhancement or bug from <a target="_blank" href="issues.html">Issues page</a>.<br/>
+You can also contribute to translation, see <a href="localising/index.html">JMeter Localisation (Translator's Guide)</a>.
+</p>
+
+<h2>Submitting a patch</h2>
+<p>
+If you want to contribute to JMeter for a bug fix or enhancement, here is the procedure to follow:
+</p>
+
+<h3>Check your patch</h3>
+<p>
+Before submitting your patch ensure you do the following:<br/>
+
+Check that patch compiles and follows Tab space policy by running:
+</p>
+<source>./gradlew check</source>
+<p>
+Check that patch does not break JUnit tests by running:
+</p>
+<source>./gradlew test</source>
+
+<h3>Create a PR using GIT</h3>
+<ul>
+    <li>Open a bugzilla issue, see <a target="_blank" href="issues.html">Issues page</a></li>
+    <li>Fork <a href="https://www.github.com/apache/jmeter" >Apache JMeter mirror</a></li>
+    <li>Clone your forked repository locally : <source>git clone https://github.com/yourid/jmeter/</source></li>
+    <li>Create a branch using for example bugzilla id: <source>git branch BUGID</source></li>
+    <li>Checkout the new branch : <source>git checkout BUGID</source></li>
+    <li>commit your fix there : <source>git commit -m 'Fix to BUGID' list of files</source></li>
+    <li>Please avoid creating merge commits in the PR. We embrace small changes, and merge commits are harder to review</li>
+    <li>Add JMeter repository as upstream : <source>git remote add upstream http://www.github.com/apache/jmeter</source></li>
+    <li>push it : <source>git push origin BUGID</source></li>
+    <li>Create a PR and link it in the bugzilla issue</li>
+    <li>Or create a diff and add as attachment to bugzilla issue <source>git diff &gt; BUGID.patch</source></li>
+</ul>
+
+<note>Different operation systems have different defaults for end-of-line markers.
+  Typical configuration is CRLF for Windows and LF for macOS and GNU/Linux.<br/>
+  It is recommended to follow that configuration by appropriate settings of <code>core.autocrlf</code>.
+  For Windows <source>git config --global core.autocrlf true</source>, and for macOS and GNU/Linux set <source>git config --global core.autocrlf input</source>
+  Git will automatically recognize text files in the repository thanks to <code>.gitattributes</code>,
+  and Git will convert line endings for text files to the appropriate platform-native format (according to <code>core.autocrlf</code>)<br/>
+  Certain files (e.g. <code>*.sh</code> or <code>*.bat</code>) have predefined end of line policy
+  no matter the configuration of the developer workstation.
+</note>
+
+<h3>Create a PR using Patch</h3>
+<ul>
+    <li>Open a bugzilla issue, see <a target="_blank" href="issues.html">Issues page</a></li>
+    <li>Checkout Apache JMeter source</li>
+    <li>Code your fix</li>
+    <li>Create your patch by Right clicking on Eclipse project and select
+        <menuchoice>
+            <guimenuitem>Team</guimenuitem>
+            <guimenuitem>Create Patch &hellip;</guimenuitem>
+        </menuchoice></li>
+    <li>Attach your patch to the bugzilla issue</li>
+</ul>
+</section>
+
+<section name="Automated builds">
+<h2>Automated (nightly) builds</h2>
+<p>
+As part of the development process, the JMeter project has access to various Continuous Integration (CI) server builds.
+The build output can be useful for testing recent changes to the code-base.
+</p>
+<p>
+Please note that the builds have not undergone any QA and should only be used for development testing.
+For further information, see the <a href="nightly.html">Nightly builds for developers</a> page.
+</p>
+</section>
+
+<section name="Building Add-Ons">
+<h2>Building Add-Ons</h2>
+<p>
+There is no need to build JMeter if you just want to build an add-on.
+Just download the binary archive and add the jars to the classpath or use Maven artifacts to build your add-ons.
+You may want to also download the source so it can be used by the IDE.
+</p>
+<p>See the <code>extras/addons*</code> files in the source tree for some suggestions</p>
+</section>
+</body>
+</document>

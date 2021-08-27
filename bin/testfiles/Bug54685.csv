@@ -1,0 +1,2 @@
+label,responseCode,responseMessage,dataType,success,bytes,"REFERENCE","JSESSIONID"
+"sample_variables=REFERENCE,JSESSIONID REFERENCE=reference JSESSIONID=jsessionId",,,text,true,0,reference,jsessionId

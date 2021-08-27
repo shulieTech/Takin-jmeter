@@ -1,0 +1,448 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to you under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.apache.jmeter.protocol.java.control.gui;
+
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import org.apache.jmeter.gui.TestElementMetadata;
+import org.apache.jmeter.protocol.java.sampler.JUnitSampler;
+import org.apache.jmeter.samplers.gui.AbstractSamplerGui;
+import org.apache.jmeter.testelement.TestElement;
+import org.apache.jmeter.util.JMeterUtils;
+import org.apache.jorphan.gui.JLabeledTextField;
+import org.apache.jorphan.reflect.ClassFinder;
+import org.apache.jorphan.util.JOrphanUtils;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import net.miginfocom.swing.MigLayout;
+
+import junit.framework.TestCase;
+
+/**
+ * The <code>JUnitTestSamplerGui</code> class provides the user interface
+ * for the {@link JUnitSampler}.
+ *
+ */
+@TestElementMetadata(labelResource = "junit_request")
+public class JUnitTestSamplerGui extends AbstractSamplerGui
+implements ChangeListener, ActionListener, ItemListener
+{
+    private static final long serialVersionUID = 240L;
+
+    private static final Logger log = LoggerFactory.getLogger(JUnitTestSamplerGui.class);
+
+    private static final String TESTMETHOD_PREFIX = "test"; //$NON-NLS-1$
+
+    // Names of JUnit3 methods
+    private static final String ONETIMESETUP = "oneTimeSetUp"; //$NON-NLS-1$
+    private static final String ONETIMETEARDOWN = "oneTimeTearDown"; //$NON-NLS-1$
+    private static final String SUITE = "suite"; //$NON-NLS-1$
+
+    private static final AtomicBoolean IS_INITILIAZED = new AtomicBoolean(Boolean.FALSE);
+    private static final String[] SPATHS;
+
+    static {
+        String[] paths;
+        String ucp = JMeterUtils.getProperty("user.classpath");
+        if (ucp!=null){
+            String[] parts = ucp.split(File.pathSeparator);
+            paths = new String[parts.length+1];
+            paths[0] = JMeterUtils.getJMeterHome() + "/lib/junit/"; //$NON-NLS-1$
+            System.arraycopy(parts, 0, paths, 1, parts.length);
+        } else {
+            paths = new String[]{
+                JMeterUtils.getJMeterHome() + "/lib/junit/" //$NON-NLS-1$
+            };
+        }
+        SPATHS = paths;
+    }
+
+    private JTextField constructorLabel =
+        new JTextField();
+
+    private JTextField successMsg =
+        new JTextField();
+
+    private JTextField failureMsg =
+        new JTextField();
+
+    private JTextField errorMsg =
+        new JTextField();
+
+    private JTextField successCode =
+        new JTextField();
+
+    private JTextField failureCode =
+        new JTextField();
+
+    private JTextField errorCode =
+        new JTextField();
+
+    private JLabeledTextField filterpkg =
+        new JLabeledTextField(
+            JMeterUtils.getResString("junit_pkg_filter"), 50); //$NON-NLS-1$
+
+    private JCheckBox doSetup = new JCheckBox(JMeterUtils.getResString("junit_do_setup_teardown")); //$NON-NLS-1$
+    private JCheckBox appendError = new JCheckBox(JMeterUtils.getResString("junit_append_error")); //$NON-NLS-1$
+    private JCheckBox appendExc = new JCheckBox(JMeterUtils.getResString("junit_append_exception")); //$NON-NLS-1$
+    private JCheckBox junit4 = new JCheckBox(JMeterUtils.getResString("junit_junit4")); //$NON-NLS-1$
+    private JCheckBox createInstancePerSample = new JCheckBox(JMeterUtils.getResString("junit_create_instance_per_sample")); //$NON-NLS-1$
+
+    /** A combo box allowing the user to choose a test class. */
+    private JComboBox<String> classnameCombo;
+    private JComboBox<String> methodName;
+
+    private final transient ClassLoader contextClassLoader =
+        Thread.currentThread().getContextClassLoader(); // Potentially expensive; do it once
+
+    private static List<String> annotatedTestClasses;
+    private static List<String> junitTestClasses;
+
+    /**
+     * Constructor for JUnitTestSamplerGui
+     */
+    public JUnitTestSamplerGui()
+    {
+        super();
+        init();
+    }
+
+    @Override
+    public String getLabelResource()
+    {
+        return "junit_request"; //$NON-NLS-1$
+    }
+
+    /**
+     * Initialize the GUI components and layout.
+     */
+    private void init() // WARNING: called from ctor so must not be overridden (i.e. must be private or final)
+    {
+        setLayout(new BorderLayout(0, 5));
+        setBorder(makeBorder());
+
+        add(makeTitlePanel(), BorderLayout.NORTH);
+        add(createClassPanel(), BorderLayout.CENTER);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void setupClasslist(boolean initialize){
+        classnameCombo.removeAllItems();
+        methodName.removeAllItems();
+        try
+        {
+            List<String> classList = new ArrayList<>();
+            if(initialize) {
+                synchronized (IS_INITILIAZED) {
+                    if(IS_INITILIAZED.compareAndSet(false, true)) {
+                        annotatedTestClasses = ClassFinder.findAnnotatedClasses(SPATHS,
+                            new Class[] {Test.class}, false);
+                        junitTestClasses = ClassFinder.findClassesThatExtend(SPATHS,
+                             new Class[] { TestCase.class });
+                    }
+                    if (junit4.isSelected()){
+                        classList = annotatedTestClasses;
+                    } else {
+                        classList = junitTestClasses;
+                    }
+                }
+            }
+
+            ClassFilter filter = new ClassFilter();
+            filter.setPackges(JOrphanUtils.split(filterpkg.getText(),",")); //$NON-NLS-1$
+            // change the classname drop down
+            String[] clist = filter.filterArray(classList);
+            for (String classStr : clist) {
+                classnameCombo.addItem(classStr);
+            }
+        }
+        catch (IOException e)
+        {
+            log.error("Exception getting interfaces.", e);
+        }
+    }
+
+    private JPanel createClassPanel()
+    {
+        classnameCombo = new JComboBox<>();
+        classnameCombo.addActionListener(this);
+        classnameCombo.setEditable(false);
+
+        methodName = new JComboBox<>();
+        methodName.addActionListener(this);
+        setupClasslist(false);
+
+        JPanel panel = new JPanel(new MigLayout("fillx, wrap 2, insets 0", "[][fill,grow]"));
+        panel.add(junit4, "span 2");
+        junit4.addItemListener(this);
+
+        panel.add(filterpkg, "span 2");
+        filterpkg.addChangeListener(this);
+
+        panel.add(JMeterUtils.labelFor(classnameCombo, "protocol_java_classname"));
+        panel.add(classnameCombo);
+
+        constructorLabel.setText("");
+        panel.add(JMeterUtils.labelFor(constructorLabel, "junit_constructor_string"));
+        panel.add(constructorLabel);
+
+        panel.add(JMeterUtils.labelFor(methodName, "junit_test_method"));
+        panel.add(methodName);
+
+        panel.add(JMeterUtils.labelFor(successMsg, "junit_success_msg"));
+        panel.add(successMsg);
+
+        panel.add(JMeterUtils.labelFor(successCode, "junit_success_code"));
+        panel.add(successCode);
+
+        panel.add(JMeterUtils.labelFor(failureMsg, "junit_failure_msg"));
+        panel.add(failureMsg);
+
+        panel.add(JMeterUtils.labelFor(failureCode, "junit_failure_code"));
+        panel.add(failureCode);
+
+        panel.add(JMeterUtils.labelFor(errorMsg, "junit_error_msg"));
+        panel.add(errorMsg);
+
+        panel.add(JMeterUtils.labelFor(errorCode, "junit_error_code"));
+        panel.add(errorCode);
+
+        panel.add(doSetup, "span 2");
+        panel.add(appendError, "span 2");
+        panel.add(appendExc, "span 2");
+        panel.add(createInstancePerSample, "span 2");
+        return panel;
+    }
+
+    private void initGui(){
+        appendError.setSelected(false);
+        appendExc.setSelected(false);
+        createInstancePerSample.setSelected(false);
+        doSetup.setSelected(false);
+        junit4.setSelected(false);
+        filterpkg.setText(""); //$NON-NLS-1$
+        constructorLabel.setText(""); //$NON-NLS-1$
+        successCode.setText(JMeterUtils.getResString("junit_success_default_code")); //$NON-NLS-1$
+        successMsg.setText(JMeterUtils.getResString("junit_success_default_msg")); //$NON-NLS-1$
+        failureCode.setText(JMeterUtils.getResString("junit_failure_default_code")); //$NON-NLS-1$
+        failureMsg.setText(JMeterUtils.getResString("junit_failure_default_msg")); //$NON-NLS-1$
+        errorMsg.setText(JMeterUtils.getResString("junit_error_default_msg")); //$NON-NLS-1$
+        errorCode.setText(JMeterUtils.getResString("junit_error_default_code")); //$NON-NLS-1$
+        setupClasslist(true);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void clearGui() {
+        super.clearGui();
+        initGui();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public TestElement createTestElement()
+    {
+        JUnitSampler sampler = new JUnitSampler();
+        modifyTestElement(sampler);
+        return sampler;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void modifyTestElement(TestElement el)
+    {
+        JUnitSampler sampler = (JUnitSampler)el;
+        configureTestElement(sampler);
+        if (classnameCombo.getSelectedItem() != null &&
+                classnameCombo.getSelectedItem() instanceof String) {
+            sampler.setClassname((String)classnameCombo.getSelectedItem());
+        } else {
+            sampler.setClassname(null);
+        }
+        sampler.setConstructorString(constructorLabel.getText());
+        if (methodName.getSelectedItem() != null) {
+            Object mobj = methodName.getSelectedItem();
+            sampler.setMethod((String)mobj);
+        } else {
+            sampler.setMethod(null);
+        }
+        sampler.setFilterString(filterpkg.getText());
+        sampler.setSuccess(successMsg.getText());
+        sampler.setSuccessCode(successCode.getText());
+        sampler.setFailure(failureMsg.getText());
+        sampler.setFailureCode(failureCode.getText());
+        sampler.setError(errorMsg.getText());
+        sampler.setErrorCode(errorCode.getText());
+        sampler.setDoNotSetUpTearDown(doSetup.isSelected());
+        sampler.setAppendError(appendError.isSelected());
+        sampler.setAppendException(appendExc.isSelected());
+        sampler.setCreateOneInstancePerSample(createInstancePerSample.isSelected());
+        sampler.setJunit4(junit4.isSelected());
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void configure(TestElement el)
+    {
+        super.configure(el);
+        JUnitSampler sampler = (JUnitSampler)el;
+        junit4.setSelected(sampler.getJunit4());
+        filterpkg.setText(sampler.getFilterString());
+        classnameCombo.setSelectedItem(sampler.getClassname());
+        setupMethods();
+        methodName.setSelectedItem(sampler.getMethod());
+        constructorLabel.setText(sampler.getConstructorString());
+        if (sampler.getSuccessCode().length() > 0) {
+            successCode.setText(sampler.getSuccessCode());
+        } else {
+            successCode.setText(JMeterUtils.getResString("junit_success_default_code")); //$NON-NLS-1$
+        }
+        if (sampler.getSuccess().length() > 0) {
+            successMsg.setText(sampler.getSuccess());
+        } else {
+            successMsg.setText(JMeterUtils.getResString("junit_success_default_msg")); //$NON-NLS-1$
+        }
+        if (sampler.getFailureCode().length() > 0) {
+            failureCode.setText(sampler.getFailureCode());
+        } else {
+            failureCode.setText(JMeterUtils.getResString("junit_failure_default_code")); //$NON-NLS-1$
+        }
+        if (sampler.getFailure().length() > 0) {
+            failureMsg.setText(sampler.getFailure());
+        } else {
+            failureMsg.setText(JMeterUtils.getResString("junit_failure_default_msg")); //$NON-NLS-1$
+        }
+        if (sampler.getError().length() > 0) {
+            errorMsg.setText(sampler.getError());
+        } else {
+            errorMsg.setText(JMeterUtils.getResString("junit_error_default_msg")); //$NON-NLS-1$
+        }
+        if (sampler.getErrorCode().length() > 0) {
+            errorCode.setText(sampler.getErrorCode());
+        } else {
+            errorCode.setText(JMeterUtils.getResString("junit_error_default_code")); //$NON-NLS-1$
+        }
+        doSetup.setSelected(sampler.getDoNotSetUpTearDown());
+        appendError.setSelected(sampler.getAppendError());
+        appendExc.setSelected(sampler.getAppendException());
+        createInstancePerSample.setSelected(sampler.getCreateOneInstancePerSample());
+    }
+
+    private void setupMethods(){
+        String className = (String) classnameCombo.getSelectedItem();
+        methodName.removeAllItems();
+        if (className != null) {
+            try {
+                // Don't instantiate class
+                Class<?> testClass = Class.forName(className, false, contextClassLoader);
+                String [] names = getMethodNames(testClass);
+                for (String name : names) {
+                    methodName.addItem(name);
+                }
+                methodName.repaint();
+            } catch (ClassNotFoundException e) {
+                throw new IllegalStateException(e);
+            }
+        }
+    }
+
+    private String[] getMethodNames(Class<?> clazz)
+    {
+        Method[] meths = clazz.getMethods();
+        List<String> list = new ArrayList<>();
+        for (final Method method : meths) {
+            final String name = method.getName();
+            if (junit4.isSelected()) {
+                if (method.isAnnotationPresent(Test.class) ||
+                        method.isAnnotationPresent(BeforeClass.class) ||
+                        method.isAnnotationPresent(AfterClass.class)) {
+                    list.add(name);
+                }
+            } else {
+                if (name.startsWith(TESTMETHOD_PREFIX) ||
+                        name.equals(ONETIMESETUP) ||
+                        name.equals(ONETIMETEARDOWN) ||
+                        name.equals(SUITE)) {
+                    list.add(name);
+                }
+            }
+        }
+        if (!list.isEmpty()){
+            return list.toArray(new String[list.size()]);
+        }
+        return new String[0];
+    }
+
+    /**
+     * Handle action events for this component.  This method currently handles
+     * events for the classname combo box, and sets up the associated method names.
+     *
+     * @param evt  the ActionEvent to be handled
+     */
+    @Override
+    public void actionPerformed(ActionEvent evt)
+    {
+        if (evt.getSource() == classnameCombo)
+        {
+            setupMethods();
+        }
+    }
+
+    /**
+     * Handle change events: currently handles events for the JUnit4
+     * checkbox, and sets up the relevant class names.
+     */
+    @Override
+    public void itemStateChanged(ItemEvent event) {
+        if (event.getItem() == junit4){
+            setupClasslist(true);
+        }
+    }
+
+    /**
+     * the current implementation checks to see if the source
+     * of the event is the filterpkg field.
+     */
+    @Override
+    public void stateChanged(ChangeEvent event) {
+        if ( event.getSource() == filterpkg) {
+            setupClasslist(true);
+        }
+    }
+}
