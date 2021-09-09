@@ -270,6 +270,7 @@ allprojects {
 
     repositories {
         // RAT and Autostyle dependencies
+        mavenLocal()
         mavenCentral()
         maven {
             url = uri("https://repo1.maven.org/maven2/")
