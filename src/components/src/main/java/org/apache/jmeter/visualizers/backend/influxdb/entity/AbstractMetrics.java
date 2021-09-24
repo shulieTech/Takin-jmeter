@@ -17,6 +17,8 @@
 
 package org.apache.jmeter.visualizers.backend.influxdb.entity;
 
+import org.apache.jmeter.shulie.util.DataUtil;
+
 import java.io.Serializable;
 
 /**
@@ -24,13 +26,28 @@ import java.io.Serializable;
  * create: 2020-10-10
  */
 public abstract class AbstractMetrics implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 当前pod的序号
+     */
+    private String podNo = DataUtil.getPodNo();
+    /**
+     * 是返回数据还是事件数据
+     */
     private String type;
+
+    public String getPodNo() {
+        return podNo;
+    }
+
+    public void setPodNo(String podNo) {
+        this.podNo = podNo;
+    }
 
     public AbstractMetrics(String type) {
         this.type = type;
+        this.podNo = DataUtil.getPodNo();
     }
 
     public String getType() {

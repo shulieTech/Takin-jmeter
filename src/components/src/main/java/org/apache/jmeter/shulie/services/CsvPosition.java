@@ -24,19 +24,18 @@ import java.util.Objects;
 
 import com.alibaba.fastjson.JSON;
 
+import io.shulie.jmeter.tool.redis.RedisUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jmeter.services.CsvPositionRecord;
 import org.apache.jmeter.services.PositionFileInputStream;
 import org.apache.jmeter.services.PositionFileServer;
 import org.apache.jmeter.shulie.constants.PressureConstants;
-import org.apache.jmeter.shulie.consts.ThroughputConstants;
+import org.apache.jmeter.shulie.util.JedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSONObject;
 
-import io.shulie.jmeter.tool.redis.RedisConfig;
-import io.shulie.jmeter.tool.redis.RedisUtil;
 
 /**
  * @author xr.l
@@ -46,9 +45,7 @@ public class CsvPosition implements CsvPositionRecord {
     @Override
     public void recordCsvPosition() {
         if (PositionFileServer.positionMap.size() > 0) {
-            if (ThroughputConstants.redisUtil == null) {
-                initRedis();
-            }
+            RedisUtil redisUtil = JedisUtil.getRedisUtil();
             String sceneId;
             Long sId = PressureConstants.pressureEngineParamsInstance.getSceneId();
             sceneId = null != sId ? String.valueOf(sId) : System.getProperty("SCENE_ID");
@@ -66,11 +63,15 @@ public class CsvPosition implements CsvPositionRecord {
                             if (object.containsKey("start") && object.containsKey("end")){
                                 Map<String,Long> resultMap = new HashMap<>(3);
                                 resultMap.put("startPosition", object.getLongValue("start"));
-                                resultMap.put("readPosition", object.getLongValue("end") - entry.getValue().longAvailable());
+                                if (entry.getValue().longAvailable() < 0) {
+                                    resultMap.put("readPosition", object.getLongValue("end"));
+                                }else {
+                                    resultMap.put("readPosition", object.getLongValue("end") - entry.getValue().longAvailable());
+                                }
                                 resultMap.put("endPosition", object.getLongValue("end"));
                                 String field = String.format("%s_pod_num_%s", entry.getKey()
                                         , podNumber);
-                                ThroughputConstants.redisUtil.hset(key, field, JSON.toJSONString(resultMap));
+                                redisUtil.hset(key, field, JSON.toJSONString(resultMap));
                             }
                         }
                     }
@@ -79,37 +80,5 @@ public class CsvPosition implements CsvPositionRecord {
                 }
             }
         }
-    }
-
-    private void initRedis(){
-        if (null != ThroughputConstants.redisUtil){
-            return;
-        }
-        String engineRedisAddress = System.getProperty("engineRedisAddress");
-        String engineRedisPort = System.getProperty("engineRedisPort");
-        String engineRedisSentinelNodes = System.getProperty("engineRedisSentinelNodes");
-        String engineRedisSentinelMaster = System.getProperty("engineRedisSentinelMaster");
-        String engineRedisPassword = System.getProperty("engineRedisPassword");
-        log.info("redis start..");
-        // 解密redis密码
-        try {
-            RedisConfig redisConfig = new RedisConfig();
-            redisConfig.setNodes(engineRedisSentinelNodes);
-            redisConfig.setMaster(engineRedisSentinelMaster);
-            redisConfig.setHost(engineRedisAddress);
-            redisConfig.setPort(Integer.parseInt(engineRedisPort));
-            redisConfig.setPassword(engineRedisPassword);
-            redisConfig.setMaxIdle(4);
-            redisConfig.setMaxTotal(10);
-            redisConfig.setTimeout(3000);
-            ThroughputConstants.redisUtil = RedisUtil.getInstance(redisConfig);
-        } catch (Exception e) {
-            log.error("Redis 连接失败，redisAddress is {}， redisPort is {}， encryptRedisPassword is {},engineRedisSentinelNodes is {}," +
-                            "engineRedisSentinelMaster is {}"
-                    , engineRedisAddress, engineRedisPort, engineRedisPassword,engineRedisSentinelNodes,engineRedisSentinelMaster);
-            log.error("失败详细错误栈：", e);
-            System.exit(-1);
-        }
-        log.info("redis inited..");
     }
 }
