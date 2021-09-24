@@ -35,9 +35,6 @@ import java.util.*;
 
 import javax.swing.table.DefaultTableModel;
 
-
-import io.shulie.jmeter.tool.amdb.GlobalVariables;
-
 import org.apache.commons.collections4.map.LinkedMap;
 import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -62,6 +59,8 @@ import org.apache.oro.text.regex.Perl5Compiler;
 import org.apache.oro.text.regex.Perl5Matcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import io.shulie.jmeter.tool.amdb.GlobalVariables;
 
 /**
  * This class provides a means for saving/reading test results as CSV files.

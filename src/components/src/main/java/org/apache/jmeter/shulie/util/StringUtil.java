@@ -15,20 +15,23 @@
  * limitations under the License.
  */
 
-val lastEditYear: String by rootProject.extra
+package org.apache.jmeter.shulie.util;
 
-tasks.withType<ProcessResources>().configureEach {
-    val version = rootProject.version.toString()
-    inputs.property("@VERSION@", version)
-    inputs.property("@YEAR@", lastEditYear)
-    filter { x: String ->
-        x.replace("@VERSION@", version)
-            .replace("@YEAR@", lastEditYear)
+public class StringUtil {
+    public static String removePoint(String source) {
+        if (source.contains(".")) {
+            return source.substring(0, source.indexOf("."));
+        }
+        return source;
     }
-}
 
-tasks.named<Jar>(JavaPlugin.JAR_TASK_NAME) {
-    manifest {
-        attributes["Main-Class"] = "org.apache.jmeter.NewDriver"
+    public static String valueOf(Object o) {
+        if (null == o) {
+            return "";
+        }
+        if (o instanceof String) {
+            return (String) o;
+        }
+        return String.valueOf(o);
     }
 }

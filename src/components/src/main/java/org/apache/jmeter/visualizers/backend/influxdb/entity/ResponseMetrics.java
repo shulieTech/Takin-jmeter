@@ -52,6 +52,8 @@ public class ResponseMetrics extends AbstractMetrics {
     //add end
     private Set<ErrorInfo> errorInfos;
     private Map<String, String> tags = new HashMap<>();
+    //1-100%点位耗时和请求量数据
+    private String percentData;
 
     public static class ErrorInfo implements Serializable {
         private static final long serialVersionUID = 1L;
@@ -141,11 +143,11 @@ public class ResponseMetrics extends AbstractMetrics {
         this.timestamp = timestamp;
     }
 
-    public int getActiveThreads() {
+    public Integer getActiveThreads() {
         return activeThreads;
     }
 
-    public void setActiveThreads(int activeThreads) {
+    public void setActiveThreads(Integer activeThreads) {
         this.activeThreads = activeThreads;
     }
 
@@ -197,14 +199,6 @@ public class ResponseMetrics extends AbstractMetrics {
         this.receivedBytes = receivedBytes;
     }
 
-    public String getTransactionUrl() {
-        return transactionUrl;
-    }
-
-    public void setTransactionUrl(String transactionUrl) {
-        this.transactionUrl = transactionUrl;
-    }
-
     public Set<ErrorInfo> getErrorInfos() {
         return errorInfos;
     }
@@ -212,5 +206,13 @@ public class ResponseMetrics extends AbstractMetrics {
     public void setErrorInfos(
             Set<ErrorInfo> errorInfos) {
         this.errorInfos = errorInfos;
+    }
+
+    public String getPercentData() {
+        return percentData;
+    }
+
+    public void setPercentData(String percentData) {
+        this.percentData = percentData;
     }
 }

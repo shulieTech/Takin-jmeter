@@ -27,6 +27,7 @@ import com.github.vlsi.gradle.release.RepositoryType
 import org.ajoberstar.grgit.Grgit
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.sonarqube.gradle.SonarQubeProperties
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     java
@@ -43,6 +44,7 @@ plugins {
     id("com.github.vlsi.ide")
     id("com.github.vlsi.stage-vote-release")
     publishing
+    kotlin("jvm") version "1.3.61"
 }
 
 ide {
@@ -273,7 +275,7 @@ allprojects {
         mavenLocal()
         mavenCentral()
         maven {
-            url = uri("https://repo1.maven.org/maven2/")
+            url = uri("https://maven.aliyun.com/repository/central")
         }
     }
 
@@ -573,4 +575,18 @@ allprojects {
             }
         }
     }
+}
+dependencies {
+    implementation(kotlin("stdlib-jdk8"))
+}
+repositories {
+    mavenCentral()
+}
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    jvmTarget = "1.8"
+}
+val compileTestKotlin: KotlinCompile by tasks
+compileTestKotlin.kotlinOptions {
+    jvmTarget = "1.8"
 }
