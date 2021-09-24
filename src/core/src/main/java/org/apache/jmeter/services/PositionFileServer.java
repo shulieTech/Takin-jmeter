@@ -17,14 +17,14 @@
 
 package org.apache.jmeter.services;
 
+import org.apache.commons.io.input.BOMInputStream;
+import org.apache.jorphan.util.JOrphanUtils;
+
 import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.apache.commons.io.input.BOMInputStream;
-import org.apache.jorphan.util.JOrphanUtils;
 
 /**
  * 位置新的文件服务
@@ -40,7 +40,7 @@ public class PositionFileServer extends FileServer {
         return server;
     }
 
-    public static ConcurrentHashMap<String,PositionFileInputStream> positionMap = new ConcurrentHashMap<>();
+    public static ConcurrentHashMap<String, PositionFileInputStream> positionMap = new ConcurrentHashMap<>();
 
 
     /**
@@ -49,6 +49,7 @@ public class PositionFileServer extends FileServer {
      *
      * @param filename - relative (to base) or absolute file name (must not be null)
      */
+    @Override
     public void reserveFile(long startPosition, long stopPosition, String filename) {
         reserveFile(startPosition, stopPosition, filename, null);
     }
@@ -87,6 +88,7 @@ public class PositionFileServer extends FileServer {
      * @return the header line; may be null
      * @throws IllegalArgumentException if header could not be read or filename is null or empty
      */
+    @Override
     public synchronized String reserveFile(long startPosition, long stopPosition, String filename, String charsetName, String alias, boolean hasHeader) {
         if (filename == null || filename.isEmpty()) {
             throw new IllegalArgumentException("Filename must not be null or empty");
@@ -126,7 +128,7 @@ public class PositionFileServer extends FileServer {
     }
 
     @Override
-    protected BufferedReader createBufferedReader(FileEntry fileEntry,boolean recycle) throws IOException {
+    public BufferedReader createBufferedReader(FileEntry fileEntry, boolean recycle) throws IOException {
         if (!fileEntry.file.canRead() || !fileEntry.file.isFile()) {
             throw new IllegalArgumentException("File " + fileEntry.file.getName() + " must exist and be readable");
         }

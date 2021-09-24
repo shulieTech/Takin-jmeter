@@ -32,7 +32,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import io.shulie.jmeter.tool.executors.ExecutorServiceFactory;
-import io.shulie.jmeter.tool.redis.RedisConfig;
 
 import io.shulie.jmeter.tool.redis.RedisUtil;
 
@@ -45,10 +44,9 @@ import org.apache.jmeter.gui.GUIMenuSortOrder;
 import org.apache.jmeter.gui.TestElementMetadata;
 import org.apache.jmeter.save.CSVSaveService;
 import org.apache.jmeter.services.PositionFileInputStream;
-import org.apache.jmeter.services.PositionFileInputStreamException;
 import org.apache.jmeter.services.PositionFileServer;
 import org.apache.jmeter.shulie.constants.PressureConstants;
-import org.apache.jmeter.shulie.consts.ThroughputConstants;
+import org.apache.jmeter.shulie.util.JedisUtil;
 import org.apache.jmeter.testbeans.TestBean;
 import org.apache.jmeter.testbeans.gui.GenericTestBeanCustomizer;
 import org.apache.jmeter.testelement.property.JMeterProperty;
@@ -60,6 +58,8 @@ import org.apache.jorphan.util.JMeterStopThreadException;
 import org.apache.jorphan.util.JOrphanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import redis.clients.jedis.Jedis;
 
 /**
  * Read lines from a file and split int variables.
@@ -122,7 +122,6 @@ public class CSVDataSet extends ConfigTestElement
 
     private boolean ignoreFirstLine = false;
 
-    private Map<String,String> startedMap = new HashMap<>();
 
     private Object readResolve() {
         recycle = true;
@@ -192,6 +191,8 @@ public class CSVDataSet extends ConfigTestElement
             initVars(server, context, delim);
         }
 
+
+
         // 读取csv数据  mark by lipeng
         // TODO: fetch this once as per vars above?
         JMeterVariables threadVars = context.getVariables();
@@ -218,9 +219,9 @@ public class CSVDataSet extends ConfigTestElement
             fileName = filename.substring(fileName.lastIndexOf("/") + 1);
             PositionFileInputStream inputStream = PositionFileServer.positionMap.get(fileName);
             if (Objects.nonNull(inputStream)) {
-                if (null == ThroughputConstants.redisUtil) {
-                    initRedis();
-                }
+//                if (null == ThroughputConstants.jedisClient) {
+//                    initRedis();
+//                }
                 cachePosition(inputStream, fileName);
             }
         }
@@ -307,6 +308,7 @@ public class CSVDataSet extends ConfigTestElement
         Pair<Long, Long> pair = getPosition(null, fileName);
         final long startPosition = pair.getLeft();
         final long endPosition = pair.getRight();
+        RedisUtil redisUtil = JedisUtil.getRedisUtil();
         ExecutorServiceFactory.GLOBAL_SCHEDULE_EXECUTOR_SERVICE.scheduleAtFixedRate(() -> {
             try {
                 long position;
@@ -320,7 +322,7 @@ public class CSVDataSet extends ConfigTestElement
                 value.put("readPosition", position);
                 value.put("endPosition", endPosition);
                 log.info("缓存文件读取位点信息{}",value.toString());
-                ThroughputConstants.redisUtil.hset(key,field, JSON.toJSONString(value));
+                redisUtil.hset(key,field, JSON.toJSONString(value));
             } catch (IOException e) {
                 log.error("获取可读文件大小失败{}", e.getMessage());
             }
@@ -328,38 +330,6 @@ public class CSVDataSet extends ConfigTestElement
         }, 5, 5, TimeUnit.SECONDS);
     }
 
-    private synchronized void initRedis(){
-
-        if (null != ThroughputConstants.redisUtil){
-            return;
-        }
-        String engineRedisAddress = System.getProperty("engineRedisAddress");
-        String engineRedisPort = System.getProperty("engineRedisPort");
-        String engineRedisSentinelNodes = System.getProperty("engineRedisSentinelNodes");
-        String engineRedisSentinelMaster = System.getProperty("engineRedisSentinelMaster");
-        String engineRedisPassword = System.getProperty("engineRedisPassword");
-        log.info("redis start..");
-        // 解密redis密码
-        try {
-            RedisConfig redisConfig = new RedisConfig();
-            redisConfig.setNodes(engineRedisSentinelNodes);
-            redisConfig.setMaster(engineRedisSentinelMaster);
-            redisConfig.setHost(engineRedisAddress);
-            redisConfig.setPort(Integer.parseInt(engineRedisPort));
-            redisConfig.setPassword(engineRedisPassword);
-            redisConfig.setMaxIdle(4);
-            redisConfig.setMaxTotal(10);
-            redisConfig.setTimeout(3000);
-            ThroughputConstants.redisUtil = RedisUtil.getInstance(redisConfig);
-        } catch (Exception e) {
-            log.error("Redis 连接失败，redisAddress is {}， redisPort is {}， encryptRedisPassword is {},engineRedisSentinelNodes is {}," +
-                            "engineRedisSentinelMaster is {}"
-                    , engineRedisAddress, engineRedisPort, engineRedisPassword,engineRedisSentinelNodes,engineRedisSentinelMaster);
-            log.error("失败详细错误栈：", e);
-            System.exit(-1);
-        }
-        log.info("redis inited..");
-    }
 
     /**
      * trim content of array varNames
