@@ -20,10 +20,8 @@ package org.apache.jmeter.report.core;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.saxon.ma.json.JsonParser;
-
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.text.StringEscapeUtils;
+
 
 /**
  * The class JsonUtil provides helper functions to generate Json.

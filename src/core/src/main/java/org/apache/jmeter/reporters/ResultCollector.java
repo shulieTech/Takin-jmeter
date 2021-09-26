@@ -35,10 +35,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import io.shulie.jmeter.tool.amdb.GlobalVariables;
-import io.shulie.jmeter.tool.amdb.log.data.pusher.LogPusher;
-import io.shulie.jmeter.tool.executors.ExecutorServiceFactory;
-
 import org.apache.jmeter.config.PressureJtlFileConfig;
 import org.apache.jmeter.engine.util.NoThreadClone;
 import org.apache.jmeter.gui.GuiPackage;
@@ -61,6 +57,10 @@ import org.apache.jmeter.visualizers.Visualizer;
 import org.apache.jorphan.util.JMeterError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import io.shulie.jmeter.tool.amdb.GlobalVariables;
+import io.shulie.jmeter.tool.amdb.log.data.pusher.LogPusher;
+import io.shulie.jmeter.tool.executors.ExecutorServiceFactory;
 
 /**
  * This class handles all saving of samples.

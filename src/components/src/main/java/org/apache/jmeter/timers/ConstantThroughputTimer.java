@@ -26,6 +26,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.apache.jmeter.gui.GUIMenuSortOrder;
 import org.apache.jmeter.gui.TestElementMetadata;
+import org.apache.jmeter.shulie.data.DynamicContext;
 import org.apache.jmeter.testbeans.TestBean;
 import org.apache.jmeter.testbeans.gui.GenericTestBeanCustomizer;
 import org.apache.jmeter.testelement.AbstractTestElement;
@@ -55,6 +56,8 @@ public class ConstantThroughputTimer extends AbstractTestElement implements Time
     private static class ThroughputInfo{
         final Object MUTEX = new Object();
         long lastScheduledTime = 0;
+        //被四舍五入的纳秒时间（单位：毫秒）
+        Double equalizeTime = 0d;
     }
     private static final Logger log = LoggerFactory.getLogger(ConstantThroughputTimer.class);
 
@@ -95,6 +98,17 @@ public class ConstantThroughputTimer extends AbstractTestElement implements Time
      * Desired throughput, in samples per minute.
      */
     private double throughput;
+    /**
+     * tps目标乘积因子（percent*(1+tpsTargetLevelFactor)）
+     * percent：百分比，总目标的百分比，这里指活动占总目标的百分比
+     * tpsTargetLevelFactor：上浮因子，该值在cloud的配置项中配置：jmx.script.tpsTargetLevelFactor
+     * 该值在pressure-engine中计算生成
+     */
+    private double tpsFactor = 0d;
+    /**
+     * 业务活动目标tps占比，默认100%
+     */
+    private double percent = 1d;
 
     //For calculating throughput across all threads
     private static final ThroughputInfo allThreadsInfo = new ThroughputInfo();
@@ -126,6 +140,12 @@ public class ConstantThroughputTimer extends AbstractTestElement implements Time
      * @return the rate at which samples should occur, in samples per minute.
      */
     public double getThroughput() {
+        if (null != DynamicContext.TPS_TARGET_LEVEL) {
+            //求1分钟的并发数 = 总目标tps*60秒*百分比
+            throughput = DynamicContext.TPS_TARGET_LEVEL * 60 * getPercent();
+            //如果上浮因子大于5，则表示固定上浮这个数，小于等于5表示上浮百分比
+            throughput += getTpsFactor() > 5 ? getTpsFactor() : throughput * getTpsFactor();
+        }
         return throughput;
     }
 
@@ -135,6 +155,25 @@ public class ConstantThroughputTimer extends AbstractTestElement implements Time
 
     public void setCalcMode(int mode) {
         this.mode = Mode.values()[mode];
+    }
+
+    public double getTpsFactor() {
+        if (null != DynamicContext.TPS_FACTOR) {
+            return DynamicContext.TPS_FACTOR;
+        }
+        return tpsFactor;
+    }
+
+    public void setTpsFactor(double tpsFactor) {
+        this.tpsFactor = tpsFactor;
+    }
+
+    public double getPercent() {
+        return percent;
+    }
+
+    public void setPercent(double percent) {
+        this.percent = percent;
     }
 
     /**
@@ -149,7 +188,7 @@ public class ConstantThroughputTimer extends AbstractTestElement implements Time
         /*
          * If previous time is zero, then target will be in the past.
          * This is what we want, so first sample is run without a delay.
-        */
+         */
         long currentTarget = previousTime  + calculateDelay();
         if (currentTime > currentTarget) {
             // We're behind schedule -- try to catch up:
@@ -179,47 +218,54 @@ public class ConstantThroughputTimer extends AbstractTestElement implements Time
         // N.B. we fetch the throughput each time, as it may vary during a test
         double msPerRequest = MILLISEC_PER_MIN / getThroughput();
         switch (mode) {
-        case AllActiveThreads: // Total number of threads
-            delay = Math.round(JMeterContextService.getNumberOfThreads() * msPerRequest);
-            break;
+            case AllActiveThreads: // Total number of threads
+                delay = Math.round(JMeterContextService.getNumberOfThreads() * msPerRequest);
+                break;
 
-        case AllActiveThreadsInCurrentThreadGroup: // Active threads in this group
-            delay = Math.round(JMeterContextService.getContext().getThreadGroup().getNumberOfThreads() * msPerRequest);
-            break;
+            case AllActiveThreadsInCurrentThreadGroup: // Active threads in this group
+                delay = Math.round(JMeterContextService.getContext().getThreadGroup().getNumberOfThreads() * msPerRequest);
+                break;
 
-        case AllActiveThreads_Shared: // All threads - alternate calculation
-            delay = calculateSharedDelay(allThreadsInfo,Math.round(msPerRequest));
-            break;
+            case AllActiveThreads_Shared: // All threads - alternate calculation
+                delay = calculateSharedDelay(allThreadsInfo, msPerRequest);
+                break;
 
-        case AllActiveThreadsInCurrentThreadGroup_Shared: //All threads in this group - alternate calculation
-            final org.apache.jmeter.threads.AbstractThreadGroup group =
-                JMeterContextService.getContext().getThreadGroup();
-            ThroughputInfo groupInfo = threadGroupsInfoMap.get(group);
-            if (groupInfo == null) {
-                groupInfo = new ThroughputInfo();
-                ThroughputInfo previous = threadGroupsInfoMap.putIfAbsent(group, groupInfo);
-                if (previous != null) { // We did not replace the entry
-                    groupInfo = previous; // so use the existing one
+            case AllActiveThreadsInCurrentThreadGroup_Shared: //All threads in this group - alternate calculation
+                final org.apache.jmeter.threads.AbstractThreadGroup group =
+                        JMeterContextService.getContext().getThreadGroup();
+                ThroughputInfo groupInfo = threadGroupsInfoMap.get(group);
+                if (groupInfo == null) {
+                    groupInfo = new ThroughputInfo();
+                    ThroughputInfo previous = threadGroupsInfoMap.putIfAbsent(group, groupInfo);
+                    if (previous != null) { // We did not replace the entry
+                        groupInfo = previous; // so use the existing one
+                    }
                 }
-            }
-            delay = calculateSharedDelay(groupInfo,Math.round(msPerRequest));
-            break;
+                delay = calculateSharedDelay(groupInfo, msPerRequest);
+                break;
 
-        case ThisThreadOnly:
-        default: // e.g. 0
-            delay = Math.round(msPerRequest); // i.e. * 1
-            break;
+            case ThisThreadOnly:
+            default: // e.g. 0
+                delay = Math.round(msPerRequest); // i.e. * 1
+                break;
         }
         return delay;
     }
 
-    private long calculateSharedDelay(ThroughputInfo info, long milliSecPerRequest) {
+    private long calculateSharedDelay(ThroughputInfo info, double msPerRequest) {
         final long now = System.currentTimeMillis();
         final long calculatedDelay;
-
+        long milliSecPerRequest = Math.round(msPerRequest);
+        double msPerLoseTime = msPerRequest - milliSecPerRequest;
         //Synchronize on the info object's MUTEX to ensure
         //Multiple threads don't update the scheduled time simultaneously
         synchronized (info.MUTEX) {
+            info.equalizeTime += msPerLoseTime;
+            if (Math.abs(info.equalizeTime) >= 1) {
+                long loseTime = info.equalizeTime.longValue();
+                milliSecPerRequest += loseTime;
+                info.equalizeTime -= loseTime;
+            }
             final long nextRequestTime = info.lastScheduledTime + milliSecPerRequest;
             info.lastScheduledTime = Math.max(now, nextRequestTime);
             calculatedDelay = info.lastScheduledTime - now;
@@ -231,6 +277,7 @@ public class ConstantThroughputTimer extends AbstractTestElement implements Time
     private void reset() {
         synchronized (allThreadsInfo.MUTEX) {
             allThreadsInfo.lastScheduledTime = 0;
+            allThreadsInfo.equalizeTime = 0d;
         }
         threadGroupsInfoMap.clear();
         // no need to sync as one per instance
@@ -294,6 +341,7 @@ public class ConstantThroughputTimer extends AbstractTestElement implements Time
                     log.error("Could not find BeanInfo", e);
                 }
             }
+
         }
         super.setProperty(property);
     }

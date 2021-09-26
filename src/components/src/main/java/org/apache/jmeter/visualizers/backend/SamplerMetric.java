@@ -17,16 +17,20 @@
 
 package org.apache.jmeter.visualizers.backend;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import com.alibaba.fastjson.JSON;
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.jmeter.control.TransactionController;
 import org.apache.jmeter.samplers.SampleResult;
+import org.apache.jmeter.shulie.util.DataUtil;
 import org.apache.jmeter.util.JMeterUtils;
+import org.apache.jmeter.visualizers.backend.influxdb.entity.ResponseMetrics;
 import org.apache.jorphan.documentation.VisibleForTesting;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Sampler metric
@@ -34,9 +38,10 @@ import org.apache.jorphan.documentation.VisibleForTesting;
  * @since 2.13
  */
 public class SamplerMetric {
+    private static final Logger logger = LoggerFactory.getLogger(SamplerMetric.class);
     private static final int SLIDING_WINDOW_SIZE = JMeterUtils.getPropDefault("backend_metrics_window", 100);
     private static final int LARGE_SLIDING_WINDOW_SIZE = JMeterUtils.getPropDefault("backend_metrics_large_window",
-        5000);
+            5000);
 
     private static volatile WindowMode globalWindowMode = WindowMode.get();
 
@@ -93,6 +98,7 @@ public class SamplerMetric {
      *
      */
     public SamplerMetric(int standRt) {
+        logger.info("SamplerMetric globalWindowMode="+globalWindowMode);
         // Limit to sliding window of SLIDING_WINDOW_SIZE values for FIXED mode
         if (globalWindowMode == WindowMode.FIXED) {
             for (DescriptiveStatistics stat : windowedStats) {
@@ -103,6 +109,7 @@ public class SamplerMetric {
     }
 
     public SamplerMetric() {
+        logger.info("SamplerMetric globalWindowMode="+globalWindowMode);
         // Limit to sliding window of SLIDING_WINDOW_SIZE values for FIXED mode
         if (globalWindowMode == WindowMode.FIXED) {
             for (DescriptiveStatistics stat : windowedStats) {
@@ -125,6 +132,7 @@ public class SamplerMetric {
     @Deprecated
     @VisibleForTesting(visibility = VisibleForTesting.Visibility.PRIVATE)
     public static void setDefaultWindowMode(WindowMode windowMode) {
+        logger.info("setDefaultWindowMode globalWindowMode="+globalWindowMode);
         globalWindowMode = windowMode;
     }
 
@@ -152,6 +160,7 @@ public class SamplerMetric {
     public synchronized void addCumulated(SampleResult result) {
         add(result, true);
     }
+
 
     /**
      * Add a {@link SampleResult} to be used in the statistics
@@ -195,7 +204,7 @@ public class SamplerMetric {
      */
     private void addNetworkData(SampleResult result, boolean isCumulated) {
         if (isCumulated && TransactionController.isFromTransactionController(result)
-            && result.getSubResults().length == 0) { // Transaction controller without generate parent sampler
+                && result.getSubResults().length == 0) { // Transaction controller without generate parent sampler
             return;
         }
         sentBytes += result.getSentBytes();
@@ -211,7 +220,7 @@ public class SamplerMetric {
     private void addHits(SampleResult result, boolean isCumulated) {
         SampleResult[] subResults = result.getSubResults();
         if (isCumulated && TransactionController.isFromTransactionController(result)
-            && subResults.length == 0) { // Transaction controller without generate parent sampler
+                && subResults.length == 0) { // Transaction controller without generate parent sampler
             return;
         }
         if (!(TransactionController.isFromTransactionController(result) && subResults.length > 0)) {
@@ -220,6 +229,38 @@ public class SamplerMetric {
         for (SampleResult subResult : subResults) {
             addHits(subResult, isCumulated);
         }
+    }
+
+    /**
+     * 计算点击1-100%的点位的耗时Map
+     */
+    public synchronized Map<Integer, Map<String, Number>> getPercentMap() {
+        double[] values = allResponsesStats.getSortedValues();
+        if (null == values || values.length <= 0) {
+            return null;
+        }
+
+        Map<Integer, Map<String, Number>> distributes = new HashMap<>();
+        int lastIdx = 0;
+        int count = 0;
+        for (int i=1; i<=100; i++) {
+            int idx = (int)Math.ceil(values.length*i/100d);
+            idx = Math.max(idx, 1);
+            idx = Math.min(idx, values.length);
+            double v = values[idx-1];
+            for (int j=lastIdx; j<values.length; j++) {
+                lastIdx = j;
+                if (values[j] > v) {
+                    break;
+                }
+                count++;
+            }
+            Map<String, Number> item = new HashMap<>();
+            item.put("count", count);
+            item.put("rt", v);
+            distributes.put(i, item);
+        }
+        return distributes;
     }
 
     /**
@@ -372,6 +413,7 @@ public class SamplerMetric {
      * @return the minTime, or {@link Long#MAX_VALUE} if no requests have been
      * added yet
      */
+
     public double getAllMinTime() {
         return allResponsesStats.getMin();
     }

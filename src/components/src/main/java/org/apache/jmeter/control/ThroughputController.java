@@ -108,32 +108,6 @@ public class ThroughputController
         setPercentThroughput(100);
         runThisTime = false;
 
-        //FIXME 之后要改为hget
-        //TPS模式需要初始化Redis
-//        JMeterVariables variables = JMeterContextService.getContext().getVariables();
-//        if (variables != null) {
-//            //tps模式需要初始化redis add by lipeng
-//            synchronized (this) {
-//                //只初始化一次
-//                if (ThroughputConstants.jedisClient == null) {
-//                    //是否TPS模式
-//                    ThroughputConstants.IS_TPS_MODE = ThroughputConstants
-//                            .ENGINE_PRESSURE_MODE_TPS_VALUE.equals(variables.get("__ENGINE_PRESSURE_MODE__"));
-//                    //tps模式需要初始化redis
-//                    if (ThroughputConstants.IS_TPS_MODE) {
-//                        String sceneId = variables.get("__ENGINE_SCENE_ID__");
-//                        String reportId = variables.get("__ENGINE_REPORT_ID__");
-//                        String customerId = variables.get("__ENGINE_CUSTOMER_ID__");
-//                        redisThroughputPercentageKey = String.format(ThroughputConstants.REDIS_ACTIVITY_PERCENTAGE_KEY_FORMAT
-//                                , sceneId, reportId, customerId, this.getName());
-//                        //初始化redis
-//                        this.initRedis(variables);
-//                    }
-//                }
-//            }
-//        } else {
-//            log.warn("全局用户参数为空");
-//        }
     }
 
     public void setStyle(int style) {
@@ -331,60 +305,5 @@ public class ThroughputController
         counterLock = new Object();
         return this;
     }
-
-    // add by lipeng 支持 redis
-    /**
-     * 初始化Redis
-     * <p>
-     * 是否有必要使用连接池？
-     *
-     * @author lipeng
-     */
-    private void initRedis(JMeterVariables variables) {
-        if (null != ThroughputConstants.redisUtil){
-            return;
-        }
-        String engineRedisAddress = System.getProperty("engineRedisAddress");
-        String engineRedisPort = System.getProperty("engineRedisPort");
-        String engineRedisSentinelNodes = System.getProperty("engineRedisSentinelNodes");
-        String engineRedisSentinelMaster = System.getProperty("engineRedisSentinelMaster");
-        String engineRedisPassword = System.getProperty("engineRedisPassword");
-        log.info("redis start..");
-        // 解密redis密码
-        try {
-            RedisConfig redisConfig = new RedisConfig();
-            redisConfig.setNodes(engineRedisSentinelNodes);
-            redisConfig.setMaster(engineRedisSentinelMaster);
-            redisConfig.setHost(engineRedisAddress);
-            redisConfig.setPort(Integer.parseInt(engineRedisPort));
-            redisConfig.setPassword(engineRedisPassword);
-            redisConfig.setMaxIdle(1);
-            redisConfig.setMaxTotal(1);
-            redisConfig.setTimeout(3000);
-            ThroughputConstants.redisUtil = RedisUtil.getInstance(redisConfig);
-        } catch (Exception e) {
-            log.error("Redis 连接失败，redisAddress is {}， redisPort is {}， encryptRedisPassword is {},engineRedisSentinelNodes is {}," +
-                            "engineRedisSentinelMaster is {}"
-                    , engineRedisAddress, engineRedisPort, engineRedisPassword,engineRedisSentinelNodes,engineRedisSentinelMaster);
-            log.error("失败详细错误栈：", e);
-            System.exit(-1);
-        }
-        log.info("redis inited..");
-    }
-
-    /**
-     * 关闭redis客户端
-     */
-//    private void closeRedis() {
-//        try {
-//            if (ThroughputConstants.redisUtil != null) {
-//                ThroughputConstants.redisUtil.close();
-//            }
-//        } catch (Exception e) {
-//            log.warn("关闭redis失败，已忽略", e);
-//        }
-//    }
-
-    // add end
 
 }

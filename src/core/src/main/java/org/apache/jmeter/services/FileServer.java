@@ -17,12 +17,6 @@
 
 package org.apache.jmeter.services;
 
-import java.io.*;
-import java.util.ArrayDeque;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
-
 import org.apache.commons.io.input.BOMInputStream;
 import org.apache.jmeter.gui.JMeterFileFilter;
 import org.apache.jmeter.save.CSVSaveService;
@@ -30,6 +24,12 @@ import org.apache.jmeter.util.JMeterUtils;
 import org.apache.jorphan.util.JOrphanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.*;
+import java.util.ArrayDeque;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * This class provides thread-safe access to files, and to
@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
  * server has all support files in a relative-same location) and to package up
  * test plans to execute on unknown boxes that only have Java installed.
  */
-public class FileServer {
+public class FileServer implements FileService {
 
     protected static final Logger log = LoggerFactory.getLogger(FileServer.class);
 
@@ -87,6 +87,7 @@ public class FileServer {
     /**
      * Resets the current base to DEFAULT_BASE.
      */
+    @Override
     public synchronized void resetBase() {
         checkForOpenFiles();
         base = new File(DEFAULT_BASE);
@@ -101,6 +102,7 @@ public class FileServer {
      * @param basedir the path to set, or {@code null} if the GUI is being cleared
      * @throws IllegalStateException if files are still open
      */
+    @Override
     public synchronized void setBasedir(String basedir) {
         checkForOpenFiles(); // TODO should this be called if basedir == null?
         if (basedir != null) {
@@ -204,6 +206,7 @@ public class FileServer {
      *
      * @param filename - relative (to base) or absolute file name (must not be null)
      */
+    @Override
     public void reserveFile(String filename) {
         reserveFile(filename, null);
     }
@@ -215,6 +218,7 @@ public class FileServer {
      * @param filename    - relative (to base) or absolute file name (must not be null)
      * @param charsetName - the character set encoding to use for the file (may be null)
      */
+    @Override
     public void reserveFile(String filename, String charsetName) {
         reserveFile(filename, charsetName, filename, false);
     }
@@ -227,6 +231,7 @@ public class FileServer {
      * @param charsetName - the character set encoding to use for the file (may be null)
      * @param alias       - the name to be used to access the object (must not be null)
      */
+    @Override
     public void reserveFile(String filename, String charsetName, String alias) {
         reserveFile(filename, charsetName, alias, false);
     }
@@ -242,6 +247,7 @@ public class FileServer {
      * @return the header line; may be null
      * @throws IllegalArgumentException if header could not be read or filename is null or empty
      */
+    @Override
     public synchronized String reserveFile(String filename, String charsetName, String alias, boolean hasHeader) {
         if (filename == null || filename.isEmpty()) {
             throw new IllegalArgumentException("Filename must not be null or empty");
@@ -284,7 +290,8 @@ public class FileServer {
      * @param filename original file name
      * @return {@link File} instance
      */
-    protected File resolveFileFromPath(String filename) {
+    @Override
+    public File resolveFileFromPath(String filename) {
         File f = new File(filename);
         if (f.isAbsolute() || f.exists()) {
             return f;
@@ -300,6 +307,7 @@ public class FileServer {
      * @return String containing the next line in the file
      * @throws IOException when reading of the file fails, or the file was not reserved properly
      */
+    @Override
     public String readLine(String filename) throws IOException {
         return readLine(filename, true);
     }
@@ -325,6 +333,7 @@ public class FileServer {
      * @return String containing the next line in the file (null if EOF reached and not recycle)
      * @throws IOException when reading of the file fails, or the file was not reserved properly
      */
+    @Override
     public synchronized String readLine(String filename, boolean recycle,
                                         boolean ignoreFirstLine) throws IOException {
         FileEntry fileEntry = files.get(filename);
@@ -360,6 +369,7 @@ public class FileServer {
      * @return the parsed line, will be empty if the file is at EOF
      * @throws IOException when reading of the aliased file fails, or the file was not reserved properly
      */
+    @Override
     public synchronized String[] getParsedLine(String alias, boolean recycle, boolean ignoreFirstLine, char delim) throws IOException {
         BufferedReader reader = getReader(alias, recycle, ignoreFirstLine);
         return CSVSaveService.csvReadFile(reader, delim);
@@ -411,7 +421,8 @@ public class FileServer {
         }
     }
 
-    protected BufferedReader createBufferedReader(FileEntry fileEntry,boolean recycle) throws IOException {
+    @Override
+    public BufferedReader createBufferedReader(FileEntry fileEntry, boolean recycle) throws IOException {
         if (!fileEntry.file.canRead() || !fileEntry.file.isFile()) {
             throw new IllegalArgumentException("File " + fileEntry.file.getName() + " must exist and be readable");
         }
@@ -429,6 +440,7 @@ public class FileServer {
         return new BufferedReader(isr);
     }
 
+    @Override
     public synchronized void write(String filename, String value) throws IOException {
         FileEntry fileEntry = files.get(filename);
         if (fileEntry != null) {
@@ -458,6 +470,7 @@ public class FileServer {
         return new BufferedWriter(osw);
     }
 
+    @Override
     public synchronized void closeFiles() throws IOException {
         for (Map.Entry<String, FileEntry> me : files.entrySet()) {
             closeFile(me.getKey(), me.getValue());
@@ -469,6 +482,7 @@ public class FileServer {
      * @param name the name or alias of the file to be closed
      * @throws IOException when closing of the aliased file fails
      */
+    @Override
     public synchronized void closeFile(String name) throws IOException {
         FileEntry fileEntry = files.get(name);
         closeFile(name, fileEntry);
@@ -499,6 +513,7 @@ public class FileServer {
      * @return a random File from the <code>basedir</code> that matches one of
      * the extensions
      */
+    @Override
     public File getRandomFile(String basedir, String[] extensions) {
         File input = null;
         if (basedir != null) {
@@ -520,6 +535,7 @@ public class FileServer {
      * @param path original path to file, maybe relative
      * @return {@link File} instance
      */
+    @Override
     public File getResolvedFile(String path) {
         reserveFile(path);
         return files.get(path).file;
@@ -571,6 +587,7 @@ public class FileServer {
      * @return JMX Script name
      * @since 2.6
      */
+    @Override
     public String getScriptName() {
         return scriptName;
     }
@@ -579,7 +596,18 @@ public class FileServer {
      * @param scriptName Script name
      * @since 2.6
      */
+    @Override
     public void setScriptName(String scriptName) {
         this.scriptName = scriptName;
+    }
+
+    @Override
+    public void reserveFile(long startPosition, long stopPosition, String filename) {
+
+    }
+
+    @Override
+    public String reserveFile(long startPosition, long stopPosition, String filename, String charsetName, String alias, boolean hasHeader) {
+        return null;
     }
 }

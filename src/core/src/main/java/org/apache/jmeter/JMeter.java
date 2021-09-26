@@ -46,8 +46,6 @@ import javax.script.ScriptException;
 import javax.swing.JTree;
 import javax.swing.tree.TreePath;
 
-import com.alibaba.fastjson.JSONObject;
-
 import org.apache.commons.cli.avalon.CLArgsParser;
 import org.apache.commons.cli.avalon.CLOption;
 import org.apache.commons.cli.avalon.CLOptionDescriptor;
