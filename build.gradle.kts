@@ -272,7 +272,6 @@ allprojects {
 
     repositories {
         // RAT and Autostyle dependencies
-        mavenLocal()
         mavenCentral()
         maven {
             url = uri("https://maven.aliyun.com/repository/central")
