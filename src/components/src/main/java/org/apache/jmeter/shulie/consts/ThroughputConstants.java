@@ -17,7 +17,6 @@
 
 package org.apache.jmeter.shulie.consts;
 
-import io.shulie.jmeter.tool.redis.RedisUtil;
 
 /**
  * 吞吐量常量类
@@ -31,7 +30,7 @@ public abstract class ThroughputConstants {
     public static final String REDIS_ACTIVITY_PERCENTAGE_KEY_FORMAT = "__REDIS_TPS_LIMIT_KEY_%s_%s_%s_%s_";
 
     /** jedis cli */
-    public static RedisUtil redisUtil;
+//    public static Jedis jedisClient;
 
     /** REDIS TPS KEY */
     public static String redisActivityPercentageKey;

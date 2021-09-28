@@ -32,4 +32,3 @@ tasks.named<Jar>(JavaPlugin.JAR_TASK_NAME) {
         attributes["Main-Class"] = "org.apache.jmeter.NewDriver"
     }
 }
-

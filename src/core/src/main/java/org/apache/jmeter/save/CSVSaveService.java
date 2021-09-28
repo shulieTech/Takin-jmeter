@@ -35,9 +35,6 @@ import java.util.*;
 
 import javax.swing.table.DefaultTableModel;
 
-
-import io.shulie.jmeter.tool.amdb.GlobalVariables;
-
 import org.apache.commons.collections4.map.LinkedMap;
 import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -62,6 +59,8 @@ import org.apache.oro.text.regex.Perl5Compiler;
 import org.apache.oro.text.regex.Perl5Matcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import io.shulie.jmeter.tool.amdb.GlobalVariables;
 
 /**
  * This class provides a means for saving/reading test results as CSV files.
@@ -1127,7 +1126,6 @@ public final class CSVSaveService {
                     SampleResult result = event.getResult();
                     for (SampleResult subResult : result.getSubResults()) {
                         formattedResult = JTLUtil.resultToDelimitedString(event, subResult, saveConfiguration, traceBizData);
-                        //TODO 写日志
                         writeLog(event.getResult(), formattedResult, out);
                     }
                 }
@@ -1170,7 +1168,6 @@ public final class CSVSaveService {
                     for (SampleResult subResult : result.getSubResults()) {
                         formattedResult = JTLUtil.resultToDelimitedString(event, subResult, saveConfiguration
                                 , traceBizData);
-                        //TODO 写日志
                         writeLog(event.getResult(), formattedResult, out);
                     }
                 }
@@ -1202,7 +1199,6 @@ public final class CSVSaveService {
                     if (JTLUtil.isTraceSampled(traceId, samplingInterval)) {
                         formattedResult = JTLUtil.resultToDelimitedString(event, result, saveConfiguration
                                 , traceBizData);
-                        //TODO 写日志
                         writeLog(event.getResult(), formattedResult, out);
                     }
                 }
@@ -1220,8 +1216,9 @@ public final class CSVSaveService {
      * @param out
      */
     private static void writeLog(SampleResult result, String resultLog, PrintWriter out) {
+        //todo 这里需要添加判断
+        //1.是否生成日志文件，如果是，判断是从这里上传到大数据还是从cloud上传，如果从cloud上传，则这里就不必写入队列；如果不生成文件，则要插入队列
         GlobalVariables.enqueueCount.getAndIncrement();
-        //TODO 向上传队列中添加数据
         GlobalVariables.logBlockQueue.offer(resultLog);
         if (PressureJtlFileConfig.defaultConfig.isJtlEnable()) {
             if (JTLUtil.ifWrite("200".equals(result.getResponseCode()), result.getTime())) {

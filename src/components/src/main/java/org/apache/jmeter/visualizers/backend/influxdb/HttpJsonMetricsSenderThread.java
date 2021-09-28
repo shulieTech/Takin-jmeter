@@ -18,20 +18,22 @@
 package org.apache.jmeter.visualizers.backend.influxdb;
 
 import org.apache.jmeter.visualizers.backend.influxdb.entity.AbstractMetrics;
+import org.checkerframework.checker.units.qual.A;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
-@Deprecated
 public class HttpJsonMetricsSenderThread {
     private static final Logger log = LoggerFactory.getLogger(HttpJsonMetricsSenderThread.class);
     private LinkedBlockingQueue<List<AbstractMetrics>> queue = new LinkedBlockingQueue<>();
     private ExecutorService fixedThreadPool = Executors.newFixedThreadPool(1);
     private AtomicBoolean started = new AtomicBoolean(false);
     private HttpJsonMetricsSender sender;
+    private AtomicInteger queueSize = new AtomicInteger(0);
     //销毁阻塞
     private CyclicBarrier destroyCb;
 
@@ -40,6 +42,7 @@ public class HttpJsonMetricsSenderThread {
     }
 
     public void send(List<AbstractMetrics> metrics) {
+        queueSize.incrementAndGet();
         queue.add(metrics);
 //        if (started.compareAndSet(false, true)) {
 //            start();
@@ -47,32 +50,33 @@ public class HttpJsonMetricsSenderThread {
     }
 
     public void start() {
-//        Runnable runnable = () -> {
-//            for (;;) {
-//                List<AbstractMetrics> metrics = null;
-//                try {
-//                    metrics = queue.take();
-//                } catch (InterruptedException e) {
-//                    log.error("Error take metrics from queue!queue.size="+queue.size());
-//                }
-//                if (null != metrics && metrics.size()>0 && !sender.writeAndSendMetrics(metrics)) {
-//                    long t = System.currentTimeMillis();
-//                    int i=0;
-//                    do {
-//                        try {
-//                            log.error("retry send data times:"+(++i)+",t="+(System.currentTimeMillis()-t));
-//                            Thread.sleep(500);
-//                        } catch (InterruptedException e) {
-//                            log.error("Thread sleep error!", e);
-//                        }
-//                    } while (!sender.writeAndSendMetrics(metrics));
-//                }
-//                if (null != destroyCb && queue.size()<=0) {
-//                    await();
-//                }
-//            }
-//        };
-//        fixedThreadPool.execute(runnable);
+        Runnable runnable = () -> {
+            for (;;) {
+                List<AbstractMetrics> metrics = null;
+                try {
+                    metrics = queue.take();
+                } catch (InterruptedException e) {
+                    log.error("Error take metrics from queue!queue.size="+queue.size());
+                }
+                if (null != metrics && metrics.size()>0 && !sender.writeAndSendMetrics(metrics)) {
+                    long t = System.currentTimeMillis();
+                    int i=0;
+                    do {
+                        try {
+                            log.error("retry send data times:"+(++i)+",t="+(System.currentTimeMillis()-t));
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            log.error("Thread sleep error!", e);
+                        }
+                    } while (!sender.writeAndSendMetrics(metrics));
+                }
+                queueSize.decrementAndGet();
+                if (null != destroyCb && queue.size()<=0) {
+                    await();
+                }
+            }
+        };
+        fixedThreadPool.execute(runnable);
     }
 
     public void await() {
@@ -93,8 +97,8 @@ public class HttpJsonMetricsSenderThread {
      */
     public void destroy() {
         log.info("start to destroy!");
-        if (queue.size()>0) {
-            log.info("destroy blocked, queue is not empty!queue.size="+queue.size());
+        if (queueSize.get()>0) {
+            log.info("destroy blocked, queue is not empty!queueSize="+queueSize.get());
             await();
             log.info("destroy block releaseed!");
         }

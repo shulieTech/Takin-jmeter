@@ -35,10 +35,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import io.shulie.jmeter.tool.amdb.GlobalVariables;
-import io.shulie.jmeter.tool.amdb.log.data.pusher.LogPusher;
-import io.shulie.jmeter.tool.executors.ExecutorServiceFactory;
-
 import org.apache.jmeter.config.PressureJtlFileConfig;
 import org.apache.jmeter.engine.util.NoThreadClone;
 import org.apache.jmeter.gui.GuiPackage;
@@ -61,6 +57,10 @@ import org.apache.jmeter.visualizers.Visualizer;
 import org.apache.jorphan.util.JMeterError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import io.shulie.jmeter.tool.amdb.GlobalVariables;
+import io.shulie.jmeter.tool.amdb.log.data.pusher.LogPusher;
+import io.shulie.jmeter.tool.executors.ExecutorServiceFactory;
 
 /**
  * This class handles all saving of samples.
@@ -382,6 +382,7 @@ public class ResultCollector extends AbstractListenerElement implements SampleLi
     }
 
     private void initializeLogPusher() {
+        //todo 这里增加判断，是否要在压测引擎上传请求明细数据，如果不需要，则不需要初始化队列，不需要启动异步线程
         if (GlobalVariables.logBlockQueue == null){
             GlobalVariables.initBlockQueue();
         }

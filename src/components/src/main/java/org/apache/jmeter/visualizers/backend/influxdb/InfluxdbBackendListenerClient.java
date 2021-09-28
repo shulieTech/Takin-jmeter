@@ -25,18 +25,19 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.samplers.SampleResult;
 import org.apache.jmeter.shulie.constants.PressureConstants;
+import org.apache.jmeter.shulie.util.DataUtil;
+import org.apache.jmeter.shulie.util.NumberUtil;
+import org.apache.jmeter.shulie.util.ThreadUtil;
 import org.apache.jmeter.threads.JMeterContextService;
 import org.apache.jmeter.util.JMeterUtils;
 import org.apache.jmeter.visualizers.backend.*;
 import org.apache.jmeter.visualizers.backend.influxdb.entity.EventMetrics;
 import org.apache.jmeter.visualizers.backend.influxdb.entity.ResponseMetrics;
-import org.apache.jmeter.visualizers.backend.influxdb.entity.ResponseMetrics.ErrorInfo;
 import org.apache.jmeter.visualizers.backend.influxdb.tro.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,90 +100,35 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
 
     private void sendMetrics() {
         synchronized (LOCK) {
+            //算线程数单独拎出来，不要每个活动都去算，提升效率
+            int activeThreadNum = getActiveThreadNum();
             for (Map.Entry<String, SamplerMetric> entry : metricsPerSampler.entrySet()) {
+                String transaction = CUMULATED_METRICS.equals(entry.getKey()) ? CUMULATED_METRICS : AbstractInfluxdbMetricsSender.tagToStringValue(entry.getKey());
                 SamplerMetric metric = entry.getValue();
-                if (entry.getKey().equals(CUMULATED_METRICS)) {
-                    addCumulatedMetrics(metric);
-                } else {
-                    addMetrics(AbstractInfluxdbMetricsSender.tagToStringValue(entry.getKey()), metric);
+                ResponseMetrics responseMetrics = buildResponseMetricsAndClean(entry.getKey(), metric, activeThreadNum);
+                if (CUMULATED_METRICS.equals(transaction)) {
+                    //当transcation为all时返回的saCount均设置为0，因为all的sa count为空，让cloud去聚合all的sacount数据
+                    responseMetrics.setSaCount(0);
                 }
-                // We are computing on interval basis so cleanup
+                influxdbMetricsManager.addMetric(responseMetrics);
                 metric.resetForTimeInterval();
             }
         }
-
         influxdbMetricsManager.writeAndSendMetrics();
     }
 
-    private void addMetrics(String transaction, SamplerMetric metric) {
-        // ALL
-        addResponseMetric(transaction, metric.getTransactionUrl(), metric.getTotal(), metric.getFailures(), metric.getSentBytes(),
-            metric.getReceivedBytes(),
-            TAG_ALL, metric.getAllMean(),
-            metric.getAllMinTime(),
-            metric.getAllMaxTime(),
-            allPercentiles.values(), metric::getAllPercentile,
-            metric.getSaSuccess(),
-            metric.getSumRt(),
-            metric.getErrors());
-    }
-
-    private void addResponseMetric(String transaction, String transactionUrl, int count, int countError,
-        Long sentBytes, Long receivedBytes,
-        String statut, double rt, double minTime, double maxTime,
-        Collection<Float> pcts, PercentileProvider percentileProvider, int saCount,
-        long sumRt,
-        Map<ErrorMetric, Integer> errors) {
+    public ResponseMetrics buildResponseMetricsAndClean(String transaction, SamplerMetric metric, int activeThreadNum) {
         ResponseMetrics responseMetrics = new ResponseMetrics();
         responseMetrics.setTransaction(transaction);
-        responseMetrics.setCount(count);
-        responseMetrics.setFailCount(countError);
-        responseMetrics.setMaxRt(maxTime);
-        responseMetrics.setMinRt(minTime);
-        responseMetrics.setTimestamp(System.currentTimeMillis());
-        responseMetrics.setRt(rt);
-        responseMetrics.setSaCount(saCount);
-        String podNumber = System.getProperty("pod.number");
-        Map<String, String> tags = new HashMap<>();
-        tags.put("podNum", podNumber == null ? "" : podNumber);
-        responseMetrics.setTags(tags);
-        responseMetrics.setSentBytes(sentBytes);
-        responseMetrics.setReceivedBytes(receivedBytes);
-        //add by lipeng 添加活跃线程数
-        responseMetrics.setActiveThreads(JMeterContextService.getThreadCounts().activeThreads);
-        //添加 transactionurl
-        responseMetrics.setTransactionUrl(transactionUrl);
-        //add end
-//        Set<ErrorInfo> errorInfos = errors.keySet()
-//            .stream()
-//            .map(integer -> {
-//                ErrorInfo errorInfo = new ErrorInfo();
-//                errorInfo.setResponseCode(integer.getResponseCode());
-//                errorInfo.setResponseMessage(integer.getResponseMessage());
-//                return errorInfo;
-//            }).collect(Collectors.toSet());
-        //modify by lipeng 错误信息走jtl 不走metrics， 防止错误信息太大导致请求不稳定
-        responseMetrics.setErrorInfos(new HashSet<>());
-        //add by lipeng 添加sumRt
-        responseMetrics.setSumRt(sumRt);
-        influxdbMetricsManager.addMetric(responseMetrics);
-    }
-
-    private void addCumulatedMetrics(SamplerMetric metric) {
-        ResponseMetrics responseMetrics = new ResponseMetrics();
-        responseMetrics.setTransaction(CUMULATED_METRICS);
-        //add by lipeng  默认所有的为all
-        responseMetrics.setTransactionUrl(CUMULATED_METRICS);
         responseMetrics.setCount(metric.getTotal());
         responseMetrics.setFailCount(metric.getFailures());
-        responseMetrics.setMaxRt(metric.getAllMaxTime());
-        responseMetrics.setMinRt(metric.getAllMinTime());
+        responseMetrics.setMaxRt(NumberUtil.maybeNaN(metric.getAllMaxTime()));
+        responseMetrics.setMinRt(NumberUtil.maybeNaN(metric.getAllMinTime()));
         responseMetrics.setTimestamp(System.currentTimeMillis());
-        responseMetrics.setRt(metric.getAllMean());
+        responseMetrics.setRt(NumberUtil.maybeNaN(metric.getAllMean()));
         //modify by lipeng 当transcation为all时返回的saCount均设置为0，因为all的sa count为空，让cloud去聚合all的sacount数据
         // 平台会设置每个业务活动的目标rt，而不会给all设置目标rt，设置目标rt根据脚本后端监听器中的businessMap参数传递过来
-//        responseMetrics.setSaCount(metric.getSaSuccess());
-        responseMetrics.setSaCount(0);
+        responseMetrics.setSaCount(metric.getSaSuccess());
         //modify end
         String podNumber = System.getProperty("pod.number");
         Map<String, String> tags = new HashMap<>();
@@ -190,12 +136,28 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
         responseMetrics.setTags(tags);
         responseMetrics.setSentBytes(metric.getSentBytes());
         responseMetrics.setReceivedBytes(metric.getReceivedBytes());
-        //add by lipeng 添加活跃线程数
-        responseMetrics.setActiveThreads(JMeterContextService.getThreadCounts().activeThreads);
+        responseMetrics.setActiveThreads(activeThreadNum);
+        responseMetrics.setErrorInfos(new HashSet<>());
         //add end
         //add by lipeng 添加sumRt
         responseMetrics.setSumRt(metric.getSumRt());
-        influxdbMetricsManager.addMetric(responseMetrics);
+        //把他放在最后，getPercentMap中有清数据
+        responseMetrics.setPercentData(DataUtil.percentMapToString(metric.getPercentMap()));
+        return responseMetrics;
+    }
+
+
+    /**
+     * @author yuanba
+     */
+    private int getActiveThreadNum() {
+        int activeThreads = JMeterContextService.getThreadCounts().activeThreads;
+        String pressureMode = System.getProperty("engine.perssure.mode");
+        if ("1".equals(pressureMode)) {
+            int cgan = ThreadUtil.getCurrentGroupActiveThreadNum();
+            activeThreads = Math.min(cgan, activeThreads);
+        }
+        return activeThreads;
     }
 
     public String getSamplersRegex() {

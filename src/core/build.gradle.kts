@@ -104,14 +104,14 @@ dependencies {
     // add by lipeng 添加fastjson
     implementation("com.alibaba:fastjson")
     // add end
-    //add by xr.l 添加agent上传日志依赖包
+    // add by xr.l 添加agent上传日志依赖包
     implementation("io.shulie.pradar:log-remoting:2.0.4")
     implementation("io.shulie.surge.data:common:1.0")
 
     implementation("io.shulie.flpt:jmeter-redis-tool")
     implementation("io.shulie.flpt:jmeter-executor-tool")
     implementation("io.shulie.flpt:jmeter-amdb-tool")
-    //add end
+    // add end
     // TODO: JMeter bundles Xerces, however the reason is unknown
     runtimeOnly("xerces:xercesImpl")
     runtimeOnly("xml-apis:xml-apis")

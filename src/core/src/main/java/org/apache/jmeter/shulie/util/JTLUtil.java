@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.jmeter.shulie.util;
 
 import java.io.UnsupportedEncodingException;
@@ -21,7 +22,6 @@ import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jmeter.assertions.AssertionResult;
@@ -85,10 +85,8 @@ public abstract class JTLUtil {
             return true;
         } else if (mustSamplingInterval == 100 && ('0' == id.charAt(id.length() - 6)) && ('0' == id.charAt(id.length() - 7))) {
             return true;
-        } else if (mustSamplingInterval == 10 && ('0' == id.charAt(id.length() - 6))) {
-            return true;
         } else {
-            return false;
+            return mustSamplingInterval == 10 && ('0' == id.charAt(id.length() - 6));
         }
     }
 
@@ -179,10 +177,6 @@ public abstract class JTLUtil {
         //resultCode  00 成功  01 响应失败  05 断言失败
         boolean responseSuccess = "200".equals(sample.getResponseCode());
 
-//        //判断是否需要输出这条日志，
-//        if(!ifWrite(responseSuccess,sample.getTime())) {
-//            return null;
-//        }
 
         //modify by lipeng at 20210426 记录所有断言失败信息 而不是第一个失败信息
         boolean assertFailed = false;

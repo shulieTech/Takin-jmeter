@@ -121,6 +121,8 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
         SEND_INTERVAL = JMeterUtils.getPropDefault("backend_influxdb.send_interval", 5);
         httpRequest = createRequest(url, token);
         httpClient.start();
+        thread = new HttpJsonMetricsSenderThread(this);
+        thread.start();
     }
 
     /**
@@ -175,31 +177,40 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
             copyMetrics = metrics;
             metrics = new ArrayList<>(copyMetrics.size());
         }
-        writeAndSendMetrics(copyMetrics);
+        thread.send(copyMetrics);
+//        writeAndSendMetrics(copyMetrics);
     }
-    private static final int MAX_RETRY_COUNT = 3;
 
     //TODO mark by lipeng 这里改为直接向influxdb写数据 而不是传到cloud
-    private void writeAndSendMetrics(List<AbstractMetrics> copyMetrics) {
+    public boolean writeAndSendMetrics(List<AbstractMetrics> copyMetrics) {
         try {
             if (httpRequest == null) {
                 httpRequest = createRequest(url, token);
             }
+            String sendData = JsonUtil.toJson(copyMetrics);
+            log.info("send data:"+sendData);
             //请求数据
-            httpRequest.setEntity(new StringEntity(JsonUtil.toJson(copyMetrics), ContentType.APPLICATION_JSON));
-            lastRequest = httpClient.execute(httpRequest, new MetricsSenderCallback(httpRequest, MAX_RETRY_COUNT
-                    , copyMetrics));
+            httpRequest.setEntity(new StringEntity(sendData, ContentType.APPLICATION_JSON));
+            MetricsSenderCallback callback = new MetricsSenderCallback(httpRequest, copyMetrics);
+            lastRequest = httpClient.execute(httpRequest, callback);
+            HttpResponse response = lastRequest.get();
+            int code = response.getStatusLine().getStatusCode();
+            return MetricUtils.isSuccessCode(code);
         } catch (URISyntaxException | JsonProcessingException ex) {
             log.error(ex.getMessage(), ex);
+        } catch (ExecutionException e) {
+            log.error(e.getMessage(), e);
+        } catch (InterruptedException e) {
+            log.error(e.getMessage(), e);
         }
+        return false;
     }
 
     private class MetricsSenderCallback implements FutureCallback<HttpResponse> {
-        private int count;
         private HttpPost httpRequest;
         private List<AbstractMetrics> copyMetrics;
-        public MetricsSenderCallback(HttpPost httpRequest,int count,List<AbstractMetrics> copyMetrics) {
-            this.count = count;
+
+        public MetricsSenderCallback(HttpPost httpRequest, List<AbstractMetrics> copyMetrics) {
             this.httpRequest = httpRequest;
             this.copyMetrics = copyMetrics;
         }
@@ -228,12 +239,6 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
 
         @Override
         public void failed(final Exception ex) {
-            count--;
-            if (count <0)
-            {
-                return;
-            }
-            httpClient.execute(httpRequest, this);
             log.error("failed to send data to Collection centre server.", ex);
         }
 
@@ -263,6 +268,7 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
     public void destroy() {
         // Give some time to send last metrics before shutting down
         log.info("Destroying ");
+        thread.destroy();
         try {
             lastRequest.get(5, TimeUnit.SECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {

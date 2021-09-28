@@ -15,46 +15,23 @@
  * limitations under the License.
  */
 
-package org.apache.jmeter.protocol.http.sampler;
+package org.apache.jmeter.shulie.util;
 
-import org.apache.jmeter.samplers.SampleResult;
-
-/**
- * @author moriarty
- */
-public class MqSampleResult extends SampleResult {
-
-    String mqTopic;
-    String mqPartition;
-
-    public MqSampleResult(){
-        super();
+public class StringUtil {
+    public static String removePoint(String source) {
+        if (source.contains(".")) {
+            return source.substring(0, source.indexOf("."));
+        }
+        return source;
     }
 
-    public MqSampleResult(String mqTopic,String mqPartition){
-        this.mqTopic = mqTopic;
-        this.mqPartition = mqPartition;
+    public static String valueOf(Object o) {
+        if (null == o) {
+            return "";
+        }
+        if (o instanceof String) {
+            return (String) o;
+        }
+        return String.valueOf(o);
     }
-
-    @Override
-    public String getMqTopic() {
-        return mqTopic;
-    }
-
-    @Override
-    public void setMqTopic(String mqTopic) {
-        this.mqTopic = mqTopic;
-    }
-
-    @Override
-    public String getMqPartition() {
-        return mqPartition;
-    }
-
-    @Override
-    public void setMqPartition(String mqPartition) {
-        this.mqPartition = mqPartition;
-    }
-
-
 }

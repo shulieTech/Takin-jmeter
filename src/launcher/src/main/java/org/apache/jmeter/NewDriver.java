@@ -254,9 +254,9 @@ public final class NewDriver {
                 if(System.getProperty(HEADLESS_MODE_PROPERTY) == null && shouldBeHeadless(args)) {
                     System.setProperty(HEADLESS_MODE_PROPERTY, "true");
                 }
-                Class<?> initialClass = loader.loadClass("org.apache.jmeter.JMeter");// $NON-NLS-1$
+                Class<?> initialClass = loader.loadClass("org.apache.jmeter.JMeter");
                 Object instance = initialClass.getDeclaredConstructor().newInstance();
-                Method startup = initialClass.getMethod("start", new Class[] { PressureConstants.pressureEngineParamsInstance.getClass() });// $NON-NLS-1$
+                Method startup = initialClass.getMethod("start", new Class[] { PressureConstants.pressureEngineParamsInstance.getClass() });
                 //modify by lipeng 将start方法入参改为pressureEngineParams
                 startup.invoke(instance, PressureConstants.pressureEngineParamsInstance);
                 //正常启动后不需要上报cloud已正常启动，在receive接口会上报started标记
@@ -280,17 +280,21 @@ public final class NewDriver {
         //sceneId
         long sceneId = Long.parseLong(System.getProperty("SceneId", "0"));
         result.setSceneId(sceneId);
-        System.setProperty("SCENE_ID",sceneId+"");
+        System.setProperty("SCENE_ID", sceneId + "");
         //reportId
         long reportId = Long.parseLong(System.getProperty("ReportId", "0"));
         result.setResultId(reportId);
-        System.setProperty("__ENGINE_REPORT_ID__",reportId+"");
+        System.setProperty("__ENGINE_REPORT_ID__", reportId + "");
         //customerId
         long customerId = Long.parseLong(System.getProperty("CustomerId", "0"));
         result.setCustomerId(customerId);
         //采样率
         int samplingInterval = Integer.parseInt(System.getProperty("SamplingInterval", "0"));
         result.setSamplingInterval(samplingInterval);
+        //podNumber
+        String podNumber = System.getProperty("pod.number","1");
+        result.setPodNumber(podNumber);
+        System.setProperty("pod.number",podNumber);
         //callbackurl
         result.setCallbackUrl(System.getProperty("CallbackUrl"));
         //jmeter args

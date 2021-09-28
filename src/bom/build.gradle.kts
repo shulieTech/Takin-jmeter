@@ -164,7 +164,7 @@ dependencies {
         apiv("redis.clients:jedis", "jedis")
         apiv("com.alibaba:fastjson", "fastjson")
         apiv("io.shulie.flpt:jmeter-redis-tool", "jmeter-redis-tool")
-        apiv("io.shulie.flpt:jmeter-executor-tool","jmeter-executor-tool")
-        apiv("io.shulie.flpt:jmeter-amdb-tool","jmeter-amdb-tool")
+        apiv("io.shulie.flpt:jmeter-executor-tool", "jmeter-executor-tool")
+        apiv("io.shulie.flpt:jmeter-amdb-tool", "jmeter-amdb-tool")
     }
 }
