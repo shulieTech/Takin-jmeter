@@ -17,6 +17,8 @@
 
 package org.apache.jmeter.shulie.model;
 
+import java.util.Arrays;
+
 /**
  * 引擎参数信息
  *
@@ -34,6 +36,8 @@ public class PressureEngineParams {
     private String callbackUrl;
 
     private int samplingInterval = 1;
+
+    private String podNumber;
 
     private String[] jmeterArgs;
 
@@ -85,18 +89,27 @@ public class PressureEngineParams {
         this.samplingInterval = samplingInterval;
     }
 
+    public String getPodNumber() {
+        return podNumber;
+    }
+
+    public void setPodNumber(String podNumber) {
+        this.podNumber = podNumber;
+    }
+
     public PressureEngineParams() {};
 
-    public PressureEngineParams(Long sceneId, Long resultId, Long customerId, String callbackUrl, int samplingInterval) {
+    public PressureEngineParams(Long sceneId, Long resultId, Long customerId, String callbackUrl, int samplingInterval,String podNumber) {
         this.sceneId = sceneId;
         this.resultId = resultId;
         this.customerId = customerId;
         this.callbackUrl = callbackUrl;
         this.samplingInterval = samplingInterval;
+        this.podNumber = podNumber;
     }
 
-    public static PressureEngineParams create(Long sceneId, Long resultId, Long customerId, String callbackUrl, int samplingInterval) {
-        return new PressureEngineParams(sceneId, resultId, customerId, callbackUrl, samplingInterval);
+    public static PressureEngineParams create(Long sceneId, Long resultId, Long customerId, String callbackUrl, int samplingInterval,String podNumber) {
+        return new PressureEngineParams(sceneId, resultId, customerId, callbackUrl, samplingInterval,podNumber);
     }
 
     @Override
@@ -107,6 +120,8 @@ public class PressureEngineParams {
                 ", customerId=" + customerId +
                 ", callbackUrl='" + callbackUrl + '\'' +
                 ", samplingInterval=" + samplingInterval +
+                ", podNumber='" + podNumber + '\'' +
+                ", jmeterArgs=" + Arrays.toString(jmeterArgs) +
                 '}';
     }
 }

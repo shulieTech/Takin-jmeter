@@ -382,6 +382,7 @@ public class ResultCollector extends AbstractListenerElement implements SampleLi
     }
 
     private void initializeLogPusher() {
+        //todo 这里增加判断，是否要在压测引擎上传请求明细数据，如果不需要，则不需要初始化队列，不需要启动异步线程
         if (GlobalVariables.logBlockQueue == null){
             GlobalVariables.initBlockQueue();
         }
