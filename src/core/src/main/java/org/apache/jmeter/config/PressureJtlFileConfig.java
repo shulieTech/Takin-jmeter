@@ -20,7 +20,7 @@ package org.apache.jmeter.config;
 /**
  * jtl 日志文件输出配置
  *
- * @author moriarty
+ * @author xr.l
  */
 public class PressureJtlFileConfig {
 

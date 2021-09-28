@@ -18,7 +18,7 @@
 package org.apache.jmeter.services;
 
 /**
- * @author moriarty
+ * @author xr.l
  */
 public interface CsvPositionRecord {
 

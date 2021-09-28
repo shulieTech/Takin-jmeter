@@ -446,7 +446,6 @@ public class JMeter implements JMeterPlugin {
      * @param params The arguments for JMeter
      */
     public void start(PressureEngineParams params) {
-        log.info(" >>> 当前pod序号为：" + System.getProperty("pod.number"));
         CLArgsParser parser = new CLArgsParser(params.getJmeterArgs(), options);
         String error = parser.getErrorString();
         if (error == null){// Check option combinations
@@ -468,6 +467,8 @@ public class JMeter implements JMeterPlugin {
         }
         try {
             initializeProperties(parser); // Also initialises JMeter logging
+
+            log.info(" >>> 当前pod序号为：{} <<<<<" , System.getProperty("pod.number"));
 
             //初始化日志配置参数 add by xr.l 2021.7.1
             analyzeJtlConfig();
