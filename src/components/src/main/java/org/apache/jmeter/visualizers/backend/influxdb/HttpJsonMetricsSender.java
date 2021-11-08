@@ -47,7 +47,7 @@ import org.apache.jmeter.util.JMeterUtils;
 import org.apache.jmeter.visualizers.backend.influxdb.entity.AbstractMetrics;
 import org.apache.jmeter.visualizers.backend.influxdb.entity.EventMetrics;
 import org.apache.jmeter.visualizers.backend.influxdb.entity.ResponseMetrics;
-import org.apache.jmeter.visualizers.backend.influxdb.tro.JsonUtil;
+import org.apache.jmeter.visualizers.backend.influxdb.tro.JacksonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -187,7 +187,7 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
             if (httpRequest == null) {
                 httpRequest = createRequest(url, token);
             }
-            String sendData = JsonUtil.toJson(copyMetrics);
+            String sendData = JacksonUtil.toJson(copyMetrics);
             log.info("send data:"+sendData);
             //请求数据
             httpRequest.setEntity(new StringEntity(sendData, ContentType.APPLICATION_JSON));

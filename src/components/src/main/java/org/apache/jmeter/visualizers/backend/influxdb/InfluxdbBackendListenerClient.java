@@ -26,6 +26,7 @@ import java.util.concurrent.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.alibaba.fastjson.TypeReference;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.samplers.SampleResult;
@@ -36,9 +37,10 @@ import org.apache.jmeter.shulie.util.ThreadUtil;
 import org.apache.jmeter.threads.JMeterContextService;
 import org.apache.jmeter.util.JMeterUtils;
 import org.apache.jmeter.visualizers.backend.*;
+import org.apache.jmeter.visualizers.backend.influxdb.entity.BusinessActivityConfig;
 import org.apache.jmeter.visualizers.backend.influxdb.entity.EventMetrics;
 import org.apache.jmeter.visualizers.backend.influxdb.entity.ResponseMetrics;
-import org.apache.jmeter.visualizers.backend.influxdb.tro.JsonUtil;
+import org.apache.jmeter.shulie.util.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -86,7 +88,7 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
     private ScheduledExecutorService scheduler;
     private ScheduledFuture<?> timerHandle;
 
-    private Map<String, String> bizMap = new HashMap<>();
+    private Map<String, BusinessActivityConfig> bizMap = new HashMap<>();
 
     public InfluxdbBackendListenerClient() {
         super();
@@ -197,7 +199,7 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
         samplersRegex = context.getParameter("samplersRegex", "");
         String bizArgs = context.getParameter("businessMap", "");
         if (StringUtils.isNotBlank(bizArgs)) {
-            bizMap = JsonUtil.parse(bizArgs, Map.class);
+            bizMap = JsonUtil.parseObject(bizArgs, new TypeReference<Map<String, BusinessActivityConfig>>(){});
         }
 
         initPercentiles(context);
@@ -254,7 +256,9 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
         SamplerMetric newSamplerMetric = new SamplerMetric();
         //add by lipeng  添加业务活动url
         newSamplerMetric.setTransactionUrl(transactionUrl);
-        newSamplerMetric.setStandRt(Integer.parseInt(bizMap.getOrDefault(getMetricLabel(sampleLabel), "0")));
+        String transaction = DataUtil.getTransaction(sampleLabel);
+        BusinessActivityConfig config = bizMap.get(transaction);
+        newSamplerMetric.setStandRt(DataUtil.getValue(0, config, BusinessActivityConfig::getRt));
         SamplerMetric oldValue = metricsPerSampler.putIfAbsent(sampleLabel, newSamplerMetric);
         if (oldValue != null) {
             newSamplerMetric = oldValue;
@@ -262,9 +266,9 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
         return newSamplerMetric;
     }
 
-    public String getMetricLabel(String sampleLabel) {
-        return sampleLabel + "_rt";
-    }
+//    public String getMetricLabel(String sampleLabel) {
+//        return sampleLabel + "_rt";
+//    }
 
     @Override
     public void teardownTest(BackendListenerContext context) throws Exception {
@@ -309,9 +313,9 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
         return arguments;
     }
 
-    @FunctionalInterface
-    private interface PercentileProvider {
-        double getPercentileValue(double percentile);
-    }
+//    @FunctionalInterface
+//    private interface PercentileProvider {
+//        double getPercentileValue(double percentile);
+//    }
 
 }

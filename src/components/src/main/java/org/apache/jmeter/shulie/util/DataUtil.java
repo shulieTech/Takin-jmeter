@@ -17,11 +17,27 @@
 
 package org.apache.jmeter.shulie.util;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.jmeter.visualizers.backend.influxdb.entity.Constants;
 
+import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 public class DataUtil {
+    /**
+     * 从元素中获取唯一标识，老版本是testname，新版是testname中的MD5
+     */
+    public static String getTransaction(String sampleLabel) {
+        int splitPos = sampleLabel.lastIndexOf(Constants.TEST_NAME_MD5_SPLIT);
+        String transaction = sampleLabel;
+        if (-1 != splitPos) {
+            transaction = sampleLabel.substring(splitPos + Constants.TEST_NAME_MD5_SPLIT.length());
+        }
+        return transaction;
+    }
     /**
      * POD序号
      */
@@ -44,5 +60,38 @@ public class DataUtil {
             sb.append(e.getKey()).append(",").append(count).append(",").append(rt).append("|");
         }
         return sb.toString();
+    }
+
+    /**
+     * 取值选择器
+     * @param defValue  默认值
+     * @param t         取值对象
+     * @param func      取值方法，从对象中取值的方法
+     * @param <T>       取值对象类型
+     * @param <R>       返回值对象类型
+     */
+    public static <T, R> R getValue(R defValue, T t, Function<T, R> func) {
+        R result = defValue;
+        if (null != t) {
+            R r = func.apply(t);
+            if (null != r) {
+                if (r instanceof String) {
+                    if (StringUtils.isNotBlank((String) r)) {
+                        result = r;
+                    }
+                } else if (r instanceof List) {
+                    if (CollectionUtils.isNotEmpty((List<?>) r)) {
+                        result = r;
+                    }
+                } else if (r instanceof Map) {
+                    if (MapUtils.isNotEmpty((Map<?, ?>) r)) {
+                        result = r;
+                    }
+                } else {
+                    result = r;
+                }
+            }
+        }
+        return result;
     }
 }

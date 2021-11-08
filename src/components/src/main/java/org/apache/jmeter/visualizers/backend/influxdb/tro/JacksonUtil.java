@@ -27,9 +27,9 @@ import com.fasterxml.jackson.databind.SerializationFeature;
  * @author shiyajian
  * create: 2020-09-29
  */
-public final class JsonUtil {
+public final class JacksonUtil {
 
-    private JsonUtil() { /* no instance */ }
+    private JacksonUtil() { /* no instance */ }
 
     private static ObjectMapper objectMapper = new ObjectMapper();
 
