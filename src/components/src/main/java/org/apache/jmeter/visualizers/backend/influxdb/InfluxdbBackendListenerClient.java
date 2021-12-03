@@ -179,19 +179,38 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
             UserMetric userMetrics = getUserMetrics();
             for (SampleResult sampleResult : sampleResults) {
                 userMetrics.add(sampleResult);
-                Matcher matcher = samplersToFilter.matcher(sampleResult.getSampleLabel());
-                if (!summaryOnly && (matcher.find())) {
-                    SamplerMetric samplerMetric = getSamplerMetricInfluxdb(sampleResult.getSampleLabel()
-                            , sampleResult.getTransactionUrl());
-                    samplerMetric.add(sampleResult);
-                }
-                //TODO optimize sf add switch
-                SamplerMetric cumulatedMetrics = getSamplerMetricInfluxdb(CUMULATED_METRICS
-                        , sampleResult.getTransactionUrl());
-                cumulatedMetrics.addCumulated(sampleResult);
+                addMetric(sampleResult);
+//                Matcher matcher = samplersToFilter.matcher(sampleResult.getSampleLabel());
+//                if (!summaryOnly && (matcher.find())) {
+//                    addMetric(sampleResult);
+//                }
+//                //TODO optimize sf add switch
+//                SamplerMetric cumulatedMetrics = getSamplerMetricInfluxdb(CUMULATED_METRICS, sampleResult.getTransactionUrl());
+//                cumulatedMetrics.addCumulated(sampleResult);
             }
         }
     }
+
+    private void addMetric(SampleResult sampleResult) {
+        Matcher matcher = samplersToFilter.matcher(sampleResult.getSampleLabel());
+        if (!summaryOnly && (matcher.find())) {
+            addMetricSelf(sampleResult);
+        }
+        if (null != sampleResult.getSubResults() && sampleResult.getSubResults().length > 0) {
+            for (SampleResult r : sampleResult.getSubResults()) {
+                addMetric(r);
+            }
+        } else {
+            SamplerMetric cumulatedMetrics = getSamplerMetricInfluxdb(CUMULATED_METRICS, sampleResult.getTransactionUrl());
+            cumulatedMetrics.addCumulated(sampleResult);
+        }
+    }
+
+    private void addMetricSelf(SampleResult sampleResult) {
+        SamplerMetric samplerMetric = getSamplerMetricInfluxdb(sampleResult.getSampleLabel(), sampleResult.getTransactionUrl());
+        samplerMetric.add(sampleResult);
+    }
+
 
     @Override
     public void setupTest(BackendListenerContext context) throws Exception {
