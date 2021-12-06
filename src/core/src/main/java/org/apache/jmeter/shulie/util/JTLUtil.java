@@ -121,13 +121,11 @@ public abstract class JTLUtil {
     /**
      * 将sample结果转为存储为jtl的数据格式
      *
-     * @param event
      * @param sample
      * @param saveConfig
      * @return
      */
-    public static String resultToDelimitedString(SampleEvent event,
-                                                 SampleResult sample,
+    public static String resultToDelimitedString(SampleResult sample,
                                                  SampleSaveConfiguration saveConfig,
                                                  TraceBizData traceBizData) {
         CSVSaveService.StringQuoter text = new CSVSaveService.StringQuoter(QUOTER);
