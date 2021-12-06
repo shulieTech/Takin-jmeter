@@ -1095,20 +1095,28 @@ public final class CSVSaveService {
      * @param out   {@link PrintWriter} to which samples will be written
      */
     public static void saveSampleResult(SampleEvent event, PrintWriter out) {
-        SampleSaveConfiguration saveConfiguration = event.getResult().getSaveConfig();
-//        String delimiter = saveConfiguration.getDelimiter();
-        //jtl格式化 mark by lipeng
-        //modify by lipeng  处理http协议  生成trace数据
-        //更换分隔符
-        String delimiter = "|";
-        boolean isMq = false;
-        String traceId = JTLUtil.EMPTY_TEXT;
-        String reportId = JTLUtil.EMPTY_TEXT;
-        String formattedResult;
-
         int samplingInterval = PressureConstants.pressureEngineParamsInstance.getSamplingInterval();
-        boolean perfomanceTest = false;
         SampleResult sampleResult = event.getResult();
+        if (Objects.nonNull(sampleResult)) {
+            writeResultToLogs(sampleResult, out, sampleResult.getSaveConfig(), samplingInterval);
+        }
+    }
+
+    /**
+     * {@link SampleResult} 日志重新处理，目前看很多脚本都会带有逻辑控制器，尤其是事务控制器，如果是事务控制器的话，需要处理子结果
+     *
+     * @param sampleResult     请求结果
+     * @param out              写入目标
+     * @param samplingInterval 采样率
+     */
+    public static void writeResultToLogs(SampleResult sampleResult, PrintWriter out, SampleSaveConfiguration saveConfig, int samplingInterval) {
+        if (Objects.isNull(sampleResult)) {
+            return;
+        }
+        String traceId = null;
+        String reportId = null;
+        boolean performanceTest = false;
+        boolean isMq = false;
         if (StringUtils.isNotBlank(sampleResult.getMqType()) && sampleResult.getMqType().length() > 0) {
             isMq = true;
         }
@@ -1116,26 +1124,17 @@ public final class CSVSaveService {
             traceId = JMeterContextService.getContext().getVariables().get(PressureConstants.TRACE_ID_KEY);
             reportId = String.valueOf(PressureConstants.pressureEngineParamsInstance.getResultId());
             if (sampleResult.getMqTopic().startsWith("PT_")) {
-                perfomanceTest = true;
+                performanceTest = true;
             }
-            TraceBizData traceBizData = TraceBizData.create(traceId, reportId, perfomanceTest);
+            TraceBizData traceBizData = TraceBizData.create(traceId, reportId, performanceTest);
             if (JTLUtil.isTraceSampled(traceId, samplingInterval)) {
-                formattedResult = JTLUtil.resultToDelimitedString(event, event.getResult(), saveConfiguration, traceBizData);
-                writeLog(event.getResult(), formattedResult, out);
-                if (saveConfiguration.saveSubresults()) {
-                    SampleResult result = event.getResult();
-                    for (SampleResult subResult : result.getSubResults()) {
-                        formattedResult = JTLUtil.resultToDelimitedString(event, subResult, saveConfiguration, traceBizData);
-                        writeLog(event.getResult(), formattedResult, out);
-                    }
-                }
+                writeLog(sampleResult, out, saveConfig, traceBizData);
             }
         }
         //是否http或者https协议
         boolean isHttp = Objects.nonNull(sampleResult.getURL()) && JTLUtil.HTTP_AND_HTTPS_PROTOCOL.contains(sampleResult.getURL().getProtocol());
         if (isHttp) {
-            //traceId
-            String[] headers = event.getResult().getRequestHeaders().split("\n");
+            String[] headers = sampleResult.getRequestHeaders().split("\n");
             //是否压测
             for (String header : headers) {
                 if (header.startsWith(JTLUtil.TRACE_ID_HEADER_KEY_PREFIX)) {
@@ -1146,62 +1145,20 @@ public final class CSVSaveService {
                     //满足任意一个即可
                     for (String performanceTestHeader : JTLUtil.PERFOMANCE_TEST_HEADERS) {
                         if (header.startsWith(performanceTestHeader)) {
-                            perfomanceTest = true;
+                            performanceTest = true;
                             break;
                         }
                     }
                 }
             }
-            //trace业务数据
-            TraceBizData traceBizData = TraceBizData.create(traceId, reportId, perfomanceTest);
-            //加采样率逻辑 需要采样才记录
-            //TODO mark by lipeng 之后这里将写入本地jtl改为直接上报大数据，jtl只写失败请求方便排查问题
+            TraceBizData traceBizData = TraceBizData.create(traceId, reportId, performanceTest);
             if (JTLUtil.isTraceSampled(traceId, samplingInterval)) {
-                formattedResult = JTLUtil.resultToDelimitedString(event, event.getResult(), saveConfiguration
-                        , traceBizData);
-
-                //TODO 写日志
-                writeLog(event.getResult(), formattedResult, out);
-
-                if (saveConfiguration.saveSubresults()) {
-                    SampleResult result = event.getResult();
-                    for (SampleResult subResult : result.getSubResults()) {
-                        formattedResult = JTLUtil.resultToDelimitedString(event, subResult, saveConfiguration
-                                , traceBizData);
-                        writeLog(event.getResult(), formattedResult, out);
-                    }
-                }
+                writeLog(sampleResult, out, saveConfig, traceBizData);
             }
         }
-        //有些脚本执生成日志调用信息都存在subResult中，增加处理subResult的逻辑 modified by xr.l 20210714
-        else if (sampleResult.getSubResults().length > 0 && saveConfiguration.saveSubresults()) {
+        if (Objects.nonNull(sampleResult.getSubResults()) && sampleResult.getSubResults().length > 0) {
             for (SampleResult result : sampleResult.getSubResults()) {
-                if (Objects.nonNull(result.getURL()) && JTLUtil.HTTP_AND_HTTPS_PROTOCOL.contains(result.getURL().getProtocol())) {
-                    String[] headers = result.getRequestHeaders().split("\n");
-                    //是否压测
-                    for (String header : headers) {
-                        if (header.startsWith(JTLUtil.TRACE_ID_HEADER_KEY_PREFIX)) {
-                            traceId = header.replaceAll(JTLUtil.TRACE_ID_HEADER_KEY_PREFIX, JTLUtil.EMPTY_TEXT);
-                        } else if (header.startsWith(JTLUtil.REPORT_ID_HEADER_KEY_PREFIX)) {
-                            reportId = header.replaceAll(JTLUtil.REPORT_ID_HEADER_KEY_PREFIX, JTLUtil.EMPTY_TEXT);
-                        } else {
-                            //满足任意一个即可
-                            for (String performanceTestHeader : JTLUtil.PERFOMANCE_TEST_HEADERS) {
-                                if (header.startsWith(performanceTestHeader)) {
-                                    perfomanceTest = true;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    //trace业务数据
-                    TraceBizData traceBizData = TraceBizData.create(traceId, reportId, perfomanceTest);
-                    if (JTLUtil.isTraceSampled(traceId, samplingInterval)) {
-                        formattedResult = JTLUtil.resultToDelimitedString(event, result, saveConfiguration
-                                , traceBizData);
-                        writeLog(event.getResult(), formattedResult, out);
-                    }
-                }
+                writeResultToLogs(result, out, saveConfig, samplingInterval);
             }
         }
     }
@@ -1209,15 +1166,15 @@ public final class CSVSaveService {
     /**
      * 日志入队列上传大数据
      *
+     * @param result 请求结果
+     * @param out    写入目标
      * @author xr.l
      * @date 20210722
-     * @param result
-     * @param resultLog
-     * @param out
      */
-    private static void writeLog(SampleResult result, String resultLog, PrintWriter out) {
+    private static void writeLog(SampleResult result, PrintWriter out, SampleSaveConfiguration saveConfig, TraceBizData traceBizData) {
         //todo 这里需要添加判断
         //1.是否生成日志文件，如果是，判断是从这里上传到大数据还是从cloud上传，如果从cloud上传，则这里就不必写入队列；如果不生成文件，则要插入队列
+        String resultLog = JTLUtil.resultToDelimitedString(result, saveConfig, traceBizData);
         GlobalVariables.enqueueCount.getAndIncrement();
         GlobalVariables.logBlockQueue.offer(resultLog);
         if (PressureJtlFileConfig.defaultConfig.isJtlEnable()) {
