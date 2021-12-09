@@ -25,8 +25,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jmeter.assertions.AssertionResult;
-import org.apache.jmeter.config.PressureJtlFileConfig;
-import org.apache.jmeter.samplers.SampleEvent;
+import org.apache.jmeter.config.PressurePtlFileConfig;
 import org.apache.jmeter.samplers.SampleResult;
 import org.apache.jmeter.samplers.SampleSaveConfiguration;
 import org.apache.jmeter.save.CSVSaveService;
@@ -42,40 +41,62 @@ import com.alibaba.fastjson.JSON;
  */
 public abstract class JTLUtil {
 
-    //每个字段分隔符
+    /**
+     * 每个字段分隔符
+     */
     private static final char QUOTER = "|".charAt(0);
 
     public static final String EMPTY_TEXT = "";
 
-    //字符串截取长度
+    /**
+     * 字符串截取长度
+     */
     public static final int STRING_TRUNCATE_LENGTH = 100;
 
-    //移除换行符
+    /**
+     * 移除换行符
+     */
     private static final Pattern LINE_PATTERN = Pattern.compile("\t|\r|\n|\\|");
 
-    //http协议
-    public static List<String> HTTP_AND_HTTPS_PROTOCOL = new ArrayList<String>();
+    /**
+     * http协议
+     */
+    public static List<String> HTTP_AND_HTTPS_PROTOCOL = new ArrayList<>();
 
     static {
         HTTP_AND_HTTPS_PROTOCOL.add("http");
         HTTP_AND_HTTPS_PROTOCOL.add("https");
     }
 
-    //traceId请求头前缀
+    /**
+     * traceId请求头前缀
+     */
     public static final String TRACE_ID_HEADER_KEY_PREFIX = "p-pradar-traceid: ";
 
-    //reportId请求头前缀
+    /**
+     * reportId请求头前缀
+     */
     public static final String REPORT_ID_HEADER_KEY_PREFIX = "p-pradar-userdata: ";
 
-    //压测标
+    /**
+     * 压测标
+     */
     public static final String[] PERFOMANCE_TEST_HEADERS = {"User-Agent: PerfomanceTest"
             , "src-p-pradar-cluster-test: 1", "src-p-pradar-cluster-test: true"
             , "p-pradar-cluster-test: 1", "p-pradar-cluster-test: true"};
 
-    //压力引擎应用名称
+    /**
+     * 压力引擎应用名称
+     */
     private static final String PRESSURE_ENGINE_APPLICATION_NAME = "pressure-engine";
 
-    //1/1000 trace will be logged
+    /**
+     * 必采样
+     * 1/1000 trace will be logged
+     * @param id traceID
+     * @param mustSamplingInterval 采样率
+     * @return 是否采样
+     */
     public static boolean isForceTraced(String id, int mustSamplingInterval) {
         if (id == null || id.length() == 0) {
             return false;
@@ -121,9 +142,9 @@ public abstract class JTLUtil {
     /**
      * 将sample结果转为存储为jtl的数据格式
      *
-     * @param sample
-     * @param saveConfig
-     * @return
+     * @param sample 取样结果
+     * @param saveConfig 取样配置
+     * @return 结构化日志
      */
     public static String resultToDelimitedString(SampleResult sample,
                                                  SampleSaveConfiguration saveConfig,
@@ -178,13 +199,12 @@ public abstract class JTLUtil {
 
         //modify by lipeng at 20210426 记录所有断言失败信息 而不是第一个失败信息
         boolean assertFailed = false;
-        List<Map<String, String>> assertResultList = new ArrayList<Map<String, String>>();
+        List<Map<String, String>> assertResultList = new ArrayList<>();
         AssertionResult[] assertionResults = sample.getAssertionResults();
         int assertionLen = assertionResults.length;
-        for (int i = 0; i < assertionLen; i++) {
-            AssertionResult item = assertionResults[i];
+        for (AssertionResult item : assertionResults) {
             if (item.isFailure() || item.isError()) {
-                Map<String, String> assertResult = new HashMap<String, String>();
+                Map<String, String> assertResult = new HashMap<>(assertionLen);
                 assertResult.put("assertName", item.getName());
                 assertResult.put("assertMessage", item.getFailureMessage());
                 assertResultList.add(assertResult);
@@ -196,7 +216,7 @@ public abstract class JTLUtil {
         //request
         //如果报文大于截取长度 需要截取
         String requestString = sample.getQueryString();
-        if (PressureJtlFileConfig.defaultConfig.isJtlCutoff() && StringUtils.isNotBlank(requestString) && requestString.length() > STRING_TRUNCATE_LENGTH) {
+        if (PressurePtlFileConfig.defaultConfig.isPtlCutoff() && StringUtils.isNotBlank(requestString) && requestString.length() > STRING_TRUNCATE_LENGTH) {
             requestString = requestString.substring(0, STRING_TRUNCATE_LENGTH) + "..";
         }
         Matcher requestMatcher = LINE_PATTERN.matcher(requestString);
@@ -207,7 +227,7 @@ public abstract class JTLUtil {
         //如果报文大于截取长度 需要截取
         String responseString = EMPTY_TEXT;
         byte[] responseBytes = sample.getResponseData();
-        if (PressureJtlFileConfig.defaultConfig.isJtlCutoff() && responseBytes.length > STRING_TRUNCATE_LENGTH) {
+        if (PressurePtlFileConfig.defaultConfig.isPtlCutoff() && responseBytes.length > STRING_TRUNCATE_LENGTH) {
             try {
                 responseString = new String(responseBytes, 0, STRING_TRUNCATE_LENGTH
                         , sample.getDataEncodingWithDefault()) + "..";
@@ -235,19 +255,16 @@ public abstract class JTLUtil {
 
     public static boolean ifWrite(boolean respResult, long respCost) {
         //不过滤
-        if (!PressureJtlFileConfig.defaultConfig.isJtlErrorOnly() && !PressureJtlFileConfig.defaultConfig.isJtlTimeoutOnly()) {
+        if (!PressurePtlFileConfig.defaultConfig.isPtlErrorOnly() && !PressurePtlFileConfig.defaultConfig.isPtlTimeoutOnly()) {
             return true;
         }
 
-        if (PressureJtlFileConfig.defaultConfig.isJtlErrorOnly() && !respResult) {
+        if (PressurePtlFileConfig.defaultConfig.isPtlErrorOnly() && !respResult) {
             return true;
         }
-        if (PressureJtlFileConfig.defaultConfig.isJtlTimeoutOnly()
-                && PressureJtlFileConfig.defaultConfig.getTimeoutThreshold() > -1
-                && respCost >= PressureJtlFileConfig.defaultConfig.getTimeoutThreshold()) {
-            return true;
-        }
-        return false;
+        return PressurePtlFileConfig.defaultConfig.isPtlTimeoutOnly()
+                && PressurePtlFileConfig.defaultConfig.getTimeoutThreshold() > -1
+                && respCost >= PressurePtlFileConfig.defaultConfig.getTimeoutThreshold();
     }
 
 }

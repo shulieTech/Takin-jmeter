@@ -35,7 +35,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.jmeter.config.PressureJtlFileConfig;
+import org.apache.jmeter.config.PressurePtlFileConfig;
 import org.apache.jmeter.engine.util.NoThreadClone;
 import org.apache.jmeter.gui.GuiPackage;
 import org.apache.jmeter.samplers.Clearable;
@@ -365,29 +365,32 @@ public class ResultCollector extends AbstractListenerElement implements SampleLi
     }
 
     private static void finalizeUploadLog(){
-        log.info("接收到压测结束事件，通知日志上传线程......");
-        //TODO 结束，修改日志上传结束状态
-        if (GlobalVariables.stopFlag.compareAndSet(false, true)) {
-            log.info("获取到压测结束标识，已入队【{}】条日志",GlobalVariables.enqueueCount.get());
-            log.info("已上传【{}】条日志",GlobalVariables.uploadCount.get());
-            while (!GlobalVariables.logBlockQueue.isEmpty()) {
-                log.info("等待日志上传完成。。。队列剩余日志数量【{}】" ,GlobalVariables.logBlockQueue.size());
-                try {
-                    TimeUnit.MILLISECONDS.sleep(300);
-                } catch (InterruptedException e) {
-                    log.error("等待日志上传完成异常，可能会有【{}】条日志丢失",GlobalVariables.enqueueCount.get()- GlobalVariables.uploadCount.get());
+        if (PressurePtlFileConfig.PTL_UPLOAD_FROM_ENGINE.equals(PressurePtlFileConfig.defaultConfig.getPtlUploadFrom())) {
+            log.info("接收到压测结束事件，通知日志上传线程......");
+            //TODO 结束，修改日志上传结束状态
+            if (GlobalVariables.stopFlag.compareAndSet(false, true)) {
+                log.info("获取到压测结束标识，已入队【{}】条日志", GlobalVariables.enqueueCount.get());
+                log.info("已上传【{}】条日志", GlobalVariables.uploadCount.get());
+                while (!GlobalVariables.logBlockQueue.isEmpty()) {
+                    log.info("等待日志上传完成。。。队列剩余日志数量【{}】", GlobalVariables.logBlockQueue.size());
+                    try {
+                        TimeUnit.MILLISECONDS.sleep(300);
+                    } catch (InterruptedException e) {
+                        log.error("等待日志上传完成异常，可能会有【{}】条日志丢失", GlobalVariables.enqueueCount.get() - GlobalVariables.uploadCount.get());
+                    }
                 }
             }
         }
     }
 
     private void initializeLogPusher() {
-        //todo 这里增加判断，是否要在压测引擎上传请求明细数据，如果不需要，则不需要初始化队列，不需要启动异步线程
-        if (GlobalVariables.logBlockQueue == null){
-            GlobalVariables.initBlockQueue();
+        if (PressurePtlFileConfig.PTL_UPLOAD_FROM_ENGINE.equals(PressurePtlFileConfig.defaultConfig.getPtlUploadFrom())){
+            if (GlobalVariables.logBlockQueue == null){
+                GlobalVariables.initBlockQueue();
+            }
+            ExecutorServiceFactory.GLOBAL_EXECUTOR_SERVICE.execute(new LogPusher(GlobalVariables.logBlockQueue, 1,
+                    String.valueOf(PressureConstants.pressureEngineParamsInstance.getResultId())));
         }
-        ExecutorServiceFactory.GLOBAL_EXECUTOR_SERVICE.execute(new LogPusher(GlobalVariables.logBlockQueue, 1,
-                String.valueOf(PressureConstants.pressureEngineParamsInstance.getResultId())));
     }
 
     /**
@@ -627,7 +630,7 @@ public class ResultCollector extends AbstractListenerElement implements SampleLi
                         SaveService.saveSampleResult(event, out);
                     } else { // !saveAsXml
                         //写jtl文件 mark by lipeng
-                        if (PressureJtlFileConfig.defaultConfig.isJtlEnable()) {
+                        if (PressurePtlFileConfig.defaultConfig.isPtlEnable()) {
                             CSVSaveService.saveSampleResult(event, out);
                         }
                     }

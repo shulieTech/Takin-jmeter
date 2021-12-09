@@ -53,7 +53,7 @@ import org.apache.commons.cli.avalon.CLUtil;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.jmeter.config.PressureJtlFileConfig;
+import org.apache.jmeter.config.PressurePtlFileConfig;
 import org.apache.jmeter.control.ReplaceableController;
 import org.apache.jmeter.engine.ClientJMeterEngine;
 import org.apache.jmeter.engine.DistributedRunner;
@@ -141,40 +141,40 @@ public class JMeter implements JMeterPlugin {
     // If the -j  or -l flag is set to LAST or LAST.log|LAST.jtl, then the last loaded file name is used to
     // generate the log file name by removing .JMX and replacing it with .log|.jtl
 
-    private static final int PROXY_PASSWORD     = 'a';// $NON-NLS-1$
-    private static final int JMETER_HOME_OPT    = 'd';// $NON-NLS-1$
-    private static final int HELP_OPT           = 'h';// $NON-NLS-1$
-    private static final int OPTIONS_OPT        = '?';// $NON-NLS-1$
+    private static final int PROXY_PASSWORD = 'a';// $NON-NLS-1$
+    private static final int JMETER_HOME_OPT = 'd';// $NON-NLS-1$
+    private static final int HELP_OPT = 'h';// $NON-NLS-1$
+    private static final int OPTIONS_OPT = '?';// $NON-NLS-1$
     // logging configuration file
-    private static final int JMLOGCONF_OPT      = 'i';// $NON-NLS-1$
+    private static final int JMLOGCONF_OPT = 'i';// $NON-NLS-1$
     // jmeter.log
-    private static final int JMLOGFILE_OPT      = 'j';// $NON-NLS-1$
+    private static final int JMLOGFILE_OPT = 'j';// $NON-NLS-1$
     // sample result log file
-    private static final int LOGFILE_OPT        = 'l';// $NON-NLS-1$
-    private static final int NONGUI_OPT         = 'n';// $NON-NLS-1$
-    private static final int PROPFILE_OPT       = 'p';// $NON-NLS-1$
-    private static final int PROPFILE2_OPT      = 'q';// $NON-NLS-1$
-    private static final int REMOTE_OPT         = 'r';// $NON-NLS-1$
-    private static final int SERVER_OPT         = 's';// $NON-NLS-1$
-    private static final int TESTFILE_OPT       = 't';// $NON-NLS-1$
-    private static final int PROXY_USERNAME     = 'u';// $NON-NLS-1$
-    private static final int VERSION_OPT        = 'v';// $NON-NLS-1$
-    private static final int REPORT_GENERATING_OPT  = 'g';// $NON-NLS-1$
-    private static final int REPORT_AT_END_OPT      = 'e';// $NON-NLS-1$
-    private static final int REPORT_OUTPUT_FOLDER_OPT      = 'o';// $NON-NLS-1$
-    private static final int FORCE_DELETE_RESULT_FILE      = 'f';// $NON-NLS-1$
+    private static final int LOGFILE_OPT = 'l';// $NON-NLS-1$
+    private static final int NONGUI_OPT = 'n';// $NON-NLS-1$
+    private static final int PROPFILE_OPT = 'p';// $NON-NLS-1$
+    private static final int PROPFILE2_OPT = 'q';// $NON-NLS-1$
+    private static final int REMOTE_OPT = 'r';// $NON-NLS-1$
+    private static final int SERVER_OPT = 's';// $NON-NLS-1$
+    private static final int TESTFILE_OPT = 't';// $NON-NLS-1$
+    private static final int PROXY_USERNAME = 'u';// $NON-NLS-1$
+    private static final int VERSION_OPT = 'v';// $NON-NLS-1$
+    private static final int REPORT_GENERATING_OPT = 'g';// $NON-NLS-1$
+    private static final int REPORT_AT_END_OPT = 'e';// $NON-NLS-1$
+    private static final int REPORT_OUTPUT_FOLDER_OPT = 'o';// $NON-NLS-1$
+    private static final int FORCE_DELETE_RESULT_FILE = 'f';// $NON-NLS-1$
 
-    private static final int SYSTEM_PROPERTY    = 'D';// $NON-NLS-1$
+    private static final int SYSTEM_PROPERTY = 'D';// $NON-NLS-1$
     private static final int JMETER_GLOBAL_PROP = 'G';// $NON-NLS-1$
-    private static final int PROXY_SCHEME       = 'E';// $NON-NLS-1$
-    private static final int PROXY_HOST         = 'H';// $NON-NLS-1$
-    private static final int JMETER_PROPERTY    = 'J';// $NON-NLS-1$
-    private static final int LOGLEVEL           = 'L';// $NON-NLS-1$
-    private static final int NONPROXY_HOSTS     = 'N';// $NON-NLS-1$
-    private static final int PROXY_PORT         = 'P';// $NON-NLS-1$
-    private static final int REMOTE_OPT_PARAM   = 'R';// $NON-NLS-1$
-    private static final int SYSTEM_PROPFILE    = 'S';// $NON-NLS-1$
-    private static final int REMOTE_STOP        = 'X';// $NON-NLS-1$
+    private static final int PROXY_SCHEME = 'E';// $NON-NLS-1$
+    private static final int PROXY_HOST = 'H';// $NON-NLS-1$
+    private static final int JMETER_PROPERTY = 'J';// $NON-NLS-1$
+    private static final int LOGLEVEL = 'L';// $NON-NLS-1$
+    private static final int NONPROXY_HOSTS = 'N';// $NON-NLS-1$
+    private static final int PROXY_PORT = 'P';// $NON-NLS-1$
+    private static final int REMOTE_OPT_PARAM = 'R';// $NON-NLS-1$
+    private static final int SYSTEM_PROPFILE = 'S';// $NON-NLS-1$
+    private static final int REMOTE_STOP = 'X';// $NON-NLS-1$
 
     private static final String JMX_SUFFIX = ".JMX"; // $NON-NLS-1$
 
@@ -193,7 +193,7 @@ public class JMeter implements JMeterPlugin {
      */
     private static final CLOptionDescriptor D_OPTIONS_OPT =
             new CLOptionDescriptor("?", CLOptionDescriptor.ARGUMENT_DISALLOWED, OPTIONS_OPT,
-                "print command line options and exit");
+                    "print command line options and exit");
     private static final CLOptionDescriptor D_HELP_OPT =
             new CLOptionDescriptor("help", CLOptionDescriptor.ARGUMENT_DISALLOWED, HELP_OPT,
                     "print usage information and exit");
@@ -279,7 +279,7 @@ public class JMeter implements JMeterPlugin {
             new CLOptionDescriptor("reportonly",
                     CLOptionDescriptor.ARGUMENT_REQUIRED, REPORT_GENERATING_OPT,
                     "generate report dashboard only, from a test results file",
-                    new CLOptionDescriptor[]{ D_NONGUI_OPT, D_REMOTE_OPT, D_REMOTE_OPT_PARAM, D_LOGFILE_OPT }); // disallowed
+                    new CLOptionDescriptor[]{D_NONGUI_OPT, D_REMOTE_OPT, D_REMOTE_OPT_PARAM, D_LOGFILE_OPT}); // disallowed
     private static final CLOptionDescriptor D_REPORT_AT_END_OPT =
             new CLOptionDescriptor("reportatendofloadtests",
                     CLOptionDescriptor.ARGUMENT_DISALLOWED, REPORT_AT_END_OPT,
@@ -288,26 +288,26 @@ public class JMeter implements JMeterPlugin {
             new CLOptionDescriptor("reportoutputfolder",
                     CLOptionDescriptor.ARGUMENT_REQUIRED, REPORT_OUTPUT_FOLDER_OPT,
                     "output folder for report dashboard");
-     private static final CLOptionDescriptor D_FORCE_DELETE_RESULT_FILE =
+    private static final CLOptionDescriptor D_FORCE_DELETE_RESULT_FILE =
             new CLOptionDescriptor("forceDeleteResultFile",
                     CLOptionDescriptor.ARGUMENT_DISALLOWED, FORCE_DELETE_RESULT_FILE,
                     "force delete existing results files and web report folder if present before starting the test");
 
     private static final String[][] DEFAULT_ICONS = {
-            { "org.apache.jmeter.control.gui.TestPlanGui",               "org/apache/jmeter/images/beaker.gif" },     //$NON-NLS-1$ $NON-NLS-2$
-            { "org.apache.jmeter.timers.gui.AbstractTimerGui",           "org/apache/jmeter/images/timer.gif" },      //$NON-NLS-1$ $NON-NLS-2$
-            { "org.apache.jmeter.threads.gui.ThreadGroupGui",            "org/apache/jmeter/images/thread.gif" },     //$NON-NLS-1$ $NON-NLS-2$
-            { "org.apache.jmeter.visualizers.gui.AbstractListenerGui",   "org/apache/jmeter/images/meter.png" },      //$NON-NLS-1$ $NON-NLS-2$
-            { "org.apache.jmeter.config.gui.AbstractConfigGui",          "org/apache/jmeter/images/testtubes.png" },  //$NON-NLS-1$ $NON-NLS-2$
-            { "org.apache.jmeter.processor.gui.AbstractPreProcessorGui", "org/apache/jmeter/images/leafnode.gif"},    //$NON-NLS-1$ $NON-NLS-2$
-            { "org.apache.jmeter.processor.gui.AbstractPostProcessorGui","org/apache/jmeter/images/leafnodeflip.gif"},//$NON-NLS-1$ $NON-NLS-2$
-            { "org.apache.jmeter.control.gui.AbstractControllerGui",     "org/apache/jmeter/images/knob.gif" },       //$NON-NLS-1$ $NON-NLS-2$
-            { "org.apache.jmeter.control.gui.WorkBenchGui",              "org/apache/jmeter/images/clipboard.gif" },  //$NON-NLS-1$ $NON-NLS-2$
-            { "org.apache.jmeter.samplers.gui.AbstractSamplerGui",       "org/apache/jmeter/images/pipet.png" },      //$NON-NLS-1$ $NON-NLS-2$
-            { "org.apache.jmeter.assertions.gui.AbstractAssertionGui",   "org/apache/jmeter/images/question.gif"}     //$NON-NLS-1$ $NON-NLS-2$
-        };
+            {"org.apache.jmeter.control.gui.TestPlanGui", "org/apache/jmeter/images/beaker.gif"},     //$NON-NLS-1$ $NON-NLS-2$
+            {"org.apache.jmeter.timers.gui.AbstractTimerGui", "org/apache/jmeter/images/timer.gif"},      //$NON-NLS-1$ $NON-NLS-2$
+            {"org.apache.jmeter.threads.gui.ThreadGroupGui", "org/apache/jmeter/images/thread.gif"},     //$NON-NLS-1$ $NON-NLS-2$
+            {"org.apache.jmeter.visualizers.gui.AbstractListenerGui", "org/apache/jmeter/images/meter.png"},      //$NON-NLS-1$ $NON-NLS-2$
+            {"org.apache.jmeter.config.gui.AbstractConfigGui", "org/apache/jmeter/images/testtubes.png"},  //$NON-NLS-1$ $NON-NLS-2$
+            {"org.apache.jmeter.processor.gui.AbstractPreProcessorGui", "org/apache/jmeter/images/leafnode.gif"},    //$NON-NLS-1$ $NON-NLS-2$
+            {"org.apache.jmeter.processor.gui.AbstractPostProcessorGui", "org/apache/jmeter/images/leafnodeflip.gif"},//$NON-NLS-1$ $NON-NLS-2$
+            {"org.apache.jmeter.control.gui.AbstractControllerGui", "org/apache/jmeter/images/knob.gif"},       //$NON-NLS-1$ $NON-NLS-2$
+            {"org.apache.jmeter.control.gui.WorkBenchGui", "org/apache/jmeter/images/clipboard.gif"},  //$NON-NLS-1$ $NON-NLS-2$
+            {"org.apache.jmeter.samplers.gui.AbstractSamplerGui", "org/apache/jmeter/images/pipet.png"},      //$NON-NLS-1$ $NON-NLS-2$
+            {"org.apache.jmeter.assertions.gui.AbstractAssertionGui", "org/apache/jmeter/images/question.gif"}     //$NON-NLS-1$ $NON-NLS-2$
+    };
 
-    private static final CLOptionDescriptor[] options = new CLOptionDescriptor[] {
+    private static final CLOptionDescriptor[] options = new CLOptionDescriptor[]{
             D_OPTIONS_OPT,
             D_HELP_OPT,
             D_VERSION_OPT,
@@ -340,13 +340,19 @@ public class JMeter implements JMeterPlugin {
             D_REPORT_OUTPUT_FOLDER_OPT,
     };
 
-    /** Properties to be sent to remote servers */
+    /**
+     * Properties to be sent to remote servers
+     */
     private Properties remoteProps;
 
-    /** should remote engines be stopped at end of non-GUI test? */
+    /**
+     * should remote engines be stopped at end of non-GUI test?
+     */
     private boolean remoteStop;
 
-    /** should delete result file / report folder before start ? */
+    /**
+     * should delete result file / report folder before start ?
+     */
     private boolean deleteResultFile = false;
 
     public JMeter() {
@@ -438,9 +444,9 @@ public class JMeter implements JMeterPlugin {
     /**
      * Takes the command line arguments and uses them to determine how to
      * startup JMeter.
-     *
+     * <p>
      * Called reflectively by {@link NewDriver#main(String[])}
-     *
+     * <p>
      * modify by lipeng 更改入参为PressureEngineParams
      *
      * @param params The arguments for JMeter
@@ -448,11 +454,11 @@ public class JMeter implements JMeterPlugin {
     public void start(PressureEngineParams params) {
         CLArgsParser parser = new CLArgsParser(params.getJmeterArgs(), options);
         String error = parser.getErrorString();
-        if (error == null){// Check option combinations
-            boolean gui = parser.getArgumentById(NONGUI_OPT)==null;
-            boolean nonGuiOnly = parser.getArgumentById(REMOTE_OPT)!=null
-                               || parser.getArgumentById(REMOTE_OPT_PARAM)!=null
-                               || parser.getArgumentById(REMOTE_STOP)!=null;
+        if (error == null) {// Check option combinations
+            boolean gui = parser.getArgumentById(NONGUI_OPT) == null;
+            boolean nonGuiOnly = parser.getArgumentById(REMOTE_OPT) != null
+                    || parser.getArgumentById(REMOTE_OPT_PARAM) != null
+                    || parser.getArgumentById(REMOTE_STOP) != null;
             if (gui && nonGuiOnly) {
                 error = "-r and -R and -X are only valid in non-GUI mode";
             }
@@ -468,18 +474,18 @@ public class JMeter implements JMeterPlugin {
         try {
             initializeProperties(parser); // Also initialises JMeter logging
 
-            log.info(" >>> 当前pod序号为：{} <<<<<" , System.getProperty("pod.number"));
+            log.info(" >>> 当前pod序号为：{} <<<<<", System.getProperty("pod.number"));
 
             //初始化日志配置参数 add by xr.l 2021.7.1
             analyzeJtlConfig();
 
             Thread.setDefaultUncaughtExceptionHandler(
                     (Thread t, Throwable e) -> {
-                    if (!(e instanceof ThreadDeath)) {
-                        log.error("Uncaught exception in thread {}", t, e);
-                        System.err.println("Uncaught Exception " + e + " in thread " + t + ". See log file for details.");//NOSONAR
-                    }
-            });
+                        if (!(e instanceof ThreadDeath)) {
+                            log.error("Uncaught exception in thread {}", t, e);
+                            System.err.println("Uncaught Exception " + e + " in thread " + t + ". See log file for details.");//NOSONAR
+                        }
+                    });
 
             if (log.isInfoEnabled()) {
                 log.info(JMeterUtils.getJMeterCopyright());
@@ -504,22 +510,21 @@ public class JMeter implements JMeterPlugin {
             setProxy(parser);
 
             updateClassLoader();
-            if (log.isDebugEnabled())
-            {
-                String jcp=System.getProperty("java.class.path");// $NON-NLS-1$
+            if (log.isDebugEnabled()) {
+                String jcp = System.getProperty("java.class.path");// $NON-NLS-1$
                 String[] bits = jcp.split(File.pathSeparator);
                 log.debug("ClassPath");
-                for(String bit : bits){
+                for (String bit : bits) {
                     log.debug(bit);
                 }
             }
 
             // Set some (hopefully!) useful properties
-            long now=System.currentTimeMillis();
-            JMeterUtils.setProperty("START.MS",Long.toString(now));// $NON-NLS-1$
-            Date today=new Date(now); // so it agrees with above
-            JMeterUtils.setProperty("START.YMD",new SimpleDateFormat("yyyyMMdd").format(today));// $NON-NLS-1$ $NON-NLS-2$
-            JMeterUtils.setProperty("START.HMS",new SimpleDateFormat("HHmmss").format(today));// $NON-NLS-1$ $NON-NLS-2$
+            long now = System.currentTimeMillis();
+            JMeterUtils.setProperty("START.MS", Long.toString(now));// $NON-NLS-1$
+            Date today = new Date(now); // so it agrees with above
+            JMeterUtils.setProperty("START.YMD", new SimpleDateFormat("yyyyMMdd").format(today));// $NON-NLS-1$ $NON-NLS-2$
+            JMeterUtils.setProperty("START.HMS", new SimpleDateFormat("HHmmss").format(today));// $NON-NLS-1$ $NON-NLS-2$
 
             if (parser.getArgumentById(VERSION_OPT) != null) {
                 displayAsciiArt();
@@ -535,14 +540,14 @@ public class JMeter implements JMeterPlugin {
                     RemoteJMeterEngineImpl.startServer(RmiUtils.getRmiRegistryPort()); // $NON-NLS-1$
                     startOptionalServers();
                 } catch (Exception ex) {
-                    System.err.println("Server failed to start: "+ex);//NOSONAR
+                    System.err.println("Server failed to start: " + ex);//NOSONAR
                     log.error("Giving up, as server failed with:", ex);
                     throw ex;
                 }
             } else {
-                String testFile=null;
+                String testFile = null;
                 CLOption testFileOpt = parser.getArgumentById(TESTFILE_OPT);
-                if (testFileOpt != null){
+                if (testFileOpt != null) {
                     testFile = testFileOpt.getArgument();
                     if (USE_LAST_JMX.equals(testFile)) {
                         testFile = LoadRecentProject.getRecentFile(0);// most recent
@@ -569,21 +574,21 @@ public class JMeter implements JMeterPlugin {
                     if (jtl != null) {
                         jtlFile = processLAST(jtl.getArgument(), ".jtl"); // $NON-NLS-1$
                         //add by lipeng 添加jtl
-                        if(jtlFile != null) {
+                        if (jtlFile != null) {
                             System.setProperty(PressureConstants.CURRENT_JTL_FILE_NAME_SYSTEM_PROP_KEY, jtlFile.substring(jtlFile.lastIndexOf("/") + 1));
                         }
                     }
                     CLOption reportAtEndOpt = parser.getArgumentById(REPORT_AT_END_OPT);
-                    if(reportAtEndOpt != null && jtlFile == null) {
+                    if (reportAtEndOpt != null && jtlFile == null) {
                         throw new IllegalUserActionException(
-                                "Option -"+ ((char)REPORT_AT_END_OPT)+" requires -"+((char)LOGFILE_OPT )+ " option");
+                                "Option -" + ((char) REPORT_AT_END_OPT) + " requires -" + ((char) LOGFILE_OPT) + " option");
                     }
                     startNonGui(testFile, jtlFile, remoteTest, reportAtEndOpt != null);
                     startOptionalServers();
                 }
             }
         } catch (IllegalUserActionException e) {// NOSONAR
-            System.out.println("Incorrect Usage:"+e.getMessage());//NOSONAR
+            System.out.println("Incorrect Usage:" + e.getMessage());//NOSONAR
             System.out.println(CLUtil.describeOptions(options).toString());//NOSONAR
         } catch (Throwable e) { // NOSONAR
             log.error("An error occurred: ", e);
@@ -599,14 +604,15 @@ public class JMeter implements JMeterPlugin {
      * Extract option JMeter#REPORT_OUTPUT_FOLDER_OPT and if defined sets property
      * {@link JMeter#JMETER_REPORT_OUTPUT_DIR_PROPERTY} after checking folder can
      * be safely written to
-     * @param parser {@link CLArgsParser}
+     *
+     * @param parser             {@link CLArgsParser}
      * @param deleteReportFolder true means delete report folder
      * @throws IllegalArgumentException
      */
     private void extractAndSetReportOutputFolder(CLArgsParser parser, boolean deleteReportFolder) {
         CLOption reportOutputFolderOpt = parser
                 .getArgumentById(REPORT_OUTPUT_FOLDER_OPT);
-        if(reportOutputFolderOpt != null) {
+        if (reportOutputFolderOpt != null) {
             String reportOutputFolder = parser.getArgumentById(REPORT_OUTPUT_FOLDER_OPT).getArgument();
             File reportOutputFolderAsFile = new File(reportOutputFolder);
 
@@ -622,7 +628,7 @@ public class JMeter implements JMeterPlugin {
      */
     private void displayAsciiArt() {
         try (InputStream inputStream = JMeter.class.getResourceAsStream("jmeter_as_ascii_art.txt")) {
-            if(inputStream != null) {
+            if (inputStream != null) {
                 String text = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
                 System.out.println(text);//NOSONAR
             }
@@ -634,21 +640,21 @@ public class JMeter implements JMeterPlugin {
 
     // Update classloader if necessary
     private void updateClassLoader() throws MalformedURLException {
-        updatePath("search_paths",";", true); //$NON-NLS-1$//$NON-NLS-2$
-        updatePath("user.classpath",File.pathSeparator, true);//$NON-NLS-1$
-        updatePath("plugin_dependency_paths",";", false);//$NON-NLS-1$
+        updatePath("search_paths", ";", true); //$NON-NLS-1$//$NON-NLS-2$
+        updatePath("user.classpath", File.pathSeparator, true);//$NON-NLS-1$
+        updatePath("plugin_dependency_paths", ";", false);//$NON-NLS-1$
     }
 
     private void updatePath(String property, String sep, boolean cp) throws MalformedURLException {
-        String userpath= JMeterUtils.getPropDefault(property,"");// $NON-NLS-1$
+        String userpath = JMeterUtils.getPropDefault(property, "");// $NON-NLS-1$
         if (userpath.length() <= 0) {
             return;
         }
         log.info("{}={}", property, userpath); //$NON-NLS-1$
         StringTokenizer tok = new StringTokenizer(userpath, sep);
-        while(tok.hasMoreTokens()) {
-            String path=tok.nextToken();
-            File f=new File(path);
+        while (tok.hasMoreTokens()) {
+            String path = tok.nextToken();
+            File f = new File(path);
             if (!f.canRead() && !f.isDirectory()) {
                 log.warn("Can't read {}", path);
             } else {
@@ -677,16 +683,16 @@ public class JMeter implements JMeterPlugin {
 
         runInitScripts();
 
-        int mirrorPort=JMeterUtils.getPropDefault("mirror.server.port", 0);// $NON-NLS-1$
-        if (mirrorPort > 0){
+        int mirrorPort = JMeterUtils.getPropDefault("mirror.server.port", 0);// $NON-NLS-1$
+        if (mirrorPort > 0) {
             log.info("Starting Mirror server ({})", mirrorPort);
             try {
                 Object instance = ClassTools.construct(
                         "org.apache.jmeter.protocol.http.control.HttpMirrorControl",// $NON-NLS-1$
                         mirrorPort);
-                ClassTools.invoke(instance,"startHttpMirror");
+                ClassTools.invoke(instance, "startHttpMirror");
             } catch (JMeterException e) {
-                log.warn("Could not start Mirror server",e);
+                log.warn("Could not start Mirror server", e);
             }
         }
     }
@@ -698,12 +704,12 @@ public class JMeter implements JMeterPlugin {
     void runInitScripts() {
         // Should we run a beanshell script on startup?
         String bshinit = JMeterUtils.getProperty("beanshell.init.file");// $NON-NLS-1$
-        if (bshinit != null){
+        if (bshinit != null) {
             log.info("Running Beanshell on file: {}", bshinit);
             try {
                 BeanShellInterpreter bsi = new BeanShellInterpreter();
                 bsi.source(bshinit);
-            } catch (ClassNotFoundException|JMeterException e) {
+            } catch (ClassNotFoundException | JMeterException e) {
                 if (log.isWarnEnabled()) {
                     log.warn("Could not process Beanshell file: {}", e.getMessage());
                 }
@@ -712,10 +718,10 @@ public class JMeter implements JMeterPlugin {
 
         // Should we run a JSR223 script on startup?
         String jsr223Init = JMeterUtils.getProperty(JSR223_INIT_FILE);// $NON-NLS-1$
-        if (jsr223Init != null){
+        if (jsr223Init != null) {
             log.info("Running JSR-223 init script in file: {}", jsr223Init);
             File file = new File(jsr223Init);
-            if(file.exists() && file.canRead()) {
+            if (file.exists() && file.canRead()) {
                 String extension = StringUtils.defaultIfBlank(FilenameUtils.getExtension(jsr223Init), "Groovy");
                 try (FileReader reader = new FileReader(file)) {
                     ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
@@ -776,18 +782,18 @@ public class JMeter implements JMeterPlugin {
         if (parser.getArgumentById(PROXY_HOST) != null && parser.getArgumentById(PROXY_PORT) != null) {
             String h = parser.getArgumentById(PROXY_HOST).getArgument();
             String p = parser.getArgumentById(PROXY_PORT).getArgument();
-            System.setProperty("http.proxyHost",  h );// $NON-NLS-1$
+            System.setProperty("http.proxyHost", h);// $NON-NLS-1$
             System.setProperty("https.proxyHost", h);// $NON-NLS-1$
-            System.setProperty("http.proxyPort",  p);// $NON-NLS-1$
+            System.setProperty("http.proxyPort", p);// $NON-NLS-1$
             System.setProperty("https.proxyPort", p);// $NON-NLS-1$
             String proxyScheme = null;
             if (parser.getArgumentById(PROXY_SCHEME) != null) {
                 proxyScheme = parser.getArgumentById(PROXY_SCHEME).getArgument();
-                if(!StringUtils.isBlank(proxyScheme)){
-                    System.setProperty("http.proxyScheme",  proxyScheme );// $NON-NLS-1$
+                if (!StringUtils.isBlank(proxyScheme)) {
+                    System.setProperty("http.proxyScheme", proxyScheme);// $NON-NLS-1$
                 }
             }
-            if(log.isInfoEnabled()) {
+            if (log.isInfoEnabled()) {
                 log.info("Set proxy Host: {}, Port: {}, Scheme: {}", h, p, proxyScheme != null ? proxyScheme : "Not set");
             }
         } else if (parser.getArgumentById(PROXY_HOST) != null || parser.getArgumentById(PROXY_PORT) != null) {
@@ -796,8 +802,8 @@ public class JMeter implements JMeterPlugin {
 
         if (parser.getArgumentById(NONPROXY_HOSTS) != null) {
             String n = parser.getArgumentById(NONPROXY_HOSTS).getArgument();
-            System.setProperty("http.nonProxyHosts",  n );// $NON-NLS-1$
-            System.setProperty("https.nonProxyHosts", n );// $NON-NLS-1$
+            System.setProperty("http.nonProxyHosts", n);// $NON-NLS-1$
+            System.setProperty("https.nonProxyHosts", n);// $NON-NLS-1$
             log.info("Set http[s].nonProxyHosts: {}", n);
         }
     }
@@ -823,11 +829,11 @@ public class JMeter implements JMeterPlugin {
         remoteProps = new Properties();
 
         // Add local JMeter properties, if the file is found
-        String userProp = JMeterUtils.getPropDefault("user.properties",""); //$NON-NLS-1$
-        if (userProp.length() > 0){ //$NON-NLS-1$
+        String userProp = JMeterUtils.getPropDefault("user.properties", ""); //$NON-NLS-1$
+        if (userProp.length() > 0) { //$NON-NLS-1$
             File file = JMeterUtils.findFile(userProp);
-            if (file.canRead()){
-                try (FileInputStream fis = new FileInputStream(file)){
+            if (file.canRead()) {
+                try (FileInputStream fis = new FileInputStream(file)) {
                     log.info("Loading user properties from: {}", file);
                     Properties tmp = new Properties();
                     tmp.load(fis);
@@ -839,11 +845,11 @@ public class JMeter implements JMeterPlugin {
         }
 
         // Add local system properties, if the file is found
-        String sysProp = JMeterUtils.getPropDefault("system.properties",""); //$NON-NLS-1$
-        if (sysProp.length() > 0){
+        String sysProp = JMeterUtils.getPropDefault("system.properties", ""); //$NON-NLS-1$
+        if (sysProp.length() > 0) {
             File file = JMeterUtils.findFile(sysProp);
             if (file.canRead()) {
-                try (FileInputStream fis = new FileInputStream(file)){
+                try (FileInputStream fis = new FileInputStream(file)) {
                     log.info("Loading system properties from: {}", file);
                     System.getProperties().load(fis);
                 } catch (IOException e) {
@@ -862,109 +868,109 @@ public class JMeter implements JMeterPlugin {
 
             switch (option.getDescriptor().getId()) {
 
-            // Should not have any text arguments
-            case CLOption.TEXT_ARGUMENT:
-                throw new IllegalArgumentException("Unknown arg: " + option.getArgument());
+                // Should not have any text arguments
+                case CLOption.TEXT_ARGUMENT:
+                    throw new IllegalArgumentException("Unknown arg: " + option.getArgument());
 
-            case PROPFILE2_OPT: // Bug 33920 - allow multiple props
-                log.info("Loading additional properties from: {}", name);
-                try (FileInputStream fis = new FileInputStream(new File(name))){
-                    Properties tmp = new Properties();
-                    tmp.load(fis);
-                    jmeterProps.putAll(tmp);
-                } catch (FileNotFoundException e) { // NOSONAR
-                    log.warn("Can't find additional property file: {}", name, e);
-                } catch (IOException e) { // NOSONAR
-                    log.warn("Error loading additional property file: {}", name, e);
-                }
-                break;
-            case SYSTEM_PROPFILE:
-                log.info("Setting System properties from file: {}", name);
-                try (FileInputStream fis = new FileInputStream(new File(name))){
-                    System.getProperties().load(fis);
-                } catch (IOException e) { // NOSONAR
-                    if (log.isWarnEnabled()) {
-                        log.warn("Cannot find system property file. {}", e.getLocalizedMessage());
+                case PROPFILE2_OPT: // Bug 33920 - allow multiple props
+                    log.info("Loading additional properties from: {}", name);
+                    try (FileInputStream fis = new FileInputStream(new File(name))) {
+                        Properties tmp = new Properties();
+                        tmp.load(fis);
+                        jmeterProps.putAll(tmp);
+                    } catch (FileNotFoundException e) { // NOSONAR
+                        log.warn("Can't find additional property file: {}", name, e);
+                    } catch (IOException e) { // NOSONAR
+                        log.warn("Error loading additional property file: {}", name, e);
                     }
-                }
-                break;
-            case SYSTEM_PROPERTY:
-                if (value.length() > 0) { // Set it
-                    log.info("Setting System property: {}={}", name, value);
-                    System.getProperties().setProperty(name, value);
-                } else { // Reset it
-                    log.warn("Removing System property: {}", name);
-                    System.getProperties().remove(name);
-                }
-                break;
-            case JMETER_PROPERTY:
-                if (value.length() > 0) { // Set it
-                    log.info("Setting JMeter property: {}={}", name, value);
-                    jmeterProps.setProperty(name, value);
-                } else { // Reset it
-                    log.warn("Removing JMeter property: {}", name);
-                    jmeterProps.remove(name);
-                }
-                break;
-            case JMETER_GLOBAL_PROP:
-                if (value.length() > 0) { // Set it
-                    log.info("Setting Global property: {}={}", name, value);
-                    remoteProps.setProperty(name, value);
-                } else {
-                    File propFile = new File(name);
-                    if (propFile.canRead()) {
-                        log.info("Setting Global properties from the file {}", name);
-                        try (FileInputStream fis = new FileInputStream(propFile)){
-                            remoteProps.load(fis);
-                        } catch (FileNotFoundException e) { // NOSONAR
-                            if (log.isWarnEnabled()) {
-                                log.warn("Could not find properties file: {}", e.getLocalizedMessage());
-                            }
-                        } catch (IOException e) { // NOSONAR
-                            if (log.isWarnEnabled()) {
-                                log.warn("Could not load properties file: {}", e.getLocalizedMessage());
+                    break;
+                case SYSTEM_PROPFILE:
+                    log.info("Setting System properties from file: {}", name);
+                    try (FileInputStream fis = new FileInputStream(new File(name))) {
+                        System.getProperties().load(fis);
+                    } catch (IOException e) { // NOSONAR
+                        if (log.isWarnEnabled()) {
+                            log.warn("Cannot find system property file. {}", e.getLocalizedMessage());
+                        }
+                    }
+                    break;
+                case SYSTEM_PROPERTY:
+                    if (value.length() > 0) { // Set it
+                        log.info("Setting System property: {}={}", name, value);
+                        System.getProperties().setProperty(name, value);
+                    } else { // Reset it
+                        log.warn("Removing System property: {}", name);
+                        System.getProperties().remove(name);
+                    }
+                    break;
+                case JMETER_PROPERTY:
+                    if (value.length() > 0) { // Set it
+                        log.info("Setting JMeter property: {}={}", name, value);
+                        jmeterProps.setProperty(name, value);
+                    } else { // Reset it
+                        log.warn("Removing JMeter property: {}", name);
+                        jmeterProps.remove(name);
+                    }
+                    break;
+                case JMETER_GLOBAL_PROP:
+                    if (value.length() > 0) { // Set it
+                        log.info("Setting Global property: {}={}", name, value);
+                        remoteProps.setProperty(name, value);
+                    } else {
+                        File propFile = new File(name);
+                        if (propFile.canRead()) {
+                            log.info("Setting Global properties from the file {}", name);
+                            try (FileInputStream fis = new FileInputStream(propFile)) {
+                                remoteProps.load(fis);
+                            } catch (FileNotFoundException e) { // NOSONAR
+                                if (log.isWarnEnabled()) {
+                                    log.warn("Could not find properties file: {}", e.getLocalizedMessage());
+                                }
+                            } catch (IOException e) { // NOSONAR
+                                if (log.isWarnEnabled()) {
+                                    log.warn("Could not load properties file: {}", e.getLocalizedMessage());
+                                }
                             }
                         }
                     }
-                }
-                break;
-            case LOGLEVEL:
-                if (value.length() > 0) { // Set category
-                    log.info("LogLevel: {}={}", name, value);
-                    final Level logLevel = Level.getLevel(value);
-                    if (logLevel != null) {
-                        String loggerName = name;
-                        if (name.startsWith("jmeter") || name.startsWith("jorphan")) {
-                            loggerName = PACKAGE_PREFIX + name;
+                    break;
+                case LOGLEVEL:
+                    if (value.length() > 0) { // Set category
+                        log.info("LogLevel: {}={}", name, value);
+                        final Level logLevel = Level.getLevel(value);
+                        if (logLevel != null) {
+                            String loggerName = name;
+                            if (name.startsWith("jmeter") || name.startsWith("jorphan")) {
+                                loggerName = PACKAGE_PREFIX + name;
+                            }
+                            Configurator.setAllLevels(loggerName, logLevel);
+                        } else {
+                            log.warn("Invalid log level, '{}' for '{}'.", value, name);
                         }
-                        Configurator.setAllLevels(loggerName, logLevel);
-                    } else {
-                        log.warn("Invalid log level, '{}' for '{}'.", value, name);
+                    } else { // Set root level
+                        log.warn("LogLevel: {}", name);
+                        final Level logLevel = Level.getLevel(name);
+                        if (logLevel != null) {
+                            Configurator.setRootLevel(logLevel);
+                        } else {
+                            log.warn("Invalid log level, '{}', for the root logger.", name);
+                        }
                     }
-                } else { // Set root level
-                    log.warn("LogLevel: {}", name);
-                    final Level logLevel = Level.getLevel(name);
-                    if (logLevel != null) {
-                        Configurator.setRootLevel(logLevel);
-                    } else {
-                        log.warn("Invalid log level, '{}', for the root logger.", name);
-                    }
-                }
-                break;
-            case REMOTE_STOP:
-                remoteStop = true;
-                break;
-            case FORCE_DELETE_RESULT_FILE:
-                deleteResultFile = true;
-                break;
-            default:
-                // ignored
-                break;
+                    break;
+                case REMOTE_STOP:
+                    remoteStop = true;
+                    break;
+                case FORCE_DELETE_RESULT_FILE:
+                    deleteResultFile = true;
+                    break;
+                default:
+                    // ignored
+                    break;
             }
         }
 
         String sampleVariables = (String) jmeterProps.get(SampleEvent.SAMPLE_VARIABLES);
-        if (sampleVariables != null){
+        if (sampleVariables != null) {
             remoteProps.put(SampleEvent.SAMPLE_VARIABLES, sampleVariables);
         }
         jmeterProps.put("jmeter.version", JMeterUtils.getJMeterVersion());
@@ -975,9 +981,9 @@ public class JMeter implements JMeterPlugin {
      * Returns the LAST name with .JMX replaced by suffix.
      */
     private String processLAST(final String jmlogfile, final String suffix) {
-        if (USE_LAST_JMX.equals(jmlogfile) || USE_LAST_JMX.concat(suffix).equals(jmlogfile)){
+        if (USE_LAST_JMX.equals(jmlogfile) || USE_LAST_JMX.concat(suffix).equals(jmlogfile)) {
             String last = LoadRecentProject.getRecentFile(0);// most recent
-            if (last.toUpperCase(Locale.ENGLISH).endsWith(JMX_SUFFIX)){
+            if (last.toUpperCase(Locale.ENGLISH).endsWith(JMX_SUFFIX)) {
                 return last.substring(0, last.length() - JMX_SUFFIX.length()).concat(suffix);
             }
         }
@@ -1012,7 +1018,7 @@ public class JMeter implements JMeterPlugin {
     }
 
     // run test in batch mode
-     void runNonGui(String testFile, String logFile, boolean remoteStart, String remoteHostsString, boolean generateReportDashboard)
+    void runNonGui(String testFile, String logFile, boolean remoteStart, String remoteHostsString, boolean generateReportDashboard)
             throws ConfigurationException {
         try {
             File f = new File(testFile);
@@ -1024,7 +1030,7 @@ public class JMeter implements JMeterPlugin {
             HashTree tree = SaveService.loadTree(f);
 
             @SuppressWarnings("deprecation") // Deliberate use of deprecated ctor
-            JMeterTreeModel treeModel = new JMeterTreeModel(new Object());// NOSONAR Create non-GUI version to avoid headless problems
+                    JMeterTreeModel treeModel = new JMeterTreeModel(new Object());// NOSONAR Create non-GUI version to avoid headless problems
             JMeterTreeNode root = (JMeterTreeNode) treeModel.getRoot();
             treeModel.addSubTree(tree, root);
 
@@ -1053,8 +1059,7 @@ public class JMeter implements JMeterPlugin {
                 resultCollector = new ResultCollector(summariser);
                 resultCollector.setFilename(logFile);
                 clonedTree.add(clonedTree.getArray()[0], resultCollector);
-            }
-            else {
+            } else {
                 // only add Summariser if it can not be shared with the ResultCollector
                 if (summariser != null) {
                     clonedTree.add(clonedTree.getArray()[0], summariser);
@@ -1070,7 +1075,7 @@ public class JMeter implements JMeterPlugin {
                     File resultFile = new File(rc.getFilename());
                     if (resultFile.exists() && !resultFile.delete()) {
                         throw new IllegalStateException("Could not delete results file " + resultFile.getAbsolutePath()
-                            + "(canRead:"+resultFile.canRead()+", canWrite:"+resultFile.canWrite()+")");
+                                + "(canRead:" + resultFile.canRead() + ", canWrite:" + resultFile.canWrite() + ")");
                     }
                 }
             }
@@ -1085,14 +1090,14 @@ public class JMeter implements JMeterPlugin {
             clonedTree.add(clonedTree.getArray()[0], new RemoteThreadsListenerTestElement());
 
             List<JMeterEngine> engines = new LinkedList<>();
-            println("Created the tree successfully using "+testFile);
+            println("Created the tree successfully using " + testFile);
             if (!remoteStart) {
                 JMeterEngine engine = new StandardJMeterEngine();
                 clonedTree.add(clonedTree.getArray()[0], new ListenToTest(
                         org.apache.jmeter.JMeter.ListenToTest.RunMode.LOCAL, false, reportGenerator));
                 engine.configure(clonedTree);
-                long now=System.currentTimeMillis();
-                println("Starting standalone test @ "+new Date(now)+" ("+now+")");
+                long now = System.currentTimeMillis();
+                println("Starting standalone test @ " + new Date(now) + " (" + now + ")");
                 engines.add(engine);
                 engine.runTest();
             } else {
@@ -1104,7 +1109,7 @@ public class JMeter implements JMeterPlugin {
                 ListenToTest testListener = new ListenToTest(
                         org.apache.jmeter.JMeter.ListenToTest.RunMode.REMOTE, remoteStop, reportGenerator);
                 clonedTree.add(clonedTree.getArray()[0], testListener);
-                DistributedRunner distributedRunner=new DistributedRunner(this.remoteProps);
+                DistributedRunner distributedRunner = new DistributedRunner(this.remoteProps);
                 distributedRunner.setStdout(System.out); // NOSONAR
                 distributedRunner.setStdErr(System.err); // NOSONAR
                 distributedRunner.init(hosts, clonedTree);
@@ -1129,9 +1134,10 @@ public class JMeter implements JMeterPlugin {
      * <li>Replace the ReplaceableController with the target subtree</li>
      * <li>Clone the tree to ensure Commonly referenced NoThreadClone elements are cloned</li>
      * </ul>
+     *
      * @param tree The {@link HashTree} to convert
      * @deprecated This method does not correctly handle a tree with Replaceable controllers
-     *     that contain NoThreadClone element. Use {@link JMeter#convertSubTree(HashTree, boolean)}
+     * that contain NoThreadClone element. Use {@link JMeter#convertSubTree(HashTree, boolean)}
      */
     @Deprecated
     public static void convertSubTree(HashTree tree) {
@@ -1146,13 +1152,14 @@ public class JMeter implements JMeterPlugin {
      * <li>If cloneAtEnd is true : Clone the tree to ensure Commonly referenced NoThreadClone elements are cloned</li>
      * </ul>
      * THIS IS INTERNAL JMETER API and should be used with care
-     * @param tree The {@link HashTree} to convert
-     * @param cloneAtEnd  boolean whether we clone the tree at end
+     *
+     * @param tree       The {@link HashTree} to convert
+     * @param cloneAtEnd boolean whether we clone the tree at end
      * @return HashTree the output {@link HashTree} to use
      */
     public static HashTree convertSubTree(HashTree tree, boolean cloneAtEnd) {
         pConvertSubTree(tree);
-        if(cloneAtEnd) {
+        if (cloneAtEnd) {
             TreeCloner cloner = new TreeCloner(false);
             tree.traverse(cloner);
             return cloner.getClonedTree();
@@ -1167,11 +1174,12 @@ public class JMeter implements JMeterPlugin {
      * <li>Replace the ReplaceableController with the target subtree</li>
      * <li>Clones the tree to ensure Commonly referenced NoThreadClone elements are cloned</li>
      * </ul>
+     *
      * @param tree The {@link HashTree} to convert
      */
     private static void pConvertSubTree(HashTree tree) {
         LinkedList<Object> copyList = new LinkedList<>(tree.list());
-        for (Object o  : copyList) {
+        for (Object o : copyList) {
             if (o instanceof TestElement) {
                 TestElement item = (TestElement) o;
                 if (item.isEnabled()) {
@@ -1217,7 +1225,7 @@ public class JMeter implements JMeterPlugin {
                         TestElement testElement = item.getTestElement();
                         tree.replaceKey(item, testElement);
                     }
-                 } else { // Not enabled
+                } else { // Not enabled
                     tree.remove(item);
                 }
             }
@@ -1226,6 +1234,7 @@ public class JMeter implements JMeterPlugin {
 
     /**
      * Ensures the {@link ReplaceableController} is loaded
+     *
      * @param item {@link TestElement}
      * @return {@link ReplaceableController} loaded
      */
@@ -1234,7 +1243,7 @@ public class JMeter implements JMeterPlugin {
         ReplaceableController rc;
         // TODO this bit of code needs to be tidied up
         // Unfortunately ModuleController is in components, not core
-        if ("org.apache.jmeter.control.ModuleController".equals(item.getClass().getName())){ // NOSONAR (comparison is intentional) Bug 47165
+        if ("org.apache.jmeter.control.ModuleController".equals(item.getClass().getName())) { // NOSONAR (comparison is intentional) Bug 47165
             rc = (ReplaceableController) item;
         } else {
             // HACK: force the controller to load its tree
@@ -1266,7 +1275,8 @@ public class JMeter implements JMeterPlugin {
 
         /**
          * Listener for remote test
-         * @param runMode RunMode
+         *
+         * @param runMode         RunMode
          * @param remoteStop
          * @param reportGenerator {@link ReportGenerator}
          */
@@ -1288,7 +1298,7 @@ public class JMeter implements JMeterPlugin {
         @Override
         // N.B. this is called by a daemon RMI thread from the remote host
         public void testEnded(String host) {
-            final long now=System.currentTimeMillis();
+            final long now = System.currentTimeMillis();
             log.info("Finished remote host: {} ({})", host, now);
             if (startedRemoteEngines.decrementAndGet() <= 0) {
                 log.info("All remote engines have ended test, starting RemoteTestStopper thread");
@@ -1307,7 +1317,7 @@ public class JMeter implements JMeterPlugin {
 
         @Override
         public void testStarted(String host) {
-            final long now=System.currentTimeMillis();
+            final long now = System.currentTimeMillis();
             log.info("Started remote host:  {} ({})", host, now);
         }
 
@@ -1322,16 +1332,16 @@ public class JMeter implements JMeterPlugin {
         private void endTest(boolean isDistributed) {
             long now = System.currentTimeMillis();
             if (isDistributed) {
-                println("Tidying up remote @ "+new Date(now)+" ("+now+")");
+                println("Tidying up remote @ " + new Date(now) + " (" + now + ")");
             } else {
-                println("Tidying up ...    @ "+new Date(now)+" ("+now+")");
+                println("Tidying up ...    @ " + new Date(now) + " (" + now + ")");
             }
 
             if (isDistributed) {
                 if (remoteStop) {
-                    println("Exiting remote servers:"+remoteEngines);
-                    for (JMeterEngine engine : remoteEngines){
-                        println("Exiting remote server:"+engine);
+                    println("Exiting remote servers:" + remoteEngines);
+                    for (JMeterEngine engine : remoteEngines) {
+                        println("Exiting remote server:" + engine);
                         engine.exit();
                     }
                 }
@@ -1343,13 +1353,13 @@ public class JMeter implements JMeterPlugin {
                 ClientJMeterEngine.tidyRMI(log);
             }
 
-            if(reportGenerator != null) {
+            if (reportGenerator != null) {
                 try {
                     log.info("Generating Dashboard");
                     reportGenerator.generate();
                     log.info("Dashboard generated");
                 } catch (Exception ex) {
-                    System.err.println("Error generating the report: "+ex);//NOSONAR
+                    System.err.println("Error generating the report: " + ex);//NOSONAR
                     log.error("Error generating the report: {}", ex.getMessage(), ex);
                 }
             }
@@ -1368,9 +1378,9 @@ public class JMeter implements JMeterPlugin {
                     JMeterUtils.getPropDefault("jmeter.exit.check.pause", 2000); // $NON-NLS-1$
 
             if (pauseToCheckForRemainingThreads > 0) {
-                Thread daemon = new Thread(){
+                Thread daemon = new Thread() {
                     @Override
-                    public void run(){
+                    public void run() {
                         try {
                             TimeUnit.MILLISECONDS.sleep(pauseToCheckForRemainingThreads); // Allow enough time for JVM to exit
                         } catch (InterruptedException ignored) {
@@ -1386,7 +1396,7 @@ public class JMeter implements JMeterPlugin {
                 };
                 daemon.setDaemon(true);
                 daemon.start();
-            } else if (pauseToCheckForRemainingThreads<=0) {
+            } else if (pauseToCheckForRemainingThreads <= 0) {
                 log.debug("jmeter.exit.check.pause is <= 0, JMeter won't check for unterminated non-daemon threads");
             }
         }
@@ -1438,17 +1448,17 @@ public class JMeter implements JMeterPlugin {
      *
      * @return true if JMeter is running in non-GUI mode.
      */
-    public static boolean isNonGUI(){
+    public static boolean isNonGUI() {
         return "true".equals(System.getProperty(JMeter.JMETER_NON_GUI)); //$NON-NLS-1$
     }
 
     private static void startUdpDdaemon(final List<JMeterEngine> engines) {
         int port = JMeterUtils.getPropDefault("jmeterengine.nongui.port", UDP_PORT_DEFAULT); // $NON-NLS-1$
         int maxPort = JMeterUtils.getPropDefault("jmeterengine.nongui.maxport", 4455); // $NON-NLS-1$
-        if (port > 1000){
+        if (port > 1000) {
             final DatagramSocket socket = getSocket(port, maxPort);
             if (socket != null) {
-                Thread waiter = new Thread("UDP Listener"){
+                Thread waiter = new Thread("UDP Listener") {
                     @Override
                     public void run() {
                         waitForSignals(engines, socket);
@@ -1464,36 +1474,36 @@ public class JMeter implements JMeterPlugin {
 
     private static void waitForSignals(final List<JMeterEngine> engines, DatagramSocket socket) {
         byte[] buf = new byte[80];
-        System.out.println("Waiting for possible Shutdown/StopTestNow/HeapDump/ThreadDump message on port "+socket.getLocalPort());//NOSONAR
+        System.out.println("Waiting for possible Shutdown/StopTestNow/HeapDump/ThreadDump message on port " + socket.getLocalPort());//NOSONAR
         DatagramPacket request = new DatagramPacket(buf, buf.length);
         try {
-            while(true) {
+            while (true) {
                 socket.receive(request);
                 InetAddress address = request.getAddress();
                 // Only accept commands from the local host
-                if (address.isLoopbackAddress()){
+                if (address.isLoopbackAddress()) {
                     String command = new String(request.getData(), request.getOffset(), request.getLength(), StandardCharsets.US_ASCII);
-                    System.out.println("Command: "+command+" received from "+address);//NOSONAR
+                    System.out.println("Command: " + command + " received from " + address);//NOSONAR
                     log.info("Command: {} received from {}", command, address);
-                    switch(command) {
-                        case "StopTestNow" :
-                            for(JMeterEngine engine : engines) {
+                    switch (command) {
+                        case "StopTestNow":
+                            for (JMeterEngine engine : engines) {
                                 engine.stopTest(true);
                             }
                             break;
-                        case "Shutdown" :
-                            for(JMeterEngine engine : engines) {
+                        case "Shutdown":
+                            for (JMeterEngine engine : engines) {
                                 engine.stopTest(false);
                             }
                             break;
-                        case "HeapDump" :
+                        case "HeapDump":
                             HeapDumper.dumpHeap();
                             break;
-                        case "ThreadDump" :
+                        case "ThreadDump":
                             ThreadDumper.threadDump();
                             break;
                         default:
-                            System.out.println("Command: "+command+" not recognised ");//NOSONAR
+                            System.out.println("Command: " + command + " not recognised ");//NOSONAR
                     }
                 }
             }
@@ -1507,7 +1517,7 @@ public class JMeter implements JMeterPlugin {
     private static DatagramSocket getSocket(int udpPort, int udpPortMax) {
         DatagramSocket socket = null;
         int i = udpPort;
-        while (i<= udpPortMax) {
+        while (i <= udpPortMax) {
             try {
                 socket = new DatagramSocket(i);
                 break;
@@ -1519,16 +1529,17 @@ public class JMeter implements JMeterPlugin {
         return socket;
     }
 
-    private void analyzeJtlConfig(){
-        Boolean ptlFileEnable = Boolean.valueOf(System.getProperty("ptl.ptlFileEnable", "true"));
-        Boolean ptlErrorOnly = Boolean.valueOf(System.getProperty("ptl.ptlFileErrorOnly", "false"));
-        Boolean ptlTimeoutOnly = Boolean.valueOf(System.getProperty("ptl.ptlFileTimeoutOnly", "false"));
+    private void analyzeJtlConfig() {
+        String ptlUploadFrom = System.getProperty("ptl.ptlUploadFrom", PressurePtlFileConfig.PTL_UPLOAD_FROM_ENGINE);
+        boolean ptlFileEnable = Boolean.parseBoolean(System.getProperty("ptl.ptlFileEnable", "true"));
+        boolean ptlErrorOnly = Boolean.parseBoolean(System.getProperty("ptl.ptlFileErrorOnly", "false"));
+        boolean ptlTimeoutOnly = Boolean.parseBoolean(System.getProperty("ptl.ptlFileTimeoutOnly", "false"));
         Boolean ptlLogCutoff = Boolean.valueOf(System.getProperty("ptl.logCutOff", "false"));
         Long timeoutThreshold = -1L;
-        if(ptlTimeoutOnly) {
+        if (ptlTimeoutOnly) {
             timeoutThreshold = Long.parseLong(System.getProperty("ptl.timeoutThreshold", "-1"));
         }
-        PressureJtlFileConfig.create(ptlFileEnable,ptlErrorOnly,ptlTimeoutOnly,timeoutThreshold,ptlLogCutoff);
+        PressurePtlFileConfig.create(ptlUploadFrom, ptlFileEnable, ptlErrorOnly, ptlTimeoutOnly, timeoutThreshold, ptlLogCutoff);
     }
 
 }

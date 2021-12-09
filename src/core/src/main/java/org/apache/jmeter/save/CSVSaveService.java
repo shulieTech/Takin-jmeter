@@ -39,7 +39,7 @@ import org.apache.commons.collections4.map.LinkedMap;
 import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jmeter.assertions.AssertionResult;
-import org.apache.jmeter.config.PressureJtlFileConfig;
+import org.apache.jmeter.config.PressurePtlFileConfig;
 import org.apache.jmeter.reporters.ResultCollector;
 import org.apache.jmeter.samplers.SampleEvent;
 import org.apache.jmeter.samplers.SampleResult;
@@ -849,15 +849,6 @@ public final class CSVSaveService {
                 }
             }
             text.append(message);
-            // modify end
-            //以下是原实现 只取了第一个断言失败结果
-            /*String message = sample.getFirstAssertionFailureMessage();
-            if (message != null) {
-                text.append(message);
-            } else {
-                text.append(""); // Need to append something so delimiter is
-                                 // added
-            }*/
         }
 
         if (saveConfig.saveBytes()) {
@@ -1066,7 +1057,7 @@ public final class CSVSaveService {
                 list.add(baos.toString());
             }
         }
-        return list.toArray(new String[list.size()]);
+        return list.toArray(new String[0]);
     }
 
     private static boolean isDelimOrEOL(char delim, int ch) {
@@ -1172,12 +1163,13 @@ public final class CSVSaveService {
      * @date 20210722
      */
     private static void writeLog(SampleResult result, PrintWriter out, SampleSaveConfiguration saveConfig, TraceBizData traceBizData) {
-        //todo 这里需要添加判断
         //1.是否生成日志文件，如果是，判断是从这里上传到大数据还是从cloud上传，如果从cloud上传，则这里就不必写入队列；如果不生成文件，则要插入队列
         String resultLog = JTLUtil.resultToDelimitedString(result, saveConfig, traceBizData);
-        GlobalVariables.enqueueCount.getAndIncrement();
-        GlobalVariables.logBlockQueue.offer(resultLog);
-        if (PressureJtlFileConfig.defaultConfig.isJtlEnable()) {
+        if (PressurePtlFileConfig.PTL_UPLOAD_FROM_ENGINE.equals(PressurePtlFileConfig.defaultConfig.getPtlUploadFrom())){
+            GlobalVariables.enqueueCount.getAndIncrement();
+            GlobalVariables.logBlockQueue.offer(resultLog);
+        }
+        if (PressurePtlFileConfig.defaultConfig.isPtlEnable()) {
             if (JTLUtil.ifWrite("200".equals(result.getResponseCode()), result.getTime())) {
                 out.println(resultLog + "\r");
             }
