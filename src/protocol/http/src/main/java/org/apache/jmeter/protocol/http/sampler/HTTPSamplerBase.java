@@ -1748,6 +1748,13 @@ public abstract class HTTPSamplerBase extends AbstractSampler
         boolean wasRedirected = false;
         boolean areFollowingRedirect = pAreFollowingRedirect;
         HTTPSampleResult res = pRes;
+        if (StringUtils.isNotBlank(res.getURL().getQuery())){
+            if(StringUtils.isNotBlank(res.getQueryString())){
+                res.setQueryString("requestParam:" + res.getURL().getQuery() + ",requestBody:" + res.getQueryString());
+            }else {
+                res.setQueryString("requestParam:" + res.getURL().getQuery());
+            }
+        }
         if (!areFollowingRedirect && res.isRedirect()) {
             if(log.isDebugEnabled()) {
                 log.debug("Location set to - {}", res.getRedirectLocation());

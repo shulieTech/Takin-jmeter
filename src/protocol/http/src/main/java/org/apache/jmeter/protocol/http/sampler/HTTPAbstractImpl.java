@@ -30,6 +30,7 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.function.Predicate;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.protocol.http.control.AuthManager;
 import org.apache.jmeter.protocol.http.control.CacheManager;
@@ -581,6 +582,10 @@ public abstract class HTTPAbstractImpl implements Interruptible, HTTPConstantsIn
      * @return HTTPSampleResult
      */
     protected HTTPSampleResult updateSampleResultForResourceInCache(HTTPSampleResult res) {
+        //将url中的参数作为get请求的请求体传入SampleResult
+        if (StringUtils.isNotBlank(res.getURL().getQuery())) {
+            res.setQueryString(res.getURL().getQuery());
+        }
         switch (CACHED_RESOURCE_MODE) {
             case RETURN_NO_SAMPLE:
                 return null;
