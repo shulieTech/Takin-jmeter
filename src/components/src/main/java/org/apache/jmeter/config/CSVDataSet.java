@@ -280,22 +280,24 @@ public class CSVDataSet extends ConfigTestElement
      *
      * @param context
      */
-    private Pair<Long, Long> getPosition(final JMeterContext context,String filename) {
+    private Pair<Long, Long> getPosition(final JMeterContext context, String filename) {
         JMeterVariables variables = getThreadContext().getVariables();
         String variableMapStr = variables.get("__ENGINE_GLOBAL_VARIABLES__");
-        System.setProperty("positionVariablesStr",variableMapStr);
-        if (StringUtils.isNotBlank(variableMapStr)){
-            log.info("获取到文件信息：{}",variableMapStr);
-            JSONObject positionJson = JSONObject.parseObject(variableMapStr);
-            if (filename.contains("/")){
-                filename = filename.substring(filename.lastIndexOf("/")+1);
-            }
-            JSONObject object = positionJson.getJSONObject(filename);
-            if (Objects.nonNull(object)){
-                if (object.containsKey("start") && object.containsKey("end")){
-                    return Pair.of(object.getLong("start"), object.getLong("end"));
-                }
-            }
+        if (StringUtils.isBlank(variableMapStr)) {
+            return null;
+        }
+        System.setProperty("positionVariablesStr", variableMapStr);
+        log.info("获取到文件信息：{}", variableMapStr);
+        JSONObject positionJson = JSONObject.parseObject(variableMapStr);
+        if (filename.contains("/")){
+            filename = filename.substring(filename.lastIndexOf("/")+1);
+        }
+        JSONObject object = positionJson.getJSONObject(filename);
+        if (null == object){
+            return null;
+        }
+        if (object.containsKey("start") && object.containsKey("end")){
+            return Pair.of(object.getLong("start"), object.getLong("end"));
         }
         return null;
     }

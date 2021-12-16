@@ -36,8 +36,8 @@ public abstract class PressureConstants {
     //压测引擎参数信息实例
     public static PressureEngineParams pressureEngineParamsInstance;
 
-    //当前jtl系统参数key
-    public static final String CURRENT_JTL_FILE_NAME_SYSTEM_PROP_KEY = "__CURRENT_JTL_FILE_NAME__";
+    //当前ptl系统参数key
+    public static final String CURRENT_JTL_FILE_NAME_SYSTEM_PROP_KEY = "__CURRENT_PTL_FILE_NAME__";
 
     //试跑模式code
     public static final String TRY_RUN_MODE_CODE = "5";
