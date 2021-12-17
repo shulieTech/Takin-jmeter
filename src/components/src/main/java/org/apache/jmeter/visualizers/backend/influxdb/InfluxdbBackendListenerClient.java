@@ -155,7 +155,7 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
     private int getActiveThreadNum() {
         int activeThreads = JMeterContextService.getThreadCounts().activeThreads;
         String pressureMode = System.getProperty("engine.perssure.mode");
-        if ("1".equals(pressureMode)) {
+        if ("0".equals(pressureMode)) {
             int cgan = ThreadUtil.getCurrentGroupActiveThreadNum();
             activeThreads = Math.min(cgan, activeThreads);
         }

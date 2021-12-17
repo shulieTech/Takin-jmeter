@@ -43,9 +43,9 @@ public class ThreadUtil {
             System.arraycopy(slackThreads, 0, actualThreads, 0, actualSize);
             for (Thread thread : actualThreads) {
                 //tps并发线程组名称：shulie - ConcurrencyThreadGroup-ThreadStarter 1-333
-//                if (!thread.getName().contains("Thread Group-ThreadStarter")) {
-//                    continue;
-//                }
+                if (!thread.getName().contains("@MD5:")) {
+                    continue;
+                }
                 if (thread.getState() == Thread.State.RUNNABLE || thread.getState() == Thread.State.BLOCKED) {
                     activityThreadNum++;
                 }
