@@ -43,9 +43,12 @@ import org.apache.jmeter.engine.util.NoConfigMerge;
 import org.apache.jmeter.gui.GUIMenuSortOrder;
 import org.apache.jmeter.gui.TestElementMetadata;
 import org.apache.jmeter.save.CSVSaveService;
+import org.apache.jmeter.services.FileServer;
+import org.apache.jmeter.services.FileService;
 import org.apache.jmeter.services.PositionFileInputStream;
 import org.apache.jmeter.services.PositionFileServer;
 import org.apache.jmeter.shulie.constants.PressureConstants;
+import org.apache.jmeter.shulie.consts.ThroughputConstants;
 import org.apache.jmeter.shulie.util.JedisUtil;
 import org.apache.jmeter.testbeans.TestBean;
 import org.apache.jmeter.testbeans.gui.GenericTestBeanCustomizer;
@@ -95,6 +98,8 @@ public class CSVDataSet extends ConfigTestElement
 
     private static final String EOFVALUE = // value to return at EOF
             JMeterUtils.getPropDefault("csvdataset.eofstring", "<EOF>"); //$NON-NLS-1$ //$NON-NLS-2$
+
+    private static final String DEFAULT_VALUE = "DEFAULT";
 
     private volatile static ConcurrentHashMap<String, String> csvFileLockMap = new ConcurrentHashMap<>();
 
@@ -178,7 +183,7 @@ public class CSVDataSet extends ConfigTestElement
 
     @Override
     public void iterationStart(LoopIterationEvent iterEvent) {
-        PositionFileServer server = PositionFileServer.getFileServer();
+        boolean hasFilePosition = hasFilePosition();
         final JMeterContext context = getThreadContext();
         String delim = getDelimiter();
         if ("\\t".equals(delim)) { // $NON-NLS-1$
@@ -187,8 +192,17 @@ public class CSVDataSet extends ConfigTestElement
             log.debug("Empty delimiter, will use ','");
             delim = ",";
         }
-        if (vars == null) {
-            initVars(server, context, delim);
+        FileService server;
+        if(hasFilePosition) {
+            server = PositionFileServer.getFileServer();
+            if (vars == null) {
+                initVars(server, context, delim);
+            }
+        }else {
+            server = FileServer.getFileServer();
+            if (vars == null) {
+                initVarsWithoutPosition(server, context, delim);
+            }
         }
 
 
@@ -215,13 +229,10 @@ public class CSVDataSet extends ConfigTestElement
         //文件名
         String fileName = getFilename().trim();
         //每个file初始化一次
-        if(csvFileLockMap.putIfAbsent(fileName, "1") == null) {
+        if (hasFilePosition && csvFileLockMap.putIfAbsent(fileName, DEFAULT_VALUE) == null) {
             fileName = filename.substring(fileName.lastIndexOf("/") + 1);
             PositionFileInputStream inputStream = PositionFileServer.positionMap.get(fileName);
             if (Objects.nonNull(inputStream)) {
-//                if (null == ThroughputConstants.jedisClient) {
-//                    initRedis();
-//                }
                 cachePosition(inputStream, fileName);
             }
         }
@@ -236,7 +247,24 @@ public class CSVDataSet extends ConfigTestElement
         }
     }
 
-    protected void initVars(PositionFileServer server, final JMeterContext context, String delim) {
+    /**
+     * 判断变量中是否存在文件的位点信息
+     * @return
+     */
+    private boolean hasFilePosition() {
+        JMeterVariables variables = getThreadContext().getVariables();
+        String variableMapStr = variables.get("__ENGINE_GLOBAL_VARIABLES__");
+        if (StringUtils.isBlank(variableMapStr)) {
+            return false;
+        }
+        String filename = getFilename().trim();
+        if (filename.contains("/")) {
+            filename = filename.substring(filename.lastIndexOf("/") + 1);
+        }
+        return variableMapStr.contains(filename);
+    }
+
+    protected void initVars(FileService server, final JMeterContext context, String delim) {
         String fileName = getFilename().trim();
         setAlias(context, fileName);
         Pair<Long, Long> position = getPosition(context,fileName);
@@ -251,6 +279,25 @@ public class CSVDataSet extends ConfigTestElement
             }
         } else {
             server.reserveFile(position.getLeft(), position.getRight(),fileName, getFileEncoding(), alias, ignoreFirstLine);
+            vars = JOrphanUtils.split(names, ","); // $NON-NLS-1$
+        }
+        trimVarNames(vars);
+    }
+
+    private void initVarsWithoutPosition(FileService server, final JMeterContext context, String delim){
+        String fileName = getFilename().trim();
+        setAlias(context, fileName);
+        final String names = getVariableNames();
+        if (StringUtils.isEmpty(names)) {
+            String header = server.reserveFile(fileName, getFileEncoding(), alias, true);
+            try {
+                vars = CSVSaveService.csvSplitString(header, delim.charAt(0));
+                firstLineIsNames = true;
+            } catch (IOException e) {
+                throw new IllegalArgumentException("Could not split CSV header line from file:" + fileName,e);
+            }
+        } else {
+            server.reserveFile(fileName, getFileEncoding(), alias, ignoreFirstLine);
             vars = JOrphanUtils.split(names, ","); // $NON-NLS-1$
         }
         trimVarNames(vars);
