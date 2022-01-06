@@ -90,6 +90,10 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
 
     private Map<String, BusinessActivityConfig> bizMap = new HashMap<>();
 
+    private long allActiveThreads = 0L;
+    private long activeThreads = 0L;
+    private long count = 0L;
+
     public InfluxdbBackendListenerClient() {
         super();
     }
@@ -115,11 +119,12 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
                 influxdbMetricsManager.addMetric(responseMetrics);
                 metric.resetForTimeInterval();
             }
+            resetForTimeInterval();
         }
         influxdbMetricsManager.writeAndSendMetrics();
     }
 
-    public ResponseMetrics buildResponseMetricsAndClean(String transaction, SamplerMetric metric, int activeThreadNum) {
+    public ResponseMetrics buildResponseMetricsAndClean(String transaction, SamplerMetric metric, Integer activeThreadNum) {
         ResponseMetrics responseMetrics = new ResponseMetrics();
         responseMetrics.setTransaction(transaction);
         responseMetrics.setCount(metric.getTotal());
@@ -148,18 +153,27 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
         return responseMetrics;
     }
 
+    private void resetForTimeInterval() {
+        activeThreads = 0;
+        count = 0;
+    }
+
 
     /**
      * @author yuanba
      */
     private int getActiveThreadNum() {
-        int activeThreads = JMeterContextService.getThreadCounts().activeThreads;
-        String pressureMode = System.getProperty("engine.perssure.mode");
-        if ("0".equals(pressureMode)) {
-            int cgan = ThreadUtil.getCurrentGroupActiveThreadNum();
-            activeThreads = Math.min(cgan, activeThreads);
-        }
-        return activeThreads;
+        int n = (int) Math.round(NumberUtil.divide(activeThreads, count));
+//        String pressureMode = System.getProperty("engine.perssure.mode");
+//        if ("0".equals(pressureMode)) {
+//            int cgan = ThreadUtil.getCurrentGroupActiveThreadNum();
+//            n = Math.min(cgan, n);
+//        }
+        return n;
+    }
+
+    private int getAllActiveThreadNum() {
+        return (int) Math.round(NumberUtil.divide(allActiveThreads, count));
     }
 
     public String getSamplersRegex() {
@@ -192,6 +206,9 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
     }
 
     private void addMetric(SampleResult sampleResult) {
+        allActiveThreads += sampleResult.getAllThreads();
+        activeThreads += sampleResult.getGroupThreads();
+        count++;
         Matcher matcher = samplersToFilter.matcher(sampleResult.getSampleLabel());
         if (!summaryOnly && (matcher.find())) {
             addMetricSelf(sampleResult);

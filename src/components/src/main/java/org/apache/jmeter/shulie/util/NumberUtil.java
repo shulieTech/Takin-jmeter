@@ -26,6 +26,13 @@ import java.math.BigDecimal;
 public class NumberUtil {
     private static final Logger logger = LoggerFactory.getLogger(NumberUtil.class);
 
+    public static double divide(long b, long d) {
+        if (d == 0) {
+            return 0d;
+        }
+        return ((double) b)/d;
+    }
+
     public static int compareTo(Double d1, Double d2) {
         if (null == d1 && null == d2) {
             return 0;
