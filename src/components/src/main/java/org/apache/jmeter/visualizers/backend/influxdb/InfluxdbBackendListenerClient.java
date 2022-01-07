@@ -90,10 +90,6 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
 
     private Map<String, BusinessActivityConfig> bizMap = new HashMap<>();
 
-    private long allActiveThreads = 0L;
-    private long activeThreads = 0L;
-    private long count = 0L;
-
     public InfluxdbBackendListenerClient() {
         super();
     }
@@ -107,24 +103,26 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
     private void sendMetrics() {
         synchronized (LOCK) {
             //算线程数单独拎出来，不要每个活动都去算，提升效率
-            int activeThreadNum = getActiveThreadNum();
+//            int activeThreadNum = getActiveThreadNum();
+            UserMetric userMetrics = getUserMetrics();
             for (Map.Entry<String, SamplerMetric> entry : metricsPerSampler.entrySet()) {
                 String transaction = CUMULATED_METRICS.equals(entry.getKey()) ? CUMULATED_METRICS : AbstractInfluxdbMetricsSender.tagToStringValue(entry.getKey());
                 SamplerMetric metric = entry.getValue();
-                ResponseMetrics responseMetrics = buildResponseMetricsAndClean(entry.getKey(), metric, activeThreadNum);
+                ResponseMetrics responseMetrics = buildResponseMetricsAndClean(entry.getKey(), metric);
                 if (CUMULATED_METRICS.equals(transaction)) {
                     //当transcation为all时返回的saCount均设置为0，因为all的sa count为空，让cloud去聚合all的sacount数据
                     responseMetrics.setSaCount(0);
+                    responseMetrics.setActiveThreads(userMetrics.getAllActiveThreadNum());
                 }
                 influxdbMetricsManager.addMetric(responseMetrics);
                 metric.resetForTimeInterval();
             }
-            resetForTimeInterval();
+            userMetrics.resetForTimeInterval();
         }
         influxdbMetricsManager.writeAndSendMetrics();
     }
 
-    public ResponseMetrics buildResponseMetricsAndClean(String transaction, SamplerMetric metric, Integer activeThreadNum) {
+    public ResponseMetrics buildResponseMetricsAndClean(String transaction, SamplerMetric metric) {
         ResponseMetrics responseMetrics = new ResponseMetrics();
         responseMetrics.setTransaction(transaction);
         responseMetrics.setCount(metric.getTotal());
@@ -143,7 +141,7 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
         responseMetrics.setTags(tags);
         responseMetrics.setSentBytes(metric.getSentBytes());
         responseMetrics.setReceivedBytes(metric.getReceivedBytes());
-        responseMetrics.setActiveThreads(activeThreadNum);
+        responseMetrics.setActiveThreads(metric.getActiveThreads());
         responseMetrics.setErrorInfos(new HashSet<>());
         //add end
         //add by lipeng 添加sumRt
@@ -153,28 +151,19 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
         return responseMetrics;
     }
 
-    private void resetForTimeInterval() {
-        activeThreads = 0;
-        count = 0;
-    }
-
 
     /**
      * @author yuanba
      */
-    private int getActiveThreadNum() {
-        int n = (int) Math.round(NumberUtil.divide(activeThreads, count));
-//        String pressureMode = System.getProperty("engine.perssure.mode");
-//        if ("0".equals(pressureMode)) {
-//            int cgan = ThreadUtil.getCurrentGroupActiveThreadNum();
-//            n = Math.min(cgan, n);
-//        }
-        return n;
-    }
-
-    private int getAllActiveThreadNum() {
-        return (int) Math.round(NumberUtil.divide(allActiveThreads, count));
-    }
+//    private int getActiveThreadNum() {
+//        int n = (int) Math.round(NumberUtil.divide(activeThreads, count));
+////        String pressureMode = System.getProperty("engine.perssure.mode");
+////        if ("0".equals(pressureMode)) {
+////            int cgan = ThreadUtil.getCurrentGroupActiveThreadNum();
+////            n = Math.min(cgan, n);
+////        }
+////        return n;
+//    }
 
     public String getSamplersRegex() {
         return samplersRegex;
@@ -206,9 +195,6 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
     }
 
     private void addMetric(SampleResult sampleResult) {
-        allActiveThreads += sampleResult.getAllThreads();
-        activeThreads += sampleResult.getGroupThreads();
-        count++;
         Matcher matcher = samplersToFilter.matcher(sampleResult.getSampleLabel());
         if (!summaryOnly && (matcher.find())) {
             addMetricSelf(sampleResult);

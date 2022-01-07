@@ -26,6 +26,7 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.jmeter.control.TransactionController;
 import org.apache.jmeter.samplers.SampleResult;
 import org.apache.jmeter.shulie.util.DataUtil;
+import org.apache.jmeter.shulie.util.NumberUtil;
 import org.apache.jmeter.util.JMeterUtils;
 import org.apache.jmeter.visualizers.backend.influxdb.entity.ResponseMetrics;
 import org.apache.jorphan.documentation.VisibleForTesting;
@@ -71,7 +72,6 @@ public class SamplerMetric {
     private Map<ErrorMetric, Integer> errors = new HashMap<>();
     private long sentBytes;
     private long receivedBytes;
-
     /**
      * 压测返回的 RT ，是否达到页面设置的 RT 值，如果小于等于，则认为是成功的。
      */
@@ -93,6 +93,14 @@ public class SamplerMetric {
      * add by lipeng
      */
     private String transactionUrl;
+    /**
+     * 累加的活跃线程数
+     */
+    private long sumActiveThreads = 0;
+    /**
+     * add 次数
+     */
+    private long count = 0;
 
     /**
      *
@@ -169,6 +177,8 @@ public class SamplerMetric {
      * @param isCumulated is the overall Sampler Metric
      */
     private synchronized void add(SampleResult result, boolean isCumulated) {
+        sumActiveThreads += result.getGroupThreads();
+        count++;
         if (result.isSuccessful()) {
             successes += result.getSampleCount() - result.getErrorCount();
         } else {
@@ -288,6 +298,12 @@ public class SamplerMetric {
         saSuccess = 0;
         receivedBytes = 0;
         sumRt = 0;
+        sumActiveThreads = 0;
+        count = 0;
+    }
+
+    public int getActiveThreads() {
+        return (int) Math.round(NumberUtil.divide(sumActiveThreads, count));
     }
 
     /**

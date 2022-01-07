@@ -19,6 +19,7 @@ package org.apache.jmeter.visualizers.backend;
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.jmeter.samplers.SampleResult;
+import org.apache.jmeter.shulie.util.NumberUtil;
 import org.apache.jmeter.threads.JMeterContextService;
 import org.apache.jmeter.util.JMeterUtils;
 
@@ -31,6 +32,8 @@ public class UserMetric {
 
     // Limit to sliding window of SLIDING_WINDOW_SIZE values
     private DescriptiveStatistics usersStats = new DescriptiveStatistics(SLIDING_WINDOW_SIZE);
+    private long sumAllActiveThreadNum = 0L;
+    private long count = 0L;
     /**
      *
      */
@@ -43,6 +46,8 @@ public class UserMetric {
      * @param result {@link SampleResult} not used
      */
     public synchronized void add(SampleResult result) {
+        sumAllActiveThreadNum += result.getAllThreads();
+        count++;
         usersStats.addValue(JMeterContextService.getThreadCounts().activeThreads);
     }
 
@@ -50,7 +55,12 @@ public class UserMetric {
      * Reset metric except for percentile related data
      */
     public synchronized void resetForTimeInterval() {
-        // NOOP
+        sumAllActiveThreadNum = 0L;
+        count = 0L;
+    }
+
+    public int getAllActiveThreadNum() {
+        return (int) Math.round(NumberUtil.divide(sumAllActiveThreadNum, count));
     }
 
     /**
