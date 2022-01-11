@@ -139,6 +139,7 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
                     " Terminating the thread manually."
             );
         }
+        log.info("delay="+delay);
         return delay;
     }
 
@@ -162,8 +163,8 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
             throughput = dynamicTps;
             //如果上浮因子大于5，则表示固定上浮这个数，小于等于5表示上浮百分比
             throughput += getTpsFactor() > 5 ? getTpsFactor() : throughput * getTpsFactor();
-            log.info("throughput="+throughput+", factor="+getTpsFactor());
         }
+        log.info("throughput="+throughput+", factor="+getTpsFactor());
         return throughput;
     }
 
