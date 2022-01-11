@@ -61,8 +61,10 @@ public class HttpNotifyTroCloudUtils {
             Class<?> jsonClass = HttpNotifyTroCloudUtils.loader.loadClass("com.alibaba.fastjson.JSON");
             Method toJsonStringMethod = jsonClass.getDeclaredMethod("toJSONString", new Class[] { Object.class });
             Object res = toJsonStringMethod.invoke(null, requestParams);
-            HttpUtils.doPost(params.getCallbackUrl(),
-                    String.valueOf(res));
+            String resStringValue = String.valueOf(res);
+            String signValidateKey = System.getProperty("signValidateKey");
+            String signValidatePublicKey = System.getProperty("signValidatePublicKey");
+            HttpUtils.doPost(params.getCallbackUrl(), signValidateKey, signValidatePublicKey, resStringValue);
             System.out.println("org.apache.jmeter.shulie.util.HttpNotifyTroCloudUtils|49|上报cloud启动日志完成.. >> status is ["+status+"]");
         } catch(Throwable e) {
             System.out.println("org.apache.jmeter.shulie.util.HttpNotifyTroCloudUtils|51|"+e.getMessage());

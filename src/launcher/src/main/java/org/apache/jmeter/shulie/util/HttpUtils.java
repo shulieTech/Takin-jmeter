@@ -17,11 +17,31 @@
 
 package org.apache.jmeter.shulie.util;
 
+/*
+ * Copyright 2021 Shulie Technology, Co.Ltd
+ * Email: shulie@shulie.io
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import org.apache.commons.codec.digest.HmacAlgorithms;
+import org.apache.commons.codec.digest.HmacUtils;
+import sun.security.krb5.internal.crypto.HmacSha1Aes256CksumType;
+
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,65 +51,25 @@ import java.util.regex.Pattern;
 
 public abstract class HttpUtils {
 
-    private static final Charset UTF_8 = Charset.forName("UTF-8");
+    private static final Charset UTF_8 = StandardCharsets.UTF_8;
 
-    public static String doGet(String url) {
+    private static String sign(String request, StringBuilder validateKey, long currentTimeMillis, String signValidateKey, String signValidatePublicKey) {
+        validateKey.append("validate-key=").append(signValidatePublicKey).append("validate-timestamp=")
+                .append(currentTimeMillis);
+
+        String signature = new HmacUtils(HmacAlgorithms.HMAC_SHA_256, signValidateKey).hmacHex(validateKey.toString());
+        request = request + "validate-key: " + signValidatePublicKey + "\r\n";
+        request = request + "validate-timestamp: " + currentTimeMillis + "\r\n";
+        request = request + "validate-signature:" + signature + "\r\n";
+        return request;
+    }
+
+    public static String doPost(String url, String signValidateKey, String signValidatePublicKey, String body) {
         HostPort hostPort = getHostPortUrlFromUrl(url);
-        return doGet(hostPort.host, hostPort.port, hostPort.url);
+        return doPost(hostPort.host, signValidateKey, signValidatePublicKey, hostPort.port, hostPort.url, body);
     }
 
-    public static String doGet(String host, int port, String url) {
-        InputStream input = null;
-        OutputStream output = null;
-        Socket socket = null;
-        try {
-            SocketAddress address = new InetSocketAddress(host, port);
-            String request = "GET " + url + " HTTP/1.1\r\n"
-                    + "Host: " + host + ":" + port + "\r\n"
-                    + "Connection: Keep-Alive\r\n"
-                    + "\r\n";
-            socket = new Socket();
-            // 设置建立连接超时时间 1s
-            socket.connect(address, 1000);
-            // 设置读取数据超时时间 5s
-            socket.setSoTimeout(5000);
-            output = socket.getOutputStream();
-            output.write(request.getBytes(UTF_8));
-            output.flush();
-            input = socket.getInputStream();
-            String status = readLine(input);
-            if (status == null || !status.contains("200")) {
-                return null;
-            }
-            Map<String, List<String>> headers = readHeaders(input);
-            input = wrapperInput(headers, input);
-            return toString(input);
-        } catch (IOException e) {
-            return null;
-        } finally {
-            closeQuietly(input);
-            closeQuietly(output);
-
-            // JDK 1.6 Socket没有实现Closeable接口
-            if (socket != null) {
-                if (socket != null) {
-                    try {
-                        socket.close();
-                    } catch (final IOException ioe) {
-                        // ignore
-                    }
-                }
-            }
-
-        }
-    }
-
-    public static String doPost(String url, String body) {
-        HostPort hostPort = getHostPortUrlFromUrl(url);
-        return doPost(hostPort.host, hostPort.port, hostPort.url, body);
-    }
-
-    public static String doPost(String host, int port, String url, String body) {
+    public static String doPost(String host, String signValidateKey, String signValidatePublicKey, int port, String url, String body) {
         InputStream input = null;
         OutputStream output = null;
         Socket socket = null;
@@ -107,6 +87,14 @@ public abstract class HttpUtils {
                 request = request + "Content-Length: " + body.getBytes().length + "\r\n";
                 request = request + "Content-Type: application/json\r\n";
             }
+
+            StringBuilder validateKey = new StringBuilder();
+            long currentTimeMillis = System.currentTimeMillis();
+            if (body != null) {
+                validateKey.append(body);
+            }
+            request = sign(request, validateKey, currentTimeMillis, signValidateKey, signValidatePublicKey);
+
             request = request + "\r\n";
             output.write(request.getBytes(UTF_8));
 
@@ -143,6 +131,7 @@ public abstract class HttpUtils {
 
         }
     }
+
 
     public static String toString(InputStream input) throws IOException {
         ByteArrayOutputStream content = null;

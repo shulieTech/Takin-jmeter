@@ -26,6 +26,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import org.apache.commons.codec.digest.HmacAlgorithms;
+import org.apache.commons.codec.digest.HmacUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
@@ -78,6 +80,9 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
     private Future<HttpResponse> lastRequest;
     private HttpJsonMetricsSenderThread thread;
 
+    private String signValidateKey;
+    private String signValidatePublicKey;
+
     HttpJsonMetricsSender() {
         super();
     }
@@ -103,6 +108,8 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
         // Create a custom I/O reactor
         ConnectingIOReactor ioReactor = new DefaultConnectingIOReactor(ioReactorConfig);
 
+        signValidateKey = System.getProperty("signValidateKey");
+        signValidatePublicKey = System.getProperty("signValidatePublicKey");
 
         // Create a connection manager with custom configuration.
         PoolingNHttpClientConnectionManager connManager =
@@ -189,6 +196,21 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
             }
             String sendData = JacksonUtil.toJson(copyMetrics);
             log.info("send data:"+sendData);
+            //在header中，请求加密验证
+
+            if (StringUtils.isNotBlank(signValidateKey) && StringUtils.isNotBlank(signValidatePublicKey)){
+                StringBuilder validateKey = new StringBuilder();
+                long currentTimeMillis = System.currentTimeMillis();
+                validateKey.append(sendData);
+                validateKey.append("validate-key=").append(signValidatePublicKey).append("validate-timestamp=")
+                        .append(currentTimeMillis);
+                String signature = new HmacUtils(HmacAlgorithms.HMAC_SHA_256, signValidateKey).hmacHex(validateKey.toString());
+
+                httpRequest.addHeader("validate-key", signValidatePublicKey);
+                httpRequest.addHeader("validate-timestamp", currentTimeMillis + "");
+                httpRequest.addHeader("validate-signature", signature);
+            }
+
             //请求数据
             httpRequest.setEntity(new StringEntity(sendData, ContentType.APPLICATION_JSON));
             MetricsSenderCallback callback = new MetricsSenderCallback(httpRequest, copyMetrics);
