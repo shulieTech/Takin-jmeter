@@ -20,6 +20,8 @@ package org.apache.jmeter.timers.poissonarrivals;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.jmeter.gui.GUIMenuSortOrder;
 import org.apache.jmeter.gui.TestElementMetadata;
@@ -118,8 +120,28 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
         // NOOP
     }
 
+    private void resetThroughput() {
+        String threadGroupTestName = JMeterContextService.getContext().getThreadGroup().getName();
+        Double dynamicTps = DynamicContext.getTpsTargetLevel(threadGroupTestName);
+        if (null != dynamicTps && dynamicTps > 0) {
+            //如果上浮因子大于5，则表示固定上浮这个数，小于等于5表示上浮百分比
+            if (Math.abs(dynamicTps - throughput) > 0.00001) {
+                synchronized (groupEvents) {
+                    int v = INITIALIZED.get();
+                    if (INITIALIZED.compareAndSet(v, v + 1)) {
+                        groupEvents.clear();
+                        testStarted = System.currentTimeMillis();
+                        throughput = dynamicTps;
+                        log.info("groupEvents is clear!throughput="+throughput);
+                    }
+                }
+            }
+        }
+    }
+
     @Override
     public long delay() {
+        resetThroughput();
         double nextEvent;
         EventProducer events = getEventProducer();
         synchronized (events) {
@@ -152,23 +174,14 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
                         batchSize, batchThreadDelay, this, seed, true));
     }
 
+    private AtomicInteger INITIALIZED = new AtomicInteger(0);
+
     /**
      * Returns number of generated samples per {@link #getThroughputPeriod}
      * @return number of samples per {@link #getThroughputPeriod}
      */
     public double getThroughput() {
-        String threadGroupTestName = JMeterContextService.getContext().getThreadGroup().getName();
-        Double dynamicTps = DynamicContext.getTpsTargetLevel(threadGroupTestName);
-        if (null != dynamicTps && dynamicTps > 0) {
-            //如果上浮因子大于5，则表示固定上浮这个数，小于等于5表示上浮百分比
-            dynamicTps += getTpsFactor() > 5 ? getTpsFactor() : throughput * getTpsFactor();
-            if (Math.abs(dynamicTps - throughput) > 0.00001) {
-                groupEvents.clear();
-                testStarted = System.currentTimeMillis();
-                throughput = dynamicTps;
-            }
-        }
-        log.info("throughput="+throughput+", factor="+getTpsFactor());
+
         return throughput;
     }
 
