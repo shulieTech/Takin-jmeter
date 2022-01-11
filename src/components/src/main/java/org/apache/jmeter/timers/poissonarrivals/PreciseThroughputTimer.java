@@ -49,6 +49,7 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
 
     private static final long serialVersionUID = 4;
     private static final ConcurrentMap<AbstractThreadGroup, EventProducer> groupEvents = new ConcurrentHashMap<>();
+    private static final double PRECISION = 0.00001;
 
     /**
      * Desired throughput configured as {@code throughput/throughputPeriod} per second.
@@ -120,20 +121,20 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
         // NOOP
     }
 
+    private boolean valuesAreEqualWithAb(double a, double b) {
+        return Math.abs(a - b) < PRECISION;
+    }
+
     private void resetThroughput() {
         String threadGroupTestName = JMeterContextService.getContext().getThreadGroup().getName();
         Double dynamicTps = DynamicContext.getTpsTargetLevel(threadGroupTestName);
-        if (null != dynamicTps && dynamicTps > 0) {
-            //如果上浮因子大于5，则表示固定上浮这个数，小于等于5表示上浮百分比
-            if (Math.abs(dynamicTps - throughput) > 0.00001) {
-                synchronized (groupEvents) {
-                    int v = INITIALIZED.get();
-                    if (INITIALIZED.compareAndSet(v, v + 1)) {
-                        groupEvents.clear();
-                        testStarted = System.currentTimeMillis();
-                        throughput = dynamicTps;
-                        log.info("groupEvents is clear!throughput="+throughput);
-                    }
+        if (null != dynamicTps && dynamicTps > 0 && !valuesAreEqualWithAb(dynamicTps, throughput)) {
+            synchronized (groupEvents) {
+                if (Math.abs(dynamicTps - throughput) > 0.00001) {
+                    testStarted = System.currentTimeMillis();
+                    throughput = dynamicTps;
+                    groupEvents.clear();
+                    log.info("groupEvents is clear!throughput=" + throughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, throughput));
                 }
             }
         }
