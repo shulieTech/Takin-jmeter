@@ -149,6 +149,8 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
                     log.info("3 --> throughput=" + throughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, throughput));
                     JMeterProperty property = this.getProperty("throughput");
                     property.setObjectValue(throughput);
+                    this.setProperty(property);
+                    log.info("4 --> property=" + property);
                 }
             }
         }
@@ -206,7 +208,6 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
      */
     public void setThroughput(double throughput) {
         this.throughput = throughput;
-        log.info("setThroughput", new Exception(""));
     }
 
     public double getTpsFactor() {
