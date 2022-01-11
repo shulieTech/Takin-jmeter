@@ -140,12 +140,16 @@ public class ConstantThroughputTimer extends AbstractTestElement implements Time
      * @return the rate at which samples should occur, in samples per minute.
      */
     public double getThroughput() {
-        if (null != DynamicContext.TPS_TARGET_LEVEL) {
-            //求1分钟的并发数 = 总目标tps*60秒*百分比
-            throughput = DynamicContext.TPS_TARGET_LEVEL * 60 * getPercent();
-            //如果上浮因子大于5，则表示固定上浮这个数，小于等于5表示上浮百分比
-            throughput += getTpsFactor() > 5 ? getTpsFactor() : throughput * getTpsFactor();
-        }
+        // 1. 获取线程组名称
+        String threadGroupName = JMeterContextService.getContext().getThreadGroup().getName();
+        // 2. 获取TPS目标值
+        Double tpsTargetLevel = DynamicContext.getTpsTargetLevel(threadGroupName);
+        // 如果值为空-直接返回
+        if (null == tpsTargetLevel) {return throughput;}
+        //求1分钟的并发数 = 总目标tps*60秒*百分比
+        throughput = tpsTargetLevel * 60 * getPercent();
+        //如果上浮因子大于5，则表示固定上浮这个数，小于等于5表示上浮百分比
+        throughput += getTpsFactor() > 5 ? getTpsFactor() : throughput * getTpsFactor();
         return throughput;
     }
 
