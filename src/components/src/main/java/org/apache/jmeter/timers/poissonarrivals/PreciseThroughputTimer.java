@@ -129,12 +129,14 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
         String threadGroupTestName = JMeterContextService.getContext().getThreadGroup().getName();
         Double dynamicTps = DynamicContext.getTpsTargetLevel(threadGroupTestName);
         if (null != dynamicTps && dynamicTps > 0 && !valuesAreEqualWithAb(dynamicTps, throughput)) {
+            log.info("1 --> throughput=" + throughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, throughput));
             synchronized (groupEvents) {
                 if (Math.abs(dynamicTps - throughput) > 0.00001) {
+                    log.info("2 --> throughput=" + throughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, throughput));
                     testStarted = System.currentTimeMillis();
                     throughput = dynamicTps;
                     groupEvents.clear();
-                    log.info("groupEvents is clear!throughput=" + throughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, throughput));
+                    log.info("3 --> throughput=" + throughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, throughput));
                 }
             }
         }
