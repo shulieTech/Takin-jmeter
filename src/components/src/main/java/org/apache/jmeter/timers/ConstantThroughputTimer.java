@@ -147,7 +147,7 @@ public class ConstantThroughputTimer extends AbstractTestElement implements Time
         // 如果值为空-直接返回
         if (null == tpsTargetLevel) {return throughput;}
         //求1分钟的并发数 = 总目标tps*60秒*百分比
-        throughput = tpsTargetLevel * 60 * getPercent();
+        throughput = tpsTargetLevel * 60;
         //如果上浮因子大于5，则表示固定上浮这个数，小于等于5表示上浮百分比
         throughput += getTpsFactor() > 5 ? getTpsFactor() : throughput * getTpsFactor();
         return throughput;
