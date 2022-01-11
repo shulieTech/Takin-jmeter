@@ -34,6 +34,7 @@ import org.apache.jmeter.testbeans.TestBean;
 import org.apache.jmeter.testbeans.gui.GenericTestBeanCustomizer;
 import org.apache.jmeter.testelement.AbstractTestElement;
 import org.apache.jmeter.testelement.TestStateListener;
+import org.apache.jmeter.testelement.property.DoubleProperty;
 import org.apache.jmeter.testelement.property.JMeterProperty;
 import org.apache.jmeter.testelement.property.StringProperty;
 import org.apache.jmeter.threads.AbstractThreadGroup;
@@ -146,6 +147,8 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
                     throughput = dynamicTps;
                     groupEvents.clear();
                     log.info("3 --> throughput=" + throughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, throughput));
+                    JMeterProperty property = this.getProperty("throughput");
+                    property.setObjectValue(throughput);
                 }
             }
         }
@@ -288,33 +291,12 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
 
     @Override
     public void setProperty(JMeterProperty property) {
-        if (property instanceof StringProperty) {
+        if (property instanceof DoubleProperty) {
             final String pn = property.getName();
             if ("throughput".equals(pn)) {
-                final Object objectValue = property.getObjectValue();
+                final double objectValue = property.getDoubleValue();
                 log.info("setProperty pn="+pn+", objectValue="+objectValue);
             }
-            if (pn.equals("calcMode")) {
-                final Object objectValue = property.getObjectValue();
-                try {
-                    final BeanInfo beanInfo = Introspector.getBeanInfo(this.getClass());
-                    final ResourceBundle rb = (ResourceBundle) beanInfo.getBeanDescriptor().getValue(GenericTestBeanCustomizer.RESOURCE_BUNDLE);
-                    for(Enum<ConstantThroughputTimer.Mode> e : ConstantThroughputTimer.Mode.values()) {
-                        final String propName = e.toString();
-                        if (objectValue.equals(rb.getObject(propName))) {
-                            final int tmpMode = e.ordinal();
-                            log.debug("Converted {}={} to mode={} using Locale: {}", pn, objectValue, tmpMode,
-                                    rb.getLocale());
-                            super.setProperty(pn, tmpMode);
-                            return;
-                        }
-                    }
-                    log.warn("Could not convert {}={} using Locale: {}", pn, objectValue, rb.getLocale());
-                } catch (IntrospectionException e) {
-                    log.error("Could not find BeanInfo", e);
-                }
-            }
-
         }
         super.setProperty(property);
     }
