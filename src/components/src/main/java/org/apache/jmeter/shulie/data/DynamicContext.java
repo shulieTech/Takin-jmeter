@@ -18,6 +18,7 @@
 package org.apache.jmeter.shulie.data;
 
 import io.shulie.jmeter.tool.executors.ExecutorServiceFactory;
+import org.apache.jmeter.shulie.consts.ThroughputConstants;
 import org.apache.jmeter.shulie.util.JedisUtil;
 import org.apache.jmeter.shulie.util.NumberUtil;
 import org.apache.jmeter.shulie.util.JsonUtil;
@@ -152,8 +153,14 @@ public class DynamicContext {
      */
     public static Double getTpsTargetLevel(String threadGroupName) {
         // 1. 从线程组名称中获取md5值
-        String threadGroupMd5 = threadGroupName.split("@@")[1];
+        int splitPos = threadGroupName.lastIndexOf(ThroughputConstants.TEST_NAME_MD5_SPLIT);
+        String transaction;
+        if (-1 != splitPos) {
+            transaction = threadGroupName.substring(splitPos + ThroughputConstants.TEST_NAME_MD5_SPLIT.length());
+        } else {
+            transaction = "all";
+        }
         // 2. 返回REDIS中的缓存
-        return TPS_TARGET_LEVEL.get(threadGroupMd5);
+        return TPS_TARGET_LEVEL.get(transaction);
     }
 }

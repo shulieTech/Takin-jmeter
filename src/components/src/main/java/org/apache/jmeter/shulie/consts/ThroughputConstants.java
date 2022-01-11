@@ -40,5 +40,9 @@ public abstract class ThroughputConstants {
 
     /** TPS模式 值 */
     public static String ENGINE_PRESSURE_MODE_TPS_VALUE = "1";
+    /**
+     * 脚本中testName中的xpathMd5的分割符
+     */
+    public static String TEST_NAME_MD5_SPLIT = "@MD5:";
 
 }

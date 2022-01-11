@@ -23,10 +23,12 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.jmeter.gui.GUIMenuSortOrder;
 import org.apache.jmeter.gui.TestElementMetadata;
+import org.apache.jmeter.shulie.data.DynamicContext;
 import org.apache.jmeter.testbeans.TestBean;
 import org.apache.jmeter.testelement.AbstractTestElement;
 import org.apache.jmeter.testelement.TestStateListener;
 import org.apache.jmeter.threads.AbstractThreadGroup;
+import org.apache.jmeter.threads.JMeterContextService;
 import org.apache.jmeter.timers.Timer;
 import org.apache.jorphan.util.JMeterStopThreadException;
 import org.apiguardian.api.API;
@@ -79,6 +81,18 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
      */
     private int batchSize;
     private int batchThreadDelay;
+
+    /**
+     * tps目标乘积因子（percent*(1+tpsTargetLevelFactor)）
+     * percent：百分比，总目标的百分比，这里指活动占总目标的百分比
+     * tpsTargetLevelFactor：上浮因子，该值在cloud的配置项中配置：jmx.script.tpsTargetLevelFactor
+     * 该值在pressure-engine中计算生成
+     */
+    private double tpsFactor = 0d;
+    /**
+     * 业务活动目标tps占比，默认100%
+     */
+    private double percent = 1d;
 
     @Override
     public Object clone() {
@@ -146,8 +160,17 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
      * @return number of samples per {@link #getThroughputPeriod}
      */
     public double getThroughput() {
+        String threadGroupTestName = JMeterContextService.getContext().getThreadGroup().getName();
+        Double dynamicTps = DynamicContext.getTpsTargetLevel(threadGroupTestName);
+        if (null != dynamicTps && dynamicTps > 0) {
+            //求1分钟的并发数 = 总目标tps*60秒*百分比
+            throughput = dynamicTps * getPercent();
+            //如果上浮因子大于5，则表示固定上浮这个数，小于等于5表示上浮百分比
+            throughput += getTpsFactor() > 5 ? getTpsFactor() : throughput * getTpsFactor();
+        }
         return throughput;
     }
+
 
     /**
      * Sets number of generated samples per {@link #getThroughputPeriod}
@@ -155,6 +178,25 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
      */
     public void setThroughput(double throughput) {
         this.throughput = throughput;
+    }
+
+    public double getTpsFactor() {
+        if (null != DynamicContext.TPS_FACTOR) {
+            return DynamicContext.TPS_FACTOR;
+        }
+        return tpsFactor;
+    }
+
+    public void setTpsFactor(double tpsFactor) {
+        this.tpsFactor = tpsFactor;
+    }
+
+    public double getPercent() {
+        return percent;
+    }
+
+    public void setPercent(double percent) {
+        this.percent = percent;
     }
 
     /**
