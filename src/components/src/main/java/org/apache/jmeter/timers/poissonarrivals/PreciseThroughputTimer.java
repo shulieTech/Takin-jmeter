@@ -160,9 +160,13 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
         String threadGroupTestName = JMeterContextService.getContext().getThreadGroup().getName();
         Double dynamicTps = DynamicContext.getTpsTargetLevel(threadGroupTestName);
         if (null != dynamicTps && dynamicTps > 0) {
-            throughput = dynamicTps;
             //如果上浮因子大于5，则表示固定上浮这个数，小于等于5表示上浮百分比
-            throughput += getTpsFactor() > 5 ? getTpsFactor() : throughput * getTpsFactor();
+            dynamicTps += getTpsFactor() > 5 ? getTpsFactor() : throughput * getTpsFactor();
+            if (Math.abs(dynamicTps - throughput) > 0.00001) {
+                groupEvents.clear();
+                testStarted = System.currentTimeMillis();
+                throughput = dynamicTps;
+            }
         }
         log.info("throughput="+throughput+", factor="+getTpsFactor());
         return throughput;
