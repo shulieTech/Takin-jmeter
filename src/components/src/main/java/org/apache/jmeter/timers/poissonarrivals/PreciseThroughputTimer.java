@@ -93,10 +93,15 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
      */
     private double tpsFactor = 0d;
 
+    PreciseThroughputTimer() {
+        log.info("PreciseThroughputTimer");
+    }
+
     @Override
     public Object clone() {
         final PreciseThroughputTimer newTimer = (PreciseThroughputTimer) super.clone();
         newTimer.testStarted = testStarted; // JMeter cloning does not clone fields
+        log.info("clone!!");
         return newTimer;
     }
 
@@ -129,7 +134,7 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
         String threadGroupTestName = JMeterContextService.getContext().getThreadGroup().getName();
         Double dynamicTps = DynamicContext.getTpsTargetLevel(threadGroupTestName);
         if (null != dynamicTps && dynamicTps > 0 && !valuesAreEqualWithAb(dynamicTps, throughput)) {
-            log.info("1 --> throughput=" + throughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, throughput));
+            log.info("1 --> throughput=" + throughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, throughput)+", this="+this);
             synchronized (groupEvents) {
                 if (!valuesAreEqualWithAb(dynamicTps, throughput)) {
                     log.info("2 --> throughput=" + throughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, throughput));
