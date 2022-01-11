@@ -111,7 +111,7 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
         final PreciseThroughputTimer newTimer = (PreciseThroughputTimer) super.clone();
         newTimer.testStarted = testStarted; // JMeter cloning does not clone fields
         newTimer.dynamicThroughput = dynamicThroughput;
-        log.info("clone!!");
+        log.info("clone!!dynamicThroughput="+dynamicThroughput);
         return newTimer;
     }
 
@@ -149,15 +149,15 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
         String threadGroupTestName = JMeterContextService.getContext().getThreadGroup().getName();
         Double dynamicTps = DynamicContext.getTpsTargetLevel(threadGroupTestName);
         if (null != dynamicTps && dynamicTps > 0 && !valuesAreEqualWithAb(dynamicTps, dynamicThroughput)) {
-            log.info("1 --> throughput=" + throughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, throughput)+", this="+this);
+            log.info("1 --> throughput=" + throughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, dynamicThroughput)+", this="+this);
             synchronized (groupEvents) {
-                if (!valuesAreEqualWithAb(dynamicTps, throughput)) {
-                    log.info("2 --> throughput=" + throughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, throughput));
+                if (!valuesAreEqualWithAb(dynamicTps, dynamicThroughput)) {
+                    log.info("2 --> dynamicThroughput=" + dynamicThroughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, dynamicThroughput));
                     testStarted = System.currentTimeMillis();
                     throughput = dynamicTps;//修改无效
                     dynamicThroughput = dynamicTps;
                     groupEvents.clear();
-                    log.info("3 --> throughput=" + throughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, throughput));
+                    log.info("3 --> throughput=" + dynamicThroughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, dynamicThroughput));
                     JMeterProperty property = this.getProperty("throughput");
                     property.setObjectValue(throughput);
                     property.setRunningVersion(false);
