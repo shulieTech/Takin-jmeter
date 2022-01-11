@@ -89,10 +89,6 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
      * 该值在pressure-engine中计算生成
      */
     private double tpsFactor = 0d;
-    /**
-     * 业务活动目标tps占比，默认100%
-     */
-    private double percent = 1d;
 
     @Override
     public Object clone() {
@@ -189,14 +185,6 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
 
     public void setTpsFactor(double tpsFactor) {
         this.tpsFactor = tpsFactor;
-    }
-
-    public double getPercent() {
-        return percent;
-    }
-
-    public void setPercent(double percent) {
-        this.percent = percent;
     }
 
     /**
