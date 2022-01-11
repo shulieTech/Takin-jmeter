@@ -101,6 +101,10 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
      * 该值在pressure-engine中计算生成
      */
     private double tpsFactor = 0d;
+    /**
+     * 东条调整tps（这里修改throughput的值无效，在TestBeanHelper96行会重新将旧值赋值进来）
+     */
+    private Double dynamicThroughput;
 
     @Override
     public Object clone() {
@@ -131,26 +135,32 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
         // NOOP
     }
 
-    private boolean valuesAreEqualWithAb(double a, double b) {
+    private boolean valuesAreEqualWithAb(Double a, Double b) {
+        if (null == a && null == b) {
+            return true;
+        } else if (null == a || null == b) {
+            return false;
+        }
         return Math.abs(a - b) < PRECISION;
     }
 
     private void resetThroughput() {
         String threadGroupTestName = JMeterContextService.getContext().getThreadGroup().getName();
         Double dynamicTps = DynamicContext.getTpsTargetLevel(threadGroupTestName);
-        if (null != dynamicTps && dynamicTps > 0 && !valuesAreEqualWithAb(dynamicTps, throughput)) {
+        if (null != dynamicTps && dynamicTps > 0 && !valuesAreEqualWithAb(dynamicTps, dynamicThroughput)) {
             log.info("1 --> throughput=" + throughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, throughput)+", this="+this);
             synchronized (groupEvents) {
                 if (!valuesAreEqualWithAb(dynamicTps, throughput)) {
                     log.info("2 --> throughput=" + throughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, throughput));
                     testStarted = System.currentTimeMillis();
-                    throughput = dynamicTps;
+                    throughput = dynamicTps;//修改无效
+                    dynamicThroughput = dynamicTps;
                     groupEvents.clear();
                     log.info("3 --> throughput=" + throughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, throughput));
                     JMeterProperty property = this.getProperty("throughput");
                     property.setObjectValue(throughput);
+                    property.setRunningVersion(false);
                     this.setProperty(property);
-                    log.info("4 --> property=" + property);
                 }
             }
         }
@@ -198,6 +208,9 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
      * @return number of samples per {@link #getThroughputPeriod}
      */
     public double getThroughput() {
+        if (null != dynamicThroughput && dynamicThroughput > 0) {
+            return dynamicThroughput;
+        }
         return throughput;
     }
 
@@ -290,15 +303,4 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
         this.batchThreadDelay = batchThreadDelay;
     }
 
-    @Override
-    public void setProperty(JMeterProperty property) {
-        if (property instanceof DoubleProperty) {
-            final String pn = property.getName();
-            if ("throughput".equals(pn)) {
-                final double objectValue = property.getDoubleValue();
-                log.info("setProperty pn="+pn+", objectValue="+objectValue);
-            }
-        }
-        super.setProperty(property);
-    }
 }
