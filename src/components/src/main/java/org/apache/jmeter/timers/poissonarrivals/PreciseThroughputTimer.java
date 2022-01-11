@@ -131,7 +131,7 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
         if (null != dynamicTps && dynamicTps > 0 && !valuesAreEqualWithAb(dynamicTps, throughput)) {
             log.info("1 --> throughput=" + throughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, throughput));
             synchronized (groupEvents) {
-                if (Math.abs(dynamicTps - throughput) > 0.00001) {
+                if (!valuesAreEqualWithAb(dynamicTps, throughput)) {
                     log.info("2 --> throughput=" + throughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, throughput));
                     testStarted = System.currentTimeMillis();
                     throughput = dynamicTps;
