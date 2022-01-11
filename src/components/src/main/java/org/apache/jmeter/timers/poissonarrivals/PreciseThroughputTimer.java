@@ -17,6 +17,10 @@
 
 package org.apache.jmeter.timers.poissonarrivals;
 
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
@@ -27,10 +31,14 @@ import org.apache.jmeter.gui.GUIMenuSortOrder;
 import org.apache.jmeter.gui.TestElementMetadata;
 import org.apache.jmeter.shulie.data.DynamicContext;
 import org.apache.jmeter.testbeans.TestBean;
+import org.apache.jmeter.testbeans.gui.GenericTestBeanCustomizer;
 import org.apache.jmeter.testelement.AbstractTestElement;
 import org.apache.jmeter.testelement.TestStateListener;
+import org.apache.jmeter.testelement.property.JMeterProperty;
+import org.apache.jmeter.testelement.property.StringProperty;
 import org.apache.jmeter.threads.AbstractThreadGroup;
 import org.apache.jmeter.threads.JMeterContextService;
+import org.apache.jmeter.timers.ConstantThroughputTimer;
 import org.apache.jmeter.timers.Timer;
 import org.apache.jorphan.util.JMeterStopThreadException;
 import org.apiguardian.api.API;
@@ -92,10 +100,6 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
      * 该值在pressure-engine中计算生成
      */
     private double tpsFactor = 0d;
-
-    PreciseThroughputTimer() {
-        log.info("PreciseThroughputTimer");
-    }
 
     @Override
     public Object clone() {
@@ -189,7 +193,6 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
      * @return number of samples per {@link #getThroughputPeriod}
      */
     public double getThroughput() {
-
         return throughput;
     }
 
@@ -200,6 +203,7 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
      */
     public void setThroughput(double throughput) {
         this.throughput = throughput;
+        log.info("setThroughput", new Exception(""));
     }
 
     public double getTpsFactor() {
@@ -280,5 +284,38 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
 
     public void setBatchThreadDelay(int batchThreadDelay) {
         this.batchThreadDelay = batchThreadDelay;
+    }
+
+    @Override
+    public void setProperty(JMeterProperty property) {
+        if (property instanceof StringProperty) {
+            final String pn = property.getName();
+            if ("throughput".equals(pn)) {
+                final Object objectValue = property.getObjectValue();
+                log.info("setProperty pn="+pn+", objectValue="+objectValue);
+            }
+            if (pn.equals("calcMode")) {
+                final Object objectValue = property.getObjectValue();
+                try {
+                    final BeanInfo beanInfo = Introspector.getBeanInfo(this.getClass());
+                    final ResourceBundle rb = (ResourceBundle) beanInfo.getBeanDescriptor().getValue(GenericTestBeanCustomizer.RESOURCE_BUNDLE);
+                    for(Enum<ConstantThroughputTimer.Mode> e : ConstantThroughputTimer.Mode.values()) {
+                        final String propName = e.toString();
+                        if (objectValue.equals(rb.getObject(propName))) {
+                            final int tmpMode = e.ordinal();
+                            log.debug("Converted {}={} to mode={} using Locale: {}", pn, objectValue, tmpMode,
+                                    rb.getLocale());
+                            super.setProperty(pn, tmpMode);
+                            return;
+                        }
+                    }
+                    log.warn("Could not convert {}={} using Locale: {}", pn, objectValue, rb.getLocale());
+                } catch (IntrospectionException e) {
+                    log.error("Could not find BeanInfo", e);
+                }
+            }
+
+        }
+        super.setProperty(property);
     }
 }
