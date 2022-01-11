@@ -110,6 +110,7 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
     public Object clone() {
         final PreciseThroughputTimer newTimer = (PreciseThroughputTimer) super.clone();
         newTimer.testStarted = testStarted; // JMeter cloning does not clone fields
+        newTimer.dynamicThroughput = dynamicThroughput;
         log.info("clone!!");
         return newTimer;
     }
