@@ -28,8 +28,6 @@ public class JedisUtil {
     private final static Logger logger = LoggerFactory.getLogger(JedisUtil.class);
     /** REDIS 压测实例 格式化串 */
     public static final String PRESSURE_ENGINE_INSTANCE_REDIS_KEY_FORMAT = "PRESSURE:ENGINE:INSTANCE:%s:%s:%s";
-    /** TPS限制数field */
-    public static final String REDIS_TPS_LIMIT_FIELD = "REDIS_TPS_LIMIT";
     /**
      * tps上浮因子
      */
@@ -57,7 +55,25 @@ public class JedisUtil {
             logger.error("redisUtil is not inited!");
             return null;
         }
-        return redisUtil.hget(getRedisMasterKey(), key);
+        return hget(getRedisMasterKey(), key);
+    }
+
+    public static String hget(String key, String hashKey) {
+        RedisUtil redisUtil = getRedisUtil();
+        if (null == redisUtil) {
+            logger.error("redisUtil没有初始化!");
+            return null;
+        }
+        return redisUtil.hget(key, hashKey);
+    }
+
+    public static String get(String key) {
+        RedisUtil redisUtil = getRedisUtil();
+        if (null == redisUtil) {
+            logger.error("redisUtil没有初始化!");
+            return null;
+        }
+        return redisUtil.get(key);
     }
 
     public synchronized static RedisUtil getRedisUtil() {
