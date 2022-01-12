@@ -26,6 +26,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicStampedReference;
 import java.util.concurrent.locks.Lock;
 
 import org.apache.jmeter.gui.GUIMenuSortOrder;
@@ -105,15 +106,12 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
     /**
      * 东条调整tps（这里修改throughput的值无效，在TestBeanHelper96行会重新将旧值赋值进来）
      */
-    private Double dynamicThroughput;
-    private Object lock = new Object();
+    private static final ConcurrentMap<AbstractThreadGroup, Double> dynamicThroughputMap = new ConcurrentHashMap<>();
 
     @Override
     public Object clone() {
         final PreciseThroughputTimer newTimer = (PreciseThroughputTimer) super.clone();
         newTimer.testStarted = testStarted; // JMeter cloning does not clone fields
-        newTimer.dynamicThroughput = dynamicThroughput;
-        log.info("clone!!dynamicThroughput="+dynamicThroughput+", testStarted="+testStarted);
         return newTimer;
     }
 
@@ -124,6 +122,7 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
 
     @Override
     public void testStarted(String host) {
+        dynamicThroughputMap.clear();
         groupEvents.clear();
         testStarted = System.currentTimeMillis();
     }
@@ -131,11 +130,13 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
     @Override
     public void testEnded() {
         // NOOP
+        dynamicThroughputMap.clear();
     }
 
     @Override
     public void testEnded(String s) {
         // NOOP
+        dynamicThroughputMap.clear();
     }
 
     private boolean valuesAreEqualWithAb(Double a, Double b) {
@@ -148,24 +149,29 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
     }
 
     private void resetThroughput() {
-        String threadGroupTestName = JMeterContextService.getContext().getThreadGroup().getName();
+        AbstractThreadGroup tg = getThreadContext().getThreadGroup();
+        if (null == tg) {
+            return;
+        }
+        String threadGroupTestName = tg.getName();
         Double dynamicTps = DynamicContext.getTpsTargetLevel(threadGroupTestName);
-        if (null != dynamicTps && dynamicTps > 0 && !valuesAreEqualWithAb(dynamicTps, dynamicThroughput)) {
-            log.info("1 --> dynamicThroughput=" + dynamicThroughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, dynamicThroughput)+", this="+this);
-            synchronized (lock) {
-                if (!valuesAreEqualWithAb(dynamicTps, dynamicThroughput)) {
-                    log.info("2 --> dynamicThroughput=" + dynamicThroughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, dynamicThroughput));
-                    testStarted = System.currentTimeMillis();
-                    throughput = dynamicTps;//修改无效
-                    dynamicThroughput = dynamicTps;
-                    groupEvents.clear();
-                    log.info("3 --> dynamicThroughput=" + dynamicThroughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, dynamicThroughput));
-                    JMeterProperty property = this.getProperty("throughput");
-                    property.setObjectValue(throughput);
-                    property.setRunningVersion(false);
-                    this.setProperty(property);
-                }
+        if (null == dynamicTps || dynamicTps <= 0) {
+            return;
+        }
+        Double dynamicThroughput = dynamicThroughputMap.get(tg);
+        if (valuesAreEqualWithAb(dynamicTps, dynamicThroughput)) {
+            return;
+        }
+        log.info("1 --> dynamicThroughput=" + dynamicThroughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, dynamicThroughput)+", this="+this);
+        synchronized (dynamicThroughputMap) {
+            if (valuesAreEqualWithAb(dynamicTps, dynamicThroughput)) {
+                return;
             }
+            log.info("2 --> dynamicThroughput=" + dynamicThroughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, dynamicThroughput));
+            testStarted = System.currentTimeMillis();
+            dynamicThroughputMap.put(tg, dynamicTps);
+            groupEvents.clear();
+            log.info("3 --> dynamicThroughput=" + dynamicThroughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, dynamicThroughput));
         }
     }
 
@@ -211,6 +217,8 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
      * @return number of samples per {@link #getThroughputPeriod}
      */
     public double getThroughput() {
+        AbstractThreadGroup tg = getThreadContext().getThreadGroup();
+        Double dynamicThroughput = dynamicThroughputMap.get(tg);
         if (null != dynamicThroughput && dynamicThroughput > 0) {
             return dynamicThroughput;
         }
