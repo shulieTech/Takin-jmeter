@@ -123,6 +123,7 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
 
     @Override
     public void testStarted(String host) {
+        testStartedMap.clear();
         dynamicThroughputMap.clear();
         groupEvents.clear();
         testStarted = System.currentTimeMillis();
@@ -131,12 +132,14 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
     @Override
     public void testEnded() {
         // NOOP
+        testStartedMap.clear();
         dynamicThroughputMap.clear();
     }
 
     @Override
     public void testEnded(String s) {
         // NOOP
+        testStartedMap.clear();
         dynamicThroughputMap.clear();
     }
 
