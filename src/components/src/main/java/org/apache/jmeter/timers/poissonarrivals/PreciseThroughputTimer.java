@@ -151,18 +151,15 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
     private void resetThroughput() {
         AbstractThreadGroup tg = getThreadContext().getThreadGroup();
         if (null == tg) {
-            log.info("tg is null!");
             return;
         }
         String threadGroupTestName = tg.getName();
         Double dynamicTps = DynamicContext.getTpsTargetLevel(threadGroupTestName);
         if (null == dynamicTps || dynamicTps <= 0) {
-            log.info("dynamicTps is null!dynamicTps="+dynamicTps);
             return;
         }
         Double dynamicThroughput = dynamicThroughputMap.get(tg);
         if (valuesAreEqualWithAb(dynamicTps, dynamicThroughput)) {
-            log.info("dynamicTps:"+dynamicTps+"=dynamicThroughput:"+dynamicThroughput);
             return;
         }
         log.info("1 --> dynamicThroughput=" + dynamicThroughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, dynamicThroughput)+", this="+this);
@@ -200,7 +197,7 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
                     " Terminating the thread manually."
             );
         }
-        log.info("delay="+delay+", nextEvent="+nextEvent+", time="+(now - testStarted));
+        log.info("delay="+delay+", nextEvent="+nextEvent+", time="+(now - testStarted)+", throughput="+getThroughput());
         return delay;
     }
 
@@ -212,8 +209,6 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
                         () -> PreciseThroughputTimer.this.getThroughput() / throughputPeriod,
                         batchSize, batchThreadDelay, this, seed, true));
     }
-
-    private AtomicInteger INITIALIZED = new AtomicInteger(0);
 
     /**
      * Returns number of generated samples per {@link #getThroughputPeriod}
