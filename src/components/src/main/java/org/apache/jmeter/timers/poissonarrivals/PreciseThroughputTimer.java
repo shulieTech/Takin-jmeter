@@ -107,6 +107,7 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
      * 东条调整tps（这里修改throughput的值无效，在TestBeanHelper96行会重新将旧值赋值进来）
      */
     private static final ConcurrentMap<AbstractThreadGroup, Double> dynamicThroughputMap = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<AbstractThreadGroup, Long> testStartedMap = new ConcurrentHashMap<>();
 
     @Override
     public Object clone() {
@@ -162,16 +163,14 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
         if (valuesAreEqualWithAb(dynamicTps, dynamicThroughput)) {
             return;
         }
-        log.info("1 --> dynamicThroughput=" + dynamicThroughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, dynamicThroughput)+", this="+this);
         synchronized (dynamicThroughputMap) {
             if (valuesAreEqualWithAb(dynamicTps, dynamicThroughput)) {
                 return;
             }
-            log.info("2 --> dynamicThroughput=" + dynamicThroughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, dynamicThroughput));
             testStarted = System.currentTimeMillis();
             dynamicThroughputMap.put(tg, dynamicTps);
+            testStartedMap.put(tg, testStarted);
             groupEvents.clear();
-            log.info("3 --> dynamicThroughput=" + dynamicThroughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, dynamicThroughput));
         }
     }
 
@@ -184,7 +183,7 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
             nextEvent = events.next();
         }
         long now = System.currentTimeMillis();
-        long delay = (long) (nextEvent * TimeUnit.SECONDS.toMillis(1) + testStarted - now);
+        long delay = (long) (nextEvent * TimeUnit.SECONDS.toMillis(1) + getTestStarted() - now);
         if (log.isDebugEnabled()) {
             log.debug("Calculated delay is {}", delay);
         }
@@ -197,7 +196,7 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
                     " Terminating the thread manually."
             );
         }
-        log.info("delay="+delay+", nextEvent="+nextEvent+", time="+(now - testStarted)+", throughput="+getThroughput());
+        log.info("delay="+delay+", nextEvent="+nextEvent+", now="+getTestStarted()+", testStarted="+testStarted+", time="+(now - getTestStarted())+", throughput="+getThroughput());
         return delay;
     }
 
@@ -208,6 +207,15 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
                 groupEvents.computeIfAbsent(tg, x -> new ConstantPoissonProcessGenerator(
                         () -> PreciseThroughputTimer.this.getThroughput() / throughputPeriod,
                         batchSize, batchThreadDelay, this, seed, true));
+    }
+
+    public long getTestStarted() {
+        AbstractThreadGroup tg = getThreadContext().getThreadGroup();
+        Long dynamicTime = testStartedMap.get(tg);
+        if (null != dynamicTime && dynamicTime > 0) {
+            return dynamicTime;
+        }
+        return testStarted;
     }
 
     /**

@@ -90,7 +90,6 @@ public class ConstantPoissonProcessGenerator implements EventProducer {
                     t, samples, throughput, duration);
         }
         lastThroughputDurationFinish += duration;
-        log.info("throughput="+throughput+", samples="+samples+", lastThroughputDurationFinish="+lastThroughputDurationFinish);
         if (logFirstSamples) {
             if (log.isDebugEnabled()) {
                 log.debug("Generated {} events ({} required, rate {}) in {} ms",
