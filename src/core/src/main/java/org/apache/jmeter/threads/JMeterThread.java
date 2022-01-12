@@ -574,8 +574,10 @@ public class JMeterThread implements Runnable, Interruptible {
         // If we got any results, then perform processing on the result
         if (result != null) {
             if (!result.isIgnore()) {
-                int nbActiveThreadsInThreadGroup = threadGroup.getNumberOfThreads();
-                int nbTotalActiveThreads = JMeterContextService.getNumberOfThreads();
+//                int nbActiveThreadsInThreadGroup = threadGroup.getNumberOfThreads();
+//                int nbTotalActiveThreads = JMeterContextService.getNumberOfThreads();
+                int nbActiveThreadsInThreadGroup = threadGroup.getNumberOfThreads() - threadGroup.getNumberOfSleepThreads();
+                int nbTotalActiveThreads = JMeterContextService.getNumberOfThreads() -  threadGroup.getNumberOfSleepThreads();
                 fillThreadInformation(result, nbActiveThreadsInThreadGroup, nbTotalActiveThreads);
                 SampleResult[] subResults = result.getSubResults();
                 if (subResults != null) {
@@ -662,7 +664,9 @@ public class JMeterThread implements Runnable, Interruptible {
             SamplePackage transactionPack, JMeterContext threadContext) {
         // Get the transaction sample result
         SampleResult transactionResult = transactionSampler.getTransactionResult();
-        fillThreadInformation(transactionResult, threadGroup.getNumberOfThreads(), JMeterContextService.getNumberOfThreads());
+        int nbActiveThreadsInThreadGroup = threadGroup.getNumberOfThreads() - threadGroup.getNumberOfSleepThreads();
+        int nbTotalActiveThreads = JMeterContextService.getNumberOfThreads() -  threadGroup.getNumberOfSleepThreads();
+        fillThreadInformation(transactionResult, nbActiveThreadsInThreadGroup, nbTotalActiveThreads);
 
         // Check assertions for the transaction sample
         checkAssertions(transactionPack.getAssertions(), transactionResult, threadContext);
@@ -1012,11 +1016,14 @@ public class JMeterThread implements Runnable, Interruptible {
                         return;
                     }
                 }
-                JMeterContextService.sleepThread();
-                threadGroup.decrNumberOfThreads();
-                TimeUnit.MILLISECONDS.sleep(totalDelay);
-                JMeterContextService.wakupThread();
-                threadGroup.incrNumberOfThreads();
+                try {
+                    JMeterContextService.sleepThread();
+                    threadGroup.incrNumberOfSleepThreads();
+                    TimeUnit.MILLISECONDS.sleep(totalDelay);
+                } finally {
+                    JMeterContextService.wakupThread();
+                    threadGroup.descNumberOfSleepThreads();
+                }
             } catch (InterruptedException e) {
                 log.warn("The delay timer was interrupted - probably did not wait as long as intended.");
                 Thread.currentThread().interrupt();
@@ -1073,6 +1080,7 @@ public class JMeterThread implements Runnable, Interruptible {
                     pause = togo;
                 }
                 try {
+                    threadGroup.incrNumberOfSleepThreads();
                     TimeUnit.MILLISECONDS.sleep(pause); // delay between checks
                 } catch (InterruptedException e) {
                     if (running) { // NOSONAR running may have been changed from another thread
@@ -1081,6 +1089,8 @@ public class JMeterThread implements Runnable, Interruptible {
                     }
                     Thread.currentThread().interrupt();
                     break;
+                } finally {
+                    threadGroup.descNumberOfSleepThreads();
                 }
             }
         }

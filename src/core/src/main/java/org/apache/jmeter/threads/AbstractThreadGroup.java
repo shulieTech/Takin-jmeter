@@ -78,6 +78,7 @@ public abstract class AbstractThreadGroup extends AbstractTestElement
 
 
     private final AtomicInteger numberOfThreads = new AtomicInteger(0); // Number of active threads in this group
+    private final AtomicInteger numberOfSleepThreads = new AtomicInteger(0); // Number of active threads in this group
 
     /** {@inheritDoc} */
     @Override
@@ -202,6 +203,18 @@ public abstract class AbstractThreadGroup extends AbstractTestElement
      */
     public int getNumberOfThreads() {
         return numberOfThreads.get();
+    }
+
+    public synchronized void incrNumberOfSleepThreads() {
+        numberOfSleepThreads.incrementAndGet();
+    }
+
+    public synchronized void descNumberOfSleepThreads() {
+        numberOfSleepThreads.decrementAndGet();
+    }
+
+    public int getNumberOfSleepThreads() {
+        return numberOfSleepThreads.get();
     }
 
     /**
