@@ -1012,9 +1012,11 @@ public class JMeterThread implements Runnable, Interruptible {
                         return;
                     }
                 }
-                JMeterContextService.decrNumberOfThreads();
+                JMeterContextService.sleepThread();
+                threadGroup.decrNumberOfThreads();
                 TimeUnit.MILLISECONDS.sleep(totalDelay);
-                JMeterContextService.incrNumberOfThreads();
+                JMeterContextService.wakupThread();
+                threadGroup.incrNumberOfThreads();
             } catch (InterruptedException e) {
                 log.warn("The delay timer was interrupted - probably did not wait as long as intended.");
                 Thread.currentThread().interrupt();

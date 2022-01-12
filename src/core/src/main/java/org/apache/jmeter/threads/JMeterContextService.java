@@ -108,6 +108,20 @@ public final class JMeterContextService {
     }
 
     /**
+     * 线程调用sleep时不算线程数
+     */
+    static synchronized void sleepThread() {
+        numberOfActiveThreads--;
+    }
+
+    /**
+     * 线程被唤醒时继续计算线程数
+     */
+    static synchronized void wakupThread() {
+        numberOfActiveThreads++;
+    }
+
+    /**
      * Get the number of currently active threads
      * @return active thread count
      */
