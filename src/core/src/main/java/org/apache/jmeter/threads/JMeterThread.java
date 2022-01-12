@@ -575,9 +575,8 @@ public class JMeterThread implements Runnable, Interruptible {
         if (result != null) {
             if (!result.isIgnore()) {
 //                int nbActiveThreadsInThreadGroup = threadGroup.getNumberOfThreads();
-//                int nbTotalActiveThreads = JMeterContextService.getNumberOfThreads();
                 int nbActiveThreadsInThreadGroup = threadGroup.getNumberOfThreads() - threadGroup.getNumberOfSleepThreads();
-                int nbTotalActiveThreads = JMeterContextService.getNumberOfThreads() -  threadGroup.getNumberOfSleepThreads();
+                int nbTotalActiveThreads = JMeterContextService.getNumberOfThreads();
                 fillThreadInformation(result, nbActiveThreadsInThreadGroup, nbTotalActiveThreads);
                 SampleResult[] subResults = result.getSubResults();
                 if (subResults != null) {
@@ -665,7 +664,7 @@ public class JMeterThread implements Runnable, Interruptible {
         // Get the transaction sample result
         SampleResult transactionResult = transactionSampler.getTransactionResult();
         int nbActiveThreadsInThreadGroup = threadGroup.getNumberOfThreads() - threadGroup.getNumberOfSleepThreads();
-        int nbTotalActiveThreads = JMeterContextService.getNumberOfThreads() -  threadGroup.getNumberOfSleepThreads();
+        int nbTotalActiveThreads = JMeterContextService.getNumberOfThreads();
         fillThreadInformation(transactionResult, nbActiveThreadsInThreadGroup, nbTotalActiveThreads);
 
         // Check assertions for the transaction sample
