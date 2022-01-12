@@ -199,7 +199,7 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
                     " Terminating the thread manually."
             );
         }
-        log.info("delay="+delay+", nextEvent="+nextEvent+", now="+getTestStarted()+", testStarted="+testStarted+", time="+(now - getTestStarted())+", throughput="+getThroughput());
+//        log.info("delay="+delay+", nextEvent="+nextEvent+", now="+getTestStarted()+", testStarted="+testStarted+", time="+(now - getTestStarted())+", throughput="+getThroughput());
         return delay;
     }
 
