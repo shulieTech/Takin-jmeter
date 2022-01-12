@@ -151,15 +151,18 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
     private void resetThroughput() {
         AbstractThreadGroup tg = getThreadContext().getThreadGroup();
         if (null == tg) {
+            log.info("tg is null!");
             return;
         }
         String threadGroupTestName = tg.getName();
         Double dynamicTps = DynamicContext.getTpsTargetLevel(threadGroupTestName);
         if (null == dynamicTps || dynamicTps <= 0) {
+            log.info("dynamicTps is null!dynamicTps="+dynamicTps);
             return;
         }
         Double dynamicThroughput = dynamicThroughputMap.get(tg);
         if (valuesAreEqualWithAb(dynamicTps, dynamicThroughput)) {
+            log.info("dynamicTps:"+dynamicTps+"=dynamicThroughput:"+dynamicThroughput);
             return;
         }
         log.info("1 --> dynamicThroughput=" + dynamicThroughput+", dynamicTps="+dynamicTps+", valuesAreEqualWithAb="+valuesAreEqualWithAb(dynamicTps, dynamicThroughput)+", this="+this);
