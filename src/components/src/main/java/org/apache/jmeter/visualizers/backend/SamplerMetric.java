@@ -194,7 +194,7 @@ public class SamplerMetric {
             // Should we also compute KO , all response time ?
             // only take successful requests for time computing
             okResponsesStats.addValue(time);
-            if (time <= standRt) {
+            if (standRt <= 0 || time <= standRt) {
                 saSuccess += result.getSampleCount() - result.getErrorCount();
             }
         } else {
