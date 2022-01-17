@@ -86,7 +86,7 @@ public class PressureEngineParams {
     }
 
     public void setSamplingInterval(int samplingInterval) {
-        this.samplingInterval = samplingInterval;
+        this.samplingInterval = samplingInterval > 0 ? samplingInterval : 1;
     }
 
     public String getPodNumber() {

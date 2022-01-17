@@ -21,11 +21,13 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.text.DecimalFormat;
 import java.util.Enumeration;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.jmeter.shulie.constants.PressureConstants;
 
 /**
  * @author lipeng
@@ -44,6 +46,10 @@ public class JmeterTraceIdGenerator {
 
     static {
         try {
+            //保证第一条记录被采样
+            int si = PressureConstants.pressureEngineParamsInstance.getSamplingInterval();
+            count.set(si - 1);
+
             String ipAddress = getLocalAddress();
             if (ipAddress != null) {
                 IP_16 = getIP_16(ipAddress);
@@ -113,8 +119,13 @@ public class JmeterTraceIdGenerator {
 
     private static String getTraceId(String ip, long timestamp, int nextId) {
         StringBuilder appender = new StringBuilder(32);
-        appender.append(ip).append(timestamp).append(nextId).append(PID_FLAG).append(PID);
+        appender.append(ip).append(timestamp).append(paddingString(nextId)).append(PID_FLAG).append(PID);
         return appender.toString();
+    }
+
+    private static String paddingString(int n) {
+        DecimalFormat df = new DecimalFormat("0000");
+        return df.format(n);
     }
 
     public static String generate() {
@@ -173,9 +184,11 @@ public class JmeterTraceIdGenerator {
     }
 
     private static int getNextId() {
+        int si = PressureConstants.pressureEngineParamsInstance.getSamplingInterval();
+        int max = 10000 - (9999%si+1);
         for (; ; ) {
             int current = count.get();
-            int next = (current > 9000) ? 1000 : current + 1;
+            int next = (current >= max) ? 1 : current + 1;
             if (count.compareAndSet(current, next)) {
                 return next;
             }
@@ -184,17 +197,9 @@ public class JmeterTraceIdGenerator {
 
     /**
      * 全采样nextid
-     *
-     * @return
      */
     private static int getNextAllSampleId() {
-        for (; ; ) {
-            int current = count.get();
-            int next = (current > 8000) ? 1000 : current + 1000;
-            if (count.compareAndSet(current, next)) {
-                return next;
-            }
-        }
+        return 0;
     }
 
 }

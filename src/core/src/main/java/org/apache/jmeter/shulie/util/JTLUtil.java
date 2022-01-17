@@ -33,6 +33,10 @@ import org.apache.jmeter.shulie.util.model.TraceBizData;
 
 import com.alibaba.fastjson.JSON;
 
+import org.apache.jmeter.testelement.property.JMeterProperty;
+import org.apache.jmeter.threads.JMeterContext;
+import org.apache.jmeter.util.JMeterUtils;
+
 /**
  * JTL工具类
  *
@@ -45,25 +49,26 @@ public abstract class JTLUtil {
      * 每个字段分隔符
      */
     private static final char QUOTER = "|".charAt(0);
-
     public static final String EMPTY_TEXT = "";
-
     /**
      * 字符串截取长度
      */
     public static final int STRING_TRUNCATE_LENGTH = 100;
-
     /**
      * 移除换行符
      */
     private static final Pattern LINE_PATTERN = Pattern.compile("\t|\r|\n|\\|");
-
     /**
      * http协议
      */
     public static List<String> HTTP_AND_HTTPS_PROTOCOL = new ArrayList<>();
+    /**
+     * (不知道是什么)采样率
+     */
+    public static int mustSamplingInterval = 1000;
 
     static {
+        mustSamplingInterval = JMeterUtils.getPropDefault("must_sampling_interval",1000);
         HTTP_AND_HTTPS_PROTOCOL.add("http");
         HTTP_AND_HTTPS_PROTOCOL.add("https");
     }
@@ -94,10 +99,9 @@ public abstract class JTLUtil {
      * 必采样
      * 1/1000 trace will be logged
      * @param id traceID
-     * @param mustSamplingInterval 采样率
      * @return 是否采样
      */
-    public static boolean isForceTraced(String id, int mustSamplingInterval) {
+    public static boolean isForceTraced(String id) {
         if (id == null || id.length() == 0) {
             return false;
         }
@@ -106,8 +110,10 @@ public abstract class JTLUtil {
             return true;
         } else if (mustSamplingInterval == 100 && ('0' == id.charAt(id.length() - 6)) && ('0' == id.charAt(id.length() - 7))) {
             return true;
+        } else if (mustSamplingInterval == 10 && ('0' == id.charAt(id.length() - 6))) {
+            return true;
         } else {
-            return mustSamplingInterval == 10 && ('0' == id.charAt(id.length() - 6));
+            return false;
         }
     }
 
@@ -121,10 +127,10 @@ public abstract class JTLUtil {
             return false;
         }
 
-        //一定有一部分的trace id 被全量采集
-        if (isForceTraced(traceId, si)) {
-            return true;
-        }
+//        //一定有一部分的trace id 被全量采集
+//        if (isForceTraced(traceId, si)) {
+//            return true;
+//        }
         if (si <= 1 || si >= 10000) {
             return true;
         }
