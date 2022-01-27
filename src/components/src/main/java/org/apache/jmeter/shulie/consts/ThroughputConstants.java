@@ -18,6 +18,8 @@
 package org.apache.jmeter.shulie.consts;
 
 
+import io.shulie.jmeter.tool.redis.domain.GroupTopicEnum;
+
 /**
  * 吞吐量常量类
  *
@@ -44,5 +46,9 @@ public abstract class ThroughputConstants {
      * 脚本中testName中的xpathMd5的分割符
      */
     public static String TEST_NAME_MD5_SPLIT = "@MD5:";
+    /**
+     * 消息分组和topic
+     */
+    public static GroupTopicEnum JMETER_REPORT = new GroupTopicEnum("default", "jmeter_report");
 
 }

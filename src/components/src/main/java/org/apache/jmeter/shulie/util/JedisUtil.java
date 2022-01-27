@@ -33,6 +33,8 @@ public class JedisUtil {
      */
     public static final String REDIS_TPS_FACTOR = "REDIS_TPS_FACTOR";
 
+    private static RedisConfig redisConfig;
+
     private static RedisUtil redisUtil;
 
     private static String redisMasterKey;
@@ -80,32 +82,40 @@ public class JedisUtil {
         if (null != redisUtil){
             return redisUtil;
         }
+        RedisConfig redisConfig = getRedisConfig();
+        logger.info("redis start..");
+        // 解密redis密码
+        try {
+            redisUtil = RedisUtil.getInstance(redisConfig);
+        } catch (Exception e) {
+            logger.error("Redis 连接失败!redisConfig="+JsonUtil.toJson(redisConfig));
+            logger.error("失败详细错误栈：", e);
+            System.exit(-1);
+        }
+        return redisUtil;
+    }
+
+    public static RedisConfig getRedisConfig() {
+        if (null != redisConfig) {
+            return redisConfig;
+        }
         String engineRedisAddress = System.getProperty("engineRedisAddress");
         String engineRedisPort = System.getProperty("engineRedisPort");
         String engineRedisSentinelNodes = System.getProperty("engineRedisSentinelNodes");
         String engineRedisSentinelMaster = System.getProperty("engineRedisSentinelMaster");
         String engineRedisPassword = System.getProperty("engineRedisPassword");
-        logger.info("redis start..");
-        // 解密redis密码
-        try {
-            RedisConfig redisConfig = new RedisConfig();
-            redisConfig.setNodes(engineRedisSentinelNodes);
-            redisConfig.setMaster(engineRedisSentinelMaster);
-            redisConfig.setHost(engineRedisAddress);
-            redisConfig.setPort(Integer.parseInt(engineRedisPort));
-            redisConfig.setPassword(engineRedisPassword);
-            redisConfig.setMaxIdle(1);
-            redisConfig.setMaxTotal(1);
-            redisConfig.setTimeout(3000);
-            redisUtil = RedisUtil.getInstance(redisConfig);
-        } catch (Exception e) {
-            logger.error("Redis 连接失败，redisAddress is {}， redisPort is {}， encryptRedisPassword is {},engineRedisSentinelNodes is {}," +
-                            "engineRedisSentinelMaster is {}"
-                    , engineRedisAddress, engineRedisPort, engineRedisPassword,engineRedisSentinelNodes,engineRedisSentinelMaster);
-            logger.error("失败详细错误栈：", e);
-            System.exit(-1);
-        }
-        return redisUtil;
+        String engineRedisUserName = System.getProperty("engineRedisUserName");
+        redisConfig = new RedisConfig();
+        redisConfig.setNodes(engineRedisSentinelNodes);
+        redisConfig.setMaster(engineRedisSentinelMaster);
+        redisConfig.setHost(engineRedisAddress);
+        redisConfig.setPort(Integer.parseInt(engineRedisPort));
+        redisConfig.setUserName(engineRedisUserName);
+        redisConfig.setPassword(engineRedisPassword);
+        redisConfig.setMaxIdle(1);
+        redisConfig.setMaxTotal(1);
+        redisConfig.setTimeout(3000);
+        return redisConfig;
     }
 
 //    public static void closeJedis() {

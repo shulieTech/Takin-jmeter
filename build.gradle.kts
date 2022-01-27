@@ -272,10 +272,11 @@ allprojects {
 
     repositories {
         // RAT and Autostyle dependencies
-        mavenCentral()
+        mavenLocal()
         maven {
             url = uri("https://maven.aliyun.com/repository/central")
         }
+        mavenCentral()
     }
 
     // JMeter ClassFinder parses "class.path" and tries to find jar names there,
