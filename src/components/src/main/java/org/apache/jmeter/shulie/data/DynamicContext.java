@@ -20,6 +20,7 @@ package org.apache.jmeter.shulie.data;
 import io.shulie.jmeter.tool.executors.ExecutorServiceFactory;
 import org.apache.jmeter.shulie.consts.ThroughputConstants;
 import org.apache.jmeter.shulie.util.JedisUtil;
+import org.apache.jmeter.shulie.util.MessageUtil;
 import org.apache.jmeter.shulie.util.NumberUtil;
 import org.apache.jmeter.shulie.util.JsonUtil;
 import org.apache.jmeter.util.JMeterUtils;
@@ -75,6 +76,10 @@ public class DynamicContext {
                 flushTpsTargetLevel();
                 flushTpsFactor();
             }, flushTime, flushTime, TimeUnit.MILLISECONDS);
+            //(心跳)健康检测
+            ExecutorServiceFactory.GLOBAL_SCHEDULE_EXECUTOR_SERVICE.scheduleWithFixedDelay(() -> {
+                MessageUtil.send("health", "", new HealthData());
+            }, 5L, 5L, TimeUnit.SECONDS);
         }
     }
 
@@ -164,5 +169,9 @@ public class DynamicContext {
         Double tps = TPS_TARGET_LEVEL.get(transaction);
         logger.info("transaction="+transaction+"， tps="+tps);
         return tps;
+    }
+
+    public static void destroy() {
+        ExecutorServiceFactory.GLOBAL_SCHEDULE_EXECUTOR_SERVICE.shutdown();
     }
 }

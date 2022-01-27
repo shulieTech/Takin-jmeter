@@ -54,7 +54,7 @@ public class HttpNotifyTroCloudUtils {
         requestParams.put("customerId", params.getCustomerId());
         //pod 序号
         String podNumber = System.getProperty("pod.number");
-        requestParams.put("podNum", podNumber == null ? "" : podNumber);
+        requestParams.put("podNum", (podNumber == null || podNumber.length() == 0) ? "1" : podNumber);
         requestParams.put("status", status);
         requestParams.put("msg", PRESSURE_ENGINE_EXCEPTION_PREFIX + errMsg);
         try {

@@ -28,10 +28,7 @@ public class Constants {
 
     public static final String METRICS_EVENTS_STARTED = "started";
     public static final String METRICS_EVENTS_ENDED = "ended";
-    /**
-     * testname和md5之间的分割符
-     */
-    public static final String TEST_NAME_MD5_SPLIT = "@MD5:";
+
 
 
 }

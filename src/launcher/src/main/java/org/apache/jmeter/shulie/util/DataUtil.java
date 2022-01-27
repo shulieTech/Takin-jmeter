@@ -20,7 +20,7 @@ package org.apache.jmeter.shulie.util;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.jmeter.visualizers.backend.influxdb.entity.Constants;
+import org.apache.jmeter.shulie.constants.PressureConstants;
 
 import java.util.List;
 import java.util.Map;
@@ -31,10 +31,10 @@ public class DataUtil {
      * 从元素中获取唯一标识，老版本是testname，新版是testname中的MD5
      */
     public static String getTransaction(String sampleLabel) {
-        int splitPos = sampleLabel.lastIndexOf(Constants.TEST_NAME_MD5_SPLIT);
+        int splitPos = sampleLabel.lastIndexOf(PressureConstants.TEST_NAME_MD5_SPLIT);
         String transaction = sampleLabel;
         if (-1 != splitPos) {
-            transaction = sampleLabel.substring(splitPos + Constants.TEST_NAME_MD5_SPLIT.length());
+            transaction = sampleLabel.substring(splitPos + PressureConstants.TEST_NAME_MD5_SPLIT.length());
         }
         return transaction;
     }

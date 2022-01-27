@@ -15,43 +15,49 @@
  * limitations under the License.
  */
 
-package org.apache.jmeter.shulie.services;
+package org.apache.jmeter.shulie.util;
 
-import io.shulie.jmeter.tool.redis.RedisConfig;
+import io.shulie.jmeter.tool.redis.domain.GroupTopicEnum;
 import io.shulie.jmeter.tool.redis.domain.TkMessage;
 import io.shulie.jmeter.tool.redis.message.MessageProducer;
-import org.apache.jmeter.shulie.util.JedisUtil;
-import org.apache.jmeter.shulie.util.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * @Author: liyuanba
- * @Date: 2022/1/27 2:58 下午
+ * @Date: 2022/1/27 5:13 下午
  */
-public class MessageProducerService {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private static MessageProducerService messagePorducerService;
-    private MessageProducer messageProducer;
+public class MessageUtil {
+    private static final Logger log = LoggerFactory.getLogger(MessageUtil.class);
+    /**
+     * 消息分组和topic
+     */
+    public static GroupTopicEnum JMETER_REPORT = new GroupTopicEnum("default", "jmeter_report");
+    
+    private static MessageProducer messageProducer;
 
-    public static MessageProducerService getInstance() {
-        if (null == messagePorducerService) {
-            messagePorducerService = new MessageProducerService();
-            messagePorducerService.init();
-        }
-        return messagePorducerService;
+    static {
+        messageProducer = MessageProducer.getInstance(JedisUtil.getRedisConfig());
     }
 
-    public void init() {
-        RedisConfig config = JedisUtil.getRedisConfig();
-        messageProducer = MessageProducer.getInstance(config);
+    public static boolean send(String tag, String key, Object content) {
+        return send(tag, key, JsonUtil.toJson(content));
     }
 
-    public boolean send(TkMessage message) {
+    public static boolean send(String tag, String key, String content) {
+        TkMessage message = TkMessage.create().setGroupTopic(JMETER_REPORT)
+                .setTag(tag)
+                .setKey(key)
+                .setContent(content)
+                .build();
+        return send(message);
+    }
+
+    public static boolean send(TkMessage message) {
         try {
             return messageProducer.send(message);
         } catch (Exception e) {
-            logger.error("message send failed!message="+ JsonUtil.toJson(message), e);
+            log.error("message send failed!message="+ JsonUtil.toJson(message), e);
         }
         return false;
     }

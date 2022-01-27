@@ -44,4 +44,8 @@ public abstract class PressureConstants {
 
     //traceId key
     public static final String TRACE_ID_KEY = "pradarTraceId";
+    /**
+     * testname和md5之间的分割符
+     */
+    public static final String TEST_NAME_MD5_SPLIT = "@MD5:";
 }

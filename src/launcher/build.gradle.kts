@@ -14,7 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+dependencies {
+    implementation("io.shulie.flpt:jmeter-redis-tool")
+    implementation("org.apache.commons:commons-collections4")
+}
 val lastEditYear: String by rootProject.extra
 
 tasks.withType<ProcessResources>().configureEach {
@@ -32,3 +35,4 @@ tasks.named<Jar>(JavaPlugin.JAR_TASK_NAME) {
         attributes["Main-Class"] = "org.apache.jmeter.NewDriver"
     }
 }
+
