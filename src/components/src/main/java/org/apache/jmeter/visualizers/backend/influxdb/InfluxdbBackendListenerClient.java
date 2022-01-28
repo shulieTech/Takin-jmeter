@@ -135,9 +135,8 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
         // 平台会设置每个业务活动的目标rt，而不会给all设置目标rt，设置目标rt根据脚本后端监听器中的businessMap参数传递过来
         responseMetrics.setSaCount(metric.getSaSuccess());
         //modify end
-        String podNumber = System.getProperty("pod.number");
         Map<String, String> tags = new HashMap<>();
-        tags.put("podNum", podNumber == null ? "" : podNumber);
+        tags.put("podNum", DataUtil.getPodNo());
         responseMetrics.setTags(tags);
         responseMetrics.setSentBytes(metric.getSentBytes());
         responseMetrics.setReceivedBytes(metric.getReceivedBytes());

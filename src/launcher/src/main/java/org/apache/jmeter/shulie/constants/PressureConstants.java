@@ -40,7 +40,7 @@ public abstract class PressureConstants {
     public static final String CURRENT_JTL_FILE_NAME_SYSTEM_PROP_KEY = "__CURRENT_PTL_FILE_NAME__";
 
     //试跑模式code
-    public static final String TRY_RUN_MODE_CODE = "5";
+    public static final int TRY_RUN_MODE_CODE = 5;
 
     //traceId key
     public static final String TRACE_ID_KEY = "pradarTraceId";

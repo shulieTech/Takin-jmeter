@@ -33,6 +33,8 @@ public class PressureEngineParams {
 
     private Long customerId;
 
+    private Integer sceneType;
+
     private String callbackUrl;
 
     private int samplingInterval = 1;
@@ -112,12 +114,21 @@ public class PressureEngineParams {
         return new PressureEngineParams(sceneId, resultId, customerId, callbackUrl, samplingInterval,podNumber);
     }
 
+    public Integer getSceneType() {
+        return sceneType;
+    }
+
+    public void setSceneType(Integer sceneType) {
+        this.sceneType = sceneType;
+    }
+
     @Override
     public String toString() {
         return "PressureEngineParams{" +
                 "sceneId=" + sceneId +
                 ", resultId=" + resultId +
                 ", customerId=" + customerId +
+                ", sceneType=" + sceneType +
                 ", callbackUrl='" + callbackUrl + '\'' +
                 ", samplingInterval=" + samplingInterval +
                 ", podNumber='" + podNumber + '\'' +

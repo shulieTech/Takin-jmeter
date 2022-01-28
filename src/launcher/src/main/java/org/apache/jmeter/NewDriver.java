@@ -31,9 +31,14 @@ import java.security.PrivilegedAction;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import io.shulie.jmeter.tool.redis.domain.TkMessage;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.jmeter.shulie.constants.PressureConstants;
+import org.apache.jmeter.shulie.model.EventEnum;
 import org.apache.jmeter.shulie.model.PressureEngineParams;
+import org.apache.jmeter.shulie.util.DataUtil;
 import org.apache.jmeter.shulie.util.HttpNotifyTroCloudUtils;
+import org.apache.jmeter.shulie.util.MessageUtil;
 
 /**
  * Main class for JMeter - sets up initial classpath and the loader.
@@ -245,6 +250,7 @@ public final class NewDriver {
             System.err.println("Configuration error during init, see exceptions:"+excetionsMsg); // NOSONAR Intentional System.err use
             //add by lipeng 错误信息上报cloud
             HttpNotifyTroCloudUtils.notifyTroCloud(PressureConstants.pressureEngineParamsInstance, PressureConstants.ENGINE_STATUS_FAILED, excetionsMsg);
+            MessageUtil.sendEvent(EventEnum.START_FAILED, excetionsMsg);
         } else {
             Thread.currentThread().setContextClassLoader(loader);
             setLoggingProperties(args);
@@ -260,11 +266,12 @@ public final class NewDriver {
                 //modify by lipeng 将start方法入参改为pressureEngineParams
                 startup.invoke(instance, PressureConstants.pressureEngineParamsInstance);
                 //正常启动后不需要上报cloud已正常启动，在receive接口会上报started标记
-            } catch(Throwable e){ // NOSONAR We want to log home directory in case of exception
+            } catch(Throwable e) { // NOSONAR We want to log home directory in case of exception
                 e.printStackTrace(); // NOSONAR No logger at this step
                 System.err.println("JMeter home directory was detected as: "+JMETER_INSTALLATION_DIRECTORY); // NOSONAR Intentional System.err use
                 //add by lipeng 错误信息上报cloud
-                HttpNotifyTroCloudUtils.notifyTroCloud(PressureConstants.pressureEngineParamsInstance, PressureConstants.ENGINE_STATUS_FAILED, throwableToString(e));
+                HttpNotifyTroCloudUtils.notifyTroCloud(PressureConstants.pressureEngineParamsInstance, PressureConstants.ENGINE_STATUS_FAILED, DataUtil.throwableToString(e));
+                MessageUtil.sendEvent(EventEnum.START_FAILED, DataUtil.throwableToString(e));
             }
         }
     }
@@ -288,6 +295,8 @@ public final class NewDriver {
         //customerId
         long customerId = Long.parseLong(System.getProperty("CustomerId", "0"));
         result.setCustomerId(customerId);
+        int sceneType = NumberUtils.toInt(System.getProperty("engine.perssure.mode"));
+        result.setSceneType(sceneType);
         //采样率
         int samplingInterval = Integer.parseInt(System.getProperty("SamplingInterval", "0"));
         result.setSamplingInterval(samplingInterval);
@@ -301,19 +310,6 @@ public final class NewDriver {
         result.setJmeterArgs(args);
         return result;
     }
-    /**
-     * @param throwable List of {@link Throwable}
-     * @return String
-     */
-    private static String throwableToString(Throwable throwable) {
-        StringBuilder builder = new StringBuilder();
-        StringWriter stringWriter = new StringWriter();
-        PrintWriter printWriter = new PrintWriter(stringWriter);
-        throwable.printStackTrace(printWriter); // NOSONAR
-        builder.append(stringWriter.toString())
-                .append("\r\n");
-        return builder.toString();
-    }
 
     /**
      * @param exceptionsInInit List of {@link Exception}
@@ -325,8 +321,7 @@ public final class NewDriver {
             StringWriter stringWriter = new StringWriter();
             PrintWriter printWriter = new PrintWriter(stringWriter);
             exception.printStackTrace(printWriter); // NOSONAR
-            builder.append(stringWriter.toString())
-                .append("\r\n");
+            builder.append(stringWriter.toString()).append("\r\n");
         }
         return builder.toString();
     }

@@ -20,6 +20,8 @@ package org.apache.jmeter.shulie.util;
 import io.shulie.jmeter.tool.redis.domain.GroupTopicEnum;
 import io.shulie.jmeter.tool.redis.domain.TkMessage;
 import io.shulie.jmeter.tool.redis.message.MessageProducer;
+import org.apache.jmeter.shulie.model.EventEnum;
+import org.apache.jmeter.shulie.model.EventInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +40,14 @@ public class MessageUtil {
 
     static {
         messageProducer = MessageProducer.getInstance(JedisUtil.getRedisConfig());
+    }
+
+    public static boolean sendEvent(EventEnum event, String message) {
+        EventInfo info = EventInfo.create()
+                .setEvent(event)
+                .setMessage(message)
+                .build();
+        return send("event", "", info);
     }
 
     public static boolean send(String tag, String key, Object content) {

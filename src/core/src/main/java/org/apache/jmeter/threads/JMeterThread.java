@@ -554,9 +554,8 @@ public class JMeterThread implements Runnable, Interruptible {
         threadVars.putObject(PACKAGE_OBJECT, pack);
 
         //add by lipeng 线程参数添加traceId
-        String pressureEngineModeCode = System.getProperty("engine.perssure.mode");
         //试跑  试跑需要
-        if(PressureConstants.TRY_RUN_MODE_CODE.equals(pressureEngineModeCode)) {
+        if(PressureConstants.TRY_RUN_MODE_CODE == PressureConstants.pressureEngineParamsInstance.getSceneType()) {
             threadVars.put(PressureConstants.TRACE_ID_KEY, JmeterTraceIdGenerator.generateAllSampled());
         }
         //非试跑

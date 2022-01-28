@@ -22,6 +22,8 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jmeter.shulie.constants.PressureConstants;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -42,7 +44,11 @@ public class DataUtil {
      * POD序号
      */
     public static String getPodNo() {
-        return StringUtils.isBlank(System.getProperty("pod.number")) ? "1" : System.getProperty("pod.number");
+        String podNo = PressureConstants.pressureEngineParamsInstance.getPodNumber();
+        if (StringUtils.isBlank(podNo)) {
+            podNo = StringUtils.isBlank(System.getProperty("pod.number")) ? "1" : System.getProperty("pod.number");
+        }
+        return podNo;
     }
 
     /**
@@ -93,5 +99,19 @@ public class DataUtil {
             }
         }
         return result;
+    }
+
+    /**
+     * @param throwable List of {@link Throwable}
+     * @return String
+     */
+    public static String throwableToString(Throwable throwable) {
+        StringBuilder builder = new StringBuilder();
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(stringWriter);
+        throwable.printStackTrace(printWriter); // NOSONAR
+        builder.append(stringWriter.toString())
+                .append("\r\n");
+        return builder.toString();
     }
 }
