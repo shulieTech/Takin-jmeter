@@ -31,8 +31,6 @@ import java.security.PrivilegedAction;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import io.shulie.jmeter.tool.redis.domain.TkMessage;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.jmeter.shulie.constants.PressureConstants;
 import org.apache.jmeter.shulie.model.EventEnum;
 import org.apache.jmeter.shulie.model.PressureEngineParams;
@@ -295,7 +293,7 @@ public final class NewDriver {
         //customerId
         long customerId = Long.parseLong(System.getProperty("CustomerId", "0"));
         result.setCustomerId(customerId);
-        int sceneType = NumberUtils.toInt(System.getProperty("engine.perssure.mode"));
+        int sceneType = Integer.parseInt(System.getProperty("engine.perssure.mode"));
         result.setSceneType(sceneType);
         //采样率
         int samplingInterval = Integer.parseInt(System.getProperty("SamplingInterval", "0"));
