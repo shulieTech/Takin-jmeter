@@ -17,6 +17,7 @@
 dependencies {
     implementation("io.shulie.flpt:jmeter-redis-tool")
     implementation("org.apache.commons:commons-collections4")
+    implementation("org.apache.commons:commons-lang3")
 }
 val lastEditYear: String by rootProject.extra
 
