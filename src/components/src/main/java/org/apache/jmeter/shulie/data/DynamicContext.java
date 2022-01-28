@@ -78,6 +78,7 @@ public class DynamicContext {
             }, flushTime, flushTime, TimeUnit.MILLISECONDS);
             //(心跳)健康检测
             ExecutorServiceFactory.GLOBAL_SCHEDULE_EXECUTOR_SERVICE.scheduleWithFixedDelay(() -> {
+                logger.info("send health message!");
                 MessageUtil.send("health", "", HealthData.create().build());
             }, 5L, 5L, TimeUnit.SECONDS);
         }

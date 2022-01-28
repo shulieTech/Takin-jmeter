@@ -65,6 +65,9 @@ public class MessageUtil {
 
     public static boolean send(TkMessage message) {
         try {
+            if (log.isInfoEnabled()) {
+                log.info("send message! message="+JsonUtil.toJson(message));
+            }
             return messageProducer.send(message);
         } catch (Exception e) {
             log.error("message send failed!message="+ JsonUtil.toJson(message), e);
