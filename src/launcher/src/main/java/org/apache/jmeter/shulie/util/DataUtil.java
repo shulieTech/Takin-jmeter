@@ -19,7 +19,6 @@ package org.apache.jmeter.shulie.util;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.jmeter.shulie.constants.PressureConstants;
 
 import java.io.PrintWriter;
@@ -45,8 +44,8 @@ public class DataUtil {
      */
     public static String getPodNo() {
         String podNo = PressureConstants.pressureEngineParamsInstance.getPodNumber();
-        if (StringUtils.isBlank(podNo)) {
-            podNo = StringUtils.isBlank(System.getProperty("pod.number")) ? "1" : System.getProperty("pod.number");
+        if (StringUtil.isBlank(podNo)) {
+            podNo = StringUtil.isBlank(System.getProperty("pod.number")) ? "1" : System.getProperty("pod.number");
         }
         return podNo;
     }
@@ -82,7 +81,7 @@ public class DataUtil {
             R r = func.apply(t);
             if (null != r) {
                 if (r instanceof String) {
-                    if (StringUtils.isNotBlank((String) r)) {
+                    if (StringUtil.isNotBlank((String) r)) {
                         result = r;
                     }
                 } else if (r instanceof List) {
