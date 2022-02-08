@@ -36,7 +36,7 @@ import org.apache.jmeter.shulie.model.EventEnum;
 import org.apache.jmeter.shulie.model.PressureEngineParams;
 import org.apache.jmeter.shulie.util.DataUtil;
 import org.apache.jmeter.shulie.util.HttpNotifyTroCloudUtils;
-import org.apache.jmeter.shulie.util.MessageUtil;
+import org.apache.jmeter.shulie.util.MessageUtils;
 
 /**
  * Main class for JMeter - sets up initial classpath and the loader.
@@ -248,7 +248,7 @@ public final class NewDriver {
             System.err.println("Configuration error during init, see exceptions:"+excetionsMsg); // NOSONAR Intentional System.err use
             //add by lipeng 错误信息上报cloud
             HttpNotifyTroCloudUtils.notifyTroCloud(PressureConstants.pressureEngineParamsInstance, PressureConstants.ENGINE_STATUS_FAILED, excetionsMsg);
-            MessageUtil.sendEvent(EventEnum.START_FAILED, excetionsMsg);
+            MessageUtils.sendEvent(EventEnum.START_FAILED, excetionsMsg);
         } else {
             Thread.currentThread().setContextClassLoader(loader);
             setLoggingProperties(args);
@@ -269,7 +269,7 @@ public final class NewDriver {
                 System.err.println("JMeter home directory was detected as: "+JMETER_INSTALLATION_DIRECTORY); // NOSONAR Intentional System.err use
                 //add by lipeng 错误信息上报cloud
                 HttpNotifyTroCloudUtils.notifyTroCloud(PressureConstants.pressureEngineParamsInstance, PressureConstants.ENGINE_STATUS_FAILED, DataUtil.throwableToString(e));
-                MessageUtil.sendEvent(EventEnum.START_FAILED, DataUtil.throwableToString(e));
+                MessageUtils.sendEvent(EventEnum.START_FAILED, DataUtil.throwableToString(e));
             }
         }
     }

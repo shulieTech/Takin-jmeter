@@ -67,7 +67,7 @@
       <sha512>89F8559C281F6BCEA4EB193C49AA8C960A5FE6762DCA0198A7BB04B9D8A846AC52231F77EC16B2E9C0B48D0F6011517B641B5B93279B24EEF65EE22E2C1167F3</sha512>
     </dependency>
     <!-- add by lipeng -->
-    <dependency group='redis.clients' module='jedis' version='3.3.0'>
+    <dependency group='redis.clients' module='jedis' version='3.6.3'>
       <sha512>46F188DD310C7C9D77EAEF3E85A6FE5A47FD3CD809467C5B35D7D9A79DC8B99E9B7F43C631A96DE0E98C08F644EA64B37168724C5FB1FECCABAD388DADC79626</sha512>
     </dependency>
       <dependency group='com.alibaba' module='fastjson' version='1.2.72'>

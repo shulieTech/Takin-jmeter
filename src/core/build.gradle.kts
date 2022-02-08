@@ -102,6 +102,7 @@ dependencies {
     implementation("org.jodd:jodd-props")
     implementation("org.mozilla:rhino")
     implementation("org.slf4j:jcl-over-slf4j")
+    implementation("org.slf4j:slf4j-api")
     // add by lipeng 添加fastjson
     implementation("com.alibaba:fastjson")
     // add end
@@ -112,6 +113,8 @@ dependencies {
     implementation("io.shulie.flpt:jmeter-redis-tool")
     implementation("io.shulie.flpt:jmeter-executor-tool")
     implementation("io.shulie.flpt:jmeter-amdb-tool")
+    implementation("redis.clients:jedis")
+    implementation("org.springframework.data:spring-data-redis")
     // add end
     // TODO: JMeter bundles Xerces, however the reason is unknown
     runtimeOnly("xerces:xercesImpl")

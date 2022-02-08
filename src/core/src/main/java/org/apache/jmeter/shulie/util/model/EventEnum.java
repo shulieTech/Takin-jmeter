@@ -14,27 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-dependencies {
-    implementation("io.shulie.flpt:jmeter-redis-tool")
-    implementation("org.apache.commons:commons-collections4")
-    implementation("org.apache.commons:commons-lang3")
-    implementation("org.slf4j:slf4j-api")
-}
-val lastEditYear: String by rootProject.extra
 
-tasks.withType<ProcessResources>().configureEach {
-    val version = rootProject.version.toString()
-    inputs.property("@VERSION@", version)
-    inputs.property("@YEAR@", lastEditYear)
-    filter { x: String ->
-        x.replace("@VERSION@", version)
-            .replace("@YEAR@", lastEditYear)
-    }
-}
+package org.apache.jmeter.shulie.util.model;
 
-tasks.named<Jar>(JavaPlugin.JAR_TASK_NAME) {
-    manifest {
-        attributes["Main-Class"] = "org.apache.jmeter.NewDriver"
-    }
+/**
+ * @Author: liyuanba
+ * @Date: 2022/1/28 9:30 上午
+ */
+public enum EventEnum {
+    /**
+     * 启动失败
+     */
+    START_FAILED,
+    /**
+     * 启动压测
+     */
+    TEST_START,
+    /**
+     * 停止压测
+     */
+    TEST_END,
+    ;
 }
-

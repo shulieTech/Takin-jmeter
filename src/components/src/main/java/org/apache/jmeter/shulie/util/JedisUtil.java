@@ -88,7 +88,7 @@ public class JedisUtil {
         try {
             redisUtil = RedisUtil.getInstance(redisConfig);
         } catch (Exception e) {
-            logger.error("Redis 连接失败!redisConfig="+JsonUtil.toJson(redisConfig));
+            logger.error("Redis 连接失败!redisConfig="+JsonUtils.toJson(redisConfig));
             logger.error("失败详细错误栈：", e);
             System.exit(-1);
         }
@@ -99,18 +99,22 @@ public class JedisUtil {
         if (null != redisConfig) {
             return redisConfig;
         }
+        String engineRedisDatabase = System.getProperty("engineRedisDatabase");
         String engineRedisAddress = System.getProperty("engineRedisAddress");
         String engineRedisPort = System.getProperty("engineRedisPort");
         String engineRedisSentinelNodes = System.getProperty("engineRedisSentinelNodes");
         String engineRedisSentinelMaster = System.getProperty("engineRedisSentinelMaster");
         String engineRedisPassword = System.getProperty("engineRedisPassword");
-        String engineRedisUserName = System.getProperty("engineRedisUserName");
         redisConfig = new RedisConfig();
+        if (StringUtils.isNotBlank(engineRedisDatabase)) {
+            redisConfig.setDatabase(Integer.parseInt(engineRedisDatabase));
+        }
         redisConfig.setNodes(engineRedisSentinelNodes);
         redisConfig.setMaster(engineRedisSentinelMaster);
         redisConfig.setHost(engineRedisAddress);
-        redisConfig.setPort(Integer.parseInt(engineRedisPort));
-        redisConfig.setUserName(engineRedisUserName);
+        if (StringUtils.isNotBlank(engineRedisPort)) {
+            redisConfig.setPort(Integer.parseInt(engineRedisPort));
+        }
         redisConfig.setPassword(engineRedisPassword);
         redisConfig.setMaxIdle(1);
         redisConfig.setMaxTotal(1);

@@ -85,7 +85,7 @@ import org.apache.jmeter.samplers.SampleEvent;
 import org.apache.jmeter.save.SaveService;
 import org.apache.jmeter.services.FileServer;
 import org.apache.jmeter.shulie.constants.PressureConstants;
-import org.apache.jmeter.shulie.model.EventEnum;
+import org.apache.jmeter.shulie.util.model.EventEnum;
 import org.apache.jmeter.shulie.model.PressureEngineParams;
 import org.apache.jmeter.shulie.util.DataUtil;
 import org.apache.jmeter.shulie.util.HttpNotifyTroCloudUtils;

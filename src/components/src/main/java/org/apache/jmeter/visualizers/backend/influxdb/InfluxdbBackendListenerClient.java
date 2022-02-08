@@ -31,16 +31,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.samplers.SampleResult;
 import org.apache.jmeter.shulie.constants.PressureConstants;
-import org.apache.jmeter.shulie.util.DataUtil;
-import org.apache.jmeter.shulie.util.NumberUtil;
-import org.apache.jmeter.shulie.util.ThreadUtil;
-import org.apache.jmeter.threads.JMeterContextService;
+import org.apache.jmeter.shulie.data.HealthData;
+import org.apache.jmeter.shulie.util.*;
 import org.apache.jmeter.util.JMeterUtils;
 import org.apache.jmeter.visualizers.backend.*;
 import org.apache.jmeter.visualizers.backend.influxdb.entity.BusinessActivityConfig;
 import org.apache.jmeter.visualizers.backend.influxdb.entity.EventMetrics;
 import org.apache.jmeter.visualizers.backend.influxdb.entity.ResponseMetrics;
-import org.apache.jmeter.shulie.util.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -234,6 +231,10 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
         this.timerHandle = scheduler.scheduleAtFixedRate(this, 0, SEND_INTERVAL, TimeUnit.SECONDS);
         //测试 每500ms获取一次数据
 //        this.timerHandle = scheduler.scheduleAtFixedRate(this, 0, 500, TimeUnit.MILLISECONDS);
+        scheduler.scheduleWithFixedDelay(() -> {
+            log.info("send health message!");
+            MessageUtil.send("health", "", HealthData.create().build());
+        }, 5L, 5L, TimeUnit.SECONDS);
     }
 
     private void initInfluxdbMetricsManager(BackendListenerContext context) throws Exception {

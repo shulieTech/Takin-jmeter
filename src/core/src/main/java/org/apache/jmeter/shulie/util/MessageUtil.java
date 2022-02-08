@@ -17,11 +17,14 @@
 
 package org.apache.jmeter.shulie.util;
 
+import io.shulie.jmeter.tool.redis.RedisConfig;
 import io.shulie.jmeter.tool.redis.domain.GroupTopicEnum;
 import io.shulie.jmeter.tool.redis.domain.TkMessage;
 import io.shulie.jmeter.tool.redis.message.MessageProducer;
-import org.apache.jmeter.shulie.model.EventEnum;
-import org.apache.jmeter.shulie.model.EventInfo;
+import io.shulie.jmeter.tool.redis.util.JsonUtil;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.jmeter.shulie.util.model.EventEnum;
+import org.apache.jmeter.shulie.util.model.EventInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,11 +38,12 @@ public class MessageUtil {
      * 消息分组和topic
      */
     public static GroupTopicEnum JMETER_REPORT = new GroupTopicEnum("default", "jmeter_report");
-    
+
+    private static RedisConfig redisConfig;
     private static MessageProducer messageProducer;
 
     static {
-        messageProducer = MessageProducer.getInstance(JedisUtil.getRedisConfig());
+        messageProducer = MessageProducer.getInstance(getRedisConfig());
     }
 
     public static boolean sendEvent(EventEnum event, String message) {
@@ -73,5 +77,32 @@ public class MessageUtil {
             log.error("message send failed!message="+ JsonUtil.toJson(message), e);
         }
         return false;
+    }
+
+    public static RedisConfig getRedisConfig() {
+        if (null != redisConfig) {
+            return redisConfig;
+        }
+        String engineRedisDatabase = System.getProperty("engineRedisDatabase");
+        String engineRedisAddress = System.getProperty("engineRedisAddress");
+        String engineRedisPort = System.getProperty("engineRedisPort");
+        String engineRedisSentinelNodes = System.getProperty("engineRedisSentinelNodes");
+        String engineRedisSentinelMaster = System.getProperty("engineRedisSentinelMaster");
+        String engineRedisPassword = System.getProperty("engineRedisPassword");
+        redisConfig = new RedisConfig();
+        if (StringUtils.isNotBlank(engineRedisDatabase)) {
+            redisConfig.setDatabase(Integer.parseInt(engineRedisDatabase));
+        }
+        redisConfig.setNodes(engineRedisSentinelNodes);
+        redisConfig.setMaster(engineRedisSentinelMaster);
+        redisConfig.setHost(engineRedisAddress);
+        if (StringUtils.isNotBlank(engineRedisPort)) {
+            redisConfig.setPort(Integer.parseInt(engineRedisPort));
+        }
+        redisConfig.setPassword(engineRedisPassword);
+        redisConfig.setMaxIdle(1);
+        redisConfig.setMaxTotal(1);
+        redisConfig.setTimeout(3000);
+        return redisConfig;
     }
 }

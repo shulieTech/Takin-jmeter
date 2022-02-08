@@ -35,6 +35,7 @@ dependencies {
     // This is an API-only jar. javax.activation is present in Java 8,
     // however it is not there in Java 9
     compileOnly("javax.activation:javax.activation-api")
+    implementation("org.slf4j:slf4j-api")
     implementation("com.github.ben-manes.caffeine:caffeine")
     implementation("io.burt:jmespath-core")
     implementation("io.burt:jmespath-jackson")
@@ -64,6 +65,7 @@ dependencies {
     implementation("com.miglayout:miglayout-swing")
     // add by lipeng 添加jedis
     implementation("redis.clients:jedis")
+    implementation("org.springframework.data:spring-data-redis")
     // add end
     // add by lipeng 添加fastjson
     implementation("com.alibaba:fastjson")

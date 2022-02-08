@@ -18,8 +18,8 @@
 package org.apache.jmeter.shulie.data;
 
 import org.apache.jmeter.shulie.constants.PressureConstants;
-import org.apache.jmeter.shulie.model.EventInfo;
-import org.apache.jmeter.shulie.model.PressureInfo;
+import org.apache.jmeter.shulie.util.model.EventInfo;
+import org.apache.jmeter.shulie.util.model.PressureInfo;
 
 /**
  * @Author: liyuanba

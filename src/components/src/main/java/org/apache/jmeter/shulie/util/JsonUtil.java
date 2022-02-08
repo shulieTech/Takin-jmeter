@@ -22,8 +22,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -32,7 +30,7 @@ import java.util.List;
  * @Date: 2021/10/18 4:41 下午
  */
 public class JsonUtil {
-    private static final Logger log = LoggerFactory.getLogger(JsonUtil.class);
+//    private static final Logger log = LoggerFactory.getLogger(JsonUtil.class);
 
     public static String toJson(Object o) {
         if (null == o) {
@@ -41,7 +39,7 @@ public class JsonUtil {
         try {
             return JSON.toJSONString(o);
         } catch (Exception e) {
-            log.error("toJson failed!o="+o);
+//            log.error("toJson failed!o="+o);
         }
         return null;
     }
@@ -54,7 +52,7 @@ public class JsonUtil {
         try {
             json = JSON.parseObject(text);
         } catch (Exception e) {
-            log.error("parse json failed!text="+text);
+//            log.error("parse json failed!text="+text);
         }
         return json;
     }
@@ -67,7 +65,7 @@ public class JsonUtil {
         try {
             result = JSON.parseObject(text, clazz);
         } catch (Exception e) {
-            log.error("parse json to object class failed!text="+text);
+//            log.error("parse json to object class failed!text="+text);
         }
         return result;
     }
@@ -80,7 +78,7 @@ public class JsonUtil {
         try {
             result = JSON.parseObject(text, type);
         } catch (Exception e) {
-            log.error("parse json to object type failed!text="+text);
+//            log.error("parse json to object type failed!text="+text);
         }
         return result;
     }
@@ -93,7 +91,7 @@ public class JsonUtil {
         try {
             result = JSON.parseArray(text);
         } catch (Exception e) {
-            log.error("json parseArray failed!text="+text);
+//            log.error("json parseArray failed!text="+text);
         }
         return result;
     }
@@ -106,7 +104,7 @@ public class JsonUtil {
         try {
             result = JSON.parseArray(text, clazz);
         } catch (Exception e) {
-            log.error("json parseArray failed!text="+text);
+//            log.error("json parseArray failed!text="+text);
         }
         return result;
     }
