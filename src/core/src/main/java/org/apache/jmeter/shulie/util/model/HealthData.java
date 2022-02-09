@@ -49,6 +49,7 @@ public class HealthData extends PressureInfo {
             data.setCustomerId(PressureConstants.pressureEngineParamsInstance.getCustomerId());
             data.setPodNo(PressureConstants.pressureEngineParamsInstance.getPodNumber());
             data.setSceneType(PressureConstants.pressureEngineParamsInstance.getSceneType());
+            data.setSource("jmeter");
             data.setTime(System.currentTimeMillis());
             return data;
         }

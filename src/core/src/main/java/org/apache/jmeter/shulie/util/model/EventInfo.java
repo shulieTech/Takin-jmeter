@@ -67,6 +67,7 @@ public class EventInfo extends PressureInfo {
             info.setCustomerId(PressureConstants.pressureEngineParamsInstance.getCustomerId());
             info.setPodNo(PressureConstants.pressureEngineParamsInstance.getPodNumber());
             info.setSceneType(PressureConstants.pressureEngineParamsInstance.getSceneType());
+            info.setSource("jmeter");
             info.setEvent(this.getEvent());
             info.setMessage(this.getMessage());
             info.setTime(System.currentTimeMillis());
