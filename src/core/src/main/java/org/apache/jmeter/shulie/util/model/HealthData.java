@@ -15,11 +15,9 @@
  * limitations under the License.
  */
 
-package org.apache.jmeter.shulie.data;
+package org.apache.jmeter.shulie.util.model;
 
 import org.apache.jmeter.shulie.constants.PressureConstants;
-import org.apache.jmeter.shulie.util.model.EventInfo;
-import org.apache.jmeter.shulie.util.model.PressureInfo;
 
 /**
  * @Author: liyuanba
@@ -39,8 +37,8 @@ public class HealthData extends PressureInfo {
         this.time = time;
     }
 
-    public static EventInfo.Builder create() {
-        return new EventInfo.Builder();
+    public static HealthData.Builder create() {
+        return new HealthData.Builder();
     }
 
     public static class Builder {

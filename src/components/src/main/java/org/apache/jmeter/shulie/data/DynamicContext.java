@@ -23,6 +23,7 @@ import org.apache.jmeter.shulie.util.JedisUtil;
 import org.apache.jmeter.shulie.util.MessageUtil;
 import org.apache.jmeter.shulie.util.NumberUtil;
 import org.apache.jmeter.shulie.util.JsonUtil;
+import org.apache.jmeter.shulie.util.model.HealthData;
 import org.apache.jmeter.util.JMeterUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,7 +80,8 @@ public class DynamicContext {
             //(心跳)健康检测
             ExecutorServiceFactory.GLOBAL_SCHEDULE_EXECUTOR_SERVICE.scheduleWithFixedDelay(() -> {
                 logger.info("send health message!");
-                MessageUtil.send("health", "", HealthData.create().build());
+                HealthData healthData = HealthData.create().build();
+                MessageUtil.send("health", healthData.getTaskId(), HealthData.create().build());
             }, 5L, 5L, TimeUnit.SECONDS);
         }
     }

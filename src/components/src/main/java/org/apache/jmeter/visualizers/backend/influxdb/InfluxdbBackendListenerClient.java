@@ -31,7 +31,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.samplers.SampleResult;
 import org.apache.jmeter.shulie.constants.PressureConstants;
-import org.apache.jmeter.shulie.data.HealthData;
+import org.apache.jmeter.shulie.util.model.EventEnum;
+import org.apache.jmeter.shulie.util.model.HealthData;
 import org.apache.jmeter.shulie.util.*;
 import org.apache.jmeter.util.JMeterUtils;
 import org.apache.jmeter.visualizers.backend.*;
@@ -84,6 +85,7 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
 
     private ScheduledExecutorService scheduler;
     private ScheduledFuture<?> timerHandle;
+    private static ScheduledFuture<?> healthHandle;
 
     private Map<String, BusinessActivityConfig> bizMap = new HashMap<>();
 
@@ -231,10 +233,12 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
         this.timerHandle = scheduler.scheduleAtFixedRate(this, 0, SEND_INTERVAL, TimeUnit.SECONDS);
         //测试 每500ms获取一次数据
 //        this.timerHandle = scheduler.scheduleAtFixedRate(this, 0, 500, TimeUnit.MILLISECONDS);
-        scheduler.scheduleWithFixedDelay(() -> {
-            log.info("send health message!");
-            MessageUtil.send("health", "", HealthData.create().build());
-        }, 5L, 5L, TimeUnit.SECONDS);
+        if (null == healthHandle) {
+            healthHandle = scheduler.scheduleWithFixedDelay(() -> {
+                log.info("send health message!");
+                MessageUtil.send("health", HealthData.create().build());
+            }, 5L, 5L, TimeUnit.SECONDS);
+        }
     }
 
     private void initInfluxdbMetricsManager(BackendListenerContext context) throws Exception {
@@ -295,7 +299,9 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
     @Override
     public void teardownTest(BackendListenerContext context) throws Exception {
         boolean cancelState = timerHandle.cancel(false);
-        log.debug("Canceled state: {}", cancelState);
+        log.debug("timerHandle canceled state: {}", cancelState);
+        cancelState = healthHandle.cancel(false);
+        log.debug("healthHandle canceled state: {}", cancelState);
         scheduler.shutdown();
         try {
             scheduler.awaitTermination(30, TimeUnit.SECONDS);

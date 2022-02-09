@@ -25,6 +25,7 @@ import io.shulie.jmeter.tool.redis.util.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jmeter.shulie.util.model.EventEnum;
 import org.apache.jmeter.shulie.util.model.EventInfo;
+import org.apache.jmeter.shulie.util.model.PressureInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,11 +52,15 @@ public class MessageUtil {
                 .setEvent(event)
                 .setMessage(message)
                 .build();
-        return send("event", "", info);
+        return send("event", info);
     }
 
-    public static boolean send(String tag, String key, Object content) {
-        return send(tag, key, JsonUtil.toJson(content));
+    public static boolean send(String tag, PressureInfo info) {
+        return send(tag, info.getTaskId(), info);
+    }
+
+    public static boolean send(String tag, Object key, Object content) {
+        return send(tag, String.valueOf(key), JsonUtil.toJson(content));
     }
 
     public static boolean send(String tag, String key, String content) {
