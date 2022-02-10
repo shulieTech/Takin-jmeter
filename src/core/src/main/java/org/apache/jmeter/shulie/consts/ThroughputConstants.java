@@ -17,9 +17,6 @@
 
 package org.apache.jmeter.shulie.consts;
 
-
-import io.shulie.jmeter.tool.redis.domain.GroupTopicEnum;
-
 /**
  * 吞吐量常量类
  *

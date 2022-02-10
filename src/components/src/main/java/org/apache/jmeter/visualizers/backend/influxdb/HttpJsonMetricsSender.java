@@ -42,6 +42,7 @@ import org.apache.http.impl.nio.reactor.IOReactorConfig;
 import org.apache.http.nio.reactor.ConnectingIOReactor;
 import org.apache.http.util.EntityUtils;
 import org.apache.jmeter.report.utils.MetricUtils;
+import org.apache.jmeter.shulie.util.MessageUtil;
 import org.apache.jmeter.threads.JMeterContextService;
 import org.apache.jmeter.util.JMeterUtils;
 import org.apache.jmeter.visualizers.backend.influxdb.entity.AbstractMetrics;
@@ -183,6 +184,18 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
 
     //TODO mark by lipeng 这里改为直接向influxdb写数据 而不是传到cloud
     public boolean writeAndSendMetrics(List<AbstractMetrics> copyMetrics) {
+        if (MessageUtil.isMessageNotify()) {
+            return sendByMessage(copyMetrics);
+        } else {
+            return sendByHttp(copyMetrics);
+        }
+    }
+
+    private boolean sendByMessage(List<AbstractMetrics> copyMetrics) {
+        return MessageUtil.send("metrics", "", copyMetrics);
+    }
+
+    private boolean sendByHttp(List<AbstractMetrics> copyMetrics) {
         try {
             if (httpRequest == null) {
                 httpRequest = createRequest(url, token);

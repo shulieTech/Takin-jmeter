@@ -17,6 +17,7 @@
 
 package org.apache.jmeter.threads;
 
+import org.apache.jmeter.shulie.DynamicContext;
 import org.apache.jmeter.util.JMeterUtils;
 
 /**
@@ -88,6 +89,7 @@ public final class JMeterContextService {
             numberOfActiveThreads = 0;
             testStart = System.currentTimeMillis();
             JMeterUtils.setProperty("TESTSTART.MS",Long.toString(testStart));// $NON-NLS-1$
+            DynamicContext.startTest();
         }
     }
 

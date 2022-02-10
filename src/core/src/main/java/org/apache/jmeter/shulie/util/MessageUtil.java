@@ -23,6 +23,7 @@ import io.shulie.jmeter.tool.redis.domain.TkMessage;
 import io.shulie.jmeter.tool.redis.message.MessageProducer;
 import io.shulie.jmeter.tool.redis.util.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.jmeter.shulie.constants.PressureConstants;
 import org.apache.jmeter.shulie.util.model.EventEnum;
 import org.apache.jmeter.shulie.util.model.EventInfo;
 import org.apache.jmeter.shulie.util.model.PressureInfo;
@@ -41,10 +42,15 @@ public class MessageUtil {
     public static GroupTopicEnum JMETER_REPORT = new GroupTopicEnum("default", "jmeter_report");
 
     private static RedisConfig redisConfig;
-    private static MessageProducer messageProducer;
+    private static final MessageProducer messageProducer;
 
     static {
         messageProducer = MessageProducer.getInstance(getRedisConfig());
+    }
+
+    public static boolean isMessageNotify() {
+        String notify = PressureConstants.pressureEngineParamsInstance.getNotify();
+        return PressureConstants.NOTIFY_MESSAGE.equals(notify);
     }
 
     public static boolean sendEvent(EventEnum event, String message) {

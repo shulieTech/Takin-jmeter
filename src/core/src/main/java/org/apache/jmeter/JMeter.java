@@ -472,7 +472,9 @@ public class JMeter implements JMeterPlugin {
             System.out.println(CLUtil.describeOptions(options).toString());//NOSONAR
             // repeat the error so no need to scroll back past the usage to see it
             System.out.println("Error: " + error);//NOSONAR
-            MessageUtil.sendEvent(EventEnum.START_FAILED, error);
+            if (MessageUtil.isMessageNotify()) {
+                MessageUtil.sendEvent(EventEnum.START_FAILED, error);
+            }
             return;
         }
         try {
@@ -488,7 +490,9 @@ public class JMeter implements JMeterPlugin {
                         if (!(e instanceof ThreadDeath)) {
                             log.error("Uncaught exception in thread {}", t, e);
                             System.err.println("Uncaught Exception " + e + " in thread " + t + ". See log file for details.");//NOSONAR
-                            MessageUtil.sendEvent(EventEnum.START_FAILED, "Uncaught exception in thread："+DataUtil.throwableToString(e));
+                            if (MessageUtil.isMessageNotify()) {
+                                MessageUtil.sendEvent(EventEnum.START_FAILED, "Uncaught exception in thread：" + DataUtil.throwableToString(e));
+                            }
                         }
                     });
 
@@ -595,13 +599,18 @@ public class JMeter implements JMeterPlugin {
         } catch (IllegalUserActionException e) {// NOSONAR
             System.out.println("Incorrect Usage:" + e.getMessage());//NOSONAR
             System.out.println(CLUtil.describeOptions(options).toString());//NOSONAR
-            MessageUtil.sendEvent(EventEnum.START_FAILED, "Incorrect Usage:"+e.getMessage()+"\n"+DataUtil.throwableToString(e));
+            if (MessageUtil.isMessageNotify()) {
+                MessageUtil.sendEvent(EventEnum.START_FAILED, "Incorrect Usage:" + e.getMessage() + "\n" + DataUtil.throwableToString(e));
+            }
         } catch (Throwable e) { // NOSONAR
             log.error("An error occurred: ", e);
             System.out.println("An error occurred: " + e.getMessage());//NOSONAR
             // 先将问题上报到cloud add by lipeng
-            HttpNotifyTroCloudUtils.notifyTroCloud(params, PressureConstants.ENGINE_STATUS_FAILED, e.getMessage());
-            MessageUtil.sendEvent(EventEnum.START_FAILED, "An error occurred!\n"+DataUtil.throwableToString(e));
+            if (MessageUtil.isMessageNotify()) {
+                MessageUtil.sendEvent(EventEnum.START_FAILED, "An error occurred!\n"+DataUtil.throwableToString(e));
+            } else {
+                HttpNotifyTroCloudUtils.notifyTroCloud(params, PressureConstants.ENGINE_STATUS_FAILED, e.getMessage());
+            }
             // FIXME Should we exit here ? If we are called by Maven or Jenkins
             System.exit(1);
         }
@@ -1334,7 +1343,9 @@ public class JMeter implements JMeterPlugin {
                 final long now = System.currentTimeMillis();
                 log.info("{} ({})", JMeterUtils.getResString("running_test"), now);//$NON-NLS-1$
             }
-            MessageUtil.sendEvent(EventEnum.TEST_START, "启动压测");
+            if (MessageUtil.isMessageNotify()) {
+                MessageUtil.sendEvent(EventEnum.TEST_START, "启动压测");
+            }
         }
 
         private void endTest(boolean isDistributed) {
@@ -1372,7 +1383,9 @@ public class JMeter implements JMeterPlugin {
                 }
             }
             checkForRemainingThreads();
-            MessageUtil.sendEvent(EventEnum.TEST_END, "压测停止");
+            if (MessageUtil.isMessageNotify()) {
+                MessageUtil.sendEvent(EventEnum.TEST_END, "压测停止");
+            }
             println("... end of run");
         }
 

@@ -34,6 +34,8 @@ public class PressureInfo extends AbstractEntry {
 
     private String podNo;
 
+    private String source;
+
     public Long getSceneId() {
         return sceneId;
     }
@@ -72,5 +74,13 @@ public class PressureInfo extends AbstractEntry {
 
     public void setPodNo(String podNo) {
         this.podNo = podNo;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 }

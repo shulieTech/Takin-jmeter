@@ -28,6 +28,7 @@ import java.util.regex.Pattern;
 
 import com.alibaba.fastjson.TypeReference;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.jmeter.JMeter;
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.samplers.SampleResult;
 import org.apache.jmeter.shulie.constants.PressureConstants;
@@ -233,7 +234,7 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
         this.timerHandle = scheduler.scheduleAtFixedRate(this, 0, SEND_INTERVAL, TimeUnit.SECONDS);
         //测试 每500ms获取一次数据
 //        this.timerHandle = scheduler.scheduleAtFixedRate(this, 0, 500, TimeUnit.MILLISECONDS);
-        if (null == healthHandle) {
+        if (null == healthHandle && MessageUtil.isMessageNotify()) {
             healthHandle = scheduler.scheduleWithFixedDelay(() -> {
                 log.info("send health message!");
                 MessageUtil.send("health", HealthData.create().build());

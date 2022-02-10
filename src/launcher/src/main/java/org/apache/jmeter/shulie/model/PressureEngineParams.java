@@ -40,6 +40,10 @@ public class PressureEngineParams {
     private int samplingInterval = 1;
 
     private String podNumber;
+    /**
+     * 通知方式：http通过http请求回调cloud、message通过redis消息机制
+     */
+    private String notify;
 
     private String[] jmeterArgs;
 
@@ -99,19 +103,28 @@ public class PressureEngineParams {
         this.podNumber = podNumber;
     }
 
+    public String getNotify() {
+        return notify;
+    }
+
+    public void setNotify(String notify) {
+        this.notify = notify;
+    }
+
     public PressureEngineParams() {};
 
-    public PressureEngineParams(Long sceneId, Long resultId, Long customerId, String callbackUrl, int samplingInterval,String podNumber) {
+    public PressureEngineParams(Long sceneId, Long resultId, Long customerId, String callbackUrl, int samplingInterval, String podNumber, String notify) {
         this.sceneId = sceneId;
         this.resultId = resultId;
         this.customerId = customerId;
         this.callbackUrl = callbackUrl;
         this.samplingInterval = samplingInterval;
         this.podNumber = podNumber;
+        this.notify = notify;
     }
 
-    public static PressureEngineParams create(Long sceneId, Long resultId, Long customerId, String callbackUrl, int samplingInterval,String podNumber) {
-        return new PressureEngineParams(sceneId, resultId, customerId, callbackUrl, samplingInterval,podNumber);
+    public static PressureEngineParams create(Long sceneId, Long resultId, Long customerId, String callbackUrl, int samplingInterval, String podNumber, String notify) {
+        return new PressureEngineParams(sceneId, resultId, customerId, callbackUrl, samplingInterval,podNumber, notify);
     }
 
     public Integer getSceneType() {

@@ -17,31 +17,17 @@
 
 package org.apache.jmeter.timers.poissonarrivals;
 
-import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicStampedReference;
-import java.util.concurrent.locks.Lock;
 
 import org.apache.jmeter.gui.GUIMenuSortOrder;
 import org.apache.jmeter.gui.TestElementMetadata;
-import org.apache.jmeter.shulie.data.DynamicContext;
+import org.apache.jmeter.shulie.DynamicContext;
 import org.apache.jmeter.testbeans.TestBean;
-import org.apache.jmeter.testbeans.gui.GenericTestBeanCustomizer;
 import org.apache.jmeter.testelement.AbstractTestElement;
 import org.apache.jmeter.testelement.TestStateListener;
-import org.apache.jmeter.testelement.property.DoubleProperty;
-import org.apache.jmeter.testelement.property.JMeterProperty;
-import org.apache.jmeter.testelement.property.StringProperty;
 import org.apache.jmeter.threads.AbstractThreadGroup;
-import org.apache.jmeter.threads.JMeterContextService;
-import org.apache.jmeter.timers.ConstantThroughputTimer;
 import org.apache.jmeter.timers.Timer;
 import org.apache.jorphan.util.JMeterStopThreadException;
 import org.apiguardian.api.API;

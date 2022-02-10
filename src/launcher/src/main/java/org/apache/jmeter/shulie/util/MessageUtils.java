@@ -41,7 +41,7 @@ public class MessageUtils {
     public static GroupTopicEnum JMETER_REPORT = new GroupTopicEnum("default", "jmeter_report");
 
     private static RedisConfig redisConfig;
-    private static MessageProducer messageProducer;
+    private static final MessageProducer messageProducer;
 
     static {
         messageProducer = MessageProducer.getInstance(getRedisConfig());

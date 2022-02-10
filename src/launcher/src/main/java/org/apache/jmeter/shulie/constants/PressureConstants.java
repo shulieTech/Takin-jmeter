@@ -48,4 +48,12 @@ public abstract class PressureConstants {
      * testname和md5之间的分割符
      */
     public static final String TEST_NAME_MD5_SPLIT = "@MD5:";
+    /**
+     * http通知方式
+     */
+    public static final String NOTIFY_HTTP = "http";
+    /**
+     * message通知方式
+     */
+    public static final String NOTIFY_MESSAGE = "message";
 }

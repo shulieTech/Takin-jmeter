@@ -242,13 +242,17 @@ public final class NewDriver {
         HttpNotifyTroCloudUtils.init(loader);
         //add by lipeng 添加callbackurl及参数
         PressureConstants.pressureEngineParamsInstance = getPressureEngineParams(args);
+        String notify = PressureConstants.pressureEngineParamsInstance.getNotify();
         // add end
         if(!EXCEPTIONS_IN_INIT.isEmpty()) {
             String excetionsMsg = exceptionsToString(EXCEPTIONS_IN_INIT);
             System.err.println("Configuration error during init, see exceptions:"+excetionsMsg); // NOSONAR Intentional System.err use
             //add by lipeng 错误信息上报cloud
-            HttpNotifyTroCloudUtils.notifyTroCloud(PressureConstants.pressureEngineParamsInstance, PressureConstants.ENGINE_STATUS_FAILED, excetionsMsg);
-            MessageUtils.sendEvent(EventEnum.START_FAILED, excetionsMsg);
+            if (PressureConstants.NOTIFY_MESSAGE.equals(notify)) {
+                MessageUtils.sendEvent(EventEnum.START_FAILED, excetionsMsg);
+            } else {
+                HttpNotifyTroCloudUtils.notifyTroCloud(PressureConstants.pressureEngineParamsInstance, PressureConstants.ENGINE_STATUS_FAILED, excetionsMsg);
+            }
         } else {
             Thread.currentThread().setContextClassLoader(loader);
             setLoggingProperties(args);
@@ -268,8 +272,11 @@ public final class NewDriver {
                 e.printStackTrace(); // NOSONAR No logger at this step
                 System.err.println("JMeter home directory was detected as: "+JMETER_INSTALLATION_DIRECTORY); // NOSONAR Intentional System.err use
                 //add by lipeng 错误信息上报cloud
-                HttpNotifyTroCloudUtils.notifyTroCloud(PressureConstants.pressureEngineParamsInstance, PressureConstants.ENGINE_STATUS_FAILED, DataUtil.throwableToString(e));
-                MessageUtils.sendEvent(EventEnum.START_FAILED, DataUtil.throwableToString(e));
+                if (PressureConstants.NOTIFY_MESSAGE.equals(notify)) {
+                    MessageUtils.sendEvent(EventEnum.START_FAILED, DataUtil.throwableToString(e));
+                } else {
+                    HttpNotifyTroCloudUtils.notifyTroCloud(PressureConstants.pressureEngineParamsInstance, PressureConstants.ENGINE_STATUS_FAILED, DataUtil.throwableToString(e));
+                }
             }
         }
     }
@@ -301,7 +308,9 @@ public final class NewDriver {
         //podNumber
         String podNumber = System.getProperty("pod.number","1");
         result.setPodNumber(podNumber);
-        System.setProperty("pod.number",podNumber);
+        System.setProperty("pod.number", podNumber);
+        String notify = System.getProperty("engine.notify.method", "http");
+        result.setNotify(notify);
         //callbackurl
         result.setCallbackUrl(System.getProperty("CallbackUrl"));
         //jmeter args
