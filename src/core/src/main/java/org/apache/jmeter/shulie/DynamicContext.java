@@ -19,6 +19,7 @@ package org.apache.jmeter.shulie;
 
 import io.shulie.jmeter.tool.executors.ExecutorServiceFactory;
 import org.apache.jmeter.shulie.consts.ThroughputConstants;
+import org.apache.jmeter.shulie.message.StopMessageListener;
 import org.apache.jmeter.shulie.util.JedisUtil;
 import org.apache.jmeter.shulie.util.NumberUtil;
 import org.apache.jmeter.shulie.util.JsonUtil;
@@ -67,6 +68,10 @@ public class DynamicContext {
      * 初始化标识
      */
     private static final AtomicBoolean INITIALIZED = new AtomicBoolean(false);
+    /**
+     * 侦听来自cloud的stop消息
+     */
+    private static StopMessageListener stopMessageListener;
 
     public static void startTest() {
         if (INITIALIZED.compareAndSet(false, true)) {
@@ -75,7 +80,9 @@ public class DynamicContext {
                 flushTpsTargetLevel();
                 flushTpsFactor();
             }, flushTime, flushTime, TimeUnit.MILLISECONDS);
-
+        }
+        if (null == stopMessageListener) {
+            stopMessageListener = new StopMessageListener();
         }
     }
 
