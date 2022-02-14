@@ -31,18 +31,19 @@ import org.apache.jmeter.samplers.SampleResult;
 
 /**
  * This is a specialisation of the SampleResult class for the HTTP protocol.
- *
  */
 public class HTTPSampleResult extends SampleResult {
 
     private static final long serialVersionUID = 241L;
 
-    /** Set of all HTTP methods, that have no body */
+    /**
+     * Set of all HTTP methods, that have no body
+     */
     private static final Set<String> METHODS_WITHOUT_BODY = new HashSet<>(
-            Arrays.asList(
-                    HTTPConstants.HEAD,
-                    HTTPConstants.OPTIONS,
-                    HTTPConstants.TRACE));
+        Arrays.asList(
+            HTTPConstants.HEAD,
+            HTTPConstants.OPTIONS,
+            HTTPConstants.TRACE));
 
     private String cookies = ""; // never null
 
@@ -73,15 +74,14 @@ public class HTTPSampleResult extends SampleResult {
      * Construct a 'parent' result for an already-existing result, essentially
      * cloning it
      *
-     * @param res
-     *            existing sample result
+     * @param res existing sample result
      */
     public HTTPSampleResult(HTTPSampleResult res) {
         super(res);
-        method=res.method;
-        cookies=res.cookies;
-        queryString=res.queryString;
-        redirectLocation=res.redirectLocation;
+        method = res.method;
+        cookies = res.cookies;
+        queryString = res.queryString;
+        redirectLocation = res.redirectLocation;
     }
 
     public void setHTTPMethod(String method) {
@@ -114,6 +114,7 @@ public class HTTPSampleResult extends SampleResult {
     /**
      * Determine whether this result is a redirect.
      * Returns true for: 301,302,303 and 307(GET or HEAD)
+     *
      * @return true iff res is an HTTP redirect response
      */
     public boolean isRedirect() {
@@ -124,9 +125,9 @@ public class HTTPSampleResult extends SampleResult {
          * 305 = Use Proxy
          * 306 = (Unused)
          */
-        final String[] redirectCodes = { HTTPConstants.SC_MOVED_PERMANENTLY,
-                HTTPConstants.SC_MOVED_TEMPORARILY,
-                HTTPConstants.SC_SEE_OTHER };
+        final String[] redirectCodes = {HTTPConstants.SC_MOVED_PERMANENTLY,
+            HTTPConstants.SC_MOVED_TEMPORARILY,
+            HTTPConstants.SC_SEE_OTHER};
         String code = getResponseCode();
         for (String redirectCode : redirectCodes) {
             if (redirectCode.equals(code)) {
@@ -139,7 +140,7 @@ public class HTTPSampleResult extends SampleResult {
         // since this might change the conditions under which the request was issued.
         // See Bug 54119
         return HTTPConstants.SC_TEMPORARY_REDIRECT.equals(code) &&
-                (HTTPConstants.GET.equals(getHTTPMethod()) || HTTPConstants.HEAD.equals(getHTTPMethod()));
+            (HTTPConstants.GET.equals(getHTTPMethod()) || HTTPConstants.HEAD.equals(getHTTPMethod()));
     }
 
     /**
@@ -162,7 +163,7 @@ public class HTTPSampleResult extends SampleResult {
                 sb.append(queryString);
                 sb.append('\n');
             }
-            if (cookies.length()>0){
+            if (cookies.length() > 0) {
                 sb.append("\nCookie Data:\n");
                 sb.append(cookies);
             } else {
@@ -171,7 +172,7 @@ public class HTTPSampleResult extends SampleResult {
             sb.append('\n');
         }
         final String sampData = super.getSamplerData();
-        if (sampData != null){
+        if (sampData != null) {
             sb.append(sampData);
         }
         return sb.toString();
@@ -185,12 +186,11 @@ public class HTTPSampleResult extends SampleResult {
     }
 
     /**
-     * @param string
-     *            representing the cookies
+     * @param string representing the cookies
      */
     public void setCookies(String string) {
         if (string == null) {
-            cookies="";// $NON-NLS-1$
+            cookies = "";// $NON-NLS-1$
         } else {
             cookies = string;
         }
@@ -207,31 +207,18 @@ public class HTTPSampleResult extends SampleResult {
     }
 
     /**
-     * Save the query string
-     *
-     * @param string
-     *            the query string
-     */
-    public void setQueryString(String string) {
-        if (string == null ) {
-            queryString="";// $NON-NLS-1$
-        } else {
-            queryString = string;
-        }
-    }
-
-    /**
      * Overrides the method from SampleResult - so the encoding can be extracted from
      * the Meta content-type if necessary.
      *
      * Updates the dataEncoding field if the content-type is found.
+     *
      * @param defaultEncoding Default encoding used if there is no data encoding
      * @return the dataEncoding value as a String
      */
     @Override
     public String getDataEncodingWithDefault(String defaultEncoding) {
         String dataEncodingNoDefault = getDataEncodingNoDefault();
-        if(dataEncodingNoDefault != null && dataEncodingNoDefault.length()> 0) {
+        if (dataEncodingNoDefault != null && dataEncodingNoDefault.length() > 0) {
             return dataEncodingNoDefault;
         }
         return defaultEncoding;
@@ -247,20 +234,20 @@ public class HTTPSampleResult extends SampleResult {
      */
     @Override
     public String getDataEncodingNoDefault() {
-        if (super.getDataEncodingNoDefault() == null && getContentType().startsWith("text/html")){ // $NON-NLS-1$
-            byte[] bytes=getResponseData();
+        if (super.getDataEncodingNoDefault() == null && getContentType().startsWith("text/html")) { // $NON-NLS-1$
+            byte[] bytes = getResponseData();
             // get the start of the file
             String prefix = new String(bytes, 0, Math.min(bytes.length, 2000), Charset.forName(DEFAULT_HTTP_ENCODING));
             // Preserve original case
             String matchAgainst = prefix.toLowerCase(java.util.Locale.ENGLISH);
             // Extract the content-type if present
             final String metaTag = "<meta http-equiv=\"content-type\" content=\""; // $NON-NLS-1$
-            int tagstart=matchAgainst.indexOf(metaTag);
-            if (tagstart!=-1){
+            int tagstart = matchAgainst.indexOf(metaTag);
+            if (tagstart != -1) {
                 tagstart += metaTag.length();
                 int tagend = prefix.indexOf('\"', tagstart); // $NON-NLS-1$
-                if (tagend!=-1){
-                    final String ct = prefix.substring(tagstart,tagend);
+                if (tagend != -1) {
+                    final String ct = prefix.substring(tagstart, tagend);
                     setEncodingAndType(ct);// Update the dataEncoding
                 }
             }
@@ -268,7 +255,7 @@ public class HTTPSampleResult extends SampleResult {
         return super.getDataEncodingNoDefault();
     }
 
-    public void setResponseNoContent(){
+    public void setResponseNoContent() {
         setResponseCode(HTTP_NO_CONTENT_CODE);
         setResponseMessage(HTTP_NO_CONTENT_MSG);
     }

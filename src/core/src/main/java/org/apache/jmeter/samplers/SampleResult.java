@@ -47,12 +47,12 @@ import org.slf4j.LoggerFactory;
  *
  * mark by lipeng at 20210812
  * 当前类为每次请求的结果。
- *    1. 写jtl时会去当前类实例取数据写入，如果需要的数据此类不提供，可在此类进行扩展，然后其实现类实现。
- *    2. 上报rt，tps等数据时后端监听器会将5s内的SampleResult放到一个队列中暂存
- *    ，等发送标量数据后将队列清空，这里有可能会出现的问题是，如果SampleResult 5s内存储特别大可能会出现OOM，
- *    比如压测kafka时，并发和单条数据都比较大的情况，SampleResult会存储请求体，然后kafka性能又比较高，5s内存储的数据
- *    可以达到GB级别，所以目前kafka插件是默认不存储请求体的，请求体默认存储为空，当然这样jtl也不会获取到请求体，当然这个
- *    需要和需求做个取舍。实际开发需要注意此问题，防止SampleResult过大导致OOM的情况。
+ * 1. 写jtl时会去当前类实例取数据写入，如果需要的数据此类不提供，可在此类进行扩展，然后其实现类实现。
+ * 2. 上报rt，tps等数据时后端监听器会将5s内的SampleResult放到一个队列中暂存
+ * ，等发送标量数据后将队列清空，这里有可能会出现的问题是，如果SampleResult 5s内存储特别大可能会出现OOM，
+ * 比如压测kafka时，并发和单条数据都比较大的情况，SampleResult会存储请求体，然后kafka性能又比较高，5s内存储的数据
+ * 可以达到GB级别，所以目前kafka插件是默认不存储请求体的，请求体默认存储为空，当然这样jtl也不会获取到请求体，当然这个
+ * 需要和需求做个取舍。实际开发需要注意此问题，防止SampleResult过大导致OOM的情况。
  */
 public class SampleResult implements Serializable, Cloneable, Searchable {
 
@@ -71,7 +71,6 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
     private static final String OK_MSG = "OK"; // $NON-NLS-1$
     private static final String INVALID_CALL_SEQUENCE_MSG = "Invalid call sequence"; // $NON-NLS-1$
 
-
     // Bug 33196 - encoding ISO-8859-1 is only suitable for Western countries
     // However the suggested System.getProperty("file.encoding") is Cp1252 on
     // Windows
@@ -83,8 +82,8 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
      * with a default of DEFAULT_HTTP_ENCODING if that is not defined.
      */
     protected static final String DEFAULT_ENCODING
-            = JMeterUtils.getPropDefault("sampleresult.default.encoding", // $NON-NLS-1$
-            DEFAULT_HTTP_ENCODING);
+        = JMeterUtils.getPropDefault("sampleresult.default.encoding", // $NON-NLS-1$
+        DEFAULT_HTTP_ENCODING);
 
     /**
      * The default used by {@link #setResponseData(String, String)}
@@ -114,7 +113,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
         "image/",       //$NON-NLS-1$
         "audio/",       //$NON-NLS-1$
         "video/",       //$NON-NLS-1$
-        };
+    };
 
     // List of types that are known to be ascii, although they may appear to be binary
     private static final String[] NON_BINARY_TYPES = {
@@ -122,10 +121,11 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
         "audio/mpegurl",    //$NON-NLS-1$ (HLS Media Manifest)
         "video/f4m",        //$NON-NLS-1$ (Flash Media Manifest)
         "image/svg+xml"     //$NON-NLS-1$ (SVG is xml)
-        };
+    };
 
-
-    /** empty array which can be returned instead of null */
+    /**
+     * empty array which can be returned instead of null
+     */
     private static final byte[] EMPTY_BA = new byte[0];
 
     private static final SampleResult[] EMPTY_SR = new SampleResult[0];
@@ -133,19 +133,19 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
     private static final AssertionResult[] EMPTY_AR = new AssertionResult[0];
 
     private static final boolean START_TIMESTAMP =
-            JMeterUtils.getPropDefault("sampleresult.timestamp.start", false);  // $NON-NLS-1$
+        JMeterUtils.getPropDefault("sampleresult.timestamp.start", false);  // $NON-NLS-1$
 
     /**
      * Allow read-only access from test code
      */
     private static final boolean USE_NANO_TIME =
-            JMeterUtils.getPropDefault("sampleresult.useNanoTime", true);  // $NON-NLS-1$
+        JMeterUtils.getPropDefault("sampleresult.useNanoTime", true);  // $NON-NLS-1$
 
     /**
      * How long between checks of nanotime; default 5000ms; set to <=0 to disable the thread
      */
     private static final long NANOTHREAD_SLEEP =
-            JMeterUtils.getPropDefault("sampleresult.nanoThreadSleep", 5000);  // $NON-NLS-1$
+        JMeterUtils.getPropDefault("sampleresult.nanoThreadSleep", 5000);  // $NON-NLS-1$
 
     private static final String NULL_FILENAME = "NULL";
 
@@ -168,6 +168,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
             nanoOffset.start();
         }
     }
+
     private SampleSaveConfiguration saveConfig;
 
     private SampleResult parent;
@@ -178,10 +179,14 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
 
     private String label = "";// Never return null
 
-    /** Filename used by ResultSaver */
+    /**
+     * Filename used by ResultSaver
+     */
     private String resultFileName = "";
 
-    /** The data used by the sampler */
+    /**
+     * The data used by the sampler
+     */
     private String samplerData;
 
     private String threadName = ""; // Never return null
@@ -204,7 +209,9 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
 
     private long idleTime = 0;// Allow for non-sample time
 
-    /** Start of pause (if any) */
+    /**
+     * Start of pause (if any)
+     */
     private long pauseTime = 0;
 
     //add by lipeng 添加method 和 queryString
@@ -215,6 +222,19 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
     }
 
     private String queryString = ""; // never null
+
+    /**
+     * Save the query string
+     *
+     * @param value -
+     */
+    public void setQueryString(String value) {
+        if (value == null) {
+            queryString = "";// $NON-NLS-1$
+        } else {
+            queryString = value;
+        }
+    }
 
     public String getQueryString() {
         return queryString;
@@ -229,7 +249,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
     //partition
     public String mqPartition;
 
-    public Map<String,String> extMap;
+    public Map<String, String> extMap;
 
     public String getMqType() {
         return mqType;
@@ -259,8 +279,6 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
         return mqPartition;
     }
 
-
-
     public void setMqPartition(String mqPartition) {
         this.mqPartition = mqPartition;
     }
@@ -272,12 +290,13 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
 
     /**
      * The data type of the sample
+     *
      * @see #getDataType()
      * @see #setDataType(String)
      * @see #TEXT
      * @see #BINARY
      */
-    private String dataType=""; // Don't return null if not set
+    private String dataType = ""; // Don't return null if not set
 
     private boolean success;
 
@@ -290,29 +309,43 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
 
     // TODO do contentType and/or dataEncoding belong in HTTPSampleResult instead?
     private String dataEncoding;// (is this really the character set?) e.g.
-                                // ISO-8895-1, UTF-8
+    // ISO-8895-1, UTF-8
 
     private String contentType = ""; // e.g. text/html; charset=utf-8
 
-    /** elapsed time */
+    /**
+     * elapsed time
+     */
     private long elapsedTime = 0;
 
-    /** time to first response */
+    /**
+     * time to first response
+     */
     private long latency = 0;
 
-    /** time to end connecting */
+    /**
+     * time to end connecting
+     */
     private long connectTime = 0;
 
-    /** Way to signal what to do on Test */
+    /**
+     * Way to signal what to do on Test
+     */
     private TestLogicalAction testLogicalAction = TestLogicalAction.CONTINUE;
 
-    /** Should thread terminate? */
+    /**
+     * Should thread terminate?
+     */
     private boolean stopThread = false;
 
-    /** Should test terminate? */
+    /**
+     * Should test terminate?
+     */
     private boolean stopTest = false;
 
-    /** Should test terminate abruptly? */
+    /**
+     * Should test terminate abruptly?
+     */
     private boolean stopTestNow = false;
 
     private int sampleCount = 1;
@@ -323,10 +356,14 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
 
     private long bodySize = 0;
 
-    /** Currently active threads in this thread group */
+    /**
+     * Currently active threads in this thread group
+     */
     private volatile int groupThreads = 0;
 
-    /** Currently active threads in all thread groups */
+    /**
+     * Currently active threads in all thread groups
+     */
     private volatile int allThreads = 0;
 
     private final long nanoTimeOffset;
@@ -433,10 +470,8 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
      *
      * (only used by HTTPSampleResult)
      *
-     * @param elapsed
-     *            time
-     * @param atend
-     *            create the sample finishing now, else starting now
+     * @param elapsed time
+     * @param atend   create the sample finishing now, else starting now
      */
     protected SampleResult(long elapsed, boolean atend) {
         this();
@@ -455,19 +490,17 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
      * Currently used by CSVSaveService and
      * StatisticalSampleResult
      *
-     * @param stamp
-     *            this may be a start time or an end time (both in
-     *            milliseconds)
-     * @param elapsed
-     *            time in milliseconds
+     * @param stamp   this may be a start time or an end time (both in
+     *                milliseconds)
+     * @param elapsed time in milliseconds
      */
     public SampleResult(long stamp, long elapsed) {
         this();
         stampAndTime(stamp, elapsed);
     }
 
-    private long initOffset(){
-        if (useNanoTime){
+    private long initOffset() {
+        if (useNanoTime) {
             return nanoThreadSleep > 0 ? NanoOffset.getNanoOffset() : System.currentTimeMillis() - sampleNsClockInMs();
         } else {
             return Long.MIN_VALUE;
@@ -475,8 +508,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
     }
 
     /**
-     * @param propertiesToSave
-     *            The propertiesToSave to set.
+     * @param propertiesToSave The propertiesToSave to set.
      */
     public void setSaveConfig(SampleSaveConfiguration propertiesToSave) {
         this.saveConfig = propertiesToSave;
@@ -496,10 +528,8 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
      *
      * (used by StatVisualizerModel.Test)
      *
-     * @param start
-     *            start time in milliseconds since unix epoch
-     * @param end
-     *            end time in milliseconds since unix epoch
+     * @param start start time in milliseconds since unix epoch
+     * @param end   end time in milliseconds since unix epoch
      * @return sample with given start and end time
      */
     public static SampleResult createTestSample(long start, long end) {
@@ -513,8 +543,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
      * Create a sample with a specific elapsed time for test purposes, but don't
      * allow the times to be changed later
      *
-     * @param elapsed
-     *            - desired elapsed time in milliseconds
+     * @param elapsed - desired elapsed time in milliseconds
      * @return sample that starts 'now' and ends <code>elapsed</code> milliseconds later
      */
     public static SampleResult createTestSample(long elapsed) {
@@ -530,13 +559,12 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
      * Helper method to get 1 ms resolution timing.
      *
      * @return the current time in milliseconds
-     * @throws RuntimeException
-     *             when <code>useNanoTime</code> is <code>true</code> but
-     *             <code>nanoTimeOffset</code> is not set
+     * @throws RuntimeException when <code>useNanoTime</code> is <code>true</code> but
+     * <code>nanoTimeOffset</code> is not set
      */
     public long currentTimeInMillis() {
-        if (useNanoTime){
-            if (nanoTimeOffset == Long.MIN_VALUE){
+        if (useNanoTime) {
+            if (nanoTimeOffset == Long.MIN_VALUE) {
                 throw new IllegalStateException("Invalid call; nanoTimeOffset has not been set");
             }
             return sampleNsClockInMs() + nanoTimeOffset;
@@ -560,16 +588,13 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
     /**
      * For use by SaveService only.
      *
-     * @param stamp
-     *            this may be a start time or an end time (both in milliseconds)
-     * @param elapsed
-     *            time in milliseconds
-     * @throws RuntimeException
-     *             when <code>startTime</code> or <code>endTime</code> has been
-     *             set already
+     * @param stamp   this may be a start time or an end time (both in milliseconds)
+     * @param elapsed time in milliseconds
+     * @throws RuntimeException when <code>startTime</code> or <code>endTime</code> has been
+     * set already
      */
     public void setStampAndTime(long stamp, long elapsed) {
-        if (startTime != 0 || endTime != 0){
+        if (startTime != 0 || endTime != 0) {
             throw new IllegalStateException("Calling setStampAndTime() after start/end times have been set");
         }
         stampAndTime(stamp, elapsed);
@@ -591,19 +616,19 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
 
     /**
      * Set response code to OK, i.e. "200"
-     *
      */
-    public void setResponseCodeOK(){
-        responseCode=OK_CODE;
+    public void setResponseCodeOK() {
+        responseCode = OK_CODE;
     }
 
     public void setResponseCode(String code) {
         responseCode = code;
     }
 
-    public boolean isResponseCodeOK(){
+    public boolean isResponseCodeOK() {
         return responseCode.equals(OK_CODE);
     }
+
     public String getResponseMessage() {
         return responseMessage;
     }
@@ -624,7 +649,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
      * <li>Successful status</li>
      * </ul>
      */
-    public void setResponseOK(){
+    public void setResponseOK() {
         setResponseCodeOK();
         setResponseMessageOK();
         setSuccessful(true);
@@ -641,10 +666,9 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
     /**
      * Get the sample timestamp, which may be either the start time or the end time.
      *
+     * @return timeStamp in milliseconds
      * @see #getStartTime()
      * @see #getEndTime()
-     *
-     * @return timeStamp in milliseconds
      */
     public long getTimeStamp() {
         return timeStamp;
@@ -684,7 +708,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
      * Gets the assertion results associated with this sample.
      *
      * @return an array containing the assertion results for this sample.
-     *         Returns empty array if there are no assertion results.
+     * Returns empty array if there are no assertion results.
      */
     public AssertionResult[] getAssertionResults() {
         if (assertionResults == null) {
@@ -696,8 +720,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
     /**
      * Add a subresult and adjust the parent byte count and end-time.
      *
-     * @param subResult
-     *            the {@link SampleResult} to be added
+     * @param subResult the {@link SampleResult} to be added
      */
     public void addSubResult(SampleResult subResult) {
         addSubResult(subResult, isRenameSampleLabel());
@@ -705,6 +728,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
 
     /**
      * see https://bz.apache.org/bugzilla/show_bug.cgi?id=63055
+     *
      * @return true if TestPlan is in functional mode or property subresults.disable_renaming is true
      */
     public static boolean isRenameSampleLabel() {
@@ -714,18 +738,17 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
     /**
      * Add a subresult and adjust the parent byte count and end-time.
      *
-     * @param subResult
-     *            the {@link SampleResult} to be added
+     * @param subResult        the {@link SampleResult} to be added
      * @param renameSubResults boolean do we rename subResults based on position
      */
     public void addSubResult(SampleResult subResult, boolean renameSubResults) {
-        if(subResult == null) {
+        if (subResult == null) {
             // see https://bz.apache.org/bugzilla/show_bug.cgi?id=54778
             return;
         }
         String tn = getThreadName();
-        if (tn.length()==0) {
-            tn=Thread.currentThread().getName();
+        if (tn.length() == 0) {
+            tn = Thread.currentThread().getName();
             this.setThreadName(tn);
         }
         subResult.setThreadName(tn);
@@ -743,20 +766,18 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
     /**
      * Add a subresult to the collection without updating any parent fields.
      *
-     * @param subResult
-     *            the {@link SampleResult} to be added
+     * @param subResult the {@link SampleResult} to be added
      */
-    public void addRawSubResult(SampleResult subResult){
+    public void addRawSubResult(SampleResult subResult) {
         storeSubResult(subResult, isRenameSampleLabel());
     }
 
     /**
      * Add a subresult to the collection without updating any parent fields.
      *
-     * @param subResult
-     *            the {@link SampleResult} to be added
+     * @param subResult the {@link SampleResult} to be added
      */
-    private void addRawSubResult(SampleResult subResult, boolean renameSubResults){
+    private void addRawSubResult(SampleResult subResult, boolean renameSubResults) {
         storeSubResult(subResult, renameSubResults);
     }
 
@@ -767,8 +788,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
      * addSubResult(SampleResult)}, except that the fields don't need to be
      * accumulated
      *
-     * @param subResult
-     *            the {@link SampleResult} to be added
+     * @param subResult the {@link SampleResult} to be added
      */
     public void storeSubResult(SampleResult subResult) {
         storeSubResult(subResult, isRenameSampleLabel());
@@ -781,16 +801,15 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
      * addSubResult(SampleResult)}, except that the fields don't need to be
      * accumulated
      *
-     * @param subResult
-     *            the {@link SampleResult} to be added
+     * @param subResult        the {@link SampleResult} to be added
      * @param renameSubResults boolean do we rename subResults based on position
      */
     private void storeSubResult(SampleResult subResult, boolean renameSubResults) {
         if (subResults == null) {
             subResults = new ArrayList<>();
         }
-        if(renameSubResults) {
-            subResult.setSampleLabel(getSampleLabel()+"-"+subResultIndex++);
+        if (renameSubResults) {
+            subResult.setSampleLabel(getSampleLabel() + "-" + subResultIndex++);
         }
         subResults.add(subResult);
         subResult.setParent(this);
@@ -800,7 +819,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
      * Gets the subresults associated with this sample.
      *
      * @return an array containing the subresults for this sample. Returns an
-     *         empty array if there are no subresults.
+     * empty array if there are no subresults.
      */
     public SampleResult[] getSubResults() {
         if (subResults == null) {
@@ -815,8 +834,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
      * If the parameter is null, then the responseData is set to an empty byte array.
      * This ensures that getResponseData() can never be null.
      *
-     * @param response
-     *            the new responseData value
+     * @param response the new responseData value
      */
     public void setResponseData(byte[] response) {
         responseDataAsString = null;
@@ -827,9 +845,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
      * Sets the responseData attribute of the SampleResult object.
      * Should only be called after setting the dataEncoding (if necessary)
      *
-     * @param response
-     *            the new responseData value (String)
-     *
+     * @param response the new responseData value (String)
      * @deprecated - only intended for use from BeanShell code
      */
     @Deprecated
@@ -848,17 +864,16 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
      *
      * @param response the new responseData value (String)
      * @param encoding the encoding to set and then use (if null, use platform default)
-     *
      */
     public void setResponseData(final String response, final String encoding) {
         responseDataAsString = null;
-        String encodeUsing = encoding != null? encoding : DEFAULT_CHARSET;
+        String encodeUsing = encoding != null ? encoding : DEFAULT_CHARSET;
         try {
             responseData = response.getBytes(encodeUsing);
             setDataEncoding(encodeUsing);
         } catch (UnsupportedEncodingException e) {
             log.warn("Could not convert string using '{}', using default encoding: {}", encodeUsing, DEFAULT_CHARSET,
-                    e);
+                e);
             responseData = response.getBytes(Charset.defaultCharset()); // N.B. default charset is used deliberately here
             setDataEncoding(DEFAULT_CHARSET);
         }
@@ -872,6 +887,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
      *
      * Instead, always use {@link #getBytes()} to obtain the sample result byte count.
      * </p>
+     *
      * @return the responseData value (cannot be null)
      */
     public byte[] getResponseData() {
@@ -885,13 +901,13 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
      */
     public String getResponseDataAsString() {
         try {
-            if(responseDataAsString == null) {
-                responseDataAsString= new String(responseData,getDataEncodingWithDefault());
+            if (responseDataAsString == null) {
+                responseDataAsString = new String(responseData, getDataEncodingWithDefault());
             }
             return responseDataAsString;
         } catch (UnsupportedEncodingException e) {
             log.warn("Using platform default as {} caused {}", getDataEncodingWithDefault(), e.getLocalizedMessage());
-            return new String(responseData,Charset.defaultCharset()); // N.B. default charset is used deliberately here
+            return new String(responseData, Charset.defaultCharset()); // N.B. default charset is used deliberately here
         }
     }
 
@@ -907,7 +923,6 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
      * Get the time it took this sample to occur.
      *
      * @return elapsed time in milliseconds
-     *
      */
     public long getTime() {
         return elapsedTime;
@@ -919,6 +934,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
 
     /**
      * Sets the data type of the sample.
+     *
      * @param dataType String containing {@link #BINARY} or {@link #TEXT}
      * @see #BINARY
      * @see #TEXT
@@ -941,11 +957,11 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
     /**
      * Extract and save the DataEncoding and DataType from the parameter provided.
      * Does not save the full content Type.
-     * @see #setContentType(String) which should be used to save the full content-type string
      *
      * @param ct - content type (may be null)
+     * @see #setContentType(String) which should be used to save the full content-type string
      */
-    public void setEncodingAndType(String ct){
+    public void setEncodingAndType(String ct) {
         if (ct != null) {
             // Extract charset and store as DataEncoding
             // N.B. The meta tag:
@@ -958,11 +974,11 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
                 // handle: ContentType: text/plain; charset=ISO-8859-1; format=flowed
                 int semiColon = charSet.indexOf(';');
                 if (semiColon >= 0) {
-                    charSet=charSet.substring(0, semiColon);
+                    charSet = charSet.substring(0, semiColon);
                 }
                 // Check for quoted string
-                if (charSet.startsWith("\"")||charSet.startsWith("\'")){ // $NON-NLS-1$
-                    setDataEncoding(charSet.substring(1, charSet.length()-1)); // remove quotes
+                if (charSet.startsWith("\"") || charSet.startsWith("\'")) { // $NON-NLS-1$
+                    setDataEncoding(charSet.substring(1, charSet.length() - 1)); // remove quotes
                 } else {
                     setDataEncoding(charSet);
                 }
@@ -981,9 +997,9 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
      * @param ct content type
      * @return true if content-type is of type binary.
      */
-    public static boolean isBinaryType(String ct){
-        for (String entry : NON_BINARY_TYPES){
-            if (ct.startsWith(entry)){
+    public static boolean isBinaryType(String ct) {
+        for (String entry : NON_BINARY_TYPES) {
+            if (ct.startsWith(entry)) {
                 return false;
             }
         }
@@ -998,8 +1014,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
     /**
      * Sets the successful attribute of the SampleResult object.
      *
-     * @param success
-     *            the new successful value
+     * @param success the new successful value
      */
     public void setSuccessful(boolean success) {
         this.success = success;
@@ -1039,6 +1054,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
 
     /**
      * Returns the dataEncoding. May be null or the empty String.
+     *
      * @return the value of the dataEncoding
      */
     public String getDataEncodingNoDefault() {
@@ -1048,8 +1064,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
     /**
      * Sets the dataEncoding.
      *
-     * @param dataEncoding
-     *            the dataEncoding to set, e.g. ISO-8895-1, UTF-8
+     * @param dataEncoding the dataEncoding to set, e.g. ISO-8895-1, UTF-8
      */
     public void setDataEncoding(String dataEncoding) {
         this.dataEncoding = dataEncoding;
@@ -1104,7 +1119,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
 
     /**
      * @param string -
-     *            request headers
+     *               request headers
      */
     public void setRequestHeaders(String string) {
         requestHeaders = string;
@@ -1112,7 +1127,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
 
     /**
      * @param string -
-     *            response headers
+     *               response headers
      */
     public void setResponseHeaders(String string) {
         responseHeaders = string;
@@ -1127,17 +1142,18 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
 
     /**
      * Get the media type from the Content Type
+     *
      * @return the media type - e.g. text/html (without charset, if any)
      */
     public String getMediaType() {
-        return JOrphanUtils.trim(contentType," ;").toLowerCase(java.util.Locale.ENGLISH);
+        return JOrphanUtils.trim(contentType, " ;").toLowerCase(java.util.Locale.ENGLISH);
     }
 
     /**
      * Stores the content-type string, e.g. <code>text/xml; charset=utf-8</code>
-     * @see #setEncodingAndType(String) which can be used to extract the charset.
      *
      * @param string the content-type to be set
+     * @see #setEncodingAndType(String) which can be used to extract the charset.
      */
     public void setContentType(String string) {
         contentType = string;
@@ -1192,6 +1208,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
     /**
      * Set idle time pause.
      * For use by SampleResultConverter/CSVSaveService.
+     *
      * @param idle long
      */
     public void setIdleTime(long idle) {
@@ -1205,7 +1222,6 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
 
     /**
      * Record the start time of a sample
-     *
      */
     public void sampleStart() {
         if (startTime == 0) {
@@ -1217,7 +1233,6 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
 
     /**
      * Record the end time of a sample and calculate the elapsed time
-     *
      */
     public void sampleEnd() {
         if (endTime == 0) {
@@ -1229,7 +1244,6 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
 
     /**
      * Pause a sample
-     *
      */
     public void samplePause() {
         if (pauseTime != 0) {
@@ -1240,7 +1254,6 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
 
     /**
      * Resume a sample
-     *
      */
     public void sampleResume() {
         if (pauseTime == 0) {
@@ -1253,9 +1266,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
     /**
      * When a Sampler is working as a monitor
      *
-     * @param monitor
-     *            flag whether this sampler is working as a monitor
-     *
+     * @param monitor flag whether this sampler is working as a monitor
      * @deprecated since 3.2 NOOP
      */
     @Deprecated
@@ -1300,11 +1311,11 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
      *
      * TODO do we need allow for nested samples?
      */
-    public int getErrorCount(){
+    public int getErrorCount() {
         return success ? 0 : 1;
     }
 
-    public void setErrorCount(int i){// for reading from CSV files
+    public void setErrorCount(int i) {// for reading from CSV files
         // ignored currently
     }
 
@@ -1331,8 +1342,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
      * still want to calculate the throughput. The bytes are the bytes of the
      * response data.
      *
-     * @param length
-     *            the number of bytes of the response data for this sample
+     * @param length the number of bytes of the response data for this sample
      */
     public void setBytes(long length) {
         bytes = length;
@@ -1343,17 +1353,15 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
      * still want to calculate the throughput. The bytes are the bytes of the
      * response data.
      *
-     * @param length
-     *            the number of bytes of the response data for this sample
+     * @param length the number of bytes of the response data for this sample
      * @deprecated use setBytes(long)
      */
     @Deprecated
     public void setBytes(int length) {
-        setBytes((long) length);
+        setBytes((long)length);
     }
 
     /**
-     *
      * @param sentBytesCount long sent bytes
      */
     public void setSentBytes(long sentBytesCount) {
@@ -1375,7 +1383,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
      */
     @Deprecated
     public int getBytes() {
-        return (int) getBytesAsLong();
+        return (int)getBytesAsLong();
     }
 
     /**
@@ -1397,7 +1405,6 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
 
     /**
      * Set the time to the first response
-     *
      */
     public void latencyEnd() {
         latency = currentTimeInMillis() - startTime - idleTime;
@@ -1406,8 +1413,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
     /**
      * This is only intended for use by SampleResultConverter!
      *
-     * @param latency
-     *            The latency to set.
+     * @param latency The latency to set.
      */
     public void setLatency(long latency) {
         this.latency = latency;
@@ -1439,13 +1445,11 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
     /**
      * This is only intended for use by SampleResultConverter!
      *
-     * @param timeStamp
-     *            The timeStamp to set.
+     * @param timeStamp The timeStamp to set.
      */
     public void setTimeStamp(long timeStamp) {
         this.timeStamp = timeStamp;
     }
-
 
     public void setURL(URL location) {
         this.location = location;
@@ -1472,8 +1476,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
     }
 
     /**
-     * @param parent
-     *            The parent to set.
+     * @param parent The parent to set.
      */
     public void setParent(SampleResult parent) {
         this.parent = parent;
@@ -1504,6 +1507,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
     }
 
     // Bug 47394
+
     /**
      * Allow custom SampleSenders to drop unwanted assertionResults
      */
@@ -1521,8 +1525,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
     /**
      * Set the headers size in bytes
      *
-     * @param size
-     *            the number of bytes of the header
+     * @param size the number of bytes of the header
      */
     public void setHeadersSize(int size) {
         this.headersSize = size;
@@ -1543,7 +1546,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
      */
     @Deprecated
     public int getBodySize() {
-        return (int) getBodySizeAsLong();
+        return (int)getBodySizeAsLong();
     }
 
     /**
@@ -1581,7 +1584,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
         public void run() {
             // Wait longer than a clock pulse (generally 10-15ms)
             getOffset(30L); // Catch an early clock pulse to reduce slop.
-            while(true) {
+            while (true) {
                 getOffset(NANOTHREAD_SLEEP); // Can now afford to wait a bit longer between checks
             }
         }
@@ -1609,12 +1612,12 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
     }
 
     /**
-     * @deprecated use SampleResult#setTestLogicalAction(TestLogicalAction)
      * @param startNextThreadLoop the startNextLoop to set
+     * @deprecated use SampleResult#setTestLogicalAction(TestLogicalAction)
      */
     @Deprecated
     public void setStartNextThreadLoop(boolean startNextThreadLoop) {
-        if(startNextThreadLoop) {
+        if (startNextThreadLoop) {
             testLogicalAction = TestLogicalAction.START_NEXT_ITERATION_OF_THREAD;
         } else {
             testLogicalAction = TestLogicalAction.CONTINUE;
