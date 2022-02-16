@@ -42,6 +42,8 @@ import org.apache.http.impl.nio.reactor.IOReactorConfig;
 import org.apache.http.nio.reactor.ConnectingIOReactor;
 import org.apache.http.util.EntityUtils;
 import org.apache.jmeter.report.utils.MetricUtils;
+import org.apache.jmeter.shulie.constants.PressureConstants;
+import org.apache.jmeter.shulie.model.PressureEngineParams;
 import org.apache.jmeter.shulie.util.MessageUtil;
 import org.apache.jmeter.threads.JMeterContextService;
 import org.apache.jmeter.util.JMeterUtils;
@@ -192,7 +194,9 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
     }
 
     private boolean sendByMessage(List<AbstractMetrics> copyMetrics) {
-        return MessageUtil.send("metrics", "", copyMetrics);
+        PressureEngineParams p = PressureConstants.pressureEngineParamsInstance;
+        String key = p.getSceneId()+"|"+p.getResultId()+"|"+p.getCustomerId()+"|"+p.getSceneType();
+        return MessageUtil.send("metrics", key, copyMetrics);
     }
 
     private boolean sendByHttp(List<AbstractMetrics> copyMetrics) {
@@ -282,10 +286,12 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
         // Give some time to send last metrics before shutting down
         log.info("Destroying ");
         thread.destroy();
-        try {
-            lastRequest.get(5, TimeUnit.SECONDS);
-        } catch (InterruptedException | ExecutionException | TimeoutException e) {
-            log.error("Error waiting for last request to be send to InfluxDB", e);
+        if (null != lastRequest) {
+            try {
+                lastRequest.get(5, TimeUnit.SECONDS);
+            } catch (InterruptedException | ExecutionException | TimeoutException e) {
+                log.error("Error waiting for last request to be send to InfluxDB", e);
+            }
         }
         if (httpRequest != null) {
             httpRequest.abort();

@@ -1383,9 +1383,6 @@ public class JMeter implements JMeterPlugin {
                 }
             }
             checkForRemainingThreads();
-            if (MessageUtil.isMessageNotify()) {
-                MessageUtil.sendEvent(EventEnum.TEST_END, "压测停止");
-            }
             println("... end of run");
         }
 
@@ -1514,8 +1511,11 @@ public class JMeter implements JMeterPlugin {
                             }
                             break;
                         case "Shutdown":
+                            log.info("Shutdown case is running!engines.size="+engines.size());
                             for (JMeterEngine engine : engines) {
+                                log.info("JMeterEngine "+engine+" stopTest 开始");
                                 engine.stopTest(false);
+                                log.info("JMeterEngine "+engine+" stopTest 结束");
                             }
                             break;
                         case "HeapDump":

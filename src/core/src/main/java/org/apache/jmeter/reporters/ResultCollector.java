@@ -49,6 +49,8 @@ import org.apache.jmeter.save.SaveService;
 import org.apache.jmeter.services.CsvPositionRecord;
 import org.apache.jmeter.services.FileServer;
 import org.apache.jmeter.shulie.constants.PressureConstants;
+import org.apache.jmeter.shulie.util.MessageUtil;
+import org.apache.jmeter.shulie.util.model.EventEnum;
 import org.apache.jmeter.testelement.TestStateListener;
 import org.apache.jmeter.testelement.property.BooleanProperty;
 import org.apache.jmeter.testelement.property.ObjectProperty;
@@ -91,6 +93,7 @@ public class ResultCollector extends AbstractListenerElement implements SampleLi
                 finalizeFileOutput();
                 finalizeCachePosition();
                 finalizeUploadLog();
+                MessageUtil.sendEvent(EventEnum.TEST_END, "压测停止");
             }
             log.info("Shutdown hook ended");
         }
@@ -371,10 +374,17 @@ public class ResultCollector extends AbstractListenerElement implements SampleLi
             if (GlobalVariables.stopFlag.compareAndSet(false, true)) {
                 log.info("获取到压测结束标识，已入队【{}】条日志", GlobalVariables.enqueueCount.get());
                 log.info("已上传【{}】条日志", GlobalVariables.uploadCount.get());
+                if (!GlobalVariables.logPusherInited) {
+                    return;
+                }
+                long t = System.currentTimeMillis();
                 while (!GlobalVariables.logBlockQueue.isEmpty()) {
                     log.info("等待日志上传完成。。。队列剩余日志数量【{}】", GlobalVariables.logBlockQueue.size());
                     try {
                         TimeUnit.MILLISECONDS.sleep(300);
+                        if (System.currentTimeMillis() - t > 5000) {
+                            break;
+                        }
                     } catch (InterruptedException e) {
                         log.error("等待日志上传完成异常，可能会有【{}】条日志丢失", GlobalVariables.enqueueCount.get() - GlobalVariables.uploadCount.get());
                     }

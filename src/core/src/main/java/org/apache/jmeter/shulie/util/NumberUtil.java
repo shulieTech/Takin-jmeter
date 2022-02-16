@@ -17,7 +17,6 @@
 
 package org.apache.jmeter.shulie.util;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,7 +53,7 @@ public class NumberUtil {
 
     public static int parseInt(Object obj, int defValue) {
         String value = StringUtil.valueOf(obj);
-        if (StringUtils.isBlank(value)) {
+        if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
             return defValue;
         }
         if (value.contains(".")) {
@@ -75,7 +74,7 @@ public class NumberUtil {
 
     public static double parseDouble(Object obj, double defValue) {
         String value = StringUtil.valueOf(obj);
-        if (StringUtils.isBlank(value)) {
+        if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
             return defValue;
         }
         double v = defValue;

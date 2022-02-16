@@ -44,8 +44,8 @@ public class DataUtil {
      */
     public static String getPodNo() {
         String podNo = PressureConstants.pressureEngineParamsInstance.getPodNumber();
-        if (StringUtil.isBlank(podNo)) {
-            podNo = StringUtil.isBlank(System.getProperty("pod.number")) ? "1" : System.getProperty("pod.number");
+        if (StringUtils.isBlank(podNo)) {
+            podNo = StringUtils.isBlank(System.getProperty("pod.number")) ? "1" : System.getProperty("pod.number");
         }
         return podNo;
     }
@@ -81,7 +81,7 @@ public class DataUtil {
             R r = func.apply(t);
             if (null != r) {
                 if (r instanceof String) {
-                    if (StringUtil.isNotBlank((String) r)) {
+                    if (StringUtils.isNotBlank((String) r)) {
                         result = r;
                     }
                 } else if (r instanceof List) {

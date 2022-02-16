@@ -22,9 +22,16 @@ import io.shulie.jmeter.tool.redis.domain.TkMessage;
 import org.apache.jmeter.shulie.constants.PressureConstants;
 import org.apache.jmeter.shulie.util.NumberUtil;
 import org.apache.jmeter.threads.JMeterContextService;
+import org.apache.jmeter.util.JMeterUtils;
+import org.apache.jmeter.util.ShutdownClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
@@ -45,10 +52,35 @@ public class StopMessageListener extends AbstractCloudNotifyMessageListener {
             return true;
         }
         try {
-            JMeterContextService.getContext().getEngine().stopTest();
+            int port = JMeterUtils.getPropDefault("jmeterengine.nongui.port", ShutdownClient.UDP_PORT_DEFAULT); // $NON-NLS-1$
+            int maxPort = JMeterUtils.getPropDefault("jmeterengine.nongui.maxport", 4455); // $NON-NLS-1$
+            if (port > 1000) {
+                final DatagramSocket socket = getSocket(port, maxPort);
+                //命令支持参考Jmeter#waitForSignals, StopTestNow立即停止，Shutdown关闭，HeapDump，ThreadDump
+                String command = "Shutdown";
+                byte[] buf = command.getBytes(StandardCharsets.US_ASCII);
+                InetAddress address = InetAddress.getByName("localhost");
+                DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
+                socket.send(packet);
+            }
         } catch (Throwable t) {
             log.error("engine stop failed!taskId="+taskId, t);
         }
         return true;
+    }
+
+    private static DatagramSocket getSocket(int udpPort, int udpPortMax) {
+        DatagramSocket socket = null;
+        int i = udpPort;
+        while (i <= udpPortMax) {
+            try {
+                socket = new DatagramSocket(i);
+                break;
+            } catch (SocketException e) { // NOSONAR
+                i++;
+            }
+        }
+
+        return socket;
     }
 }

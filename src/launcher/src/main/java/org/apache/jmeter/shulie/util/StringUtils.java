@@ -21,7 +21,7 @@ package org.apache.jmeter.shulie.util;
  * @Author: liyuanba
  * @Date: 2022/1/28 3:22 下午
  */
-public class StringUtil {
+public class StringUtils {
     public static boolean isNotBlank(CharSequence cs) {
         return !isBlank(cs);
     }
