@@ -223,6 +223,16 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
 
     private String queryString = ""; // never null
 
+    private String mqTraceId;
+
+    public String getMqTraceId() {
+        return mqTraceId;
+    }
+
+    public void setMqTraceId(String mqTraceId) {
+        this.mqTraceId = mqTraceId;
+    }
+
     /**
      * Save the query string
      *

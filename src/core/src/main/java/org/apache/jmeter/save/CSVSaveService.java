@@ -1112,7 +1112,7 @@ public final class CSVSaveService {
             isMq = true;
         }
         if (isMq) {
-            traceId = JMeterContextService.getContext().getVariables().get(PressureConstants.TRACE_ID_KEY);
+            traceId = sampleResult.getMqTraceId();
             reportId = String.valueOf(PressureConstants.pressureEngineParamsInstance.getResultId());
             if (sampleResult.getMqTopic().startsWith("PT_")) {
                 performanceTest = true;
