@@ -21,8 +21,15 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.shulie.jmeter.tool.redis.domain.TkMessage;
+import io.shulie.jmeter.tool.redis.util.JsonUtil;
 import org.apache.jmeter.DynamicClassLoader;
+import org.apache.jmeter.shulie.model.EventEnum;
+import org.apache.jmeter.shulie.model.EventInfo;
 import org.apache.jmeter.shulie.model.PressureEngineParams;
+import org.apache.jmeter.shulie.model.PressureInfo;
+
+import static org.apache.jmeter.shulie.util.MessageUtils.JMETER_REPORT;
 
 /**
  * 通知cloud工具类
@@ -35,8 +42,61 @@ public class HttpNotifyTroCloudUtils {
 
     private static DynamicClassLoader loader;
 
+    private static final String eventUrl;
+
     public static void init(DynamicClassLoader loader) {
         HttpNotifyTroCloudUtils.loader = loader;
+    }
+
+    static {
+        eventUrl = System.getProperty("eventUrl");
+    }
+
+    public static boolean hasEvevtUrl() {
+        return StringUtils.isBlank(eventUrl);
+    }
+
+    public static boolean sendEvent(EventEnum event, String message) {
+        EventInfo info = EventInfo.create()
+                .setEvent(event)
+                .setMessage(message)
+                .build();
+        return send("event", info);
+    }
+
+    public static boolean send(String tag, PressureInfo info) {
+        return send(tag, info.getTaskId(), info);
+    }
+
+    public static boolean send(String tag, Object key, Object content) {
+        return send(tag, String.valueOf(key), JsonUtil.toJson(content));
+    }
+
+    public static boolean send(String tag, String key, String content) {
+        TkMessage message = TkMessage.create().setGroupTopic(JMETER_REPORT)
+                .setTag(tag)
+                .setKey(key)
+                .setContent(content)
+                .build();
+        return send(message);
+    }
+
+    public static boolean send(TkMessage message) {
+        return send(JsonUtils.toJson(message));
+    }
+
+    public static boolean send(String message) {
+        boolean r = false;
+        try {
+            String response = HttpUtils.doPost(eventUrl, message);
+            if (StringUtils.isNotBlank(response)) {
+                r = true;
+            }
+            System.out.println("上报消息. >> message="+message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return r;
     }
 
     /**

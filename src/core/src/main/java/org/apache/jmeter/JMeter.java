@@ -474,6 +474,8 @@ public class JMeter implements JMeterPlugin {
             System.out.println("Error: " + error);//NOSONAR
             if (MessageUtil.isMessageNotify()) {
                 MessageUtil.sendEvent(EventEnum.START_FAILED, error);
+            } else {
+                HttpNotifyTroCloudUtils.sendEvent(org.apache.jmeter.shulie.model.EventEnum.START_FAILED, error);
             }
             return;
         }
@@ -492,6 +494,8 @@ public class JMeter implements JMeterPlugin {
                             System.err.println("Uncaught Exception " + e + " in thread " + t + ". See log file for details.");//NOSONAR
                             if (MessageUtil.isMessageNotify()) {
                                 MessageUtil.sendEvent(EventEnum.START_FAILED, "Uncaught exception in thread：" + DataUtil.throwableToString(e));
+                            } else {
+                                HttpNotifyTroCloudUtils.sendEvent(org.apache.jmeter.shulie.model.EventEnum.START_FAILED, "Uncaught exception in thread：" + DataUtil.throwableToString(e));
                             }
                         }
                     });
@@ -601,6 +605,8 @@ public class JMeter implements JMeterPlugin {
             System.out.println(CLUtil.describeOptions(options).toString());//NOSONAR
             if (MessageUtil.isMessageNotify()) {
                 MessageUtil.sendEvent(EventEnum.START_FAILED, "Incorrect Usage:" + e.getMessage() + "\n" + DataUtil.throwableToString(e));
+            } else {
+                HttpNotifyTroCloudUtils.sendEvent(org.apache.jmeter.shulie.model.EventEnum.START_FAILED, "Incorrect Usage:" + e.getMessage() + "\n" + DataUtil.throwableToString(e));
             }
         } catch (Throwable e) { // NOSONAR
             log.error("An error occurred: ", e);
@@ -608,6 +614,8 @@ public class JMeter implements JMeterPlugin {
             // 先将问题上报到cloud add by lipeng
             if (MessageUtil.isMessageNotify()) {
                 MessageUtil.sendEvent(EventEnum.START_FAILED, "An error occurred!\n"+DataUtil.throwableToString(e));
+            } else if (HttpNotifyTroCloudUtils.hasEvevtUrl()) {
+                HttpNotifyTroCloudUtils.sendEvent(org.apache.jmeter.shulie.model.EventEnum.START_FAILED, "An error occurred!\n"+DataUtil.throwableToString(e));
             } else {
                 HttpNotifyTroCloudUtils.notifyTroCloud(params, PressureConstants.ENGINE_STATUS_FAILED, e.getMessage());
             }
@@ -1345,6 +1353,8 @@ public class JMeter implements JMeterPlugin {
             }
             if (MessageUtil.isMessageNotify()) {
                 MessageUtil.sendEvent(EventEnum.TEST_START, "启动压测");
+            } else {
+                HttpNotifyTroCloudUtils.sendEvent(org.apache.jmeter.shulie.model.EventEnum.TEST_START, "启动压测");
             }
         }
 

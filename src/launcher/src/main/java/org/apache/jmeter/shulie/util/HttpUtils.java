@@ -89,7 +89,19 @@ public abstract class HttpUtils {
         return doPost(hostPort.host, hostPort.port, hostPort.url, body);
     }
 
+    public static String doPost(String url, String body, Integer timeout) {
+        HostPort hostPort = getHostPortUrlFromUrl(url);
+        return doPost(hostPort.host, hostPort.port, hostPort.url, body, timeout);
+    }
+
     public static String doPost(String host, int port, String url, String body) {
+        return doPost(host, port, url, body, 5000);
+    }
+
+    public static String doPost(String host, int port, String url, String body, Integer timeout) {
+        if (null == timeout) {
+            timeout = 5000;
+        }
         InputStream input = null;
         OutputStream output = null;
         Socket socket = null;
@@ -97,7 +109,7 @@ public abstract class HttpUtils {
             SocketAddress address = new InetSocketAddress(host, port);
             socket = new Socket();
             socket.connect(address, 1000); // 设置建立连接超时时间 1s
-            socket.setSoTimeout(5000); // 设置读取数据超时时间 5s
+            socket.setSoTimeout(timeout); // 设置读取数据超时时间 5s
             output = socket.getOutputStream();
 
             String request =
