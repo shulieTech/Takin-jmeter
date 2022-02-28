@@ -15,9 +15,10 @@
  * limitations under the License.
  */
 dependencies {
+    api("org.apache.commons:commons-collections4")
+    api("org.apache.commons:commons-lang3")
+    api("com.alibaba:fastjson")
     implementation("io.shulie.flpt:jmeter-redis-tool")
-    implementation("org.apache.commons:commons-collections4")
-    implementation("org.apache.commons:commons-lang3")
     implementation("org.slf4j:slf4j-api")
 }
 val lastEditYear: String by rootProject.extra

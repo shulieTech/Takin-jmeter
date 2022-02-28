@@ -251,7 +251,11 @@ public final class NewDriver {
             if (PressureConstants.NOTIFY_MESSAGE.equals(notify)) {
                 MessageUtils.sendEvent(EventEnum.START_FAILED, excetionsMsg);
             } else {
-                HttpNotifyTroCloudUtils.notifyTroCloud(PressureConstants.pressureEngineParamsInstance, PressureConstants.ENGINE_STATUS_FAILED, excetionsMsg);
+                if (HttpNotifyTroCloudUtils.hasEvevtUrl()) {
+                    HttpNotifyTroCloudUtils.sendEvent(EventEnum.START_FAILED, excetionsMsg);
+                } else {
+                    HttpNotifyTroCloudUtils.notifyTroCloud(PressureConstants.pressureEngineParamsInstance, PressureConstants.ENGINE_STATUS_FAILED, excetionsMsg);
+                }
             }
         } else {
             Thread.currentThread().setContextClassLoader(loader);
@@ -275,7 +279,11 @@ public final class NewDriver {
                 if (PressureConstants.NOTIFY_MESSAGE.equals(notify)) {
                     MessageUtils.sendEvent(EventEnum.START_FAILED, DataUtil.throwableToString(e));
                 } else {
-                    HttpNotifyTroCloudUtils.notifyTroCloud(PressureConstants.pressureEngineParamsInstance, PressureConstants.ENGINE_STATUS_FAILED, DataUtil.throwableToString(e));
+                    if (HttpNotifyTroCloudUtils.hasEvevtUrl()) {
+                        HttpNotifyTroCloudUtils.sendEvent(EventEnum.START_FAILED, DataUtil.throwableToString(e));
+                    } else {
+                        HttpNotifyTroCloudUtils.notifyTroCloud(PressureConstants.pressureEngineParamsInstance, PressureConstants.ENGINE_STATUS_FAILED, DataUtil.throwableToString(e));
+                    }
                 }
             }
         }

@@ -49,6 +49,7 @@ import org.apache.jmeter.save.SaveService;
 import org.apache.jmeter.services.CsvPositionRecord;
 import org.apache.jmeter.services.FileServer;
 import org.apache.jmeter.shulie.constants.PressureConstants;
+import org.apache.jmeter.shulie.util.HttpNotifyTroCloudUtils;
 import org.apache.jmeter.shulie.util.MessageUtil;
 import org.apache.jmeter.shulie.util.model.EventEnum;
 import org.apache.jmeter.testelement.TestStateListener;
@@ -93,7 +94,11 @@ public class ResultCollector extends AbstractListenerElement implements SampleLi
                 finalizeFileOutput();
                 finalizeCachePosition();
                 finalizeUploadLog();
-                MessageUtil.sendEvent(EventEnum.TEST_END, "压测停止");
+                if (MessageUtil.isMessageNotify()) {
+                    MessageUtil.sendEvent(EventEnum.TEST_END, "压测停止");
+                } else {
+                    HttpNotifyTroCloudUtils.sendEvent(org.apache.jmeter.shulie.model.EventEnum.TEST_END, "压测停止");
+                }
             }
             log.info("Shutdown hook ended");
         }
