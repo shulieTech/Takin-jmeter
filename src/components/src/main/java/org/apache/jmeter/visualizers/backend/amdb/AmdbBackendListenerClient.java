@@ -133,10 +133,6 @@ public class AmdbBackendListenerClient extends AbstractBackendListenerClient imp
                     AbstractAmdbMetricsSender.tagToStringValue(entry.getKey());
 
                 SamplerMetric metric = entry.getValue();
-                tags.add(new ResponseMetricsTag() {{
-                    setUrl(metric.getTransactionUrl());
-                    setTaskId(taskId);
-                }});
                 ResponseMetricsField responseMetrics = buildResponseMetricsAndClean(entry.getKey(), metric);
                 if (CUMULATED_METRICS.equals(transaction)) {
                     //当transcation为all时返回的saCount均设置为0，因为all的sa count为空，让cloud去聚合all的sacount数据
@@ -144,10 +140,14 @@ public class AmdbBackendListenerClient extends AbstractBackendListenerClient imp
                     responseMetrics.setActiveThreads(userMetrics.getAllActiveThreadNum());
                 }
                 fields.add(responseMetrics);
+                tags.add(new ResponseMetricsTag() {{
+                    setUrl(metric.getTransactionUrl());
+                    setTaskId(taskId);
+                    setEventTime(responseMetrics.getTimestamp());
+                }});
                 //amdbMetricsManager.addMetric(responseMetrics);
                 metric.resetForTimeInterval();
             }
-            metrics.setEventTime(new Date().getTime());
             metrics.setMeasurement(measurement);
             metrics.setTag(tags);
             metrics.setField(fields);

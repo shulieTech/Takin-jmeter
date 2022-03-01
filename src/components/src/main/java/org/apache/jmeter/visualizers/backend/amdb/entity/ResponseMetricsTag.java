@@ -27,6 +27,7 @@ package org.apache.jmeter.visualizers.backend.amdb.entity;
 public class ResponseMetricsTag {
     private String taskId;
     private String url;
+    private Long eventTime;
 
     public String getTaskId() {
         return taskId;
@@ -42,6 +43,14 @@ public class ResponseMetricsTag {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public Long getEventTime() {
+        return eventTime;
+    }
+
+    public void setEventTime(Long eventTime) {
+        this.eventTime = eventTime;
     }
 }
 
