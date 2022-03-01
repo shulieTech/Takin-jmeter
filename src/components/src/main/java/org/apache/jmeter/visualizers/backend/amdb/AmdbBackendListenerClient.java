@@ -103,6 +103,10 @@ public class AmdbBackendListenerClient extends AbstractBackendListenerClient imp
 
     private Map<String, BusinessActivityConfig> bizMap = new HashMap<>();
 
+    private String measurement;
+
+    private String taskId;
+
     public AmdbBackendListenerClient() {
         super();
     }
@@ -121,13 +125,14 @@ public class AmdbBackendListenerClient extends AbstractBackendListenerClient imp
             UserMetric userMetrics = getUserMetrics();
             List<ResponseMetricsTag> tags = new ArrayList<>();
             List<ResponseMetricsField> fields = new ArrayList<>();
-
+            if(metricsPerSampler.entrySet().isEmpty()){
+                return;
+            }
             for (Map.Entry<String, SamplerMetric> entry : metricsPerSampler.entrySet()) {
                 String transaction = CUMULATED_METRICS.equals(entry.getKey()) ? CUMULATED_METRICS :
                     AbstractAmdbMetricsSender.tagToStringValue(entry.getKey());
 
                 SamplerMetric metric = entry.getValue();
-                String taskId = System.getProperty("task.id");
                 tags.add(new ResponseMetricsTag() {{
                     setUrl(metric.getTransactionUrl());
                     setTaskId(taskId);
@@ -142,11 +147,10 @@ public class AmdbBackendListenerClient extends AbstractBackendListenerClient imp
                 //amdbMetricsManager.addMetric(responseMetrics);
                 metric.resetForTimeInterval();
             }
-            metrics.setTime(new Date().getTime());
-            String measurement = System.getProperty("db.measurement");
+            metrics.setEventTime(new Date().getTime());
             metrics.setMeasurement(measurement);
-            metrics.setTags(tags);
-            metrics.setFields(fields);
+            metrics.setTag(tags);
+            metrics.setField(fields);
             userMetrics.resetForTimeInterval();
             amdbMetricsManager.addMetric(metrics);
         }
@@ -248,6 +252,8 @@ public class AmdbBackendListenerClient extends AbstractBackendListenerClient imp
         summaryOnly = context.getBooleanParameter("summaryOnly", false);
         samplersRegex = context.getParameter("samplersRegex", "");
         String bizArgs = context.getParameter("businessMap", "");
+        measurement = context.getParameter("measurement", "jmeter_test");
+        taskId = System.getProperty("__ENGINE_TASK_ID__", "");
         if (StringUtils.isNotBlank(bizArgs)) {
             bizMap = JsonUtil.parseObject(bizArgs, new TypeReference<Map<String, BusinessActivityConfig>>() {});
         }

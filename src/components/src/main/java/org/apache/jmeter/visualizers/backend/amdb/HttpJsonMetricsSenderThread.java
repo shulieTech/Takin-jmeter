@@ -26,6 +26,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.jmeter.visualizers.backend.amdb.entity.AbstractMetrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,34 +48,37 @@ public class HttpJsonMetricsSenderThread {
     public void send(List<AbstractMetrics> metrics) {
         queueSize.incrementAndGet();
         queue.add(metrics);
-//        if (started.compareAndSet(false, true)) {
-//            start();
-//        }
+        //        if (started.compareAndSet(false, true)) {
+        //            start();
+        //        }
     }
 
     public void start() {
         Runnable runnable = () -> {
-            for (;;) {
-                List<AbstractMetrics> metrics = null;
+            for (; ; ) {
+                List<AbstractMetrics> metricses = null;
                 try {
-                    metrics = queue.take();
+                    metricses = queue.take();
                 } catch (InterruptedException e) {
-                    log.error("Error take metrics from queue!queue.size="+queue.size());
+                    log.error("Error take metrics from queue!queue.size=" + queue.size());
                 }
-                if (null != metrics && metrics.size()>0 && !sender.writeAndSendMetrics(metrics)) {
-                    long t = System.currentTimeMillis();
-                    int i=0;
-                    do {
-                        try {
-                            log.error("retry send data times:"+(++i)+",t="+(System.currentTimeMillis()-t));
-                            Thread.sleep(500);
-                        } catch (InterruptedException e) {
-                            log.error("Thread sleep error!", e);
-                        }
-                    } while (!sender.writeAndSendMetrics(metrics));
+                if (CollectionUtils.isEmpty(metricses)) {continue;}
+                for (AbstractMetrics metrics : metricses) {
+                    if (!sender.writeAndSendMetrics(metrics)) {
+                        long t = System.currentTimeMillis();
+                        int i = 0;
+                        do {
+                            try {
+                                log.error("retry send data times:" + (++i) + ",t=" + (System.currentTimeMillis() - t));
+                                Thread.sleep(500);
+                            } catch (InterruptedException e) {
+                                log.error("Thread sleep error!", e);
+                            }
+                        } while (!sender.writeAndSendMetrics(metrics));
+                    }
                 }
                 queueSize.decrementAndGet();
-                if (null != destroyCb && queue.size()<=0) {
+                if (null != destroyCb && queue.size() <= 0) {
                     await();
                 }
             }
@@ -100,8 +104,8 @@ public class HttpJsonMetricsSenderThread {
      */
     public void destroy() {
         log.info("start to destroy!");
-        if (queueSize.get()>0) {
-            log.info("destroy blocked, queue is not empty!queueSize="+queueSize.get());
+        if (queueSize.get() > 0) {
+            log.info("destroy blocked, queue is not empty!queueSize=" + queueSize.get());
             await();
             log.info("destroy block releaseed!");
         }

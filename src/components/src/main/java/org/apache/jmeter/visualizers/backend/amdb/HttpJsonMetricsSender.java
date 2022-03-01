@@ -20,6 +20,7 @@ package org.apache.jmeter.visualizers.backend.amdb;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -164,9 +165,9 @@ class HttpJsonMetricsSender extends AbstractAmdbMetricsSender {
 
     @Override
     public void addEventMetrics(EventMetrics eventMetrics) {
-        synchronized (lock) {
-            this.metrics.add(eventMetrics);
-        }
+        //synchronized (lock) {
+        //    this.metrics.add(eventMetrics);
+        //}
     }
 
     @Override
@@ -181,16 +182,19 @@ class HttpJsonMetricsSender extends AbstractAmdbMetricsSender {
     }
 
     //TODO mark by lipeng 这里改为直接向influxdb写数据 而不是传到cloud
-    public boolean writeAndSendMetrics(List<AbstractMetrics> copyMetrics) {
+    public boolean writeAndSendMetrics(AbstractMetrics metrics) {
         try {
             if (httpRequest == null) {
                 httpRequest = createRequest(url, token);
             }
-            String sendData = JacksonUtil.toJson(copyMetrics);
+            if(metrics instanceof AmdbResponseMetrics){
+                ((AmdbResponseMetrics)metrics).setTime(new Date().getTime());
+            }
+            String sendData = JacksonUtil.toJson(metrics);
             log.info("send data:" + sendData);
             //请求数据
             httpRequest.setEntity(new StringEntity(sendData, ContentType.APPLICATION_JSON));
-            MetricsSenderCallback callback = new MetricsSenderCallback(httpRequest, copyMetrics);
+            MetricsSenderCallback callback = new MetricsSenderCallback(httpRequest, metrics);
             lastRequest = httpClient.execute(httpRequest, callback);
             HttpResponse response = lastRequest.get();
             int code = response.getStatusLine().getStatusCode();
@@ -207,11 +211,11 @@ class HttpJsonMetricsSender extends AbstractAmdbMetricsSender {
 
     private class MetricsSenderCallback implements FutureCallback<HttpResponse> {
         private HttpPost httpRequest;
-        private List<AbstractMetrics> copyMetrics;
+        private AbstractMetrics metrics;
 
-        public MetricsSenderCallback(HttpPost httpRequest, List<AbstractMetrics> copyMetrics) {
+        public MetricsSenderCallback(HttpPost httpRequest, AbstractMetrics metrics) {
             this.httpRequest = httpRequest;
-            this.copyMetrics = copyMetrics;
+            this.metrics = metrics;
         }
 
         @Override
@@ -225,7 +229,7 @@ class HttpJsonMetricsSender extends AbstractAmdbMetricsSender {
              */
             if (MetricUtils.isSuccessCode(code)) {
                 //查看日志
-                log.info("Success, number of metrics written: {}", copyMetrics.size());
+                log.info("Success, number of metrics written: {}", 1);
                 //                        if (log.isDebugEnabled()) {
                 //                            log.debug("Success, number of metrics written: {}", copyMetrics.size());
                 //                        }

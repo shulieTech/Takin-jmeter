@@ -30,9 +30,10 @@ import static org.apache.jmeter.visualizers.backend.influxdb.entity.Constants.ME
  */
 public class AmdbResponseMetrics extends AbstractMetrics {
     private Long time;
+    private Long eventTime;
     private String measurement;
-    private List<ResponseMetricsTag> tags;
-    private List<ResponseMetricsField> fields;
+    private List<ResponseMetricsTag> tag;
+    private List<ResponseMetricsField> field;
 
     public AmdbResponseMetrics() {
         super(METRICS_TYPE_RESPONSE);
@@ -54,19 +55,27 @@ public class AmdbResponseMetrics extends AbstractMetrics {
         this.measurement = measurement;
     }
 
-    public List<ResponseMetricsTag> getTags() {
-        return tags;
+    public Long getEventTime() {
+        return eventTime;
     }
 
-    public void setTags(List<ResponseMetricsTag> tags) {
-        this.tags = tags;
+    public void setEventTime(Long eventTime) {
+        this.eventTime = eventTime;
     }
 
-    public List<ResponseMetricsField> getFields() {
-        return fields;
+    public List<ResponseMetricsTag> getTag() {
+        return tag;
     }
 
-    public void setFields(List<ResponseMetricsField> fields) {
-        this.fields = fields;
+    public void setTag(List<ResponseMetricsTag> tag) {
+        this.tag = tag;
+    }
+
+    public List<ResponseMetricsField> getField() {
+        return field;
+    }
+
+    public void setField(List<ResponseMetricsField> field) {
+        this.field = field;
     }
 }
