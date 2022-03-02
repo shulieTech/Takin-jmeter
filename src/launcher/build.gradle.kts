@@ -36,7 +36,7 @@ tasks.withType<ProcessResources>().configureEach {
 tasks.named<Jar>(JavaPlugin.JAR_TASK_NAME) {
     manifest {
         attributes["Main-Class"] = "org.apache.jmeter.NewDriver"
-        attributes["Class-Path"] = "../lib/jmeter-redis-tool-1.3.2.jar"
+//        attributes["Class-Path"] = "../lib/jmeter-redis-tool-1.3.2.jar"
     }
 }
 

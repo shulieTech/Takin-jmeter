@@ -17,95 +17,57 @@
 
 package org.apache.jmeter.shulie.util;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.jmeter.DynamicClassLoader;
 
-import java.util.List;
+import java.lang.reflect.Method;
 
 /**
  * @Author: liyuanba
  * @Date: 2021/10/18 4:41 下午
  */
 public class JsonUtils {
+    private static DynamicClassLoader loader;
+    private static Class<?> jsonClass;
+    private static Method toJsonMethod;
+
+    public static void init(DynamicClassLoader loader) {
+        JsonUtils.loader = loader;
+    }
+
+    private static Class<?> getJsonClass() {
+        if (null == jsonClass) {
+            try {
+                jsonClass = JsonUtils.loader.loadClass("com.alibaba.fastjson.JSON");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return jsonClass;
+    }
+
+    public static Method getToJsonMethod() {
+        if (null == toJsonMethod) {
+            try {
+                Class<?> jsonClass = getJsonClass();
+                toJsonMethod = jsonClass.getDeclaredMethod("toJSONString", new Class[]{Object.class});
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+        }
+        return toJsonMethod;
+    }
+
     public static String toJson(Object o) {
         if (null == o) {
             return null;
         }
         try {
-            return JSON.toJSONString(o);
+            Method toJsonMethod = getToJsonMethod();
+            Object res = toJsonMethod.invoke(null, o);
+            return String.valueOf(res);
         } catch (Exception e) {
             System.err.println("toJson failed!o="+o);
         }
         return null;
     }
-
-    public static JSONObject parse(String text) {
-        if (StringUtils.isBlank(text)) {
-            return null;
-        }
-        JSONObject json = null;
-        try {
-            json = JSON.parseObject(text);
-        } catch (Exception e) {
-            System.err.println("parse json failed!text="+text);
-        }
-        return json;
-    }
-
-    public static <T> T parseObject(String text, Class<T> clazz) {
-        if (StringUtils.isBlank(text)) {
-            return null;
-        }
-        T result = null;
-        try {
-            result = JSON.parseObject(text, clazz);
-        } catch (Exception e) {
-            System.err.println("parse json to object class failed!text="+text);
-        }
-        return result;
-    }
-
-    public static <T> T parseObject(String text, TypeReference<T> type) {
-        if (StringUtils.isBlank(text)) {
-            return null;
-        }
-        T result = null;
-        try {
-            result = JSON.parseObject(text, type);
-        } catch (Exception e) {
-            System.err.println("parse json to object type failed!text="+text);
-        }
-        return result;
-    }
-
-    public static JSONArray parseArray(String text) {
-        if (StringUtils.isBlank(text)) {
-            return null;
-        }
-        JSONArray result = null;
-        try {
-            result = JSON.parseArray(text);
-        } catch (Exception e) {
-            System.err.println("json parseArray failed!text="+text);
-        }
-        return result;
-    }
-
-    public static <T> List<T> parseArray(String text, Class<T> clazz) {
-        if (StringUtils.isBlank(text)) {
-            return null;
-        }
-        List<T> result = null;
-        try {
-            result = JSON.parseArray(text, clazz);
-        } catch (Exception e) {
-            System.err.println("json parseArray failed!text="+text);
-        }
-        return result;
-    }
-
-
 }
