@@ -17,7 +17,6 @@
 
 package org.apache.jmeter.shulie.model;
 
-import io.shulie.jmeter.tool.redis.domain.AbstractEntry;
 
 /**
  * @Author: liyuanba

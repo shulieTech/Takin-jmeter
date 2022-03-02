@@ -36,6 +36,7 @@ import org.apache.jmeter.shulie.model.EventEnum;
 import org.apache.jmeter.shulie.model.PressureEngineParams;
 import org.apache.jmeter.shulie.util.DataUtil;
 import org.apache.jmeter.shulie.util.HttpNotifyTroCloudUtils;
+import org.apache.jmeter.shulie.util.JsonUtils;
 import org.apache.jmeter.shulie.util.MessageUtils;
 
 /**
@@ -239,6 +240,7 @@ public final class NewDriver {
      *            the command line arguments
      */
     public static void main(String[] args) {
+        JsonUtils.init(loader);
         HttpNotifyTroCloudUtils.init(loader);
         //add by lipeng 添加callbackurl及参数
         PressureConstants.pressureEngineParamsInstance = getPressureEngineParams(args);

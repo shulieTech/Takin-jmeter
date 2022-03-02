@@ -180,9 +180,7 @@ public class DynamicContext {
             transaction = "all";
         }
         // 2. 返回REDIS中的缓存
-        Double tps = TPS_TARGET_LEVEL.get(transaction);
-        logger.info("transaction="+transaction+"， tps="+tps);
-        return tps;
+        return TPS_TARGET_LEVEL.get(transaction);
     }
 
     public static void destroy() {

@@ -21,15 +21,8 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.shulie.jmeter.tool.redis.domain.TkMessage;
-import io.shulie.jmeter.tool.redis.util.JsonUtil;
 import org.apache.jmeter.DynamicClassLoader;
-import org.apache.jmeter.shulie.model.EventEnum;
-import org.apache.jmeter.shulie.model.EventInfo;
-import org.apache.jmeter.shulie.model.PressureEngineParams;
-import org.apache.jmeter.shulie.model.PressureInfo;
-
-import static org.apache.jmeter.shulie.util.MessageUtils.JMETER_REPORT;
+import org.apache.jmeter.shulie.model.*;
 
 /**
  * 通知cloud工具类
@@ -39,6 +32,8 @@ public class HttpNotifyTroCloudUtils {
 
     //压测引擎异常信息前缀
     private static final String PRESSURE_ENGINE_EXCEPTION_PREFIX = "【压测引擎】";
+
+    public static GroupTopicEnum JMETER_REPORT = new GroupTopicEnum("default", "jmeter_report");
 
     private static DynamicClassLoader loader;
 
@@ -69,7 +64,7 @@ public class HttpNotifyTroCloudUtils {
     }
 
     public static boolean send(String tag, Object key, Object content) {
-        return send(tag, String.valueOf(key), JsonUtil.toJson(content));
+        return send(tag, String.valueOf(key), JsonUtils.toJson(content));
     }
 
     public static boolean send(String tag, String key, String content) {
