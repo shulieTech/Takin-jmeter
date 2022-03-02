@@ -307,6 +307,7 @@ public final class NewDriver {
         long reportId = Long.parseLong(System.getProperty("ReportId", "0"));
         result.setResultId(reportId);
         System.setProperty("__ENGINE_REPORT_ID__", reportId + "");
+        System.setProperty("__ENGINE_TASK_ID__", reportId + "");
         //customerId
         long customerId = Long.parseLong(System.getProperty("CustomerId", "0"));
         result.setCustomerId(customerId);
