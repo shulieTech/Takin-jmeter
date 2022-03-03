@@ -45,7 +45,7 @@ import org.slf4j.LoggerFactory;
  * This is a nice packaging for the various information returned from taking a
  * sample of an entry.
  *
- * mark by lipeng at 20210812
+ * mark by 李鹏 at 20210812
  * 当前类为每次请求的结果。
  * 1. 写jtl时会去当前类实例取数据写入，如果需要的数据此类不提供，可在此类进行扩展，然后其实现类实现。
  * 2. 上报rt，tps等数据时后端监听器会将5s内的SampleResult放到一个队列中暂存
@@ -68,8 +68,8 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
     public static final String DEFAULT_HTTP_ENCODING = StandardCharsets.ISO_8859_1.name();
 
     private static final String OK_CODE = Integer.toString(HttpURLConnection.HTTP_OK);
-    private static final String OK_MSG = "OK"; // $NON-NLS-1$
-    private static final String INVALID_CALL_SEQUENCE_MSG = "Invalid call sequence"; // $NON-NLS-1$
+    private static final String OK_MSG = "OK";
+    private static final String INVALID_CALL_SEQUENCE_MSG = "Invalid call sequence";
 
     // Bug 33196 - encoding ISO-8859-1 is only suitable for Western countries
     // However the suggested System.getProperty("file.encoding") is Cp1252 on
@@ -82,7 +82,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
      * with a default of DEFAULT_HTTP_ENCODING if that is not defined.
      */
     protected static final String DEFAULT_ENCODING
-        = JMeterUtils.getPropDefault("sampleresult.default.encoding", // $NON-NLS-1$
+        = JMeterUtils.getPropDefault("sampleresult.default.encoding",
         DEFAULT_HTTP_ENCODING);
 
     /**
@@ -96,7 +96,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
      * @see #getDataType
      * @see #setDataType(java.lang.String)
      */
-    public static final String TEXT = "text"; // $NON-NLS-1$
+    public static final String TEXT = "text";
 
     /**
      * Data type value ({@value}) indicating that the response data is binary.
@@ -104,7 +104,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
      * @see #getDataType
      * @see #setDataType(java.lang.String)
      */
-    public static final String BINARY = "bin"; // $NON-NLS-1$
+    public static final String BINARY = "bin";
 
     private static final boolean DISABLE_SUBRESULTS_RENAMING = JMeterUtils.getPropDefault("subresults.disable_renaming", false);
 
@@ -133,19 +133,19 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
     private static final AssertionResult[] EMPTY_AR = new AssertionResult[0];
 
     private static final boolean START_TIMESTAMP =
-        JMeterUtils.getPropDefault("sampleresult.timestamp.start", false);  // $NON-NLS-1$
+        JMeterUtils.getPropDefault("sampleresult.timestamp.start", false);
 
     /**
      * Allow read-only access from test code
      */
     private static final boolean USE_NANO_TIME =
-        JMeterUtils.getPropDefault("sampleresult.useNanoTime", true);  // $NON-NLS-1$
+        JMeterUtils.getPropDefault("sampleresult.useNanoTime", true);
 
     /**
-     * How long between checks of nanotime; default 5000ms; set to <=0 to disable the thread
+     * How long between checks of nano-time; default 5000ms; set to <=0 to disable the thread
      */
     private static final long NANOTHREAD_SLEEP =
-        JMeterUtils.getPropDefault("sampleresult.nanoThreadSleep", 5000);  // $NON-NLS-1$
+        JMeterUtils.getPropDefault("sampleresult.nanoThreadSleep", 5000);
 
     private static final String NULL_FILENAME = "NULL";
 
@@ -214,7 +214,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
      */
     private long pauseTime = 0;
 
-    //add by lipeng 添加method 和 queryString
+    //add by 李鹏 添加method 和 queryString
     private String method;
 
     public String getHTTPMethod() {
@@ -231,19 +231,6 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
 
     public void setMqTraceId(String mqTraceId) {
         this.mqTraceId = mqTraceId;
-    }
-
-    /**
-     * Save the query string
-     *
-     * @param value -
-     */
-    public void setQueryString(String value) {
-        if (value == null) {
-            queryString = "";// $NON-NLS-1$
-        } else {
-            queryString = value;
-        }
     }
 
     public String getQueryString() {
@@ -497,7 +484,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
      * Allow users to create a sample with specific timestamp and elapsed times
      * for cloning purposes, but don't allow the times to be changed later
      *
-     * Currently used by CSVSaveService and
+     * Currently, used by CSVSaveService and
      * StatisticalSampleResult
      *
      * @param stamp   this may be a start time or an end time (both in
@@ -968,7 +955,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
      * Extract and save the DataEncoding and DataType from the parameter provided.
      * Does not save the full content Type.
      *
-     * @param ct - content type (may be null)
+     * @param ct - content type (maybe null)
      * @see #setContentType(String) which should be used to save the full content-type string
      */
     public void setEncodingAndType(String ct) {
@@ -977,7 +964,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
             // N.B. The meta tag:
             // <META http-equiv="content-type" content="text/html; charset=foobar">
             // is now processed by HTTPSampleResult#getDataEncodingWithDefault
-            final String charsetPrefix = "charset="; // $NON-NLS-1$
+            final String charsetPrefix = "charset=";
             int cset = ct.toLowerCase(java.util.Locale.ENGLISH).indexOf(charsetPrefix);
             if (cset >= 0) {
                 String charSet = ct.substring(cset + charsetPrefix.length());
@@ -987,8 +974,9 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
                     charSet = charSet.substring(0, semiColon);
                 }
                 // Check for quoted string
-                if (charSet.startsWith("\"") || charSet.startsWith("\'")) { // $NON-NLS-1$
-                    setDataEncoding(charSet.substring(1, charSet.length() - 1)); // remove quotes
+                if (charSet.startsWith("\"") || charSet.startsWith("\'")) {
+                    // remove quotes
+                    setDataEncoding(charSet.substring(1, charSet.length() - 1));
                 } else {
                     setDataEncoding(charSet);
                 }
@@ -1430,7 +1418,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
     }
 
     /**
-     * @return Returns the connect time.
+     * @return Returns to connect time.
      */
     public long getConnectTime() {
         return connectTime;
@@ -1446,7 +1434,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
     /**
      * This is only intended for use by SampleResultConverter!
      *
-     * @param time The connect time to set.
+     * @param time To connect time to set.
      */
     public void setConnectTime(long time) {
         this.connectTime = time;
@@ -1652,12 +1640,12 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
 
     @Override
     public List<String> getSearchableTokens() throws Exception {
-        List<String> datasToSearch = new ArrayList<>(4);
-        datasToSearch.add(getSampleLabel());
-        datasToSearch.add(getResponseDataAsString());
-        datasToSearch.add(getRequestHeaders());
-        datasToSearch.add(getResponseHeaders());
-        return datasToSearch;
+        List<String> dataListToSearch = new ArrayList<>(4);
+        dataListToSearch.add(getSampleLabel());
+        dataListToSearch.add(getResponseDataAsString());
+        dataListToSearch.add(getRequestHeaders());
+        dataListToSearch.add(getResponseHeaders());
+        return dataListToSearch;
     }
 
     /**
@@ -1675,7 +1663,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
     }
 
     /**
-     * @return String first non null assertion failure message if assertionResults is not null, null otherwise
+     * @return String first non-null assertion failure message if assertionResults is not null, null otherwise
      */
     public String getFirstAssertionFailureMessage() {
         String message = null;

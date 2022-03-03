@@ -31,13 +31,15 @@ import org.apache.jmeter.samplers.SampleResult;
 
 /**
  * This is a specialisation of the SampleResult class for the HTTP protocol.
+ *
+ * @author -
  */
 public class HTTPSampleResult extends SampleResult {
 
     private static final long serialVersionUID = 241L;
 
     /**
-     * Set of all HTTP methods, that have no body
+     * Set of all HTTP methods, that have nobody
      */
     private static final Set<String> METHODS_WITHOUT_BODY = new HashSet<>(
         Arrays.asList(
@@ -45,7 +47,7 @@ public class HTTPSampleResult extends SampleResult {
             HTTPConstants.OPTIONS,
             HTTPConstants.TRACE));
 
-    private String cookies = ""; // never null
+    private String cookies = "";
 
     private String method;
 
@@ -57,10 +59,10 @@ public class HTTPSampleResult extends SampleResult {
      */
     private String redirectLocation;
 
-    private String queryString = ""; // never null
+    private String queryString = "";
 
     private static final String HTTP_NO_CONTENT_CODE = Integer.toString(HttpURLConnection.HTTP_NO_CONTENT);
-    private static final String HTTP_NO_CONTENT_MSG = "No Content"; // $NON-NLS-1$
+    private static final String HTTP_NO_CONTENT_MSG = "No Content";
 
     public HTTPSampleResult() {
         super();
@@ -96,7 +98,7 @@ public class HTTPSampleResult extends SampleResult {
     /**
      * 重写此方法，http返回uri即可
      *
-     * @return
+     * @return -
      */
     @Override
     public String getTransactionUrl() {
@@ -155,7 +157,7 @@ public class HTTPSampleResult extends SampleResult {
         URL u = super.getURL();
         if (u != null) {
             sb.append(' ');
-            sb.append(u.toString());
+            sb.append(u);
             sb.append('\n');
             // Include request body if it can have one
             if (!METHODS_WITHOUT_BODY.contains(method)) {
@@ -190,7 +192,7 @@ public class HTTPSampleResult extends SampleResult {
      */
     public void setCookies(String string) {
         if (string == null) {
-            cookies = "";// $NON-NLS-1$
+            cookies = "";
         } else {
             cookies = string;
         }
@@ -204,6 +206,19 @@ public class HTTPSampleResult extends SampleResult {
     @Override
     public String getQueryString() {
         return queryString;
+    }
+
+    /**
+     * Save the query string
+     *
+     * @param string the query string
+     */
+    public void setQueryString(String string) {
+        if (string == null) {
+            queryString = "";
+        } else {
+            queryString = string;
+        }
     }
 
     /**
@@ -234,21 +249,21 @@ public class HTTPSampleResult extends SampleResult {
      */
     @Override
     public String getDataEncodingNoDefault() {
-        if (super.getDataEncodingNoDefault() == null && getContentType().startsWith("text/html")) { // $NON-NLS-1$
+        if (super.getDataEncodingNoDefault() == null && getContentType().startsWith("text/html")) {
             byte[] bytes = getResponseData();
             // get the start of the file
             String prefix = new String(bytes, 0, Math.min(bytes.length, 2000), Charset.forName(DEFAULT_HTTP_ENCODING));
             // Preserve original case
             String matchAgainst = prefix.toLowerCase(java.util.Locale.ENGLISH);
             // Extract the content-type if present
-            final String metaTag = "<meta http-equiv=\"content-type\" content=\""; // $NON-NLS-1$
-            int tagstart = matchAgainst.indexOf(metaTag);
-            if (tagstart != -1) {
-                tagstart += metaTag.length();
-                int tagend = prefix.indexOf('\"', tagstart); // $NON-NLS-1$
+            final String metaTag = "<meta http-equiv=\"content-type\" content=\"";
+            int tagStart = matchAgainst.indexOf(metaTag);
+            if (tagStart != -1) {
+                tagStart += metaTag.length();
+                int tagend = prefix.indexOf('\"', tagStart);
                 if (tagend != -1) {
-                    final String ct = prefix.substring(tagstart, tagend);
-                    setEncodingAndType(ct);// Update the dataEncoding
+                    final String ct = prefix.substring(tagStart, tagend);
+                    setEncodingAndType(ct);
                 }
             }
         }
@@ -260,8 +275,8 @@ public class HTTPSampleResult extends SampleResult {
         setResponseMessage(HTTP_NO_CONTENT_MSG);
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.jmeter.samplers.SampleResult#getSearchableTokens()
+    /**
+     * {@inheritDoc}
      */
     @Override
     public List<String> getSearchableTokens() throws Exception {
