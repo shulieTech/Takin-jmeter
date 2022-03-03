@@ -28,6 +28,7 @@ public class ResponseMetricsTag {
     private String taskId;
     private String url;
     private Long eventTime;
+    private String transaction;
 
     public String getTaskId() {
         return taskId;
@@ -51,6 +52,14 @@ public class ResponseMetricsTag {
 
     public void setEventTime(Long eventTime) {
         this.eventTime = eventTime;
+    }
+
+    public String getTransaction() {
+        return transaction;
+    }
+
+    public void setTransaction(String transaction) {
+        this.transaction = transaction;
     }
 }
 

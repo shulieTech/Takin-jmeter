@@ -35,7 +35,7 @@ public class ResponseMetricsField  {
 
     private static final long serialVersionUID = 1L;
 
-    private String transaction;
+    //private String transaction;
     private Integer count;
     private Integer failCount;
     private Long sentBytes;
@@ -51,13 +51,13 @@ public class ResponseMetricsField  {
     //1-100%点位耗时和请求量数据
     private String percentData;
 
-    public String getTransaction() {
-        return transaction;
-    }
-
-    public void setTransaction(String transaction) {
-        this.transaction = transaction;
-    }
+    //public String getTransaction() {
+    //    return transaction;
+    //}
+    //
+    //public void setTransaction(String transaction) {
+    //    this.transaction = transaction;
+    //}
 
     public Integer getCount() {
         return count;
