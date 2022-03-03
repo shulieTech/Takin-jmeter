@@ -90,7 +90,7 @@ public class MD5HexAssertion extends AbstractTestElement implements Serializable
         return getPropertyAsString(MD5HexAssertion.MD5HEX_KEY);
     }
 
-    private static String md5Hex(byte[] bytes) {
+    public static String md5Hex(byte[] bytes) {
         byte[] md5Result = {};
 
         try {

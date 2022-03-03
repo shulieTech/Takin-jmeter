@@ -37,6 +37,7 @@ import com.alibaba.fastjson.TypeReference;
 
 import org.apache.commons.codec.digest.Md5Crypt;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.jmeter.assertions.MD5HexAssertion;
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.samplers.SampleResult;
 import org.apache.jmeter.shulie.constants.PressureConstants;
@@ -149,7 +150,7 @@ public class AmdbBackendListenerClient extends AbstractBackendListenerClient imp
                     setUrl(metric.getTransactionUrl());
                     setTaskId(taskId);
                     setEventTime(responseMetrics.getTimestamp());
-                    setTransaction(Md5Crypt.md5Crypt(entry.getKey().getBytes(StandardCharsets.UTF_8)));
+                    setTransaction(StringUtils.upperCase(MD5HexAssertion.md5Hex(entry.getKey().getBytes(StandardCharsets.UTF_8))));
                 }});
                 //amdbMetricsManager.addMetric(responseMetrics);
                 metric.resetForTimeInterval();
@@ -260,8 +261,8 @@ public class AmdbBackendListenerClient extends AbstractBackendListenerClient imp
         String bizArgs = context.getParameter("businessMap", "");
         measurement = context.getParameter("measurement", "metrics");
         taskId = System.getProperty("__ENGINE_TASK_ID__", "");
-        sceneId = System.getProperty("__ENGINE_SCENE_ID__", "");
-        customerId = System.getProperty("__ENGINE_CUSTOMER_ID__", "");
+        sceneId = System.getProperty("SceneId", "0");
+        customerId = System.getProperty("CustomerId", "0");
         measurement = measurement + "_" + sceneId + "_" + taskId + "_" + customerId;
         if (StringUtils.isNotBlank(bizArgs)) {
             bizMap = JsonUtil.parseObject(bizArgs, new TypeReference<Map<String, BusinessActivityConfig>>() {});
