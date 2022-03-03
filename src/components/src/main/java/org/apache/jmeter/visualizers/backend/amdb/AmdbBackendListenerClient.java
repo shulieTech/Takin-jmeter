@@ -17,6 +17,7 @@
 
 package org.apache.jmeter.visualizers.backend.amdb;
 
+import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,7 +35,9 @@ import java.util.regex.Pattern;
 
 import com.alibaba.fastjson.TypeReference;
 
+import org.apache.commons.codec.digest.Md5Crypt;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.jmeter.assertions.MD5HexAssertion;
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.samplers.SampleResult;
 import org.apache.jmeter.shulie.constants.PressureConstants;
@@ -51,6 +54,7 @@ import org.apache.jmeter.visualizers.backend.amdb.entity.BusinessActivityConfig;
 import org.apache.jmeter.visualizers.backend.amdb.entity.EventMetrics;
 import org.apache.jmeter.visualizers.backend.amdb.entity.ResponseMetricsField;
 import org.apache.jmeter.visualizers.backend.amdb.entity.ResponseMetricsTag;
+import org.bouncycastle.jcajce.provider.digest.MD5;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -105,7 +109,9 @@ public class AmdbBackendListenerClient extends AbstractBackendListenerClient imp
 
     private String measurement;
 
+    private String sceneId;
     private String taskId;
+    private String customerId;
 
     public AmdbBackendListenerClient() {
         super();
@@ -125,7 +131,7 @@ public class AmdbBackendListenerClient extends AbstractBackendListenerClient imp
             UserMetric userMetrics = getUserMetrics();
             List<ResponseMetricsTag> tags = new ArrayList<>();
             List<ResponseMetricsField> fields = new ArrayList<>();
-            if(metricsPerSampler.entrySet().isEmpty()){
+            if (metricsPerSampler.entrySet().isEmpty()) {
                 return;
             }
             for (Map.Entry<String, SamplerMetric> entry : metricsPerSampler.entrySet()) {
@@ -144,6 +150,7 @@ public class AmdbBackendListenerClient extends AbstractBackendListenerClient imp
                     setUrl(metric.getTransactionUrl());
                     setTaskId(taskId);
                     setEventTime(responseMetrics.getTimestamp());
+                    setTransaction(StringUtils.upperCase(MD5HexAssertion.md5Hex(entry.getKey().getBytes(StandardCharsets.UTF_8))));
                 }});
                 //amdbMetricsManager.addMetric(responseMetrics);
                 metric.resetForTimeInterval();
@@ -159,7 +166,7 @@ public class AmdbBackendListenerClient extends AbstractBackendListenerClient imp
 
     public ResponseMetricsField buildResponseMetricsAndClean(String transaction, SamplerMetric metric) {
         ResponseMetricsField responseMetrics = new ResponseMetricsField();
-        responseMetrics.setTransaction(transaction);
+        //responseMetrics.setTransaction(transaction);
         responseMetrics.setCount(metric.getTotal());
         responseMetrics.setFailCount(metric.getFailures());
         responseMetrics.setMaxRt(NumberUtil.maybeNaN(metric.getAllMaxTime()));
@@ -252,8 +259,11 @@ public class AmdbBackendListenerClient extends AbstractBackendListenerClient imp
         summaryOnly = context.getBooleanParameter("summaryOnly", false);
         samplersRegex = context.getParameter("samplersRegex", "");
         String bizArgs = context.getParameter("businessMap", "");
-        measurement = context.getParameter("measurement", "jmeter_test");
+        measurement = context.getParameter("measurement", "metrics");
         taskId = System.getProperty("__ENGINE_TASK_ID__", "");
+        sceneId = System.getProperty("SceneId", "0");
+        customerId = System.getProperty("CustomerId", "0");
+        measurement = measurement + "_" + sceneId + "_" + taskId + "_" + customerId;
         if (StringUtils.isNotBlank(bizArgs)) {
             bizMap = JsonUtil.parseObject(bizArgs, new TypeReference<Map<String, BusinessActivityConfig>>() {});
         }
