@@ -83,6 +83,12 @@ public class JedisUtil {
             return redisUtil;
         }
         RedisConfig redisConfig = getRedisConfig();
+        if (StringUtils.isBlank(redisConfig.getHost())
+                && StringUtils.isBlank(redisConfig.getNodes())
+                && StringUtils.isBlank(redisConfig.getClusterNodes())
+        ) {
+            return null;
+        }
         logger.info("redis start..");
         // 解密redis密码
         try {
@@ -105,6 +111,7 @@ public class JedisUtil {
         String engineRedisSentinelNodes = System.getProperty("engineRedisSentinelNodes");
         String engineRedisSentinelMaster = System.getProperty("engineRedisSentinelMaster");
         String engineRedisPassword = System.getProperty("engineRedisPassword");
+
         redisConfig = new RedisConfig();
         if (StringUtils.isNotBlank(engineRedisDatabase)) {
             redisConfig.setDatabase(Integer.parseInt(engineRedisDatabase));

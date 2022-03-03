@@ -46,6 +46,9 @@ public class CsvPosition implements CsvPositionRecord {
     public void recordCsvPosition() {
         if (PositionFileServer.positionMap.size() > 0) {
             RedisUtil redisUtil = JedisUtil.getRedisUtil();
+            if (null == redisUtil) {
+                return;
+            }
             String sceneId;
             Long sId = PressureConstants.pressureEngineParamsInstance.getSceneId();
             sceneId = null != sId ? String.valueOf(sId) : System.getProperty("SCENE_ID");

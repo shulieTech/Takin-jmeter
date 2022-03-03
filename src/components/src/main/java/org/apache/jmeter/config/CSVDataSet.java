@@ -48,7 +48,6 @@ import org.apache.jmeter.services.FileService;
 import org.apache.jmeter.services.PositionFileInputStream;
 import org.apache.jmeter.services.PositionFileServer;
 import org.apache.jmeter.shulie.constants.PressureConstants;
-import org.apache.jmeter.shulie.consts.ThroughputConstants;
 import org.apache.jmeter.shulie.util.JedisUtil;
 import org.apache.jmeter.testbeans.TestBean;
 import org.apache.jmeter.testbeans.gui.GenericTestBeanCustomizer;
@@ -61,8 +60,6 @@ import org.apache.jorphan.util.JMeterStopThreadException;
 import org.apache.jorphan.util.JOrphanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import redis.clients.jedis.Jedis;
 
 /**
  * Read lines from a file and split int variables.
@@ -358,6 +355,9 @@ public class CSVDataSet extends ConfigTestElement
         final long startPosition = pair.getLeft();
         final long endPosition = pair.getRight();
         RedisUtil redisUtil = JedisUtil.getRedisUtil();
+        if (null == redisUtil) {
+            return;
+        }
         ExecutorServiceFactory.GLOBAL_SCHEDULE_EXECUTOR_SERVICE.scheduleAtFixedRate(() -> {
             try {
                 long position;

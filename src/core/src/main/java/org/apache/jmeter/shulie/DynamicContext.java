@@ -18,6 +18,7 @@
 package org.apache.jmeter.shulie;
 
 import io.shulie.jmeter.tool.executors.ExecutorServiceFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.jmeter.shulie.consts.ThroughputConstants;
 import org.apache.jmeter.shulie.message.StopMessageListener;
 import org.apache.jmeter.shulie.util.HttpUtils;
@@ -81,15 +82,15 @@ public class DynamicContext {
     }
 
     public static void startTest() {
-        if (INITIALIZED.compareAndSet(false, true)) {
+        if (null != JedisUtil.getRedisUtil() && INITIALIZED.compareAndSet(false, true)) {
             int flushTime = JMeterUtils.getPropDefault("tps_target_level_flush_time", 5000);
             ExecutorServiceFactory.GLOBAL_SCHEDULE_EXECUTOR_SERVICE.scheduleWithFixedDelay(() -> {
                 flushTpsTargetLevel();
                 flushTpsFactor();
             }, flushTime, flushTime, TimeUnit.MILLISECONDS);
-        }
-        if (null == stopMessageListener) {
-            stopMessageListener = new StopMessageListener();
+            if (null == stopMessageListener) {
+                stopMessageListener = new StopMessageListener();
+            }
         }
     }
 
@@ -104,6 +105,9 @@ public class DynamicContext {
     private static void flushTpsTargetLevel() {
         try {
             String allThreadGroupMd5String = JedisUtil.get(REDIS_TPS_ALL_KEY);
+            if (StringUtils.isBlank(allThreadGroupMd5String)) {
+                return;
+            }
             List<String> allThreadGroupMd5 = JsonUtil.parseArray(allThreadGroupMd5String, String.class);
             if (allThreadGroupMd5 == null) {
                 logger.warn("刷新TPS目标值警告:allThreadGroupMd5值为空.");
