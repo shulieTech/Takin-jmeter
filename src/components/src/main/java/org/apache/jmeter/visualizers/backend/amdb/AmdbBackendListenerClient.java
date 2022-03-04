@@ -74,6 +74,7 @@ public class AmdbBackendListenerClient extends AbstractBackendListenerClient imp
     private static final String TAG_KO = "ko";
     private static final String TAG_ALL = "all";
     private static final String CUMULATED_METRICS = "all";
+    private static final String MD5_METRICS = "@MD5:";
     private static final long SEND_INTERVAL = JMeterUtils.getPropDefault("backend_influxdb.send_interval", 5);
     private static final int MAX_POOL_SIZE = 1;
     private static final String SEPARATOR = ";"; //$NON-NLS-1$
@@ -137,6 +138,9 @@ public class AmdbBackendListenerClient extends AbstractBackendListenerClient imp
             for (Map.Entry<String, SamplerMetric> entry : metricsPerSampler.entrySet()) {
                 String transaction = CUMULATED_METRICS.equals(entry.getKey()) ? CUMULATED_METRICS :
                     AbstractAmdbMetricsSender.tagToStringValue(entry.getKey());
+                if (transaction.contains(MD5_METRICS)) {
+                    transaction = transaction.split(MD5_METRICS)[1];
+                }
 
                 SamplerMetric metric = entry.getValue();
                 ResponseMetricsField responseMetrics = buildResponseMetricsAndClean(entry.getKey(), metric);
@@ -146,11 +150,12 @@ public class AmdbBackendListenerClient extends AbstractBackendListenerClient imp
                     responseMetrics.setActiveThreads(userMetrics.getAllActiveThreadNum());
                 }
                 fields.add(responseMetrics);
+                String finalTransaction = transaction;
                 tags.add(new ResponseMetricsTag() {{
                     setUrl(metric.getTransactionUrl());
                     setTaskId(taskId);
                     setEventTime(responseMetrics.getTimestamp());
-                    setTransaction(StringUtils.upperCase(MD5HexAssertion.md5Hex(entry.getKey().getBytes(StandardCharsets.UTF_8))));
+                    setTransaction(finalTransaction);
                 }});
                 //amdbMetricsManager.addMetric(responseMetrics);
                 metric.resetForTimeInterval();
