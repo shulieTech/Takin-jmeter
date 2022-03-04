@@ -107,6 +107,9 @@ public class DynamicContextByLongPolling {
     private static void flushTpsTargetLevel() {
         try {
             JSONObject json = LongPollingHttpUtils.get(dynamicTaskTpsUrl);
+            if (!json.getBoolean("success") || !json.containsKey("data") || Objects.isNull(json.get("data"))) {
+                return;
+            }
             List<TaskDynamicTps> taskRes = JSONArray.parseArray(json.getString("data"),
                 TaskDynamicTps.class);
             //String allThreadGroupMd5String = JedisUtil.get(REDIS_TPS_ALL_KEY);
@@ -132,7 +135,7 @@ public class DynamicContextByLongPolling {
     }
 
     public static void main(String[] args) {
-        dynamicTaskTpsUrl = "http://127.0.0.1:18801/task/tps?taskId=173";
+        dynamicTaskTpsUrl = "http://127.0.0.1:18801/task/tps?taskId=174";
         new Thread(() -> {
             do {
                 flushTpsTargetLevel();
@@ -144,11 +147,11 @@ public class DynamicContextByLongPolling {
 
             } while (true);
         }).start();
-        while (true){
+        while (true) {
             String md5 = "@MD5:7dae7383a28b5c45069b528a454d1164";
             Double tps = getTpsTargetLevel(md5);
             System.out.println("tps:" + tps);
-            if(Objects.nonNull(tps)){
+            if (Objects.nonNull(tps)) {
                 break;
             }
             try {
