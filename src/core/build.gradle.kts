@@ -114,6 +114,8 @@ dependencies {
     implementation("io.shulie.flpt:jmeter-executor-tool")
     implementation("io.shulie.flpt:jmeter-amdb-tool")
     implementation("redis.clients:jedis")
+    implementation("com.alibaba:fastjson:1.2.79")
+    implementation("cn.hutool:hutool-all:5.4.0")
     implementation("org.springframework.data:spring-data-redis")
     // add end
     // TODO: JMeter bundles Xerces, however the reason is unknown

@@ -5,6 +5,7 @@
   <trusted-keys>
     <trusted-key id='1c8d5ef0df2b70d4' group='cglib' />
     <trusted-key id='2c7b12f2a511e325' group='ch.qos.logback' />
+    <trusted-key id='4c7711a49c483791' group='cn.hutool' />
     <trusted-key id='8c70b5bbc22ee55c' group='com.alibaba' />
     <trusted-key id='379ce192d401ab61' group='com.diffplug.durian' />
     <trusted-key id='ec5bce97b4defa96' group='com.esotericsoftware' />
@@ -187,8 +188,17 @@
     <dependency group='ch.qos.logback' module='logback-core' version='1.2.3'>
       <sha512>BD1A7512647FE61B90CFD18BEDF2A33F3F16F334F8F8CE947CDD353C0B0B7A7CCE203070F0D2183F6583E0F2B2FE6E0B12EB93BD5B2DC29076E7B466447F6DC5</sha512>
     </dependency>
+    <dependency group='cn.hutool' module='hutool-all' version='5.4.0'>
+      <sha512>140001CC6CDD61299FE474F84D34CF760D5E6383CB8DDEB14B5C99C4B87B1CC190B6433EC6237FD3E4AB305E2225BC1239F8D8419F69E36577A250661439BDA0</sha512>
+    </dependency>
+    <dependency group='cn.hutool' module='hutool-all' version='5.4.7'>
+      <sha512>C967E183277151160625DA93555620253B03DF8C88F88C600AFFEA7B9700A41C6B1E98EAC07CC9EDE896AD971D58655F96AF1A10D0E662F2347B379C7BB054DA</sha512>
+    </dependency>
     <dependency group='com.alibaba' module='fastjson' version='1.2.78'>
       <sha512>450004F5AF6264B57C3B29EA954103F830E5C29708ECFFF681EF62CED0DFE4487C6D124A2D151223C6412F1D134025F2083FF12A4694C796DF1DF445E7C76937</sha512>
+    </dependency>
+    <dependency group='com.alibaba' module='fastjson' version='1.2.79'>
+      <sha512>75AFB576D0C984080D534F03B241953B6192A31936EB6CBCC37008EC9642B0C94B26926740D89C235ED814E00165618E9DC0D3D1C2B3E94612658AD9245E9AC9</sha512>
     </dependency>
     <dependency group='com.esotericsoftware' module='kryo' version='4.0.2'>
       <sha512>42C601A37B16E93DA25627FB864D4BA72834DC58391C35C046DE91BD33B91125720A684D712B89F35DEBA0FA502A7866D71DA02D59C8BE87916182FDFD32EAC</sha512>

@@ -41,7 +41,6 @@ import org.apache.jmeter.shulie.util.MessageUtils;
 
 /**
  * Main class for JMeter - sets up initial classpath and the loader.
- *
  */
 public final class NewDriver {
 
@@ -56,10 +55,14 @@ public final class NewDriver {
     private static final String JMETER_LOGFILE_SYSTEM_PROPERTY = "jmeter.logfile";// $NON-NLS-1$
 
     private static final String HEADLESS_MODE_PROPERTY = "java.awt.headless";// $NON-NLS-1$
-    /** The class loader to use for loading JMeter classes. */
+    /**
+     * The class loader to use for loading JMeter classes.
+     */
     private static final DynamicClassLoader loader;
 
-    /** The directory JMeter is installed in. */
+    /**
+     * The directory JMeter is installed in.
+     */
     private static final String JMETER_INSTALLATION_DIRECTORY;
 
     private static final List<Exception> EXCEPTIONS_IN_INIT = new ArrayList<>();
@@ -72,10 +75,10 @@ public final class NewDriver {
         String tmpDir;
         StringTokenizer tok = new StringTokenizer(initiaClasspath, File.pathSeparator);
         if (tok.countTokens() == 1
-                || (tok.countTokens()  == 2 // Java on Mac OS can add a second entry to the initial classpath
-                    && OS_NAME_LC.startsWith("mac os x")// $NON-NLS-1$
-                   )
-           ) {
+            || (tok.countTokens() == 2 // Java on Mac OS can add a second entry to the initial classpath
+            && OS_NAME_LC.startsWith("mac os x")// $NON-NLS-1$
+        )
+        ) {
             File jar = new File(tok.nextToken());
             try {
                 tmpDir = jar.getCanonicalFile().getParentFile().getParent();
@@ -83,7 +86,8 @@ public final class NewDriver {
                 tmpDir = null;
             }
         } else {// e.g. started from IDE with full classpath
-            tmpDir = System.getProperty("jmeter.home", System.getenv("JMETER_HOME"));// Allow override $NON-NLS-1$ $NON-NLS-2$
+            tmpDir = System.getProperty("jmeter.home",
+                System.getenv("JMETER_HOME"));// Allow override $NON-NLS-1$ $NON-NLS-2$
             if (tmpDir == null || tmpDir.length() == 0) {
                 File userDir = new File(System.getProperty("user.dir"));// $NON-NLS-1$
                 tmpDir = userDir.getAbsoluteFile().getParent();
@@ -92,7 +96,7 @@ public final class NewDriver {
         if (tmpDir == null) {
             tmpDir = System.getenv("JMETER_HOME");
         }
-        JMETER_INSTALLATION_DIRECTORY=tmpDir;
+        JMETER_INSTALLATION_DIRECTORY = tmpDir;
 
         /*
          * Does the system support UNC paths? If so, may need to fix them up
@@ -102,9 +106,12 @@ public final class NewDriver {
 
         // Add standard jar locations to initial classpath
         StringBuilder classpath = new StringBuilder();
-        File[] libDirs = new File[] { new File(JMETER_INSTALLATION_DIRECTORY + File.separator + "lib"),// $NON-NLS-1$ $NON-NLS-2$
-                new File(JMETER_INSTALLATION_DIRECTORY + File.separator + "lib" + File.separator + "ext"),// $NON-NLS-1$ $NON-NLS-2$
-                new File(JMETER_INSTALLATION_DIRECTORY + File.separator + "lib" + File.separator + "junit")};// $NON-NLS-1$ $NON-NLS-2$
+        File[] libDirs = new File[] {new File(JMETER_INSTALLATION_DIRECTORY + File.separator + "lib"),
+            // $NON-NLS-1$ $NON-NLS-2$
+            new File(JMETER_INSTALLATION_DIRECTORY + File.separator + "lib" + File.separator + "ext"),
+            // $NON-NLS-1$ $NON-NLS-2$
+            new File(JMETER_INSTALLATION_DIRECTORY + File.separator + "lib" + File.separator
+                + "junit")};// $NON-NLS-1$ $NON-NLS-2$
         for (File libDir : libDirs) {
             File[] libJars = libDir.listFiles((dir, name) -> name.endsWith(".jar"));
             if (libJars == null) {
@@ -129,7 +136,7 @@ public final class NewDriver {
                     classpath.append(CLASSPATH_SEPARATOR);
                     classpath.append(s);
                 } catch (MalformedURLException e) { // NOSONAR
-                    EXCEPTIONS_IN_INIT.add(new Exception("Error adding jar:"+libJar.getAbsolutePath(), e));
+                    EXCEPTIONS_IN_INIT.add(new Exception("Error adding jar:" + libJar.getAbsolutePath(), e));
                 }
             }
         }
@@ -137,8 +144,8 @@ public final class NewDriver {
         // ClassFinder needs the classpath
         System.setProperty(JAVA_CLASS_PATH, initiaClasspath + classpath.toString());
         loader = AccessController.doPrivileged(
-                (PrivilegedAction<DynamicClassLoader>) () ->
-                        new DynamicClassLoader(jars.toArray(new URL[jars.size()]))
+            (PrivilegedAction<DynamicClassLoader>)() ->
+                new DynamicClassLoader(jars.toArray(new URL[jars.size()]))
         );
     }
 
@@ -186,8 +193,7 @@ public final class NewDriver {
      * Add a URL to the loader classpath only; does not update the system
      * classpath.
      *
-     * @param url
-     *            The {@link URL} to add to the classpath
+     * @param url The {@link URL} to add to the classpath
      */
     public static void addURL(URL url) {
         loader.addURL(url);
@@ -196,11 +202,9 @@ public final class NewDriver {
     /**
      * Add a directory or jar to the loader and system classpaths.
      *
-     * @param path
-     *            to add to the loader and system classpath
-     * @throws MalformedURLException
-     *             if <code>path</code> can not be transformed to a valid
-     *             {@link URL}
+     * @param path to add to the loader and system classpath
+     * @throws MalformedURLException if <code>path</code> can not be transformed to a valid
+     * {@link URL}
      */
     public static void addPath(String path) throws MalformedURLException {
         File file = new File(path);
@@ -220,7 +224,7 @@ public final class NewDriver {
         }
 
         // ClassFinder needs this
-        System.setProperty(JAVA_CLASS_PATH,sb.toString());
+        System.setProperty(JAVA_CLASS_PATH, sb.toString());
     }
 
     /**
@@ -236,8 +240,7 @@ public final class NewDriver {
     /**
      * The main program which actually runs JMeter.
      *
-     * @param args
-     *            the command line arguments
+     * @param args the command line arguments
      */
     public static void main(String[] args) {
         JsonUtils.init(loader);
@@ -246,9 +249,10 @@ public final class NewDriver {
         PressureConstants.pressureEngineParamsInstance = getPressureEngineParams(args);
         String notify = PressureConstants.pressureEngineParamsInstance.getNotify();
         // add end
-        if(!EXCEPTIONS_IN_INIT.isEmpty()) {
+        if (!EXCEPTIONS_IN_INIT.isEmpty()) {
             String excetionsMsg = exceptionsToString(EXCEPTIONS_IN_INIT);
-            System.err.println("Configuration error during init, see exceptions:"+excetionsMsg); // NOSONAR Intentional System.err use
+            System.err.println("Configuration error during init, see exceptions:"
+                + excetionsMsg); // NOSONAR Intentional System.err use
             //add by lipeng 错误信息上报cloud
             if (PressureConstants.NOTIFY_MESSAGE.equals(notify)) {
                 MessageUtils.sendEvent(EventEnum.START_FAILED, excetionsMsg);
@@ -256,7 +260,8 @@ public final class NewDriver {
                 if (HttpNotifyTroCloudUtils.hasEvevtUrl()) {
                     HttpNotifyTroCloudUtils.sendEvent(EventEnum.START_FAILED, excetionsMsg);
                 } else {
-                    HttpNotifyTroCloudUtils.notifyTroCloud(PressureConstants.pressureEngineParamsInstance, PressureConstants.ENGINE_STATUS_FAILED, excetionsMsg);
+                    HttpNotifyTroCloudUtils.notifyTroCloud(PressureConstants.pressureEngineParamsInstance,
+                        PressureConstants.ENGINE_STATUS_FAILED, excetionsMsg);
                 }
             }
         } else {
@@ -265,18 +270,20 @@ public final class NewDriver {
 
             try {
                 // Only set property if it has not been set explicitely
-                if(System.getProperty(HEADLESS_MODE_PROPERTY) == null && shouldBeHeadless(args)) {
+                if (System.getProperty(HEADLESS_MODE_PROPERTY) == null && shouldBeHeadless(args)) {
                     System.setProperty(HEADLESS_MODE_PROPERTY, "true");
                 }
                 Class<?> initialClass = loader.loadClass("org.apache.jmeter.JMeter");
                 Object instance = initialClass.getDeclaredConstructor().newInstance();
-                Method startup = initialClass.getMethod("start", new Class[] { PressureConstants.pressureEngineParamsInstance.getClass() });
+                Method startup = initialClass.getMethod("start",
+                    new Class[] {PressureConstants.pressureEngineParamsInstance.getClass()});
                 //modify by lipeng 将start方法入参改为pressureEngineParams
                 startup.invoke(instance, PressureConstants.pressureEngineParamsInstance);
                 //正常启动后不需要上报cloud已正常启动，在receive接口会上报started标记
-            } catch(Throwable e) { // NOSONAR We want to log home directory in case of exception
+            } catch (Throwable e) { // NOSONAR We want to log home directory in case of exception
                 e.printStackTrace(); // NOSONAR No logger at this step
-                System.err.println("JMeter home directory was detected as: "+JMETER_INSTALLATION_DIRECTORY); // NOSONAR Intentional System.err use
+                System.err.println("JMeter home directory was detected as: "
+                    + JMETER_INSTALLATION_DIRECTORY); // NOSONAR Intentional System.err use
                 //add by lipeng 错误信息上报cloud
                 if (PressureConstants.NOTIFY_MESSAGE.equals(notify)) {
                     MessageUtils.sendEvent(EventEnum.START_FAILED, DataUtil.throwableToString(e));
@@ -284,7 +291,8 @@ public final class NewDriver {
                     if (HttpNotifyTroCloudUtils.hasEvevtUrl()) {
                         HttpNotifyTroCloudUtils.sendEvent(EventEnum.START_FAILED, DataUtil.throwableToString(e));
                     } else {
-                        HttpNotifyTroCloudUtils.notifyTroCloud(PressureConstants.pressureEngineParamsInstance, PressureConstants.ENGINE_STATUS_FAILED, DataUtil.throwableToString(e));
+                        HttpNotifyTroCloudUtils.notifyTroCloud(PressureConstants.pressureEngineParamsInstance,
+                            PressureConstants.ENGINE_STATUS_FAILED, DataUtil.throwableToString(e));
                     }
                 }
             }
@@ -308,6 +316,8 @@ public final class NewDriver {
         result.setResultId(reportId);
         System.setProperty("__ENGINE_REPORT_ID__", reportId + "");
         System.setProperty("__ENGINE_TASK_ID__", reportId + "");
+        String dynamicTaskTpsUrl = System.getProperty("dynamicTaskTpsUrl");
+        System.setProperty("__ENGINE_DYNAMIC_TASK_TP_URL__", dynamicTaskTpsUrl+reportId);
         //customerId
         long customerId = Long.parseLong(System.getProperty("CustomerId", "0"));
         result.setCustomerId(customerId);
@@ -317,7 +327,7 @@ public final class NewDriver {
         int samplingInterval = Integer.parseInt(System.getProperty("SamplingInterval", "0"));
         result.setSamplingInterval(samplingInterval);
         //podNumber
-        String podNumber = System.getProperty("pod.number","1");
+        String podNumber = System.getProperty("pod.number", "1");
         result.setPodNumber(podNumber);
         System.setProperty("pod.number", podNumber);
         String notify = System.getProperty("engine.notify.method", "http");
@@ -365,7 +375,8 @@ public final class NewDriver {
         } else if (System.getProperty("log4j.configurationFile") == null) {// $NON-NLS-1$
             logConfFile = new File("log4j2.xml");// $NON-NLS-1$
             if (!logConfFile.isFile()) {
-                logConfFile = new File(JMETER_INSTALLATION_DIRECTORY, "bin" + File.separator + "log4j2.xml");// $NON-NLS-1$ $NON-NLS-2$
+                logConfFile = new File(JMETER_INSTALLATION_DIRECTORY,
+                    "bin" + File.separator + "log4j2.xml");// $NON-NLS-1$ $NON-NLS-2$
             }
         }
 
@@ -376,24 +387,25 @@ public final class NewDriver {
 
     private static boolean shouldBeHeadless(String[] args) {
         for (String arg : args) {
-            if("-n".equals(arg) || "-s".equals(arg) || "-g".equals(arg)) {
+            if ("-n".equals(arg) || "-s".equals(arg) || "-g".equals(arg)) {
                 return true;
             }
         }
         return false;
     }
+
     /*
      * Find command line argument option value by the id and name.
      */
     private static String getCommandLineArgument(String[] args, int id, String name) {
-        final String shortArgName = "-" + ((char) id);// $NON-NLS-1$
+        final String shortArgName = "-" + ((char)id);// $NON-NLS-1$
         final String longArgName = "--" + name;// $NON-NLS-1$
 
         String value = null;
 
         for (int i = 0; i < args.length; i++) {
             if ((shortArgName.equals(args[i]) && i < args.length - 1)
-                    || longArgName.equals(args[i])) {
+                || longArgName.equals(args[i])) {
                 if (!args[i + 1].startsWith("-")) {// $NON-NLS-1$
                     value = args[i + 1];
                 }
@@ -428,7 +440,8 @@ public final class NewDriver {
                 fromIndex = begin + 1;
                 end = fileName.indexOf('\'', fromIndex);// $NON-NLS-1$
                 if (end == -1) {
-                    throw new IllegalArgumentException("Invalid pairs of single-quotes in the file name: " + fileName);// $NON-NLS-1$
+                    throw new IllegalArgumentException(
+                        "Invalid pairs of single-quotes in the file name: " + fileName);// $NON-NLS-1$
                 }
 
                 format = fileName.substring(begin + 1, end);
@@ -445,7 +458,8 @@ public final class NewDriver {
 
             return builder.toString();
         } catch (Exception ex) {
-            System.err.println("Error replacing date format in file name:"+fileName+", error:"+ex.getMessage()); // NOSONAR
+            System.err.println(
+                "Error replacing date format in file name:" + fileName + ", error:" + ex.getMessage()); // NOSONAR
         }
 
         return fileName;
