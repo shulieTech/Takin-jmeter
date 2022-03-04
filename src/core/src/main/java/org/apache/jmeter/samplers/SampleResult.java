@@ -110,17 +110,17 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
 
     // List of types that are known to be binary
     private static final String[] BINARY_TYPES = {
-        "image/",       //$NON-NLS-1$
-        "audio/",       //$NON-NLS-1$
-        "video/",       //$NON-NLS-1$
+        "image/",
+        "audio/",
+        "video/",
     };
 
     // List of types that are known to be ascii, although they may appear to be binary
     private static final String[] NON_BINARY_TYPES = {
-        "audio/x-mpegurl",  //$NON-NLS-1$ (HLS Media Manifest)
-        "audio/mpegurl",    //$NON-NLS-1$ (HLS Media Manifest)
-        "video/f4m",        //$NON-NLS-1$ (Flash Media Manifest)
-        "image/svg+xml"     //$NON-NLS-1$ (SVG is xml)
+        "audio/x-mpegurl",
+        "audio/mpegurl",
+        "video/f4m",
+        "image/svg+xml"
     };
 
     /**
@@ -221,7 +221,7 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
         return method;
     }
 
-    private String queryString = ""; // never null
+    private String queryString = "";
 
     private String mqTraceId;
 
@@ -235,6 +235,10 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
 
     public String getQueryString() {
         return queryString;
+    }
+
+    public void setQueryString(String string) {
+        if (string != null) {queryString = string;}
     }
     //add end
 

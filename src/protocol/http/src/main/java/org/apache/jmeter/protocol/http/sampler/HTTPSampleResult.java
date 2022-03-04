@@ -213,6 +213,7 @@ public class HTTPSampleResult extends SampleResult {
      *
      * @param string the query string
      */
+    @Override
     public void setQueryString(String string) {
         if (string == null) {
             queryString = "";
