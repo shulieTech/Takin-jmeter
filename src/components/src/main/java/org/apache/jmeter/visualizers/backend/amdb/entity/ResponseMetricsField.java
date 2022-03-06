@@ -50,6 +50,7 @@ public class ResponseMetricsField  {
     private Integer activeThreads;
     //1-100%点位耗时和请求量数据
     private String percentData;
+    private Double tps;
 
     //public String getTransaction() {
     //    return transaction;
@@ -153,5 +154,13 @@ public class ResponseMetricsField  {
 
     public void setPercentData(String percentData) {
         this.percentData = percentData;
+    }
+
+    public Double getTps() {
+        return tps;
+    }
+
+    public void setTps(Double tps) {
+        this.tps = tps;
     }
 }
