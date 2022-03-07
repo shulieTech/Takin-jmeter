@@ -88,7 +88,7 @@ public class DynamicContextByLongPolling {
     }
 
     public static void startTest() {
-        if (null != JedisUtil.getRedisUtil() && INITIALIZED.compareAndSet(false, true)) {
+        if (INITIALIZED.compareAndSet(false, true)) {
             int flushTime = JMeterUtils.getPropDefault("tps_target_level_flush_time", 5000);
             ExecutorServiceFactory.GLOBAL_SCHEDULE_EXECUTOR_SERVICE.scheduleWithFixedDelay(() -> {
                 flushTpsTargetLevel();
