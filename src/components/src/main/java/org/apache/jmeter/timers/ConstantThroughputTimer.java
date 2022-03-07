@@ -27,6 +27,7 @@ import java.util.concurrent.ConcurrentMap;
 import org.apache.jmeter.gui.GUIMenuSortOrder;
 import org.apache.jmeter.gui.TestElementMetadata;
 import org.apache.jmeter.shulie.DynamicContext;
+import org.apache.jmeter.shulie.DynamicContextByLongPolling;
 import org.apache.jmeter.testbeans.TestBean;
 import org.apache.jmeter.testbeans.gui.GenericTestBeanCustomizer;
 import org.apache.jmeter.testelement.AbstractTestElement;
@@ -143,7 +144,7 @@ public class ConstantThroughputTimer extends AbstractTestElement implements Time
         // 1. 获取线程组名称
         String threadGroupName = JMeterContextService.getContext().getThreadGroup().getName();
         // 2. 获取TPS目标值
-        Double tpsTargetLevel = DynamicContext.getTpsTargetLevel(threadGroupName);
+        Double tpsTargetLevel = DynamicContextByLongPolling.getTpsTargetLevel(threadGroupName);
         // 如果值为空-直接返回
         if (null == tpsTargetLevel) {return throughput;}
         //求1分钟的并发数 = 总目标tps*60秒*百分比
