@@ -88,15 +88,15 @@ public class DynamicContextByLongPolling {
     }
 
     public static void startTest() {
-        if (INITIALIZED.compareAndSet(false, true)) {
+        if (null != JedisUtil.getRedisUtil() && INITIALIZED.compareAndSet(false, true)) {
             int flushTime = JMeterUtils.getPropDefault("tps_target_level_flush_time", 5000);
             ExecutorServiceFactory.GLOBAL_SCHEDULE_EXECUTOR_SERVICE.scheduleWithFixedDelay(() -> {
                 flushTpsTargetLevel();
                 //flushTpsFactor();
             }, flushTime, flushTime, TimeUnit.MILLISECONDS);
-            if (null == stopMessageListener) {
-                stopMessageListener = new StopMessageListener();
-            }
+            //if (null == stopMessageListener) {
+            //    stopMessageListener = new StopMessageListener();
+            //}
         }
     }
 
