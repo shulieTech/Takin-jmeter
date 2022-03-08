@@ -81,3 +81,5 @@ hs_err_pid*
 .attach_*
 lib/ext/ApacheJMeter_components.jar
 lib/ext/ApacheJMeter_core.jar
+# 引擎打包制品
+/jmeter.zip
