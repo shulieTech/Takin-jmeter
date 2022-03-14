@@ -55,27 +55,27 @@ public class ResultSaver extends AbstractTestElement implements NoThreadClone, S
 
     private static final Object LOCK = new Object();
 
-    private static final String TIMESTAMP_FORMAT = "yyyyMMdd-HHmm_"; // $NON-NLS-1$
+    private static final String TIMESTAMP_FORMAT = "yyyyMMdd-HHmm_";
 
     //+ JMX property names; do not change
 
-    public static final String FILENAME = "FileSaver.filename"; // $NON-NLS-1$
+    public static final String FILENAME = "FileSaver.filename";
 
-    public static final String VARIABLE_NAME = "FileSaver.variablename"; // $NON-NLS-1$
+    public static final String VARIABLE_NAME = "FileSaver.variablename";
 
-    public static final String ERRORS_ONLY = "FileSaver.errorsonly"; // $NON-NLS-1$
+    public static final String ERRORS_ONLY = "FileSaver.errorsonly";
 
-    public static final String SUCCESS_ONLY = "FileSaver.successonly"; // $NON-NLS-1$
+    public static final String SUCCESS_ONLY = "FileSaver.successonly";
 
-    public static final String SKIP_AUTO_NUMBER = "FileSaver.skipautonumber"; // $NON-NLS-1$
+    public static final String SKIP_AUTO_NUMBER = "FileSaver.skipautonumber";
 
-    public static final String SKIP_SUFFIX = "FileSaver.skipsuffix"; // $NON-NLS-1$
+    public static final String SKIP_SUFFIX = "FileSaver.skipsuffix";
 
-    public static final String ADD_TIMESTAMP = "FileSaver.addTimstamp"; // $NON-NLS-1$
+    public static final String ADD_TIMESTAMP = "FileSaver.addTimstamp";
 
-    public static final String NUMBER_PAD_LENGTH = "FileSaver.numberPadLen"; // $NON-NLS-1$
+    public static final String NUMBER_PAD_LENGTH = "FileSaver.numberPadLen";
 
-    public static final String IGNORE_TC = "FileSaver.ignoreTC"; // $NON-NLS-1$
+    public static final String IGNORE_TC = "FileSaver.ignoreTC";
 
     //- JMX property names
 
@@ -258,9 +258,9 @@ public class ResultSaver extends AbstractTestElement implements NoThreadClone, S
         if (!skipSuffix){
             sb.append('.');
             if (contentType != null) {
-                int i = contentType.indexOf('/'); // $NON-NLS-1$
+                int i = contentType.indexOf('/');
                 if (i != -1) {
-                    int j = contentType.indexOf(';'); // $NON-NLS-1$
+                    int j = contentType.indexOf(';');
                     if (j != -1) {
                         sb.append(contentType.substring(i + 1, j));
                     } else {
@@ -297,7 +297,7 @@ public class ResultSaver extends AbstractTestElement implements NoThreadClone, S
     }
 
     public String getVariableName() {
-        return getPropertyAsString(VARIABLE_NAME,""); // $NON-NLS-1$
+        return getPropertyAsString(VARIABLE_NAME,"");
     }
 
     public boolean getErrorsOnly() {

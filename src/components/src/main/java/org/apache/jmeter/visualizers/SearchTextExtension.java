@@ -52,7 +52,7 @@ public class SearchTextExtension implements ActionListener, DocumentListener {
 
     private static final Logger log = LoggerFactory.getLogger(SearchTextExtension.class);
 
-    private static final String SEARCH_TEXT_COMMAND = "search_text"; // $NON-NLS-1$
+    private static final String SEARCH_TEXT_COMMAND = "search_text";
 
     private JButton findButton;
 
@@ -91,20 +91,20 @@ public class SearchTextExtension implements ActionListener, DocumentListener {
                 Pattern pattern = createPattern(textToFindField.getText());
                 boolean found = searchProvider.executeAndShowTextFind(pattern);
                 if(found) {
-                    findButton.setText(JMeterUtils.getResString("search_text_button_find"));// $NON-NLS-1$
+                    findButton.setText(JMeterUtils.getResString("search_text_button_find"));
                     lastTextTofind = textToFind;
                     textToFindField.setBackground(Color.WHITE);
                     textToFindField.setForeground(Color.BLACK);
                 }
                 else {
-                    findButton.setText(JMeterUtils.getResString("search_text_button_find"));// $NON-NLS-1$
+                    findButton.setText(JMeterUtils.getResString("search_text_button_find"));
                     textToFindField.setBackground(Colors.LIGHT_RED);
                     textToFindField.setForeground(Color.WHITE);
                 }
             } catch (PatternSyntaxException pse) {
                 JOptionPane.showMessageDialog(null,
-                        pse.toString(),// $NON-NLS-1$
-                        JMeterUtils.getResString("error_title"), // $NON-NLS-1$
+                        pse.toString(),
+                        JMeterUtils.getResString("error_title"),
                         JOptionPane.WARNING_MESSAGE);
             }
         }
@@ -125,7 +125,7 @@ public class SearchTextExtension implements ActionListener, DocumentListener {
      */
     private JToolBar createSearchToolBar() {
         // Search field
-        textToFindField = new JTextField(30); // $NON-NLS-1$
+        textToFindField = new JTextField(30);
         this.toolBar = new JToolBar();
         toolBar.setFloatable(false);
         JFactory.small(textToFindField);
@@ -136,7 +136,7 @@ public class SearchTextExtension implements ActionListener, DocumentListener {
 
         // Buttons
         findButton = new JButton(JMeterUtils
-                .getResString("search_text_button_find")); // $NON-NLS-1$
+                .getResString("search_text_button_find"));
         JFactory.small(findButton);
         findButton.setActionCommand(SEARCH_TEXT_COMMAND);
         findButton.addActionListener(this);
@@ -144,11 +144,11 @@ public class SearchTextExtension implements ActionListener, DocumentListener {
 
         // checkboxes
         caseChkBox = new JCheckBox(JMeterUtils
-                .getResString("search_text_chkbox_case"), false); // $NON-NLS-1$
+                .getResString("search_text_chkbox_case"), false);
         JFactory.small(caseChkBox);
         toolBar.add(caseChkBox);
         regexpChkBox = new JCheckBox(JMeterUtils
-                .getResString("search_text_chkbox_regexp"), false); // $NON-NLS-1$
+                .getResString("search_text_chkbox_regexp"), false);
         JFactory.small(regexpChkBox);
         toolBar.add(regexpChkBox);
 
@@ -209,7 +209,7 @@ public class SearchTextExtension implements ActionListener, DocumentListener {
             searchProvider.resetTextToFind();
         }
         lastTextTofind = null;
-        findButton.setText(JMeterUtils.getResString("search_text_button_find"));// $NON-NLS-1$
+        findButton.setText(JMeterUtils.getResString("search_text_button_find"));
     }
 
     private Pattern createPattern(String textToFind) {
@@ -298,7 +298,7 @@ public class SearchTextExtension implements ActionListener, DocumentListener {
                         results.setCaretPosition(0);
                     }
                 } catch (BadLocationException ble) {
-                    log.error("Location exception in text find", ble);// $NON-NLS-1$
+                    log.error("Location exception in text find", ble);
                 }
             }
 

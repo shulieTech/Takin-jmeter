@@ -37,9 +37,9 @@ import net.sf.saxon.s9api.SaxonApiException;
 public class XPath2Assertion extends AbstractScopedAssertion implements Serializable, Assertion {
     private static final long serialVersionUID = 241L;
     // + JMX file attributes
-    private static final String XPATH_KEY = "XPath.xpath"; // $NON-NLS-1$
-    private static final String NEGATE_KEY = "XPath.negate"; // $NON-NLS-1$
-    private static final String NAMESPACES = "XPath.namespaces"; // $NON-NLS-1$
+    private static final String XPATH_KEY = "XPath.xpath";
+    private static final String NEGATE_KEY = "XPath.negate";
+    private static final String NAMESPACES = "XPath.namespaces";
     // - JMX file attributes
     public static final String DEFAULT_XPATH = "/";
 

@@ -32,18 +32,18 @@ public class Argument extends AbstractTestElement implements Serializable {
     private static final long serialVersionUID = 240L;
 
     /** Name used to store the argument's name. */
-    public static final String ARG_NAME = "Argument.name"; // $NON-NLS-1$
+    public static final String ARG_NAME = "Argument.name";
 
     /** Name used to store the argument's value. */
-    public static final String VALUE = "Argument.value"; // $NON-NLS-1$
+    public static final String VALUE = "Argument.value";
 
     /** Name used to store the argument's description. */
-    public static final String DESCRIPTION = "Argument.desc"; // $NON-NLS-1$
+    public static final String DESCRIPTION = "Argument.desc";
 
-    private static final String DFLT_DESCRIPTION = ""; // $NON-NLS-1$
+    private static final String DFLT_DESCRIPTION = "";
 
     /** Name used to store the argument's metadata. */
-    public static final String METADATA = "Argument.metadata"; // $NON-NLS-1$
+    public static final String METADATA = "Argument.metadata";
 
     /**
      * Create a new Argument without a name, value, or metadata.

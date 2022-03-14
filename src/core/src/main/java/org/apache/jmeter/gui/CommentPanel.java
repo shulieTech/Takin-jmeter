@@ -71,6 +71,6 @@ public class CommentPanel extends JPanel {
     }
 
     public void clearGui() {
-        commentField.setText(""); // $NON-NLS-1$
+        commentField.setText("");
     }
 }

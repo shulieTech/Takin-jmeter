@@ -75,7 +75,7 @@ public class TransactionControllerGui extends AbstractControllerGui {
 
     @Override
     public String getLabelResource() {
-        return "transaction_controller_title"; // $NON-NLS-1$
+        return "transaction_controller_title";
     }
 
     /**
@@ -85,9 +85,9 @@ public class TransactionControllerGui extends AbstractControllerGui {
         setLayout(new VerticalLayout(5, VerticalLayout.BOTH, VerticalLayout.TOP));
         setBorder(makeBorder());
         add(makeTitlePanel());
-        generateParentSample = new JCheckBox(JMeterUtils.getResString("transaction_controller_parent")); // $NON-NLS-1$
+        generateParentSample = new JCheckBox(JMeterUtils.getResString("transaction_controller_parent"));
         add(CheckBoxPanel.wrap(generateParentSample));
-        includeTimers = new JCheckBox(JMeterUtils.getResString("transaction_controller_include_timers"), true); // $NON-NLS-1$
+        includeTimers = new JCheckBox(JMeterUtils.getResString("transaction_controller_include_timers"), true);
         add(CheckBoxPanel.wrap(includeTimers));
     }
 }

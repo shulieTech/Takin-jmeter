@@ -347,8 +347,8 @@ public final class ActionRouter implements ActionListener {
             return; // already done
         }
         try {
-            List<String> listClasses = findClassesThatExtend("org.apache.jmeter.gui.action.Command", // $NON-NLS-1$
-                    "org.apache.jmeter.report.gui", // $NON-NLS-1$
+            List<String> listClasses = findClassesThatExtend("org.apache.jmeter.gui.action.Command",
+                    "org.apache.jmeter.report.gui",
                     JMeterUtils.getSearchPaths());
 
             if (listClasses.isEmpty()) {
@@ -356,8 +356,8 @@ public final class ActionRouter implements ActionListener {
                 Optional<String[]> codeSourceSearchPath = getCodeSourceSearchPath();
                 if (codeSourceSearchPath.isPresent()) {
                     log.info("Using fallback search path");
-                    listClasses = findClassesThatExtend("org.apache.jmeter.gui.action.Command", // $NON-NLS-1$
-                            "org.apache.jmeter.report.gui", // $NON-NLS-1$
+                    listClasses = findClassesThatExtend("org.apache.jmeter.gui.action.Command",
+                            "org.apache.jmeter.report.gui",
                             codeSourceSearchPath.get());
                 }
             }

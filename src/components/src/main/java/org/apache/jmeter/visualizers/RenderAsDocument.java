@@ -34,14 +34,14 @@ public class RenderAsDocument extends SamplerResultTab implements ResultRenderer
             showDocumentResponse(sampleResult);
         } catch (Exception e) {
             results.setText(e.toString());
-            log.error("Error while rendering document.", e); // $NON-NLS-1$
+            log.error("Error while rendering document.", e);
         }
     }
 
     private void showDocumentResponse(SampleResult sampleResult) {
         String response = Document.getTextFromDocument(sampleResult.getResponseData());
 
-        results.setContentType("text/plain"); // $NON-NLS-1$
+        results.setContentType("text/plain");
         setTextOptimized(response);
         results.setCaretPosition(0);
         resultsScrollPane.setViewportView(results);
@@ -50,7 +50,7 @@ public class RenderAsDocument extends SamplerResultTab implements ResultRenderer
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        return JMeterUtils.getResString("view_results_render_document"); // $NON-NLS-1$
+        return JMeterUtils.getResString("view_results_render_document");
     }
 
 }

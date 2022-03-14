@@ -67,10 +67,10 @@ public abstract class BSFTestElement extends ScriptingTestElement
         final String scriptParameters = getParameters();
         // Use actual class name for log
         final Logger logger = LoggerFactory.getLogger(getClass());
-        mgr.declareBean("log", logger, Logger.class); // $NON-NLS-1$
-        mgr.declareBean("Label",label, String.class); // $NON-NLS-1$
-        mgr.declareBean("FileName",fileName, String.class); // $NON-NLS-1$
-        mgr.declareBean("Parameters", scriptParameters, String.class); // $NON-NLS-1$
+        mgr.declareBean("log", logger, Logger.class);
+        mgr.declareBean("Label",label, String.class);
+        mgr.declareBean("FileName",fileName, String.class);
+        mgr.declareBean("Parameters", scriptParameters, String.class);
         String [] args=JOrphanUtils.split(scriptParameters, " ");//$NON-NLS-1$
         mgr.declareBean("args",args,args.getClass());//$NON-NLS-1$
         // Add variables for access to context and variables
@@ -78,11 +78,11 @@ public abstract class BSFTestElement extends ScriptingTestElement
         JMeterVariables vars = jmctx.getVariables();
         Properties props = JMeterUtils.getJMeterProperties();
 
-        mgr.declareBean("ctx", jmctx, jmctx.getClass()); // $NON-NLS-1$
-        mgr.declareBean("vars", vars, vars.getClass()); // $NON-NLS-1$
-        mgr.declareBean("props", props, props.getClass()); // $NON-NLS-1$
+        mgr.declareBean("ctx", jmctx, jmctx.getClass());
+        mgr.declareBean("vars", vars, vars.getClass());
+        mgr.declareBean("props", props, props.getClass());
         // For use in debugging:
-        mgr.declareBean("OUT", System.out, PrintStream.class); // $NON-NLS-1$
+        mgr.declareBean("OUT", System.out, PrintStream.class);
 
         // Most subclasses will need these:
         Sampler sampler = jmctx.getCurrentSampler();

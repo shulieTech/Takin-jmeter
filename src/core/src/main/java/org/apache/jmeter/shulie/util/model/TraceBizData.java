@@ -20,7 +20,7 @@ package org.apache.jmeter.shulie.util.model;
 /**
  * trace业务数据
  *
- * @author lipeng
+ * @author 李鹏
  * @date 2021-05-17 2:30 下午
  */
 public class TraceBizData {

@@ -59,10 +59,14 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
     private static final String AUTHORIZATION_HEADER_NAME = "Authorization";
     private static final String AUTHORIZATION_HEADER_VALUE = "Token ";
 
-    //后端监听器链接超时时间
+    /**
+     * 后端监听器链接超时时间
+     */
     private static final int BACKEND_CONNECTION_TIMEOUT = 1000;
 
-    //后端监听器链接socket时间
+    /**
+     * 后端监听器链接socket时间
+     */
     private static final int BACKEND_SOCKET_TIMEOUT = 1000;
 
     private final Object lock = new Object();
@@ -95,27 +99,26 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
     public void setup(String influxdbUrl, String influxDBToken) throws Exception {
         // Create I/O reactor configuration
         IOReactorConfig ioReactorConfig = IOReactorConfig
-                .custom()
-                .setIoThreadCount(1)
-                .setConnectTimeout(JMeterUtils.getPropDefault("backend_influxdb.connection_timeout", BACKEND_CONNECTION_TIMEOUT))
-                .setSoTimeout(JMeterUtils.getPropDefault("backend_influxdb.socket_timeout", BACKEND_SOCKET_TIMEOUT))
-                .build();
+            .custom()
+            .setIoThreadCount(1)
+            .setConnectTimeout(JMeterUtils.getPropDefault("backend_influxdb.connection_timeout", BACKEND_CONNECTION_TIMEOUT))
+            .setSoTimeout(JMeterUtils.getPropDefault("backend_influxdb.socket_timeout", BACKEND_SOCKET_TIMEOUT))
+            .build();
         // Create a custom I/O reactor
         ConnectingIOReactor ioReactor = new DefaultConnectingIOReactor(ioReactorConfig);
 
-
         // Create a connection manager with custom configuration.
         PoolingNHttpClientConnectionManager connManager =
-                new PoolingNHttpClientConnectionManager(ioReactor);
+            new PoolingNHttpClientConnectionManager(ioReactor);
 
         httpClient = HttpAsyncClientBuilder.create()
-                .setConnectionManager(connManager)
-                .setMaxConnPerRoute(2)
-                .setMaxConnTotal(2)
-                .setUserAgent("ApacheJMeter" + JMeterUtils.getJMeterVersion())
-                .disableCookieManagement()
-                .disableConnectionState()
-                .build();
+            .setConnectionManager(connManager)
+            .setMaxConnPerRoute(2)
+            .setMaxConnTotal(2)
+            .setUserAgent("ApacheJMeter" + JMeterUtils.getJMeterVersion())
+            .disableCookieManagement()
+            .disableConnectionState()
+            .build();
         url = new URL(influxdbUrl);
         token = influxDBToken;
         SEND_INTERVAL = JMeterUtils.getPropDefault("backend_influxdb.send_interval", 5);
@@ -133,10 +136,10 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
      */
     private HttpPost createRequest(URL url, String token) throws URISyntaxException {
         RequestConfig defaultRequestConfig = RequestConfig.custom()
-                .setConnectTimeout(JMeterUtils.getPropDefault("backend_influxdb.connection_timeout", BACKEND_CONNECTION_TIMEOUT))
-                .setSocketTimeout(JMeterUtils.getPropDefault("backend_influxdb.socket_timeout", BACKEND_SOCKET_TIMEOUT))
-                .setConnectionRequestTimeout(JMeterUtils.getPropDefault("backend_influxdb.connection_request_timeout", 100))
-                .build();
+            .setConnectTimeout(JMeterUtils.getPropDefault("backend_influxdb.connection_timeout", BACKEND_CONNECTION_TIMEOUT))
+            .setSocketTimeout(JMeterUtils.getPropDefault("backend_influxdb.socket_timeout", BACKEND_SOCKET_TIMEOUT))
+            .setConnectionRequestTimeout(JMeterUtils.getPropDefault("backend_influxdb.connection_request_timeout", 100))
+            .build();
 
         HttpPost currentHttpRequest = new HttpPost(url.toURI());
         currentHttpRequest.setConfig(defaultRequestConfig);
@@ -150,7 +153,7 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
     @Override
     public void addMetric(ResponseMetrics responseMetrics) {
         synchronized (lock) {
-            //add by lipeng for test
+            //add by 李鹏 for test
             if (log.isDebugEnabled()) {
                 log.debug("------------ log activeThreads start ------------");
                 //获取当前线程数量
@@ -169,7 +172,6 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
         }
     }
 
-
     @Override
     public void writeAndSendMetrics() {
         List<AbstractMetrics> copyMetrics;
@@ -178,17 +180,17 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
             metrics = new ArrayList<>(copyMetrics.size());
         }
         thread.send(copyMetrics);
-//        writeAndSendMetrics(copyMetrics);
+        //        writeAndSendMetrics(copyMetrics);
     }
 
-    //TODO mark by lipeng 这里改为直接向influxdb写数据 而不是传到cloud
+    //TODO mark by 李鹏 这里改为直接向influxdb写数据 而不是传到cloud
     public boolean writeAndSendMetrics(List<AbstractMetrics> copyMetrics) {
         try {
             if (httpRequest == null) {
                 httpRequest = createRequest(url, token);
             }
             String sendData = JacksonUtil.toJson(copyMetrics);
-            log.info("send data:"+sendData);
+            log.info("send data:" + sendData);
             //请求数据
             httpRequest.setEntity(new StringEntity(sendData, ContentType.APPLICATION_JSON));
             MetricsSenderCallback callback = new MetricsSenderCallback(httpRequest, copyMetrics);
@@ -196,12 +198,8 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
             HttpResponse response = lastRequest.get();
             int code = response.getStatusLine().getStatusCode();
             return MetricUtils.isSuccessCode(code);
-        } catch (URISyntaxException | JsonProcessingException ex) {
+        } catch (URISyntaxException | JsonProcessingException | InterruptedException | ExecutionException ex) {
             log.error(ex.getMessage(), ex);
-        } catch (ExecutionException e) {
-            log.error(e.getMessage(), e);
-        } catch (InterruptedException e) {
-            log.error(e.getMessage(), e);
         }
         return false;
     }
@@ -227,13 +225,13 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
             if (MetricUtils.isSuccessCode(code)) {
                 //查看日志
                 log.info("Success, number of metrics written: {}", copyMetrics.size());
-//                        if (log.isDebugEnabled()) {
-//                            log.debug("Success, number of metrics written: {}", copyMetrics.size());
-//                        }
+                //                        if (log.isDebugEnabled()) {
+                //                            log.debug("Success, number of metrics written: {}", copyMetrics.size());
+                //                        }
             } else {
                 log.error(
-                        "Error writing metrics to Collection centre Url: {}, responseCode: {}, responseBody: {}",
-                        url, code, getBody(response));
+                    "Error writing metrics to Collection centre Url: {}, responseCode: {}, responseBody: {}",
+                    url, code, getBody(response));
             }
         }
 

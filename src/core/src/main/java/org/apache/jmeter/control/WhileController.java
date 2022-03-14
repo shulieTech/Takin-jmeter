@@ -36,7 +36,7 @@ public class WhileController extends GenericController implements Serializable, 
 
     private static final long serialVersionUID = 233L;
 
-    private static final String CONDITION = "WhileController.condition"; // $NON-NLS-1$
+    private static final String CONDITION = "WhileController.condition";
 
     private boolean breakLoop;
 
@@ -63,12 +63,12 @@ public class WhileController extends GenericController implements Serializable, 
         log.debug("Condition string: '{}'", cnd);
         boolean res;
         // If blank, only check previous sample when at end of loop
-        if ((loopEnd && cnd.isEmpty()) || "LAST".equalsIgnoreCase(cnd)) {// $NON-NLS-1$
+        if ((loopEnd && cnd.isEmpty()) || "LAST".equalsIgnoreCase(cnd)) {
             JMeterVariables threadVars = JMeterContextService.getContext().getVariables();
-            res = "false".equalsIgnoreCase(threadVars.get(JMeterThread.LAST_SAMPLE_OK));// $NON-NLS-1$
+            res = "false".equalsIgnoreCase(threadVars.get(JMeterThread.LAST_SAMPLE_OK));
         } else {
             // cnd may be null if next() called us
-            res = "false".equalsIgnoreCase(cnd);// $NON-NLS-1$
+            res = "false".equalsIgnoreCase(cnd);
         }
         log.debug("Condition value: '{}'", res);
         return res;

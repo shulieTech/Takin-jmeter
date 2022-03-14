@@ -74,7 +74,7 @@ public class RespTimeGraphChart extends JPanel {
 
     protected int incrYAxisScale;
 
-    protected String[] legendLabels = { JMeterUtils.getResString("aggregate_graph_legend") }; // $NON-NLS-1$
+    protected String[] legendLabels = { JMeterUtils.getResString("aggregate_graph_legend") };
 
     protected int maxYAxisScale;
 

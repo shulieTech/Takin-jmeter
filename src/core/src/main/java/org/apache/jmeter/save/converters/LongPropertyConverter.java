@@ -34,7 +34,7 @@ public class LongPropertyConverter implements Converter {
      * @return the version of this converter
      */
     public static String getVersion() {
-        return "$Revision$"; // $NON-NLS-1$
+        return "$Revision$";
     }
 
     /** {@inheritDoc} */

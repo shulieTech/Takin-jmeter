@@ -44,9 +44,9 @@ public class AsynchSampleSender extends AbstractSampleSender implements Serializ
 
     private static final int DEFAULT_QUEUE_SIZE = 100;
 
-    private static final int SERVER_CONFIGURED_CAPACITY = JMeterUtils.getPropDefault("asynch.batch.queue.size", DEFAULT_QUEUE_SIZE); // $NON-NLS-1$
+    private static final int SERVER_CONFIGURED_CAPACITY = JMeterUtils.getPropDefault("asynch.batch.queue.size", DEFAULT_QUEUE_SIZE);
 
-    private final int clientConfiguredCapacity = JMeterUtils.getPropDefault("asynch.batch.queue.size", DEFAULT_QUEUE_SIZE); // $NON-NLS-1$
+    private final int clientConfiguredCapacity = JMeterUtils.getPropDefault("asynch.batch.queue.size", DEFAULT_QUEUE_SIZE);
 
     // created by client
     private final RemoteSampleListener listener;
@@ -63,7 +63,7 @@ public class AsynchSampleSender extends AbstractSampleSender implements Serializ
     @Deprecated
     public AsynchSampleSender(){
         this(null);
-        log.warn("Constructor only intended for use in testing"); // $NON-NLS-1$
+        log.warn("Constructor only intended for use in testing");
     }
 
     // Created by SampleSenderFactory

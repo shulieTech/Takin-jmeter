@@ -30,9 +30,9 @@ public class GaussianRandomTimerGui extends AbstractRandomTimerGui {
 
     private static final long serialVersionUID = 240L;
 
-    private static final String DEFAULT_DELAY = "300"; // $NON-NLS-1$
+    private static final String DEFAULT_DELAY = "300";
 
-    private static final String DEFAULT_RANGE = "100.0"; // $NON-NLS-1$
+    private static final String DEFAULT_RANGE = "100.0";
 
 
     /**

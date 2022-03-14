@@ -48,12 +48,12 @@ public abstract class ScriptingBeanInfoSupport extends BeanInfoSupport {
         super(beanClass);
         PropertyDescriptor p;
 
-        p = property("scriptLanguage"); // $NON-NLS-1$
+        p = property("scriptLanguage");
         p.setValue(NOT_UNDEFINED, Boolean.TRUE);
         if (JSR223TestElement.class.isAssignableFrom(beanClass) ) {
-            p.setValue(DEFAULT, "groovy"); // $NON-NLS-1$
+            p.setValue(DEFAULT, "groovy");
         } else {
-            p.setValue(DEFAULT, ""); // $NON-NLS-1$
+            p.setValue(DEFAULT, "");
         }
         if (rb != null) {
             p.setValue(RESOURCE_BUNDLE, rb);
@@ -61,23 +61,23 @@ public abstract class ScriptingBeanInfoSupport extends BeanInfoSupport {
 
         p.setValue(TAGS, languageTags);
 
-        createPropertyGroup("scriptingLanguage", // $NON-NLS-1$
-                new String[] { "scriptLanguage" }); // $NON-NLS-1$
+        createPropertyGroup("scriptingLanguage",
+                new String[] { "scriptLanguage" });
 
-        p = property("parameters"); // $NON-NLS-1$
+        p = property("parameters");
         p.setValue(NOT_UNDEFINED, Boolean.TRUE);
-        p.setValue(DEFAULT, ""); // $NON-NLS-1$
+        p.setValue(DEFAULT, "");
 
-        createPropertyGroup("parameterGroup", // $NON-NLS-1$
-                new String[] { "parameters" }); // $NON-NLS-1$
+        createPropertyGroup("parameterGroup",
+                new String[] { "parameters" });
 
-        p = property("filename"); // $NON-NLS-1$
+        p = property("filename");
         p.setValue(NOT_UNDEFINED, Boolean.TRUE);
-        p.setValue(DEFAULT, ""); // $NON-NLS-1$
+        p.setValue(DEFAULT, "");
         p.setPropertyEditorClass(FileEditor.class);
 
-        createPropertyGroup("filenameGroup",  // $NON-NLS-1$
-                new String[] { "filename" }); // $NON-NLS-1$
+        createPropertyGroup("filenameGroup",
+                new String[] { "filename" });
 
         /*
          * If we are creating a JSR223 element, add the cache key property.
@@ -103,23 +103,23 @@ public abstract class ScriptingBeanInfoSupport extends BeanInfoSupport {
          *
          */
         if (JSR223TestElement.class.isAssignableFrom(beanClass) ) {
-            p = property("cacheKey"); // $NON-NLS-1$
+            p = property("cacheKey");
             p.setValue(NOT_UNDEFINED, Boolean.TRUE);
             p.setValue(NOT_OTHER, Boolean.TRUE);
-            p.setValue(DEFAULT, TRUE_AS_STRING); // $NON-NLS-1$
+            p.setValue(DEFAULT, TRUE_AS_STRING);
             p.setPropertyEditorClass(JSR223ScriptCacheCheckboxEditor.class);
             p.setValue(TAGS, new String[]{TRUE_AS_STRING,FALSE_AS_STRING});
-            createPropertyGroup("cacheKey_group", // $NON-NLS-1$
-                new String[] { "cacheKey" }); // $NON-NLS-1$
+            createPropertyGroup("cacheKey_group",
+                new String[] { "cacheKey" });
         }
 
-        p = property("script"); // $NON-NLS-1$
+        p = property("script");
         p.setValue(NOT_UNDEFINED, Boolean.TRUE);
-        p.setValue(DEFAULT, ""); // $NON-NLS-1$
+        p.setValue(DEFAULT, "");
         p.setPropertyEditorClass(TextAreaEditor.class);
 
-        createPropertyGroup("scripting", // $NON-NLS-1$
-                new String[] { "script" }); // $NON-NLS-1$
+        createPropertyGroup("scripting",
+                new String[] { "script" });
 
     }
 

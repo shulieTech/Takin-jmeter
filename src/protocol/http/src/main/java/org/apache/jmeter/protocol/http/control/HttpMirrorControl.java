@@ -38,11 +38,11 @@ public class HttpMirrorControl extends AbstractTestElement {
     public static final String DEFAULT_PORT_S =
         Integer.toString(DEFAULT_PORT);// Used by GUI
 
-    public static final String PORT = "HttpMirrorControlGui.port"; // $NON-NLS-1$
+    public static final String PORT = "HttpMirrorControlGui.port";
 
-    public static final String MAX_POOL_SIZE = "HttpMirrorControlGui.maxPoolSize"; // $NON-NLS-1$
+    public static final String MAX_POOL_SIZE = "HttpMirrorControlGui.maxPoolSize";
 
-    public static final String MAX_QUEUE_SIZE = "HttpMirrorControlGui.maxQueueSize"; // $NON-NLS-1$
+    public static final String MAX_QUEUE_SIZE = "HttpMirrorControlGui.maxQueueSize";
 
     public static final int DEFAULT_MAX_POOL_SIZE = 0;
 

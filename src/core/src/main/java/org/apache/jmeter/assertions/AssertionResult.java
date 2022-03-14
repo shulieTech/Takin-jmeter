@@ -27,7 +27,7 @@ import org.apache.jmeter.gui.Searchable;
  * Implements Response Assertion checking.
  */
 public class AssertionResult implements Serializable, Searchable {
-    public static final String RESPONSE_WAS_NULL = "Response was null"; // $NON-NLS-1$
+    public static final String RESPONSE_WAS_NULL = "Response was null";
 
     private static final long serialVersionUID = 240L;
 

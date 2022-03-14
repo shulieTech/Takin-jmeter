@@ -48,27 +48,27 @@ import org.slf4j.LoggerFactory;
 public class HttpRequestHdr {
     private static final Logger log = LoggerFactory.getLogger(HttpRequestHdr.class);
 
-    private static final String HTTP = "http"; // $NON-NLS-1$
-    private static final String HTTPS = "https"; // $NON-NLS-1$
-    private static final String PROXY_CONNECTION = "proxy-connection"; // $NON-NLS-1$
+    private static final String HTTP = "http";
+    private static final String HTTPS = "https";
+    private static final String PROXY_CONNECTION = "proxy-connection";
     private static final String CRLF = "<CRLF>";
-    public static final String CONTENT_TYPE = "content-type"; // $NON-NLS-1$
-    public static final String CONTENT_LENGTH = "content-length"; // $NON-NLS-1$
+    public static final String CONTENT_TYPE = "content-type";
+    public static final String CONTENT_LENGTH = "content-length";
 
 
     /**
      * Http Request method, uppercased, e.g. GET or POST.
      */
-    private String method = ""; // $NON-NLS-1$
+    private String method = "";
 
     /** CONNECT url. */
-    private String paramHttps = ""; // $NON-NLS-1$
+    private String paramHttps = "";
 
     /**
      * The requested url. The universal resource locator that hopefully uniquely
      * describes the object or service the client is requesting.
      */
-    private String url = ""; // $NON-NLS-1$
+    private String url = "";
 
     private byte[] rawPostData;
 
@@ -114,7 +114,7 @@ public class HttpRequestHdr {
     public HttpRequestHdr(String prefix, String httpSamplerName, int httpSampleNameMode, String format) {
         this.prefix = prefix;
         this.httpSamplerName = httpSamplerName;
-        this.firstLine = "" ; // $NON-NLS-1$
+        this.firstLine = "" ;
         this.httpSampleNameMode = httpSampleNameMode;
         this.httpSampleNameFormat = format;
     }
@@ -141,7 +141,7 @@ public class HttpRequestHdr {
             if (firstLine && !CharUtils.isAscii((char) x)){// includes \n
                 throw new IllegalArgumentException("Only ASCII supported in headers (perhaps SSL was used?)");
             }
-            if (inHeaders && (byte) x == (byte) '\n') { // $NON-NLS-1$
+            if (inHeaders && (byte) x == (byte) '\n') {
                 if (line.size() < 3) {
                     inHeaders = false;
                     firstLine = false; // cannot be first line either
@@ -202,7 +202,7 @@ public class HttpRequestHdr {
          * GET /?gws_rd=cr HTTP/1.1
          */
         if (url.startsWith("/")) { // it must be a proxied HTTPS request
-            url = HTTPS + "://" + paramHttps + url; // $NON-NLS-1$
+            url = HTTPS + "://" + paramHttps + url;
         }
         // JAVA Impl accepts URLs with unsafe characters so don't do anything
         if(HTTPSamplerFactory.IMPL_JAVA.equals(httpSamplerName)) {
@@ -258,7 +258,7 @@ public class HttpRequestHdr {
                 manager.add(entry.getValue());
             }
         }
-        manager.setName(JMeterUtils.getResString("header_manager_title")); // $NON-NLS-1$
+        manager.setName(JMeterUtils.getResString("header_manager_title"));
         manager.setProperty(TestElement.TEST_CLASS, HeaderManager.class.getName());
         manager.setProperty(TestElement.GUI_CLASS, HeaderPanel.class.getName());
         return manager;
@@ -304,17 +304,17 @@ public class HttpRequestHdr {
     public String serverName() {
         // chop to "server.name:x/thing"
         String str = url;
-        int i = str.indexOf("//"); // $NON-NLS-1$
+        int i = str.indexOf("//");
         if (i > 0) {
             str = str.substring(i + 2);
         }
         // chop to server.name:xx
-        i = str.indexOf('/'); // $NON-NLS-1$
+        i = str.indexOf('/');
         if (0 < i) {
             str = str.substring(0, i);
         }
         // chop to server.name
-        i = str.lastIndexOf(':'); // $NON-NLS-1$
+        i = str.lastIndexOf(':');
         if (0 < i) {
             str = str.substring(0, i);
         }
@@ -401,7 +401,7 @@ public class HttpRequestHdr {
         if (tk.hasMoreTokens()) {
             return tk.nextToken();
         }
-        return "";// $NON-NLS-1$
+        return "";
     }
 
 

@@ -79,49 +79,49 @@ public class RespTimeGraphVisualizer extends AbstractVisualizer implements Actio
 
     //+ JMX property names; do not change
 
-    public static final String INTERVAL = "RespTimeGraph.interval"; // $NON-NLS-1$
+    public static final String INTERVAL = "RespTimeGraph.interval";
 
-    public static final String SERIES_SELECTION = "RespTimeGraph.seriesselection"; // $NON-NLS-1$
+    public static final String SERIES_SELECTION = "RespTimeGraph.seriesselection";
 
-    public static final String SERIES_SELECTION_MATCH_LABEL = "RespTimeGraph.seriesselectionmatchlabel"; // $NON-NLS-1$
+    public static final String SERIES_SELECTION_MATCH_LABEL = "RespTimeGraph.seriesselectionmatchlabel";
 
-    public static final String SERIES_SELECTION_CASE_SENSITIVE = "RespTimeGraph.seriesselectioncasesensitive"; // $NON-NLS-1$
+    public static final String SERIES_SELECTION_CASE_SENSITIVE = "RespTimeGraph.seriesselectioncasesensitive";
 
-    public static final String SERIES_SELECTION_REGEXP = "RespTimeGraph.seriesselectionregexp"; // $NON-NLS-1$
+    public static final String SERIES_SELECTION_REGEXP = "RespTimeGraph.seriesselectionregexp";
 
-    public static final String GRAPH_TITLE = "RespTimeGraph.graphtitle"; // $NON-NLS-1$
+    public static final String GRAPH_TITLE = "RespTimeGraph.graphtitle";
 
-    public static final String GRAPH_TITLE_FONT_NAME = "RespTimeGraph.graphtitlefontname"; // $NON-NLS-1$
+    public static final String GRAPH_TITLE_FONT_NAME = "RespTimeGraph.graphtitlefontname";
 
-    public static final String GRAPH_TITLE_FONT_SIZE = "RespTimeGraph.graphtitlefondsize"; // $NON-NLS-1$
+    public static final String GRAPH_TITLE_FONT_SIZE = "RespTimeGraph.graphtitlefondsize";
 
-    public static final String GRAPH_TITLE_FONT_STYLE = "RespTimeGraph.graphtitlefontstyle"; // $NON-NLS-1$
+    public static final String GRAPH_TITLE_FONT_STYLE = "RespTimeGraph.graphtitlefontstyle";
 
-    public static final String LINE_STROKE_WIDTH = "RespTimeGraph.linestrockwidth"; // $NON-NLS-1$
+    public static final String LINE_STROKE_WIDTH = "RespTimeGraph.linestrockwidth";
 
-    public static final String LINE_SHAPE_POINT = "RespTimeGraph.lineshapepoint"; // $NON-NLS-1$
+    public static final String LINE_SHAPE_POINT = "RespTimeGraph.lineshapepoint";
 
-    public static final String GRAPH_SIZE_DYNAMIC = "RespTimeGraph.graphsizedynamic"; // $NON-NLS-1$
+    public static final String GRAPH_SIZE_DYNAMIC = "RespTimeGraph.graphsizedynamic";
 
-    public static final String GRAPH_SIZE_WIDTH = "RespTimeGraph.graphsizewidth"; // $NON-NLS-1$
+    public static final String GRAPH_SIZE_WIDTH = "RespTimeGraph.graphsizewidth";
 
-    public static final String GRAPH_SIZE_HEIGHT = "RespTimeGraph.graphsizeheight"; // $NON-NLS-1$
+    public static final String GRAPH_SIZE_HEIGHT = "RespTimeGraph.graphsizeheight";
 
-    public static final String XAXIS_TIME_FORMAT = "RespTimeGraph.xaxistimeformat"; // $NON-NLS-1$
+    public static final String XAXIS_TIME_FORMAT = "RespTimeGraph.xaxistimeformat";
 
-    public static final String YAXIS_SCALE_MAX_VALUE = "RespTimeGraph.yaxisscalemaxvalue"; // $NON-NLS-1$
+    public static final String YAXIS_SCALE_MAX_VALUE = "RespTimeGraph.yaxisscalemaxvalue";
 
-    public static final String YAXIS_INCREMENT_SCALE = "RespTimeGraph.yaxisscaleincrement"; // $NON-NLS-1$
+    public static final String YAXIS_INCREMENT_SCALE = "RespTimeGraph.yaxisscaleincrement";
 
-    public static final String YAXIS_NUMBER_GROUPING = "RespTimeGraph.yaxisnumbergrouping"; // $NON-NLS-1$
+    public static final String YAXIS_NUMBER_GROUPING = "RespTimeGraph.yaxisnumbergrouping";
 
-    public static final String LEGEND_PLACEMENT = "RespTimeGraph.legendplacement"; // $NON-NLS-1$
+    public static final String LEGEND_PLACEMENT = "RespTimeGraph.legendplacement";
 
-    public static final String LEGEND_FONT = "RespTimeGraph.legendfont"; // $NON-NLS-1$
+    public static final String LEGEND_FONT = "RespTimeGraph.legendfont";
 
-    public static final String LEGEND_SIZE = "RespTimeGraph.legendsize"; // $NON-NLS-1$
+    public static final String LEGEND_SIZE = "RespTimeGraph.legendsize";
 
-    public static final String LEGEND_STYLE = "RespTimeGraph.legendstyle"; // $NON-NLS-1$
+    public static final String LEGEND_STYLE = "RespTimeGraph.legendstyle";
 
     //- JMX property names
 
@@ -145,7 +145,7 @@ public class RespTimeGraphVisualizer extends AbstractVisualizer implements Actio
 
     public static final boolean DEFAULT_DYNAMIC_GRAPH_SIZE = true; // default: true
 
-    public static final String DEFAULT_XAXIS_TIME_FORMAT = "HH:mm:ss"; // $NON-NLS-1$
+    public static final String DEFAULT_XAXIS_TIME_FORMAT = "HH:mm:ss";
 
     public static final boolean DEFAULT_NUMBER_SHOW_GROUPING = true;
 
@@ -185,7 +185,7 @@ public class RespTimeGraphVisualizer extends AbstractVisualizer implements Actio
     private final JLabeledTextField intervalField =
             new JLabeledTextField(JMeterUtils.getResString("graph_resp_time_interval_label"), 7); //$NON-NLS-1$
 
-    private final JButton intervalButton = new JButton(JMeterUtils.getResString("graph_resp_time_interval_reload")); // $NON-NLS-1$
+    private final JButton intervalButton = new JButton(JMeterUtils.getResString("graph_resp_time_interval_reload"));
 
     private final JButton displayButton =
             new JButton(JMeterUtils.getResString("aggregate_graph_display")); //$NON-NLS-1$
@@ -197,11 +197,11 @@ public class RespTimeGraphVisualizer extends AbstractVisualizer implements Actio
 
     private final JTextField samplerMatchLabel = new JTextField();
 
-    private final JButton applyFilterBtn = new JButton(JMeterUtils.getResString("graph_apply_filter")); // $NON-NLS-1$
+    private final JButton applyFilterBtn = new JButton(JMeterUtils.getResString("graph_apply_filter"));
 
-    private final JCheckBox caseChkBox = new JCheckBox(JMeterUtils.getResString("search_text_chkbox_case"), false); // $NON-NLS-1$
+    private final JCheckBox caseChkBox = new JCheckBox(JMeterUtils.getResString("search_text_chkbox_case"), false);
 
-    private final JCheckBox regexpChkBox = new JCheckBox(JMeterUtils.getResString("search_text_chkbox_regexp"), true); // $NON-NLS-1$
+    private final JCheckBox regexpChkBox = new JCheckBox(JMeterUtils.getResString("search_text_chkbox_regexp"), true);
 
     private final JComboBox<String> titleFontNameList = new JComboBox<>(keys(StatGraphProperties.getFontNameMap()));
 
@@ -221,7 +221,7 @@ public class RespTimeGraphVisualizer extends AbstractVisualizer implements Actio
 
     private final JComboBox<String> strokeWidthList = new JComboBox<>(StatGraphProperties.getStrokeWidth());
 
-    private final JCheckBox numberShowGrouping = new JCheckBox(JMeterUtils.getResString("aggregate_graph_number_grouping"), // $NON-NLS-1$
+    private final JCheckBox numberShowGrouping = new JCheckBox(JMeterUtils.getResString("aggregate_graph_number_grouping"),
             DEFAULT_NUMBER_SHOW_GROUPING); // Default checked
 
     private final JButton syncWithName =
@@ -239,7 +239,7 @@ public class RespTimeGraphVisualizer extends AbstractVisualizer implements Actio
     /**
      * checkbox for use dynamic graph size
      */
-    private final JCheckBox dynamicGraphSize = new JCheckBox(JMeterUtils.getResString("aggregate_graph_dynamic_size")); // $NON-NLS-1$
+    private final JCheckBox dynamicGraphSize = new JCheckBox(JMeterUtils.getResString("aggregate_graph_dynamic_size"));
 
     private final JLabeledTextField graphWidth =
             new JLabeledTextField(JMeterUtils.getResString("aggregate_graph_width"), 6); //$NON-NLS-1$
@@ -437,7 +437,7 @@ public class RespTimeGraphVisualizer extends AbstractVisualizer implements Actio
 
     @Override
     public String getLabelResource() {
-        return "graph_resp_time_title"; // $NON-NLS-1$
+        return "graph_resp_time_title";
     }
 
     @Override
@@ -568,9 +568,9 @@ public class RespTimeGraphVisualizer extends AbstractVisualizer implements Actio
         // Calculate the test duration. Needs to xAxis Labels and getData.
         durationTest = maxStartTime - minStartTime;
         if (seriesNames.size() <= 0) {
-            msgErr = JMeterUtils.getResString("aggregate_graph_no_values_to_graph"); // $NON-NLS-1$
+            msgErr = JMeterUtils.getResString("aggregate_graph_no_values_to_graph");
         } else   if (durationTest < 1) {
-            msgErr = JMeterUtils.getResString("graph_resp_time_not_enough_data"); // $NON-NLS-1$
+            msgErr = JMeterUtils.getResString("graph_resp_time_not_enough_data");
         }
         if (msgErr == null) {
             makeGraph();
@@ -746,7 +746,7 @@ public class RespTimeGraphVisualizer extends AbstractVisualizer implements Actio
     private JPanel createGraphSettingsPane() {
         JPanel settingsPane = new JPanel(new BorderLayout());
         settingsPane.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("graph_resp_time_settings_pane"))); // $NON-NLS-1$
+                JMeterUtils.getResString("graph_resp_time_settings_pane")));
 
         JPanel intervalPane = new JPanel();
         intervalPane.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
@@ -814,7 +814,7 @@ public class RespTimeGraphVisualizer extends AbstractVisualizer implements Actio
 
         JPanel titlePane = new JPanel(new BorderLayout());
         titlePane.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("aggregate_graph_title_group"))); // $NON-NLS-1$
+                JMeterUtils.getResString("aggregate_graph_title_group")));
         titlePane.add(titleNamePane, BorderLayout.NORTH);
         titlePane.add(titleStylePane, BorderLayout.SOUTH);
         return titlePane;
@@ -824,7 +824,7 @@ public class RespTimeGraphVisualizer extends AbstractVisualizer implements Actio
         JPanel lineStylePane = new JPanel();
         lineStylePane.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         lineStylePane.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("graph_resp_time_settings_line"))); // $NON-NLS-1$
+                JMeterUtils.getResString("graph_resp_time_settings_line")));
         lineStylePane.add(GuiUtils.createLabelCombo(JMeterUtils.getResString("graph_resp_time_stroke_width"), //$NON-NLS-1$
                 strokeWidthList));
         strokeWidthList.setSelectedItem(StatGraphProperties.getStrokeWidth()[DEFAULT_STROKE_WIDTH_LIST]);
@@ -838,7 +838,7 @@ public class RespTimeGraphVisualizer extends AbstractVisualizer implements Actio
         JPanel dimensionPane = new JPanel();
         dimensionPane.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         dimensionPane.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("aggregate_graph_dimension"))); // $NON-NLS-1$
+                JMeterUtils.getResString("aggregate_graph_dimension")));
 
         dimensionPane.add(dynamicGraphSize);
         dynamicGraphSize.setSelected(DEFAULT_DYNAMIC_GRAPH_SIZE);
@@ -860,8 +860,8 @@ public class RespTimeGraphVisualizer extends AbstractVisualizer implements Actio
         JPanel xAxisPane = new JPanel();
         xAxisPane.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         xAxisPane.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("aggregate_graph_xaxis_group"))); // $NON-NLS-1$
-        xAxisTimeFormat.setText(DEFAULT_XAXIS_TIME_FORMAT); // $NON-NLS-1$
+                JMeterUtils.getResString("aggregate_graph_xaxis_group")));
+        xAxisTimeFormat.setText(DEFAULT_XAXIS_TIME_FORMAT);
         xAxisPane.add(xAxisTimeFormat);
         return xAxisPane;
     }
@@ -874,7 +874,7 @@ public class RespTimeGraphVisualizer extends AbstractVisualizer implements Actio
         JPanel yAxisPane = new JPanel();
         yAxisPane.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         yAxisPane.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("aggregate_graph_yaxis_group"))); // $NON-NLS-1$
+                JMeterUtils.getResString("aggregate_graph_yaxis_group")));
         yAxisPane.add(maxValueYAxisLabel);
         yAxisPane.add(incrScaleYAxis);
         yAxisPane.add(numberShowGrouping);
@@ -889,7 +889,7 @@ public class RespTimeGraphVisualizer extends AbstractVisualizer implements Actio
         JPanel legendPanel = new JPanel();
         legendPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         legendPanel.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("aggregate_graph_legend"))); // $NON-NLS-1$
+                JMeterUtils.getResString("aggregate_graph_legend")));
 
         legendPanel.add(GuiUtils.createLabelCombo(JMeterUtils.getResString("aggregate_graph_legend_placement"), //$NON-NLS-1$
                 legendPlacementList));

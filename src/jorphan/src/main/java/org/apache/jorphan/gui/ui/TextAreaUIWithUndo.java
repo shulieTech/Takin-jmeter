@@ -32,8 +32,8 @@ import org.apiguardian.api.API;
  */
 @API(since = "5.3", status = API.Status.EXPERIMENTAL)
 public class TextAreaUIWithUndo {
-    public static final String UI_CLASS = "TextAreaUI"; // $NON-NLS-1$
-    public static final String BACKUP_UI_CLASS = "[jmeter]" + UI_CLASS; // $NON-NLS-1$
+    public static final String UI_CLASS = "TextAreaUI";
+    public static final String BACKUP_UI_CLASS = "[jmeter]" + UI_CLASS;
 
     /**
      * Configures {@link UIDefaults} to use the patched class for {@code TextFieldUI}.

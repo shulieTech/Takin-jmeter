@@ -63,7 +63,7 @@ public class RandomDate extends AbstractFunction {
 
     private static final Logger log = LoggerFactory.getLogger(RandomDate.class);
 
-    private static final String KEY = "__RandomDate"; // $NON-NLS-1$
+    private static final String KEY = "__RandomDate";
 
     private static final int MIN_PARAMETER_COUNT = 3;
 
@@ -74,8 +74,8 @@ public class RandomDate extends AbstractFunction {
             JMeterUtils.getResString("locale_format"), JMeterUtils.getResString("function_name_paropt"));
 
     // Ensure that these are set, even if no parameters are provided
-    private Locale locale = JMeterUtils.getLocale(); // $NON-NLS-1$
-    private ZoneId systemDefaultZoneID = ZoneId.systemDefault(); // $NON-NLS-1$
+    private Locale locale = JMeterUtils.getLocale();
+    private ZoneId systemDefaultZoneID = ZoneId.systemDefault();
     private CompoundVariable[] values;
 
     private static final class LocaleFormatObject {
@@ -148,7 +148,7 @@ public class RandomDate extends AbstractFunction {
             } catch (IllegalArgumentException ex) {
                 log.error(
                         "Format date pattern '{}' is invalid (see https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html)",
-                        format, ex); // $NON-NLS-1$
+                        format, ex);
                 return "";
             }
         } else {
@@ -158,7 +158,7 @@ public class RandomDate extends AbstractFunction {
             } catch (IllegalArgumentException ex) {
                 log.error(
                         "Format date pattern '{}' is invalid (see https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html)",
-                        format, ex); // $NON-NLS-1$
+                        format, ex);
                 return "";
             }
         }
@@ -169,13 +169,13 @@ public class RandomDate extends AbstractFunction {
             try {
                 localStartDate = LocalDate.parse(dateStart, formatter).toEpochDay();
             } catch (DateTimeParseException | NumberFormatException ex) {
-                log.error("Failed to parse Start Date '{}'", dateStart, ex); // $NON-NLS-1$
+                log.error("Failed to parse Start Date '{}'", dateStart, ex);
             }
         } else {
             try {
                 localStartDate = LocalDate.now(systemDefaultZoneID).toEpochDay();
             } catch (DateTimeParseException | NumberFormatException ex) {
-                log.error("Failed to create current date '{}'", dateStart, ex); // $NON-NLS-1$
+                log.error("Failed to create current date '{}'", dateStart, ex);
             }
         }
         long localEndDate = 0;
@@ -183,19 +183,19 @@ public class RandomDate extends AbstractFunction {
         try {
             localEndDate = LocalDate.parse(dateEnd, formatter).toEpochDay();
         } catch (DateTimeParseException | NumberFormatException ex) {
-            log.error("Failed to parse End date '{}'", dateEnd, ex); // $NON-NLS-1$
+            log.error("Failed to parse End date '{}'", dateEnd, ex);
         }
 
         // Generate the random date
         String dateString = "";
         if (localEndDate < localStartDate) {
-            log.error("End Date '{}' must be greater than Start Date '{}'", dateEnd, dateStart); // $NON-NLS-1$
+            log.error("End Date '{}' must be greater than Start Date '{}'", dateEnd, dateStart);
         } else {
             long randomDay = ThreadLocalRandom.current().nextLong(localStartDate, localEndDate);
             try {
                 dateString = LocalDate.ofEpochDay(randomDay).format(formatter);
             } catch (DateTimeParseException | NumberFormatException ex) {
-                log.error("Failed to generate random date '{}'", randomDay, ex); // $NON-NLS-1$
+                log.error("Failed to generate random date '{}'", randomDay, ex);
             }
             addVariableValue(dateString, values, 4);
         }

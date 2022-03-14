@@ -39,7 +39,7 @@ public class URLRewritingModifier extends AbstractTestElement implements Seriali
 
     private static final long serialVersionUID = 233L;
 
-    private static final String SEMI_COLON = ";"; // $NON-NLS-1$
+    private static final String SEMI_COLON = ";";
 
     private transient Pattern pathExtensionEqualsQuestionmarkRegexp;
 
@@ -51,20 +51,20 @@ public class URLRewritingModifier extends AbstractTestElement implements Seriali
 
     private transient Pattern pathExtensionNoEqualsNoQuestionmarkRegexp;
 
-    private static final String ARGUMENT_NAME = "argument_name"; // $NON-NLS-1$
+    private static final String ARGUMENT_NAME = "argument_name";
 
-    private static final String PATH_EXTENSION = "path_extension"; // $NON-NLS-1$
+    private static final String PATH_EXTENSION = "path_extension";
 
-    private static final String PATH_EXTENSION_NO_EQUALS = "path_extension_no_equals"; // $NON-NLS-1$
+    private static final String PATH_EXTENSION_NO_EQUALS = "path_extension_no_equals";
 
-    private static final String PATH_EXTENSION_NO_QUESTIONMARK = "path_extension_no_questionmark"; // $NON-NLS-1$
+    private static final String PATH_EXTENSION_NO_QUESTIONMARK = "path_extension_no_questionmark";
 
-    private static final String SHOULD_CACHE = "cache_value"; // $NON-NLS-1$
+    private static final String SHOULD_CACHE = "cache_value";
 
-    private static final String ENCODE = "encode"; // $NON-NLS-1$
+    private static final String ENCODE = "encode";
 
     // PreProcessors are cloned per-thread, so this will be saved per-thread
-    private transient String savedValue = ""; // $NON-NLS-1$
+    private transient String savedValue = "";
 
     @Override
     public void process() {
@@ -142,7 +142,7 @@ public class URLRewritingModifier extends AbstractTestElement implements Seriali
                 }
             }
             if (isPathExtensionNoEquals()) {
-                sampler.setPath(oldPath + SEMI_COLON + getArgumentName() + value); // $NON-NLS-1$
+                sampler.setPath(oldPath + SEMI_COLON + getArgumentName() + value);
             } else {
                 sampler.setPath(oldPath + SEMI_COLON + getArgumentName() + "=" + value); // $NON-NLS-1$ // $NON-NLS-2$
             }
@@ -159,36 +159,36 @@ public class URLRewritingModifier extends AbstractTestElement implements Seriali
     private void initRegex(String argName) {
         String quotedArg = Perl5Compiler.quotemeta(argName);// Don't get tripped up by RE chars in the arg name
         pathExtensionEqualsQuestionmarkRegexp = JMeterUtils.getPatternCache().getPattern(
-                SEMI_COLON + quotedArg + "=([^\"'<>&\\s;]*)", // $NON-NLS-1$
+                SEMI_COLON + quotedArg + "=([^\"'<>&\\s;]*)",
                 Perl5Compiler.MULTILINE_MASK | Perl5Compiler.READ_ONLY_MASK);
 
         pathExtensionEqualsNoQuestionmarkRegexp = JMeterUtils.getPatternCache().getPattern(
-                SEMI_COLON + quotedArg + "=([^\"'<>&\\s;?]*)", // $NON-NLS-1$
+                SEMI_COLON + quotedArg + "=([^\"'<>&\\s;?]*)",
                 Perl5Compiler.MULTILINE_MASK | Perl5Compiler.READ_ONLY_MASK);
 
         pathExtensionNoEqualsQuestionmarkRegexp = JMeterUtils.getPatternCache().getPattern(
-                SEMI_COLON + quotedArg + "([^\"'<>&\\s;]*)", // $NON-NLS-1$
+                SEMI_COLON + quotedArg + "([^\"'<>&\\s;]*)",
                 Perl5Compiler.MULTILINE_MASK | Perl5Compiler.READ_ONLY_MASK);
 
         pathExtensionNoEqualsNoQuestionmarkRegexp = JMeterUtils.getPatternCache().getPattern(
-                SEMI_COLON + quotedArg + "([^\"'<>&\\s;?]*)", // $NON-NLS-1$
+                SEMI_COLON + quotedArg + "([^\"'<>&\\s;?]*)",
                 Perl5Compiler.MULTILINE_MASK | Perl5Compiler.READ_ONLY_MASK);
 
         parameterRegexp = JMeterUtils.getPatternCache().getPattern(
                 // ;sessionid=value
-                "[;\\?&]" + quotedArg + "=([^\"'<>&\\s;\\\\]*)" +  // $NON-NLS-1$
+                "[;\\?&]" + quotedArg + "=([^\"'<>&\\s;\\\\]*)" + 
 
                 // name="sessionid" value="value"
                 "|\\s[Nn][Aa][Mm][Ee]\\s*=\\s*[\"']" + quotedArg
-                + "[\"']" + "[^>]*"  // $NON-NLS-1$
-                + "\\s[vV][Aa][Ll][Uu][Ee]\\s*=\\s*[\"']" // $NON-NLS-1$
-                + "([^\"']*)" + "[\"']" // $NON-NLS-1$
+                + "[\"']" + "[^>]*" 
+                + "\\s[vV][Aa][Ll][Uu][Ee]\\s*=\\s*[\"']"
+                + "([^\"']*)" + "[\"']"
 
                 //  value="value" name="sessionid"
-                + "|\\s[vV][Aa][Ll][Uu][Ee]\\s*=\\s*[\"']" // $NON-NLS-1$
+                + "|\\s[vV][Aa][Ll][Uu][Ee]\\s*=\\s*[\"']"
                 + "([^\"']*)" + "[\"']" + "[^>]*" // $NON-NLS-1$ // $NON-NLS-2$ // $NON-NLS-3$
-                + "\\s[Nn][Aa][Mm][Ee]\\s*=\\s*[\"']"  // $NON-NLS-1$
-                + quotedArg + "[\"']", // $NON-NLS-1$
+                + "\\s[Nn][Aa][Mm][Ee]\\s*=\\s*[\"']" 
+                + quotedArg + "[\"']",
                 Perl5Compiler.MULTILINE_MASK | Perl5Compiler.READ_ONLY_MASK);
         // NOTE: the handling of simple- vs. double-quotes could be formally
         // more accurate, but I can't imagine a session id containing

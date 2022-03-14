@@ -53,7 +53,7 @@ public class ExampleSamplerGui extends AbstractSamplerGui {
      */
     @Override
     public String getLabelResource() {
-        return "example_title"; // $NON-NLS-1$
+        return "example_title";
     }
 
     /**
@@ -123,7 +123,7 @@ public class ExampleSamplerGui extends AbstractSamplerGui {
     @Override
     public void clearGui() {
         super.clearGui();
-        data.setText(""); // $NON-NLS-1$
+        data.setText("");
 
     }
 }

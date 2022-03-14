@@ -69,8 +69,8 @@ public class Restart extends AbstractActionWithNoRunningTest implements MenuCrea
             if (guiPackage.isDirty()) {
                 int chosenOption =
                         JOptionPane.showConfirmDialog(guiPackage.getMainFrame(), JMeterUtils
-                                .getResString("cancel_exit_to_save"), // $NON-NLS-1$
-                                JMeterUtils.getResString("save?"), // $NON-NLS-1$
+                                .getResString("cancel_exit_to_save"),
+                                JMeterUtils.getResString("save?"),
                                 JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (chosenOption == JOptionPane.NO_OPTION) {
                     restartApplication(null);

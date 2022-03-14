@@ -70,7 +70,7 @@ public class AddToTree extends AbstractAction {
             guiPackage.getNamingPolicy().nameOnCreation(node);
             guiPackage.getMainFrame().getTree().setSelectionPath(new TreePath(node.getPath()));
         } catch (Exception err) {
-            log.error("Exception while adding a component to tree.", err); // $NON-NLS-1$
+            log.error("Exception while adding a component to tree.", err);
             String msg = err.getMessage();
             if (msg == null) {
                 msg = err.toString();

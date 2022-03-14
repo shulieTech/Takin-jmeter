@@ -37,13 +37,13 @@ public final class RmiUtils {
     private static final Logger log = LoggerFactory.getLogger(RmiUtils.class);
 
     public static final int DEFAULT_RMI_REGISTRY_PORT = JMeterUtils
-            .getPropDefault("server_port", 0); // $NON-NLS-1$
+            .getPropDefault("server_port", 0);
 
     public static final int DEFAULT_RMI_PORT = JMeterUtils
-            .getPropDefault("server.rmi.port", 1099); // $NON-NLS-1$
+            .getPropDefault("server.rmi.port", 1099);
 
     public static final int DEFAULT_LOCAL_PORT = JMeterUtils
-            .getPropDefault("server.rmi.localport", 0); // $NON-NLS-1$
+            .getPropDefault("server.rmi.localport", 0);
 
     private static final String KEYSTORE_TYPE = JMeterUtils
             .getPropDefault("server.rmi.ssl.keystore.type", "JKS");
@@ -124,7 +124,7 @@ public final class RmiUtils {
     public static InetAddress getRmiHost() throws RemoteException {
         InetAddress localHost=null;
         // Bug 47980 - allow override of local hostname
-        String host = System.getProperties().getProperty("java.rmi.server.hostname"); // $NON-NLS-1$
+        String host = System.getProperties().getProperty("java.rmi.server.hostname");
         try {
             if( host==null ) {
                 log.info("System property 'java.rmi.server.hostname' is not defined, using localHost address");

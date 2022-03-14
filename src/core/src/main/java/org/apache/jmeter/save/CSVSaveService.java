@@ -73,53 +73,59 @@ public final class CSVSaveService {
     // XML RESULT FILE CONSTANTS AND FIELD NAME CONSTANTS
     // ---------------------------------------------------------------------
 
-    public static final String DATA_TYPE = "dataType"; // $NON-NLS-1$
-    public static final String FAILURE_MESSAGE = "failureMessage"; // $NON-NLS-1$
-    public static final String LABEL = "label"; // $NON-NLS-1$
-    public static final String RESPONSE_CODE = "responseCode"; // $NON-NLS-1$
-    public static final String RESPONSE_MESSAGE = "responseMessage"; // $NON-NLS-1$
-    public static final String SUCCESSFUL = "success"; // $NON-NLS-1$
-    public static final String THREAD_NAME = "threadName"; // $NON-NLS-1$
-    public static final String TIME_STAMP = "timeStamp"; // $NON-NLS-1$
+    public static final String DATA_TYPE = "dataType";
+    public static final String FAILURE_MESSAGE = "failureMessage";
+    public static final String LABEL = "label";
+    public static final String RESPONSE_CODE = "responseCode";
+    public static final String RESPONSE_MESSAGE = "responseMessage";
+    public static final String SUCCESSFUL = "success";
+    public static final String THREAD_NAME = "threadName";
+    public static final String TIME_STAMP = "timeStamp";
 
     // ---------------------------------------------------------------------
     // ADDITIONAL CSV RESULT FILE CONSTANTS AND FIELD NAME CONSTANTS
     // ---------------------------------------------------------------------
 
-    public static final String CSV_ELAPSED = "elapsed"; // $NON-NLS-1$
-    public static final String CSV_BYTES = "bytes"; // $NON-NLS-1$
-    public static final String CSV_SENT_BYTES = "sentBytes"; // $NON-NLS-1$
-    public static final String CSV_THREAD_COUNT1 = "grpThreads"; // $NON-NLS-1$
-    public static final String CSV_THREAD_COUNT2 = "allThreads"; // $NON-NLS-1$
-    public static final String CSV_SAMPLE_COUNT = "SampleCount"; // $NON-NLS-1$
-    public static final String CSV_ERROR_COUNT = "ErrorCount"; // $NON-NLS-1$
-    public static final String CSV_URL = "URL"; // $NON-NLS-1$
-    public static final String CSV_FILENAME = "Filename"; // $NON-NLS-1$
-    public static final String CSV_LATENCY = "Latency"; // $NON-NLS-1$
-    public static final String CSV_CONNECT_TIME = "Connect"; // $NON-NLS-1$
-    public static final String CSV_ENCODING = "Encoding"; // $NON-NLS-1$
-    public static final String CSV_HOSTNAME = "Hostname"; // $NON-NLS-1$
-    public static final String CSV_IDLETIME = "IdleTime"; // $NON-NLS-1$
+    public static final String CSV_ELAPSED = "elapsed";
+    public static final String CSV_BYTES = "bytes";
+    public static final String CSV_SENT_BYTES = "sentBytes";
+    public static final String CSV_THREAD_COUNT1 = "grpThreads";
+    public static final String CSV_THREAD_COUNT2 = "allThreads";
+    public static final String CSV_SAMPLE_COUNT = "SampleCount";
+    public static final String CSV_ERROR_COUNT = "ErrorCount";
+    public static final String CSV_URL = "URL";
+    public static final String CSV_FILENAME = "Filename";
+    public static final String CSV_LATENCY = "Latency";
+    public static final String CSV_CONNECT_TIME = "Connect";
+    public static final String CSV_ENCODING = "Encoding";
+    public static final String CSV_HOSTNAME = "Hostname";
+    public static final String CSV_IDLETIME = "IdleTime";
 
-    // Used to enclose variable name labels, to distinguish from any of the
-    // above labels
-    public static final String VARIABLE_NAME_QUOTE_CHAR = "\""; // $NON-NLS-1$
+    /**
+     * Used to enclose variable name labels, to distinguish from any of the
+     * above labels
+     */
+    public static final String VARIABLE_NAME_QUOTE_CHAR = "\"";
 
-    // Initial config from properties
+    /**
+     * Initial config from properties
+     */
     private static final SampleSaveConfiguration _saveConfig = SampleSaveConfiguration
-            .staticConfig();
+        .staticConfig();
 
-    // Date formats to try if the time format does not parse as milliseconds
+    /**
+     * Date formats to try if the time format does not parse as milliseconds
+     */
     private static final String[] DATE_FORMAT_STRINGS = {
-            "yyyy/MM/dd HH:mm:ss.SSS",  // $NON-NLS-1$
-            "yyyy/MM/dd HH:mm:ss",  // $NON-NLS-1$
-            "yyyy-MM-dd HH:mm:ss.SSS",  // $NON-NLS-1$
-            "yyyy-MM-dd HH:mm:ss",  // $NON-NLS-1$
+        "yyyy/MM/dd HH:mm:ss.SSS",
+        "yyyy/MM/dd HH:mm:ss",
+        "yyyy-MM-dd HH:mm:ss.SSS",
+        "yyyy-MM-dd HH:mm:ss",
 
-            "MM/dd/yy HH:mm:ss"  // $NON-NLS-1$ (for compatibility, this is the original default)
+        "MM/dd/yy HH:mm:ss"  // $NON-NLS-1$ (for compatibility, this is the original default)
     };
 
-    private static final String LINE_SEP = System.getProperty("line.separator"); // $NON-NLS-1$
+    private static final String LINE_SEP = System.getProperty("line.separator");
 
     /**
      * Private constructor to prevent instantiation.
@@ -134,15 +140,15 @@ public final class CSVSaveService {
      * @param visualizer      where to send the results
      * @param resultCollector the parent collector
      * @throws IOException when the file referenced by <code>filename</code> can't be
-     *                     read correctly
+     * read correctly
      */
     public static void processSamples(String filename, Visualizer visualizer,
-                                      ResultCollector resultCollector) throws IOException {
+        ResultCollector resultCollector) throws IOException {
         final boolean errorsOnly = resultCollector.isErrorLogging();
         final boolean successOnly = resultCollector.isSuccessOnlyLogging();
         try (InputStream inStream = new FileInputStream(filename);
              Reader inReader = new InputStreamReader(inStream,
-                     SaveService.getFileEncoding(StandardCharsets.UTF_8.name()));
+                 SaveService.getFileEncoding(StandardCharsets.UTF_8.name()));
              BufferedReader dataReader = new BufferedReader(inReader)) {
             dataReader.mark(400);// Enough to read the header column names
             // Get the first line, and see if it is the header
@@ -152,11 +158,11 @@ public final class CSVSaveService {
             }
             long lineNumber = 1;
             SampleSaveConfiguration saveConfig = CSVSaveService
-                    .getSampleSaveConfiguration(line, filename);
+                .getSampleSaveConfiguration(line, filename);
             if (saveConfig == null) {// not a valid header
                 log.info("{} does not appear to have a valid header. Using default configuration.", filename);
-                saveConfig = (SampleSaveConfiguration) resultCollector
-                        .getSaveConfig().clone(); // may change the format later
+                saveConfig = (SampleSaveConfiguration)resultCollector
+                    .getSaveConfig().clone(); // may change the format later
                 dataReader.reset(); // restart from beginning
                 lineNumber = 0;
             }
@@ -172,7 +178,7 @@ public final class CSVSaveService {
                 if (event != null) {
                     final SampleResult result = event.getResult();
                     if (ResultCollector.isSampleWanted(result.isSuccessful(),
-                            errorsOnly, successOnly)) {
+                        errorsOnly, successOnly)) {
                         visualizer.add(result);
                     }
                 }
@@ -187,15 +193,15 @@ public final class CSVSaveService {
      * @param saveConfig the save configuration (may be updated)
      * @param lineNumber the line number (for error reporting)
      * @return the sample result
-     * @throws JMeterError
+     * @throws JMeterError 异常
      */
     private static SampleEvent makeResultFromDelimitedString(
-            final String[] parts,
-            final SampleSaveConfiguration saveConfig, // may be updated
-            final long lineNumber) {
+        final String[] parts,
+        final SampleSaveConfiguration saveConfig, // may be updated
+        final long lineNumber) {
 
         SampleResult result = null;
-        String hostname = "";// $NON-NLS-1$
+        String hostname = "";
         long timeStamp = 0;
         long elapsed = 0;
         String text = null;
@@ -210,7 +216,7 @@ public final class CSVSaveService {
                         timeStamp = Long.parseLong(text); // see if this works
                     } catch (NumberFormatException e) { // it did not, let's try some other formats
                         log.warn("Cannot parse timestamp: '{}', will try following formats {}", text,
-                                Arrays.asList(DATE_FORMAT_STRINGS));
+                            Arrays.asList(DATE_FORMAT_STRINGS));
                         boolean foundMatch = false;
                         for (String fmt : DATE_FORMAT_STRINGS) {
                             SimpleDateFormat dateFormat = new SimpleDateFormat(fmt);
@@ -363,7 +369,7 @@ public final class CSVSaveService {
 
             if (i + saveConfig.getVarCount() < parts.length) {
                 log.warn("Line: {}. Found {} fields, expected {}. Extra fields have been ignored.", lineNumber,
-                        parts.length, i);
+                    parts.length, i);
             }
 
         } catch (NumberFormatException | ParseException e) {
@@ -394,7 +400,7 @@ public final class CSVSaveService {
      * @return the field names as a string
      */
     public static String printableFieldNamesToString(
-            SampleSaveConfiguration saveConfig) {
+        SampleSaveConfiguration saveConfig) {
         StringBuilder text = new StringBuilder();
         String delim = saveConfig.getDelimiter();
 
@@ -448,7 +454,9 @@ public final class CSVSaveService {
         }
     }
 
-    // Map header names to set() methods
+    /**
+     * Map header names to set() methods
+     */
     private static final LinkedMap<String, Functor> headerLabelMethods = new LinkedMap<>();
 
     // These entries must be in the same order as columns are saved/restored.
@@ -463,15 +471,15 @@ public final class CSVSaveService {
         headerLabelMethods.put(DATA_TYPE, new Functor("setDataType"));
         headerLabelMethods.put(SUCCESSFUL, new Functor("setSuccess"));
         headerLabelMethods.put(FAILURE_MESSAGE, new Functor(
-                "setAssertionResultsFailureMessage"));
+            "setAssertionResultsFailureMessage"));
         headerLabelMethods.put(CSV_BYTES, new Functor("setBytes"));
         headerLabelMethods.put(CSV_SENT_BYTES, new Functor("setSentBytes"));
         // Both these are needed in the list even though they set the same
         // variable
         headerLabelMethods.put(CSV_THREAD_COUNT1,
-                new Functor("setThreadCounts"));
+            new Functor("setThreadCounts"));
         headerLabelMethods.put(CSV_THREAD_COUNT2,
-                new Functor("setThreadCounts"));
+            new Functor("setThreadCounts"));
         headerLabelMethods.put(CSV_URL, new Functor("setUrl"));
         headerLabelMethods.put(CSV_FILENAME, new Functor("setFileName"));
         headerLabelMethods.put(CSV_LATENCY, new Functor("setLatency"));
@@ -494,7 +502,7 @@ public final class CSVSaveService {
      * header line
      */
     public static SampleSaveConfiguration getSampleSaveConfiguration(
-            String headerLine, String filename) {
+        String headerLine, String filename) {
         String[] parts = splitHeader(headerLine, _saveConfig.getDelimiter()); // Try
         // default
         // delimiter
@@ -505,13 +513,13 @@ public final class CSVSaveService {
             Perl5Matcher matcher = JMeterUtils.getMatcher();
             PatternMatcherInput input = new PatternMatcherInput(headerLine);
             Pattern pattern = JMeterUtils.getPatternCache()
-                    // This assumes the header names are all single words with no spaces
-                    // word followed by 0 or more repeats of (non-word char + word)
-                    // where the non-word char (\2) is the same
-                    // e.g. abc|def|ghi but not abd|def~ghi
-                    .getPattern("\\w+((\\W)\\w+)?(\\2\\w+)*(\\2\"\\w+\")*", // $NON-NLS-1$
-                            // last entries may be quoted strings
-                            Perl5Compiler.READ_ONLY_MASK);
+                // This assumes the header names are all single words with no spaces
+                // word followed by 0 or more repeats of (non-word char + word)
+                // where the non-word char (\2) is the same
+                // e.g. abc|def|ghi but not abd|def~ghi
+                .getPattern("\\w+((\\W)\\w+)?(\\2\\w+)*(\\2\"\\w+\")*",
+                    // last entries may be quoted strings
+                    Perl5Compiler.READ_ONLY_MASK);
             if (matcher.matches(input, pattern)) {
                 delim = matcher.getMatch().group(2);
                 parts = splitHeader(headerLine, delim);// now validate the
@@ -532,14 +540,14 @@ public final class CSVSaveService {
                 varCount++;
             } else {
                 Functor set = headerLabelMethods.get(label);
-                set.invoke(saveConfig, new Boolean[]{Boolean.TRUE});
+                set.invoke(saveConfig, new Boolean[] {Boolean.TRUE});
             }
         }
 
         if (delim != null) {
             if (log.isWarnEnabled()) {
                 log.warn("Default delimiter '{}' did not work; using alternate '{}' for reading {}",
-                        _saveConfig.getDelimiter(), delim, filename);
+                    _saveConfig.getDelimiter(), delim, filename);
             }
             saveConfig.setDelimiter(delim);
         }
@@ -550,7 +558,7 @@ public final class CSVSaveService {
     }
 
     private static String[] splitHeader(String headerLine, String delim) {
-        String[] parts = headerLine.split("\\Q" + delim);// $NON-NLS-1$
+        String[] parts = headerLine.split("\\Q" + delim);
         int previous = -1;
         // Check if the line is a header
         for (int i = 0; i < parts.length; i++) {
@@ -583,7 +591,7 @@ public final class CSVSaveService {
      */
     private static boolean isVariableName(final String label) {
         return label.length() > 2 && label.startsWith(VARIABLE_NAME_QUOTE_CHAR)
-                && label.endsWith(VARIABLE_NAME_QUOTE_CHAR);
+            && label.endsWith(VARIABLE_NAME_QUOTE_CHAR);
     }
 
     /**
@@ -597,7 +605,7 @@ public final class CSVSaveService {
      * @throws IOException when writing to <code>writer</code> fails
      */
     public static void saveCSVStats(List<?> data, Writer writer)
-            throws IOException {
+        throws IOException {
         saveCSVStats(data, writer, null);
     }
 
@@ -613,9 +621,9 @@ public final class CSVSaveService {
      * @throws IOException when writing to <code>writer</code> fails
      */
     public static void saveCSVStats(List<?> data, Writer writer,
-                                    String[] headers) throws IOException {
+        String[] headers) throws IOException {
         final char DELIM = ',';
-        final char[] SPECIALS = new char[]{DELIM, QUOTING_CHAR};
+        final char[] SPECIALS = new char[] {DELIM, QUOTING_CHAR};
         if (headers != null) {
             for (int i = 0; i < headers.length; i++) {
                 if (i > 0) {
@@ -626,7 +634,7 @@ public final class CSVSaveService {
             writer.write(LINE_SEP);
         }
         for (Object o : data) {
-            List<?> row = (List<?>) o;
+            List<?> row = (List<?>)o;
             for (int idy = 0; idy < row.size(); idy++) {
                 if (idy > 0) {
                     writer.write(DELIM);
@@ -648,7 +656,7 @@ public final class CSVSaveService {
      * @throws IOException when writing to <code>writer</code> fails
      */
     public static void saveCSVStats(DefaultTableModel model, FileWriter writer)
-            throws IOException {
+        throws IOException {
         saveCSVStats(model, writer, true);
     }
 
@@ -663,9 +671,9 @@ public final class CSVSaveService {
      * @throws IOException when writing to <code>writer</code> fails
      */
     public static void saveCSVStats(DefaultTableModel model, FileWriter writer,
-                                    boolean saveHeaders) throws IOException {
+        boolean saveHeaders) throws IOException {
         final char DELIM = ',';
-        final char[] SPECIALS = new char[]{DELIM, QUOTING_CHAR};
+        final char[] SPECIALS = new char[] {DELIM, QUOTING_CHAR};
         final int columns = model.getColumnCount();
         final int rows = model.getRowCount();
         if (saveHeaders) {
@@ -698,7 +706,7 @@ public final class CSVSaveService {
      */
     public static String resultToDelimitedString(SampleEvent event) {
         return resultToDelimitedString(event, event.getResult().getSaveConfig()
-                .getDelimiter());
+            .getDelimiter());
     }
 
     /*
@@ -712,11 +720,11 @@ public final class CSVSaveService {
 
         public StringQuoter(char delim) {
             sb = new StringBuilder(150);
-//            specials = new char[] { delim, QUOTING_CHAR, CharUtils.CR,
-//                    CharUtils.LF };
-            //modify by lipeng 去除双引号特殊字符 因为返回报文如果是json 会有双引号
-            specials = new char[]{delim, CharUtils.NUL, CharUtils.CR,
-                    CharUtils.LF};
+            //            specials = new char[] { delim, QUOTING_CHAR, CharUtils.CR,
+            //                    CharUtils.LF };
+            //modify by 李鹏 去除双引号特殊字符 因为返回报文如果是json 会有双引号
+            specials = new char[] {delim, CharUtils.NUL, CharUtils.CR,
+                CharUtils.LF};
             //modify end
             addDelim = false; // Don't add delimiter first time round
         }
@@ -772,7 +780,7 @@ public final class CSVSaveService {
      * @return the separated value representation of the result
      */
     public static String resultToDelimitedString(SampleEvent event,
-                                                 final String delimiter) {
+        final String delimiter) {
         return resultToDelimitedString(event, event.getResult(), event.getResult().getSaveConfig(), delimiter);
     }
 
@@ -789,16 +797,16 @@ public final class CSVSaveService {
      * @return the separated value representation of the result
      */
     public static String resultToDelimitedString(SampleEvent event,
-                                                 SampleResult sample,
-                                                 SampleSaveConfiguration saveConfig,
-                                                 final String delimiter) {
+        SampleResult sample,
+        SampleSaveConfiguration saveConfig,
+        final String delimiter) {
         StringQuoter text = new StringQuoter(delimiter.charAt(0));
         if (saveConfig.saveTimestamp()) {
             if (saveConfig.printMilliseconds()) {
                 text.append(sample.getTimeStamp());
             } else if (saveConfig.threadSafeLenientFormatter() != null) {
                 String stamp = saveConfig.threadSafeLenientFormatter().format(
-                        new Date(sample.getTimeStamp()));
+                    new Date(sample.getTimeStamp()));
                 text.append(stamp);
             }
         }
@@ -832,7 +840,7 @@ public final class CSVSaveService {
         }
 
         if (saveConfig.saveAssertionResultsFailureMessage()) {
-            //modify by lipeng at 20210426 记录所有断言失败信息 而不是第一个失败信息
+            //modify by 李鹏 at 20210426 记录所有断言失败信息 而不是第一个失败信息
             StringBuffer message = new StringBuffer();
             AssertionResult[] assertionResults = sample.getAssertionResults();
             int assertionLen = assertionResults.length;
@@ -953,7 +961,12 @@ public final class CSVSaveService {
     }
 
     // State of the parser
-    private enum ParserState {INITIAL, PLAIN, QUOTED, EMBEDDEDQUOTE}
+    private enum ParserState {
+        INITIAL,
+        PLAIN,
+        QUOTED,
+        EMBEDDEDQUOTE
+    }
 
     public static final char QUOTING_CHAR = '"';
 
@@ -972,7 +985,7 @@ public final class CSVSaveService {
      * @throws IOException also for unexpected quote characters
      */
     public static String[] csvReadFile(BufferedReader infile, char delim)
-            throws IOException {
+        throws IOException {
         int ch;
         ParserState state = ParserState.INITIAL;
         List<String> list = new ArrayList<>();
@@ -994,9 +1007,7 @@ public final class CSVSaveService {
                 case PLAIN:
                     if (ch == QUOTING_CHAR) {
                         baos.write(ch);
-                        throw new IOException(
-                                "Cannot have quote-char in plain field:["
-                                        + baos.toString() + "]");
+                        throw new IOException("Cannot have quote-char in plain field:[" + baos + "]");
                     } else if (isDelimOrEOL(delim, ch)) {
                         push = true;
                         state = ParserState.INITIAL;
@@ -1020,9 +1031,7 @@ public final class CSVSaveService {
                         state = ParserState.INITIAL;
                     } else {
                         baos.write(QUOTING_CHAR);
-                        throw new IOException(
-                                "Cannot have single quote-char in quoted field:["
-                                        + baos.toString() + "]");
+                        throw new IOException("Cannot have single quote-char in quoted field:[" + baos + "]");
                     }
                     break;
                 default:
@@ -1043,21 +1052,24 @@ public final class CSVSaveService {
             if ((ch == '\n' || ch == '\r') && state != ParserState.QUOTED) {
                 break;
             }
-        } // while not EOF
-        if (ch == -1) {// EOF (or end of string) so collect any remaining data
+        }
+        // while not EOF
+        if (ch == -1) {
+            // EOF (or end of string) so collect any remaining data
             if (state == ParserState.QUOTED) {
                 throw new IOException("Missing trailing quote-char in quoted field:[\""
-                        + baos.toString() + "]");
+                    + baos + "]");
             }
             // Do we have some data, or a trailing empty field?
-            if (baos.size() > 0 // we have some data
-                    || push // we've started a field
-                    || state == ParserState.EMBEDDEDQUOTE // Just seen ""
+            // we have some data
+            if (baos.size() > 0
+                || push // we've started a field
+                || state == ParserState.EMBEDDEDQUOTE // Just seen ""
             ) {
                 list.add(baos.toString());
             }
         }
-        return list.toArray(new String[list.size()]);
+        return list.toArray(new String[0]);
     }
 
     private static boolean isDelimOrEOL(char delim, int ch) {
@@ -1076,10 +1088,9 @@ public final class CSVSaveService {
      * @throws IOException also for unexpected quote characters
      */
     public static String[] csvSplitString(String line, char delim)
-            throws IOException {
+        throws IOException {
         return csvReadFile(new BufferedReader(new StringReader(line)), delim);
     }
-
 
     /**
      * @param event {@link SampleEvent}
@@ -1165,7 +1176,7 @@ public final class CSVSaveService {
     private static void writeLog(SampleResult result, PrintWriter out, SampleSaveConfiguration saveConfig, TraceBizData traceBizData) {
         //1.是否生成日志文件，如果是，判断是从这里上传到大数据还是从cloud上传，如果从cloud上传，则这里就不必写入队列；如果不生成文件，则要插入队列
         String resultLog = JTLUtil.resultToDelimitedString(result, saveConfig, traceBizData);
-        if (PressurePtlFileConfig.PTL_UPLOAD_FROM_ENGINE.equals(PressurePtlFileConfig.defaultConfig.getPtlUploadFrom())){
+        if (PressurePtlFileConfig.PTL_UPLOAD_FROM_ENGINE.equals(PressurePtlFileConfig.defaultConfig.getPtlUploadFrom())) {
             GlobalVariables.enqueueCount.getAndIncrement();
             GlobalVariables.logBlockQueue.offer(resultLog);
         }

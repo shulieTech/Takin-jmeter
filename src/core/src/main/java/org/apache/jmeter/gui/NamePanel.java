@@ -36,7 +36,7 @@ import org.apiguardian.api.API;
 public class NamePanel extends JPanel implements JMeterGUIComponent {
     private static final long serialVersionUID = 240L;
 
-    private static final String LABEL_RESOURCE = "root"; // $NON-NLS-1$
+    private static final String LABEL_RESOURCE = "root";
 
     /** A text field containing the name. */
     private final JTextField nameField = new JTextField(15);
@@ -56,7 +56,7 @@ public class NamePanel extends JPanel implements JMeterGUIComponent {
     private void init() { // WARNING: called from ctor so must not be overridden (i.e. must be private or final)
         setLayout(new BorderLayout(5, 0));
         // The label for the text field.
-        JLabel nameLabel = new JLabel(JMeterUtils.getResString("name")); // $NON-NLS-1$
+        JLabel nameLabel = new JLabel(JMeterUtils.getResString("name"));
         nameLabel.setName("name");
         nameLabel.setLabelFor(nameField);
 
@@ -93,7 +93,7 @@ public class NamePanel extends JPanel implements JMeterGUIComponent {
         if (nameField != null) { // NOSONAR suppress warning as the null check is needed as per above
             return nameField.getText();
         }
-        return ""; // $NON-NLS-1$
+        return "";
     }
 
     /** {@inheritDoc} */

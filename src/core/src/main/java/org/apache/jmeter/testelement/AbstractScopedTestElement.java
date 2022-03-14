@@ -43,12 +43,12 @@ public abstract class AbstractScopedTestElement extends AbstractTestElement {
     private static final long serialVersionUID = 240L;
 
     //+ JMX attributes - do not change
-    private static final String SCOPE = "Sample.scope"; // $NON-NLS-1$
-    private static final String SCOPE_PARENT = "parent"; // $NON-NLS-1$
-    private static final String SCOPE_CHILDREN = "children"; // $NON-NLS-1$
-    private static final String SCOPE_ALL = "all"; // $NON-NLS-1$
-    private static final String SCOPE_VARIABLE = "variable"; // $NON-NLS-1$
-    private static final String SCOPE_VARIABLE_NAME = "Scope.variable"; // $NON-NLS-1$
+    private static final String SCOPE = "Sample.scope";
+    private static final String SCOPE_PARENT = "parent";
+    private static final String SCOPE_CHILDREN = "children";
+    private static final String SCOPE_ALL = "all";
+    private static final String SCOPE_VARIABLE = "variable";
+    private static final String SCOPE_VARIABLE_NAME = "Scope.variable";
     //- JMX
 
 

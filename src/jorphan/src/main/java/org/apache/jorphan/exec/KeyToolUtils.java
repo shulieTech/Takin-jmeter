@@ -41,7 +41,7 @@ public class KeyToolUtils {
     private static final Logger log = LoggerFactory.getLogger(KeyToolUtils.class);
 
     // The DNAME which is used if none is provided
-    private static final String DEFAULT_DNAME = "cn=JMeter Proxy (DO NOT TRUST)";  // $NON-NLS-1$
+    private static final String DEFAULT_DNAME = "cn=JMeter Proxy (DO NOT TRUST)";
 
     // N.B. It seems that Opera needs a chain in order to accept server keys signed by the intermediate CA
     // Opera does not seem to like server keys signed by the root (self-signed) cert.
@@ -51,16 +51,16 @@ public class KeyToolUtils {
     private static final String KEYTOOL = "keytool";
 
     /** Name of property that can be used to override the default keytool location */
-    private static final String KEYTOOL_DIRECTORY = "keytool.directory"; // $NON-NLS-1$
+    private static final String KEYTOOL_DIRECTORY = "keytool.directory";
 
-    private static final String DNAME_INTERMEDIATE_CA_KEY  = "cn=JMeter Intermediate CA for recording (INSTALL ONLY IF IT S YOURS)"; // $NON-NLS-1$
+    private static final String DNAME_INTERMEDIATE_CA_KEY  = "cn=JMeter Intermediate CA for recording (INSTALL ONLY IF IT S YOURS)";
 
     public static final String ROOT_CACERT_CRT_PFX = "ApacheJMeterTemporaryRootCA"; // $NON-NLS-1$ (do not change)
     private static final String ROOT_CACERT_CRT = ROOT_CACERT_CRT_PFX + ".crt"; // $NON-NLS-1$ (Firefox and Windows)
     private static final String ROOT_CACERT_USR = ROOT_CACERT_CRT_PFX + ".usr"; // $NON-NLS-1$ (Opera)
 
-    private static final String ROOTCA_ALIAS = ":root_ca:";  // $NON-NLS-1$
-    private static final String INTERMEDIATE_CA_ALIAS = ":intermediate_ca:";  // $NON-NLS-1$
+    private static final String ROOTCA_ALIAS = ":root_ca:";
+    private static final String INTERMEDIATE_CA_ALIAS = ":intermediate_ca:";
 
 
     /**
@@ -73,10 +73,10 @@ public class KeyToolUtils {
     static {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("CN=_ JMeter Root CA for recording (INSTALL ONLY IF IT S YOURS)"); // $NON-NLS-1$
-        String userName = System.getProperty("user.name"); // $NON-NLS-1$
+        sb.append("CN=_ JMeter Root CA for recording (INSTALL ONLY IF IT S YOURS)");
+        String userName = System.getProperty("user.name");
         userName = userName.replace('\\','/'); // Backslash is special (Bugzilla 56178)
-        addElement(sb, "OU=Username: ", userName); // $NON-NLS-1$
+        addElement(sb, "OU=Username: ", userName);
         addElement(sb, "C=", System.getProperty("user.country")); // $NON-NLS-1$ $NON-NLS-2$
         DNAME_ROOT_CA_KEY = sb.toString();
 
@@ -96,7 +96,7 @@ public class KeyToolUtils {
             if (!checkKeytool(keytoolPath)) { // Not found on PATH, check Java Home
                 File javaHome = SystemUtils.getJavaHome();
                 if (javaHome != null) {
-                    keytoolPath = new File(new File(javaHome, "bin"), KEYTOOL).getPath(); // $NON-NLS-1$
+                    keytoolPath = new File(new File(javaHome, "bin"), KEYTOOL).getPath();
                     if (!checkKeytool(keytoolPath)) {
                         keytoolPath = null;
                     }
@@ -145,24 +145,24 @@ public class KeyToolUtils {
         final SystemCommand nativeCommand = new SystemCommand(workingDir, null);
         final List<String> arguments = new ArrayList<>();
         arguments.add(getKeyToolPath());
-        arguments.add("-genkeypair"); // $NON-NLS-1$
-        arguments.add("-alias"); // $NON-NLS-1$
+        arguments.add("-genkeypair");
+        arguments.add("-alias");
         arguments.add(alias);
-        arguments.add("-dname"); // $NON-NLS-1$
+        arguments.add("-dname");
         arguments.add(dname == null ? DEFAULT_DNAME : dname);
-        arguments.add("-keyalg"); // $NON-NLS-1$
-        arguments.add("RSA"); // $NON-NLS-1$
+        arguments.add("-keyalg");
+        arguments.add("RSA");
 
-        arguments.add("-keystore"); // $NON-NLS-1$
+        arguments.add("-keystore");
         arguments.add(keystore.getName());
-        arguments.add("-storepass"); // $NON-NLS-1$
+        arguments.add("-storepass");
         arguments.add(password);
-        arguments.add("-keypass"); // $NON-NLS-1$
+        arguments.add("-keypass");
         arguments.add(password);
-        arguments.add("-validity"); // $NON-NLS-1$
+        arguments.add("-validity");
         arguments.add(Integer.toString(validity));
         if (ext != null) {
-            arguments.add("-ext"); // $NON-NLS-1$
+            arguments.add("-ext");
             arguments.add(ext);
         }
         try {
@@ -350,12 +350,12 @@ public class KeyToolUtils {
         final SystemCommand nativeCommand = new SystemCommand(workingDir, null);
         final List<String> arguments = new ArrayList<>();
         arguments.add(getKeyToolPath());
-        arguments.add("-list"); // $NON-NLS-1$
-        arguments.add("-v"); // $NON-NLS-1$
+        arguments.add("-list");
+        arguments.add("-v");
 
-        arguments.add("-keystore"); // $NON-NLS-1$
+        arguments.add("-keystore");
         arguments.add(keystore.getName());
-        arguments.add("-storepass"); // $NON-NLS-1$
+        arguments.add("-storepass");
         arguments.add(storePass);
         runNativeCommand(nativeCommand, arguments);
         return nativeCommand.getOutResult();
@@ -426,13 +426,13 @@ public class KeyToolUtils {
         final List<String> arguments = new ArrayList<>();
         arguments.add(getKeyToolPath());
         arguments.add(command);
-        arguments.add("-keystore"); // $NON-NLS-1$
+        arguments.add("-keystore");
         arguments.add(keystore.getName());
-        arguments.add("-storepass"); // $NON-NLS-1$
+        arguments.add("-storepass");
         arguments.add(password);
-        arguments.add("-keypass"); // $NON-NLS-1$
+        arguments.add("-keypass");
         arguments.add(password);
-        arguments.add("-alias"); // $NON-NLS-1$
+        arguments.add("-alias");
         arguments.add(alias);
         Collections.addAll(arguments, parameters);
 
@@ -468,7 +468,7 @@ public class KeyToolUtils {
         final SystemCommand nativeCommand = new SystemCommand(null, null);
         final List<String> arguments = new ArrayList<>();
         arguments.add(keytoolPath);
-        arguments.add("-help"); // $NON-NLS-1$
+        arguments.add("-help");
         try {
             int status = nativeCommand.run(arguments);
             if (log.isDebugEnabled()) {

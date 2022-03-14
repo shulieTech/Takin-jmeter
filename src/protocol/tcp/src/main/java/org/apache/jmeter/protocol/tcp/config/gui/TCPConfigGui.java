@@ -76,7 +76,7 @@ public class TCPConfigGui extends AbstractConfigGui {
 
     @Override
     public String getLabelResource() {
-        return "tcp_config_title"; // $NON-NLS-1$
+        return "tcp_config_title";
     }
 
     @Override
@@ -146,7 +146,7 @@ public class TCPConfigGui extends AbstractConfigGui {
 
 
     private JPanel createNoDelayPanel() {
-        JLabel label = new JLabel(JMeterUtils.getResString("tcp_nodelay")); // $NON-NLS-1$
+        JLabel label = new JLabel(JMeterUtils.getResString("tcp_nodelay"));
 
         setNoDelay = new TristateCheckBox();
         label.setLabelFor(setNoDelay);
@@ -177,7 +177,7 @@ public class TCPConfigGui extends AbstractConfigGui {
     }
 
     private JPanel createCloseConnectionPanel() {
-        JLabel label = new JLabel(JMeterUtils.getResString("closeconnection")); // $NON-NLS-1$
+        JLabel label = new JLabel(JMeterUtils.getResString("closeconnection"));
 
         closeConnection = new TristateCheckBox("", TCPSampler.CLOSE_CONNECTION_DEFAULT);
         label.setLabelFor(closeConnection);
@@ -215,7 +215,7 @@ public class TCPConfigGui extends AbstractConfigGui {
     }
 
     private JPanel createRequestPanel() {
-        JLabel reqLabel = new JLabel(JMeterUtils.getResString("tcp_request_data")); // $NON-NLS-1$
+        JLabel reqLabel = new JLabel(JMeterUtils.getResString("tcp_request_data"));
         requestData = JSyntaxTextArea.getInstance(15, 80);
         requestData.setLanguage("text"); //$NON-NLS-1$
         reqLabel.setLabelFor(requestData);
@@ -239,7 +239,7 @@ public class TCPConfigGui extends AbstractConfigGui {
         }
 
         VerticalPanel mainPanel = new VerticalPanel();
-        classname = new JLabeledTextField(JMeterUtils.getResString("tcp_classname")); // $NON-NLS-1$
+        classname = new JLabeledTextField(JMeterUtils.getResString("tcp_classname"));
         mainPanel.add(classname);
         mainPanel.add(serverPanel);
 

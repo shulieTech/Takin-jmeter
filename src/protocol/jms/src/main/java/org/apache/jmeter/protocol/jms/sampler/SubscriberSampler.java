@@ -82,20 +82,20 @@ public class SubscriberSampler extends BaseJMSSampler implements Interruptible, 
     private transient boolean stopBetweenSamples;
 
     // Don't change the string, as it is used in JMX files
-    private static final String CLIENT_CHOICE = "jms.client_choice"; // $NON-NLS-1$
-    private static final String TIMEOUT = "jms.timeout"; // $NON-NLS-1$
-    private static final String TIMEOUT_DEFAULT = ""; // $NON-NLS-1$
-    private static final String DURABLE_SUBSCRIPTION_ID = "jms.durableSubscriptionId"; // $NON-NLS-1$
-    private static final String CLIENT_ID = "jms.clientId"; // $NON-NLS-1$
-    private static final String JMS_SELECTOR = "jms.selector"; // $NON-NLS-1$
+    private static final String CLIENT_CHOICE = "jms.client_choice";
+    private static final String TIMEOUT = "jms.timeout";
+    private static final String TIMEOUT_DEFAULT = "";
+    private static final String DURABLE_SUBSCRIPTION_ID = "jms.durableSubscriptionId";
+    private static final String CLIENT_ID = "jms.clientId";
+    private static final String JMS_SELECTOR = "jms.selector";
     private static final String DURABLE_SUBSCRIPTION_ID_DEFAULT = "";
-    private static final String CLIENT_ID_DEFAULT = ""; // $NON-NLS-1$
-    private static final String JMS_SELECTOR_DEFAULT = ""; // $NON-NLS-1$
-    private static final String STOP_BETWEEN = "jms.stop_between_samples"; // $NON-NLS-1$
-    private static final String SEPARATOR = "jms.separator"; // $NON-NLS-1$
-    private static final String SEPARATOR_DEFAULT = ""; // $NON-NLS-1$
-    private static final String ERROR_PAUSE_BETWEEN = "jms_error_pause_between"; // $NON-NLS-1$
-    private static final String ERROR_PAUSE_BETWEEN_DEFAULT = ""; // $NON-NLS-1$
+    private static final String CLIENT_ID_DEFAULT = "";
+    private static final String JMS_SELECTOR_DEFAULT = "";
+    private static final String STOP_BETWEEN = "jms.stop_between_samples";
+    private static final String SEPARATOR = "jms.separator";
+    private static final String SEPARATOR_DEFAULT = "";
+    private static final String ERROR_PAUSE_BETWEEN = "jms_error_pause_between";
+    private static final String ERROR_PAUSE_BETWEEN_DEFAULT = "";
 
 
     private transient boolean START_ON_SAMPLE = false;
@@ -492,7 +492,7 @@ public class SubscriberSampler extends BaseJMSSampler implements Interruptible, 
     }
 
     // This was the old value that was checked for
-    private static final String RECEIVE_STR = JMeterUtils.getResString(JMSSubscriberGui.RECEIVE_RSC); // $NON-NLS-1$
+    private static final String RECEIVE_STR = JMeterUtils.getResString(JMSSubscriberGui.RECEIVE_RSC);
 
     public boolean isStopBetweenSamples() {
         return getPropertyAsBoolean(STOP_BETWEEN, false);

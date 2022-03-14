@@ -82,7 +82,7 @@ public class TCPSamplerGui extends AbstractSamplerGui {
 
     @Override
     public String getLabelResource() {
-        return "tcp_sample_title"; // $NON-NLS-1$
+        return "tcp_sample_title";
     }
 
     private void init() { // WARNING: called from ctor so must not be overridden (i.e. must be private or final)
@@ -97,7 +97,7 @@ public class TCPSamplerGui extends AbstractSamplerGui {
         mainPanel.add(tcpDefaultPanel);
 
         loginPanel = new LoginConfigGui(false);
-        loginPanel.setBorder(BorderFactory.createTitledBorder(JMeterUtils.getResString("login_config"))); // $NON-NLS-1$
+        loginPanel.setBorder(BorderFactory.createTitledBorder(JMeterUtils.getResString("login_config")));
         mainPanel.add(loginPanel);
 
         add(mainPanel, BorderLayout.CENTER);

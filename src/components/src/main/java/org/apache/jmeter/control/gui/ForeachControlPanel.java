@@ -69,16 +69,16 @@ public class ForeachControlPanel extends AbstractControllerGui {
     private boolean displayName = true;
 
     /** The name of the infinite checkbox component. */
-    private static final String INPUT_VAL_NAME = "Input Field"; // $NON-NLS-1$
+    private static final String INPUT_VAL_NAME = "Input Field";
 
     /** The name of the loops field component. */
-    private static final String RETURN_VAL_NAME = "Return Field"; // $NON-NLS-1$
+    private static final String RETURN_VAL_NAME = "Return Field";
 
     /** The name of the start index field component. */
-    private static final String START_INDEX_NAME = "Start Index Field"; // $NON-NLS-1$
+    private static final String START_INDEX_NAME = "Start Index Field";
 
     /** The name of the end index field component. */
-    private static final String END_INDEX_NAME = "End Index Field"; // $NON-NLS-1$
+    private static final String END_INDEX_NAME = "End Index Field";
     /**
      * Create a new LoopControlPanel as a standalone component.
      */
@@ -147,16 +147,16 @@ public class ForeachControlPanel extends AbstractControllerGui {
     public void clearGui() {
         super.clearGui();
 
-        inputVal.setText(""); // $NON-NLS-1$
-        startIndex.setText(""); // $NON-NLS-1$
-        endIndex.setText(""); // $NON-NLS-1$
-        returnVal.setText(""); // $NON-NLS-1$
+        inputVal.setText("");
+        startIndex.setText("");
+        endIndex.setText("");
+        returnVal.setText("");
         useSeparator.setSelected(true);
     }
 
     @Override
     public String getLabelResource() {
-        return "foreach_controller_title"; // $NON-NLS-1$
+        return "foreach_controller_title";
     }
 
     /** Initialize the GUI components and layout for this component. */
@@ -193,31 +193,31 @@ public class ForeachControlPanel extends AbstractControllerGui {
         JPanel loopPanel = new JPanel(new MigLayout("fillx, wrap 2, insets 0", "[][fill,grow]"));
 
         // TEXT FIELD
-        inputVal = new JTextField("", 5); // $NON-NLS-1$
+        inputVal = new JTextField("", 5);
         loopPanel.add(JMeterUtils.labelFor(inputVal, "foreach_input"));
         inputVal.setName(INPUT_VAL_NAME);
         loopPanel.add(inputVal);
 
         // TEXT FIELD
-        startIndex = new JTextField("", 5); // $NON-NLS-1$
+        startIndex = new JTextField("", 5);
         loopPanel.add(JMeterUtils.labelFor(startIndex, "foreach_start_index"));
         startIndex.setName(START_INDEX_NAME);
         loopPanel.add(startIndex);
 
         // TEXT FIELD
-        endIndex = new JTextField("", 5); // $NON-NLS-1$
+        endIndex = new JTextField("", 5);
         loopPanel.add(JMeterUtils.labelFor(endIndex, "foreach_end_index"));
         endIndex.setName(END_INDEX_NAME);
         loopPanel.add(endIndex);
 
         // TEXT FIELD
-        returnVal = new JTextField("", 5); // $NON-NLS-1$
+        returnVal = new JTextField("", 5);
         loopPanel.add(JMeterUtils.labelFor(returnVal, "foreach_output"));
         returnVal.setName(RETURN_VAL_NAME);
         loopPanel.add(returnVal);
 
         // Checkbox
-        useSeparator = new JCheckBox(JMeterUtils.getResString("foreach_use_separator"), true); // $NON-NLS-1$
+        useSeparator = new JCheckBox(JMeterUtils.getResString("foreach_use_separator"), true);
         loopPanel.add(useSeparator, "span 2");
 
         return loopPanel;

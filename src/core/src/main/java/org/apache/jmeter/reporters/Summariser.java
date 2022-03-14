@@ -339,7 +339,7 @@ public class Summariser extends AbstractTestElement
      * @return the summary information
      */
     private static String format(String name, SummariserRunningSample summariserRunningSample, String type) {
-        DecimalFormat dfDouble = new DecimalFormat("#0.0"); // $NON-NLS-1$
+        DecimalFormat dfDouble = new DecimalFormat("#0.0");
         StringBuilder tmp = new StringBuilder(20); // for intermediate use
         StringBuilder sb = new StringBuilder(140); // output line buffer
         sb.append(name);

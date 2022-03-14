@@ -75,7 +75,7 @@ public class ResultSaverGui extends AbstractListenerGui implements Clearable { /
      */
     @Override
     public String getLabelResource() {
-        return "resultsaver_title"; // $NON-NLS-1$
+        return "resultsaver_title";
     }
 
     /**
@@ -160,12 +160,12 @@ public class ResultSaverGui extends AbstractListenerGui implements Clearable { /
         filename = new JLabeledTextField(JMeterUtils.getResString("resultsaver_prefix"));
         filename.setName(ResultSaver.FILENAME);
 
-        numberPadLength = new JLabeledTextField(JMeterUtils.getResString("resultsaver_numberpadlen"));// $NON-NLS-1$
+        numberPadLength = new JLabeledTextField(JMeterUtils.getResString("resultsaver_numberpadlen"));
         numberPadLength.setName(ResultSaver.NUMBER_PAD_LENGTH);
 
-        skipAutoNumber = new JCheckBox(JMeterUtils.getResString("resultsaver_skipautonumber")); // $NON-NLS-1$
-        skipSuffix = new JCheckBox(JMeterUtils.getResString("resultsaver_skipsuffix")); // $NON-NLS-1$
-        addTimestamp = new JCheckBox(JMeterUtils.getResString("resultsaver_addtimestamp")); // $NON-NLS-1$
+        skipAutoNumber = new JCheckBox(JMeterUtils.getResString("resultsaver_skipautonumber"));
+        skipSuffix = new JCheckBox(JMeterUtils.getResString("resultsaver_skipsuffix"));
+        addTimestamp = new JCheckBox(JMeterUtils.getResString("resultsaver_addtimestamp"));
 
         variableName = new JLabeledTextField(JMeterUtils.getResString("resultsaver_variable"));
         variableName.setName(ResultSaver.VARIABLE_NAME);
@@ -192,9 +192,9 @@ public class ResultSaverGui extends AbstractListenerGui implements Clearable { /
     }
 
     private Component createSaveConditionsPanel() {
-        successOnly = new JCheckBox(JMeterUtils.getResString("resultsaver_success")); // $NON-NLS-1$
-        errorsOnly = new JCheckBox(JMeterUtils.getResString("resultsaver_errors")); // $NON-NLS-1$
-        ignoreTC = new JCheckBox(JMeterUtils.getResString("resultsaver_ignore_tc")); // $NON-NLS-1$
+        successOnly = new JCheckBox(JMeterUtils.getResString("resultsaver_success"));
+        errorsOnly = new JCheckBox(JMeterUtils.getResString("resultsaver_errors"));
+        ignoreTC = new JCheckBox(JMeterUtils.getResString("resultsaver_ignore_tc"));
 
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setBorder(BorderFactory.createTitledBorder(JMeterUtils.getResString("resultsaver_save_conditions"))); //$NON-NLS-1$

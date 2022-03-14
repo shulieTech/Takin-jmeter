@@ -91,13 +91,13 @@ import redis.clients.jedis.Jedis;
 @GUIMenuSortOrder(1)
 @TestElementMetadata(labelResource = "displayName")
 public class CSVDataSet extends ConfigTestElement
-        implements TestBean, LoopIterationListener, NoConfigMerge {
+    implements TestBean, LoopIterationListener, NoConfigMerge {
     private static final Logger log = LoggerFactory.getLogger(CSVDataSet.class);
 
     private static final long serialVersionUID = 233L;
 
     private static final String EOFVALUE = // value to return at EOF
-            JMeterUtils.getPropDefault("csvdataset.eofstring", "<EOF>"); //$NON-NLS-1$ //$NON-NLS-2$
+        JMeterUtils.getPropDefault("csvdataset.eofstring", "<EOF>"); //$NON-NLS-1$ //$NON-NLS-2$
 
     private static final String DEFAULT_VALUE = "DEFAULT";
 
@@ -126,7 +126,6 @@ public class CSVDataSet extends ConfigTestElement
     private boolean firstLineIsNames = false;
 
     private boolean ignoreFirstLine = false;
-
 
     private Object readResolve() {
         recycle = true;
@@ -161,13 +160,13 @@ public class CSVDataSet extends ConfigTestElement
         if (propValue.contains(" ")) { // variables are unlikely to contain spaces, so most likely a translation
             try {
                 final BeanInfo beanInfo = Introspector.getBeanInfo(this.getClass());
-                final ResourceBundle rb = (ResourceBundle) beanInfo.getBeanDescriptor().getValue(GenericTestBeanCustomizer.RESOURCE_BUNDLE);
+                final ResourceBundle rb = (ResourceBundle)beanInfo.getBeanDescriptor().getValue(GenericTestBeanCustomizer.RESOURCE_BUNDLE);
                 for (String resKey : CSVDataSetBeanInfo.getShareTags()) {
                     if (propValue.equals(rb.getString(resKey))) {
                         if (log.isDebugEnabled()) {
                             log.debug("Converted {}={} to {} using Locale: {}", propName, propValue, resKey, rb.getLocale());
                         }
-                        ((StringProperty) property).setValue(resKey); // reset the value
+                        ((StringProperty)property).setValue(resKey); // reset the value
                         super.setProperty(property);
                         return;
                     }
@@ -186,38 +185,36 @@ public class CSVDataSet extends ConfigTestElement
         boolean hasFilePosition = hasFilePosition();
         final JMeterContext context = getThreadContext();
         String delim = getDelimiter();
-        if ("\\t".equals(delim)) { // $NON-NLS-1$
-            delim = "\t";// Make it easier to enter a Tab // $NON-NLS-1$
+        if ("\\t".equals(delim)) {
+            delim = "\t";// Make it easier to enter a Tab
         } else if (delim.isEmpty()) {
             log.debug("Empty delimiter, will use ','");
             delim = ",";
         }
         FileService server;
-        if(hasFilePosition) {
+        if (hasFilePosition) {
             server = PositionFileServer.getFileServer();
             if (vars == null) {
                 initVars(server, context, delim);
             }
-        }else {
+        } else {
             server = FileServer.getFileServer();
             if (vars == null) {
                 initVarsWithoutPosition(server, context, delim);
             }
         }
 
-
-
-        // 读取csv数据  mark by lipeng
+        // 读取csv数据  mark by 李鹏
         // TODO: fetch this once as per vars above?
         JMeterVariables threadVars = context.getVariables();
         String[] lineValues = {};
         try {
             if (getQuotedData()) {
                 lineValues = server.getParsedLine(alias, recycle,
-                        firstLineIsNames || ignoreFirstLine, delim.charAt(0));
+                    firstLineIsNames || ignoreFirstLine, delim.charAt(0));
             } else {
                 String line = server.readLine(alias, recycle,
-                        firstLineIsNames || ignoreFirstLine);
+                    firstLineIsNames || ignoreFirstLine);
                 lineValues = JOrphanUtils.split(line, delim, false);
             }
             for (int a = 0; a < vars.length && a < lineValues.length; a++) {
@@ -239,7 +236,7 @@ public class CSVDataSet extends ConfigTestElement
         if (lineValues.length == 0) {// i.e. EOF
             if (getStopThread()) {
                 throw new JMeterStopThreadException("End of file:" + getFilename() + " detected for CSV DataSet:"
-                        + getName() + " configured with stopThread:" + getStopThread() + ", recycle:" + getRecycle());
+                    + getName() + " configured with stopThread:" + getStopThread() + ", recycle:" + getRecycle());
             }
             for (String var : vars) {
                 threadVars.put(var, EOFVALUE);
@@ -249,7 +246,8 @@ public class CSVDataSet extends ConfigTestElement
 
     /**
      * 判断变量中是否存在文件的位点信息
-     * @return
+     *
+     * @return -
      */
     private boolean hasFilePosition() {
         JMeterVariables variables = getThreadContext().getVariables();
@@ -267,7 +265,7 @@ public class CSVDataSet extends ConfigTestElement
     protected void initVars(FileService server, final JMeterContext context, String delim) {
         String fileName = getFilename().trim();
         setAlias(context, fileName);
-        Pair<Long, Long> position = getPosition(context,fileName);
+        Pair<Long, Long> position = getPosition(context, fileName);
         final String names = getVariableNames();
         if (StringUtils.isEmpty(names)) {
             String header = server.reserveFile(position.getLeft(), position.getRight(), fileName, getFileEncoding(), alias, true);
@@ -278,13 +276,13 @@ public class CSVDataSet extends ConfigTestElement
                 throw new IllegalArgumentException("Could not split CSV header line from file:" + fileName, e);
             }
         } else {
-            server.reserveFile(position.getLeft(), position.getRight(),fileName, getFileEncoding(), alias, ignoreFirstLine);
-            vars = JOrphanUtils.split(names, ","); // $NON-NLS-1$
+            server.reserveFile(position.getLeft(), position.getRight(), fileName, getFileEncoding(), alias, ignoreFirstLine);
+            vars = JOrphanUtils.split(names, ",");
         }
         trimVarNames(vars);
     }
 
-    private void initVarsWithoutPosition(FileService server, final JMeterContext context, String delim){
+    private void initVarsWithoutPosition(FileService server, final JMeterContext context, String delim) {
         String fileName = getFilename().trim();
         setAlias(context, fileName);
         final String names = getVariableNames();
@@ -294,11 +292,11 @@ public class CSVDataSet extends ConfigTestElement
                 vars = CSVSaveService.csvSplitString(header, delim.charAt(0));
                 firstLineIsNames = true;
             } catch (IOException e) {
-                throw new IllegalArgumentException("Could not split CSV header line from file:" + fileName,e);
+                throw new IllegalArgumentException("Could not split CSV header line from file:" + fileName, e);
             }
         } else {
             server.reserveFile(fileName, getFileEncoding(), alias, ignoreFirstLine);
-            vars = JOrphanUtils.split(names, ","); // $NON-NLS-1$
+            vars = JOrphanUtils.split(names, ",");
         }
         trimVarNames(vars);
     }
@@ -325,7 +323,7 @@ public class CSVDataSet extends ConfigTestElement
     /**
      * 获取位置信息
      *
-     * @param context
+     * @param context JMeter上下文
      */
     private Pair<Long, Long> getPosition(final JMeterContext context, String filename) {
         JMeterVariables variables = getThreadContext().getVariables();
@@ -336,14 +334,14 @@ public class CSVDataSet extends ConfigTestElement
         System.setProperty("positionVariablesStr", variableMapStr);
         log.info("获取到文件信息：{}", variableMapStr);
         JSONObject positionJson = JSONObject.parseObject(variableMapStr);
-        if (filename.contains("/")){
-            filename = filename.substring(filename.lastIndexOf("/")+1);
+        if (filename.contains("/")) {
+            filename = filename.substring(filename.lastIndexOf("/") + 1);
         }
         JSONObject object = positionJson.getJSONObject(filename);
-        if (null == object){
+        if (null == object) {
             return null;
         }
-        if (object.containsKey("start") && object.containsKey("end")){
+        if (object.containsKey("start") && object.containsKey("end")) {
             return Pair.of(object.getLong("start"), object.getLong("end"));
         }
         return null;
@@ -352,8 +350,8 @@ public class CSVDataSet extends ConfigTestElement
     public void cachePosition(PositionFileInputStream inputStream, String fileName) {
         String key = String.format("CSV_READ_POSITION_%s", PressureConstants.pressureEngineParamsInstance.getSceneId());
         String podNum = StringUtils.isBlank(System.getProperty("pod.number")) ? "1" : System.getProperty("pod.number");
-        String field = String.format("%s_pod_num_%s", fileName,podNum);
-        System.setProperty("SCENE_ID",PressureConstants.pressureEngineParamsInstance.getSceneId()+"");
+        String field = String.format("%s_pod_num_%s", fileName, podNum);
+        System.setProperty("SCENE_ID", PressureConstants.pressureEngineParamsInstance.getSceneId() + "");
         Pair<Long, Long> pair = getPosition(null, fileName);
         final long startPosition = pair.getLeft();
         final long endPosition = pair.getRight();
@@ -370,8 +368,8 @@ public class CSVDataSet extends ConfigTestElement
                 value.put("startPosition", startPosition);
                 value.put("readPosition", position);
                 value.put("endPosition", endPosition);
-                log.info("缓存文件读取位点信息{}",value.toString());
-                redisUtil.hset(key,field, JSON.toJSONString(value));
+                log.info("缓存文件读取位点信息{}", value);
+                redisUtil.hset(key, field, JSON.toJSONString(value));
             } catch (IOException e) {
                 log.error("获取可读文件大小失败{}", e.getMessage());
             }
@@ -379,11 +377,10 @@ public class CSVDataSet extends ConfigTestElement
         }, 5, 5, TimeUnit.SECONDS);
     }
 
-
     /**
      * trim content of array varNames
      *
-     * @param varsNames
+     * @param varsNames 变量名
      */
     private void trimVarNames(String[] varsNames) {
         for (int i = 0; i < varsNames.length; i++) {

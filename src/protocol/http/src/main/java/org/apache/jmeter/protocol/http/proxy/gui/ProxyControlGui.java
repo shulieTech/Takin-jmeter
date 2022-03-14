@@ -109,17 +109,17 @@ public class ProxyControlGui extends LogicControllerGui implements JMeterGUIComp
 
     private static final long serialVersionUID = 232L;
 
-    private static final String NEW_LINE = "\n";  // $NON-NLS-1$
+    private static final String NEW_LINE = "\n";
 
-    private static final String SPACE = " ";  // $NON-NLS-1$
+    private static final String SPACE = " ";
 
     /**
      * This choice means don't explicitly set Implementation and rely on default, see Bug 54154
      */
-    private static final String USE_DEFAULT_HTTP_IMPL = ""; // $NON-NLS-1$
+    private static final String USE_DEFAULT_HTTP_IMPL = "";
 
     private static final String SUGGESTED_EXCLUSIONS =
-            JMeterUtils.getPropDefault("proxy.excludes.suggested", "(?i).*\\.(bmp|css|js|gif|ico|jpe?g|png|swf|woff|woff2)"); // $NON-NLS-1$
+            JMeterUtils.getPropDefault("proxy.excludes.suggested", "(?i).*\\.(bmp|css|js|gif|ico|jpe?g|png|swf|woff|woff2)");
 
     private JTextField portField;
 
@@ -225,7 +225,7 @@ public class ProxyControlGui extends LogicControllerGui implements JMeterGUIComp
 
     private PowerTableModel includeModel;
 
-    private static final String CHANGE_TARGET = "change_target"; // $NON-NLS-1$
+    private static final String CHANGE_TARGET = "change_target";
 
     private JButton stop;
     private JButton start;
@@ -236,43 +236,43 @@ public class ProxyControlGui extends LogicControllerGui implements JMeterGUIComp
     private JTextField httpSampleNameFormat;
 
     //+ action names
-    private static final String ACTION_STOP = "stop"; // $NON-NLS-1$
+    private static final String ACTION_STOP = "stop";
 
-    private static final String ACTION_START = "start"; // $NON-NLS-1$
+    private static final String ACTION_START = "start";
 
-    private static final String ACTION_RESTART = "restart"; // $NON-NLS-1$
+    private static final String ACTION_RESTART = "restart";
 
     // This is applied to fields that should cause a restart when changed
-    static final String ENABLE_RESTART = "enable_restart"; // $NON-NLS-1$
+    static final String ENABLE_RESTART = "enable_restart";
 
-    private static final String ADD_INCLUDE = "add_include"; // $NON-NLS-1$
+    private static final String ADD_INCLUDE = "add_include";
 
-    private static final String ADD_EXCLUDE = "add_exclude"; // $NON-NLS-1$
+    private static final String ADD_EXCLUDE = "add_exclude";
 
-    private static final String DELETE_INCLUDE = "delete_include"; // $NON-NLS-1$
+    private static final String DELETE_INCLUDE = "delete_include";
 
-    private static final String DELETE_EXCLUDE = "delete_exclude"; // $NON-NLS-1$
+    private static final String DELETE_EXCLUDE = "delete_exclude";
 
-    private static final String ADD_TO_INCLUDE_FROM_CLIPBOARD = "include_clipboard"; // $NON-NLS-1$
+    private static final String ADD_TO_INCLUDE_FROM_CLIPBOARD = "include_clipboard";
 
-    private static final String ADD_TO_EXCLUDE_FROM_CLIPBOARD = "exclude_clipboard"; // $NON-NLS-1$
+    private static final String ADD_TO_EXCLUDE_FROM_CLIPBOARD = "exclude_clipboard";
 
     private static final String ADD_SUGGESTED_EXCLUDES = "exclude_suggested";
 
-    static final String HTTP_SAMPLER_NAMING_MODE = "proxy_http_sampler_naming_mode"; // $NON-NLS-1$
+    static final String HTTP_SAMPLER_NAMING_MODE = "proxy_http_sampler_naming_mode";
 
-    static final String PREFIX_HTTP_SAMPLER_NAME = "proxy_prefix_http_sampler_name"; // $NON-NLS-1$
+    static final String PREFIX_HTTP_SAMPLER_NAME = "proxy_prefix_http_sampler_name";
 
-    static final String PROXY_PAUSE_HTTP_SAMPLER = "proxy_pause_http_sampler"; // $NON-NLS-1$
+    static final String PROXY_PAUSE_HTTP_SAMPLER = "proxy_pause_http_sampler";
     //- action names
 
     // Resource names for column headers
-    private static final String INCLUDE_COL = "patterns_to_include"; // $NON-NLS-1$
+    private static final String INCLUDE_COL = "patterns_to_include";
 
-    private static final String EXCLUDE_COL = "patterns_to_exclude"; // $NON-NLS-1$
+    private static final String EXCLUDE_COL = "patterns_to_exclude";
 
     // Used by itemListener
-    private static final String PORT_FIELD_NAME = "portField"; // $NON-NLS-1$
+    private static final String PORT_FIELD_NAME = "portField";
 
     static final String HTTP_SAMPLER_NAME_FORMAT = "proxy_http_sampler_name_format";
 
@@ -368,7 +368,7 @@ public class ProxyControlGui extends LogicControllerGui implements JMeterGUIComp
     /** {@inheritDoc} */
     @Override
     public String getLabelResource() {
-        return "proxy_title"; // $NON-NLS-1$
+        return "proxy_title";
     }
 
     /** {@inheritDoc} */
@@ -542,7 +542,7 @@ public class ProxyControlGui extends LogicControllerGui implements JMeterGUIComp
     protected void addSuggestedExcludes(JTable table) {
         GuiUtils.stopTableEditing(table);
         int rowCount = table.getRowCount();
-        String[] exclusions = SUGGESTED_EXCLUSIONS.split(";"); // $NON-NLS-1$
+        String[] exclusions = SUGGESTED_EXCLUSIONS.split(";");
         if (exclusions.length>0) {
             PowerTableModel model = (PowerTableModel) table.getModel();
             if(model != null) {
@@ -582,15 +582,15 @@ public class ProxyControlGui extends LogicControllerGui implements JMeterGUIComp
             }
         } catch (IOException ioe) {
             JOptionPane.showMessageDialog(this,
-                    JMeterUtils.getResString("proxy_daemon_error_read_args") // $NON-NLS-1$
+                    JMeterUtils.getResString("proxy_daemon_error_read_args")
                     + "\n" + ioe.getLocalizedMessage(), JMeterUtils.getResString("error_title"),  // $NON-NLS-1$  $NON-NLS-2$
                     JOptionPane.ERROR_MESSAGE);
         } catch (UnsupportedFlavorException ufe) {
             JOptionPane.showMessageDialog(this,
-                    JMeterUtils.getResString("proxy_daemon_error_not_retrieve") + SPACE // $NON-NLS-1$
+                    JMeterUtils.getResString("proxy_daemon_error_not_retrieve") + SPACE
                         + DataFlavor.stringFlavor.getHumanPresentableName() + SPACE
-                        + JMeterUtils.getResString("proxy_daemon_error_from_clipboard") // $NON-NLS-1$
-                        + ufe.getLocalizedMessage(), JMeterUtils.getResString("error_title"),  // $NON-NLS-1$
+                        + JMeterUtils.getResString("proxy_daemon_error_from_clipboard")
+                        + ufe.getLocalizedMessage(), JMeterUtils.getResString("error_title"),
                         JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -603,8 +603,8 @@ public class ProxyControlGui extends LogicControllerGui implements JMeterGUIComp
             JMeterTreeNode targetNode = model.findTargetControllerNode();
             if(targetNode == null || !(targetNode.getTestElement() instanceof RecordingController)) {
                 JOptionPane.showMessageDialog(this,
-                        JMeterUtils.getResString("proxy_cl_wrong_target_cl"), // $NON-NLS-1$
-                        JMeterUtils.getResString("error_title"), // $NON-NLS-1$
+                        JMeterUtils.getResString("proxy_cl_wrong_target_cl"),
+                        JMeterUtils.getResString("error_title"),
                         JOptionPane.ERROR_MESSAGE);
                 return false;
             }
@@ -622,16 +622,16 @@ public class ProxyControlGui extends LogicControllerGui implements JMeterGUIComp
                 String[] details = model.getCertificateDetails();
                 StringBuilder sb = new StringBuilder();
                 sb.append("<html>");
-                sb.append(JMeterUtils.getResString("proxy_daemon_msg_rootca_cert"))  // $NON-NLS-1$
+                sb.append(JMeterUtils.getResString("proxy_daemon_msg_rootca_cert"))
                         .append("&nbsp;<b>").append(KeyToolUtils.ROOT_CACERT_CRT_PFX)
                         .append("</b>&nbsp;").append(JMeterUtils.getResString("proxy_daemon_msg_created_in_bin"));
-                sb.append("<br>").append(JMeterUtils.getResString("proxy_daemon_msg_install_as_in_doc")); // $NON-NLS-1$
+                sb.append("<br>").append(JMeterUtils.getResString("proxy_daemon_msg_install_as_in_doc"));
                 sb.append("<br><b>").append(MessageFormat.format(
                         JMeterUtils.getResString("proxy_daemon_msg_check_expiration"),
-                        ProxyControl.CERT_VALIDITY)) // $NON-NLS-1$
+                        ProxyControl.CERT_VALIDITY))
                     .append("</b><br>");
                 sb.append("<br>").append(JMeterUtils.getResString("proxy_daemon_msg_check_details"))
-                    .append("<ul>"); // $NON-NLS-1$
+                    .append("<ul>");
                 for(String detail : details) {
                     sb.append("<li>").append(detail).append("</li>");
                 }
@@ -650,28 +650,28 @@ public class ProxyControlGui extends LogicControllerGui implements JMeterGUIComp
                 timer.start();
                 JOptionPane.showMessageDialog(this,
                         messageLabel,
-                    JMeterUtils.getResString("proxy_daemon_msg_rootca_cert") + SPACE // $NON-NLS-1$
+                    JMeterUtils.getResString("proxy_daemon_msg_rootca_cert") + SPACE
                     + KeyToolUtils.ROOT_CACERT_CRT_PFX + SPACE
-                    + JMeterUtils.getResString("proxy_daemon_msg_created_in_bin"), // $NON-NLS-1$
+                    + JMeterUtils.getResString("proxy_daemon_msg_created_in_bin"),
                     JOptionPane.INFORMATION_MESSAGE);
             }
             return true;
         } catch (InvalidVariableException e) {
             JOptionPane.showMessageDialog(this,
                     JMeterUtils.getResString("invalid_variables")+": "+e.getMessage(), // $NON-NLS-1$ $NON-NLS-2$
-                    JMeterUtils.getResString("error_title"), // $NON-NLS-1$
+                    JMeterUtils.getResString("error_title"),
                     JOptionPane.ERROR_MESSAGE);
             return false;
         } catch (BindException e) {
             JOptionPane.showMessageDialog(this,
                     JMeterUtils.getResString("proxy_daemon_bind_error")+": "+e.getMessage(), // $NON-NLS-1$ $NON-NLS-2$
-                    JMeterUtils.getResString("error_title"), // $NON-NLS-1$
+                    JMeterUtils.getResString("error_title"),
                     JOptionPane.ERROR_MESSAGE);
             return false;
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this,
                     JMeterUtils.getResString("proxy_daemon_error")+": "+e.getMessage(), // $NON-NLS-1$ $NON-NLS-2$
-                    JMeterUtils.getResString("error_title"), // $NON-NLS-1$
+                    JMeterUtils.getResString("error_title"),
                     JOptionPane.ERROR_MESSAGE);
             return false;
         } finally {
@@ -710,8 +710,8 @@ public class ProxyControlGui extends LogicControllerGui implements JMeterGUIComp
                 int length = portField.getText().length();
                 if (length > 0) {
                     JOptionPane.showMessageDialog(this,
-                            JMeterUtils.getResString("proxy_settings_port_error_digits"), // $NON-NLS-1$
-                            JMeterUtils.getResString("proxy_settings_port_error_invalid_data"), // $NON-NLS-1$
+                            JMeterUtils.getResString("proxy_settings_port_error_digits"),
+                            JMeterUtils.getResString("proxy_settings_port_error_invalid_data"),
                             JOptionPane.WARNING_MESSAGE);
                     // Drop the last character:
                     portField.setText(portField.getText().substring(0, length-1));
@@ -730,8 +730,8 @@ public class ProxyControlGui extends LogicControllerGui implements JMeterGUIComp
             } catch (NumberFormatException nfe) {
                 int length = proxyPauseHTTPSample.getText().length();
                 if (length > 0) {
-                    JOptionPane.showMessageDialog(this, JMeterUtils.getResString("proxy_settings_pause_error_digits"), // $NON-NLS-1$
-                            JMeterUtils.getResString("proxy_settings_pause_error_invalid_data"), // $NON-NLS-1$
+                    JOptionPane.showMessageDialog(this, JMeterUtils.getResString("proxy_settings_pause_error_digits"),
+                            JMeterUtils.getResString("proxy_settings_pause_error_invalid_data"),
                             JOptionPane.WARNING_MESSAGE);
                     // Drop the last character:
                     proxyPauseHTTPSample.setText(proxyPauseHTTPSample.getText().substring(0, length - 1));
@@ -782,7 +782,7 @@ public class ProxyControlGui extends LogicControllerGui implements JMeterGUIComp
 
         String iconSize = JMeterUtils.getPropDefault(JMeterToolBar.TOOLBAR_ICON_SIZE, JMeterToolBar.DEFAULT_TOOLBAR_ICON_SIZE);
 
-        start = new JButton(JMeterUtils.getResString("start")); // $NON-NLS-1$
+        start = new JButton(JMeterUtils.getResString("start"));
         ImageIcon startImage = JMeterUtils.getImage("toolbar/" + iconSize + "/arrow-right-3.png");
         start.setIcon(startImage);
         start.addActionListener(this);
@@ -793,7 +793,7 @@ public class ProxyControlGui extends LogicControllerGui implements JMeterGUIComp
         stop.addActionListener(this);
 
         ImageIcon restartImage = JMeterUtils.getImage("toolbar/" + iconSize + "/edit-redo-7.png");
-        restart = new JButton(JMeterUtils.getResString("restart")); // $NON-NLS-1$
+        restart = new JButton(JMeterUtils.getResString("restart"));
         restart.setIcon(restartImage);
         restart.addActionListener(this);
         restart.setActionCommand(ACTION_RESTART);
@@ -801,7 +801,7 @@ public class ProxyControlGui extends LogicControllerGui implements JMeterGUIComp
 
         JPanel panel = new JPanel();
         panel.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("proxy_general_lifecycle"))); // $NON-NLS-1$
+                JMeterUtils.getResString("proxy_general_lifecycle")));
         panel.add(start);
         panel.add(Box.createHorizontalStrut(10));
         panel.add(stop);
@@ -814,7 +814,7 @@ public class ProxyControlGui extends LogicControllerGui implements JMeterGUIComp
      * @param iconSize
      */
     JButton createStopButton(String iconSize) {
-        JButton stop = new JButton(JMeterUtils.getResString("stop")); // $NON-NLS-1$
+        JButton stop = new JButton(JMeterUtils.getResString("stop"));
         ImageIcon stopImage = JMeterUtils.getImage("toolbar/" + iconSize + "/process-stop-4.png");
         stop.setIcon(stopImage);
         stop.setActionCommand(ACTION_STOP);
@@ -829,14 +829,14 @@ public class ProxyControlGui extends LogicControllerGui implements JMeterGUIComp
         Dimension portPreferredSize = portField.getPreferredSize();
         portField.setMinimumSize(new Dimension((int) Math.round(portPreferredSize.width*0.75), portPreferredSize.height));
 
-        JLabel label = new JLabel(JMeterUtils.getResString("port")); // $NON-NLS-1$
+        JLabel label = new JLabel(JMeterUtils.getResString("port"));
         label.setLabelFor(portField);
 
         HorizontalPanel panel = new HorizontalPanel();
         panel.add(label);
         panel.add(portField);
 
-        sslDomains = new JLabeledTextField(JMeterUtils.getResString("proxy_domains")); // $NON-NLS-1$
+        sslDomains = new JLabeledTextField(JMeterUtils.getResString("proxy_domains"));
         sslDomains.setEnabled(ProxyControl.isDynamicMode());
         if (ProxyControl.isDynamicMode()) {
             sslDomains.setToolTipText(JMeterUtils.getResString("proxy_domains_dynamic_mode_tooltip"));
@@ -857,7 +857,7 @@ public class ProxyControlGui extends LogicControllerGui implements JMeterGUIComp
 
         JPanel gPane = new JPanel(gridBagLayout);
         gPane.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("proxy_general_settings"))); // $NON-NLS-1$
+                JMeterUtils.getResString("proxy_general_settings")));
         gPane.add(panel, gbc.clone());
         gbc.gridx++;
         gbc.fill=GridBagConstraints.HORIZONTAL;
@@ -867,24 +867,24 @@ public class ProxyControlGui extends LogicControllerGui implements JMeterGUIComp
     }
 
     private JPanel createTestPlanContentPanel() {
-        httpHeaders = new JCheckBox(JMeterUtils.getResString("proxy_headers")); // $NON-NLS-1$
+        httpHeaders = new JCheckBox(JMeterUtils.getResString("proxy_headers"));
         httpHeaders.setSelected(true); // maintain original default
         httpHeaders.addActionListener(this);
         httpHeaders.setActionCommand(ENABLE_RESTART);
 
-        addAssertions = new JCheckBox(JMeterUtils.getResString("proxy_assertions")); // $NON-NLS-1$
+        addAssertions = new JCheckBox(JMeterUtils.getResString("proxy_assertions"));
         addAssertions.setSelected(false);
         addAssertions.addActionListener(this);
         addAssertions.setActionCommand(ENABLE_RESTART);
 
-        regexMatch = new JCheckBox(JMeterUtils.getResString("proxy_regex")); // $NON-NLS-1$
+        regexMatch = new JCheckBox(JMeterUtils.getResString("proxy_regex"));
         regexMatch.setSelected(false);
         regexMatch.addActionListener(this);
         regexMatch.setActionCommand(ENABLE_RESTART);
 
         JPanel contentPanel = new JPanel(new MigLayout("fillx, wrap 3"));
         contentPanel.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("proxy_test_plan_content"))); // $NON-NLS-1$
+                JMeterUtils.getResString("proxy_test_plan_content")));
         addTargetToPanel(contentPanel);
         addGroupingToPanel(contentPanel);
         contentPanel.add(httpHeaders);
@@ -904,34 +904,34 @@ public class ProxyControlGui extends LogicControllerGui implements JMeterGUIComp
         samplerTypeName.setSelectedItem(USE_DEFAULT_HTTP_IMPL);
         samplerTypeName.addItemListener(this);
 
-        JLabel labelSamplerType = new JLabel(JMeterUtils.getResString("proxy_sampler_type")); // $NON-NLS-1$
+        JLabel labelSamplerType = new JLabel(JMeterUtils.getResString("proxy_sampler_type"));
         labelSamplerType.setLabelFor(samplerTypeName);
 
-        samplerRedirectAutomatically = new JCheckBox(JMeterUtils.getResString("follow_redirects_auto")); // $NON-NLS-1$
+        samplerRedirectAutomatically = new JCheckBox(JMeterUtils.getResString("follow_redirects_auto"));
         samplerRedirectAutomatically.setSelected(false);
         samplerRedirectAutomatically.addActionListener(this);
         samplerRedirectAutomatically.setActionCommand(ENABLE_RESTART);
 
-        samplerFollowRedirects = new JCheckBox(JMeterUtils.getResString("follow_redirects")); // $NON-NLS-1$
+        samplerFollowRedirects = new JCheckBox(JMeterUtils.getResString("follow_redirects"));
         samplerFollowRedirects.setSelected(true);
         samplerFollowRedirects.addActionListener(this);
         samplerFollowRedirects.setActionCommand(ENABLE_RESTART);
 
-        useKeepAlive = new JCheckBox(JMeterUtils.getResString("use_keepalive")); // $NON-NLS-1$
+        useKeepAlive = new JCheckBox(JMeterUtils.getResString("use_keepalive"));
         useKeepAlive.setSelected(true);
         useKeepAlive.addActionListener(this);
         useKeepAlive.setActionCommand(ENABLE_RESTART);
 
-        samplerDownloadImages = new JCheckBox(JMeterUtils.getResString("web_testing_retrieve_images")); // $NON-NLS-1$
+        samplerDownloadImages = new JCheckBox(JMeterUtils.getResString("web_testing_retrieve_images"));
         samplerDownloadImages.setSelected(false);
         samplerDownloadImages.addActionListener(this);
         samplerDownloadImages.setActionCommand(ENABLE_RESTART);
 
         DefaultComboBoxModel<String> choice = new DefaultComboBoxModel<>();
-        choice.addElement(JMeterUtils.getResString("sample_name_prefix")); // $NON-NLS-1$
-        choice.addElement(JMeterUtils.getResString("sample_name_transaction")); // $NON-NLS-1$
-        choice.addElement(JMeterUtils.getResString("sample_name_suffix")); // $NON-NLS-1$
-        choice.addElement(JMeterUtils.getResString("sample_name_formatter")); // $NON-NLS-1$
+        choice.addElement(JMeterUtils.getResString("sample_name_prefix"));
+        choice.addElement(JMeterUtils.getResString("sample_name_transaction"));
+        choice.addElement(JMeterUtils.getResString("sample_name_suffix"));
+        choice.addElement(JMeterUtils.getResString("sample_name_formatter"));
         httpSampleNamingMode = new JComboBox<>(choice);
         httpSampleNamingMode.setName(HTTP_SAMPLER_NAMING_MODE);
         httpSampleNamingMode.addItemListener(this);
@@ -950,15 +950,15 @@ public class ProxyControlGui extends LogicControllerGui implements JMeterGUIComp
         proxyPauseHTTPSample.addKeyListener(this);
         proxyPauseHTTPSample.setName(PROXY_PAUSE_HTTP_SAMPLER);
         proxyPauseHTTPSample.setActionCommand(ENABLE_RESTART);
-        JLabel labelProxyPause = new JLabel(JMeterUtils.getResString("proxy_pause_http_sampler")); // $NON-NLS-1$
+        JLabel labelProxyPause = new JLabel(JMeterUtils.getResString("proxy_pause_http_sampler"));
         labelProxyPause.setLabelFor(proxyPauseHTTPSample);
 
-        JLabel labelDefaultEncoding = new JLabel(JMeterUtils.getResString("proxy_default_encoding")); // $NON-NLS-1$
+        JLabel labelDefaultEncoding = new JLabel(JMeterUtils.getResString("proxy_default_encoding"));
         labelDefaultEncoding.setLabelFor(defaultEncoding);
 
         JPanel panel = new JPanel(new MigLayout("fillx, wrap 3"));
         panel.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("proxy_sampler_settings"))); // $NON-NLS-1$
+                JMeterUtils.getResString("proxy_sampler_settings")));
         JLabel labelSampleTransactionName = new JLabel(JMeterUtils.getResString("sample_name_transaction"));
         labelSampleTransactionName.setLabelFor(prefixHTTPSampleName);
         panel.add(labelSampleTransactionName);
@@ -1009,7 +1009,7 @@ public class ProxyControlGui extends LogicControllerGui implements JMeterGUIComp
         targetNodes.setActionCommand(CHANGE_TARGET);
         // Action listener will be added later
 
-        JLabel label = new JLabel(JMeterUtils.getResString("proxy_target")); // $NON-NLS-1$
+        JLabel label = new JLabel(JMeterUtils.getResString("proxy_target"));
         label.setLabelFor(targetNodes);
 
         destPanel.add(label);
@@ -1030,16 +1030,16 @@ public class ProxyControlGui extends LogicControllerGui implements JMeterGUIComp
         DefaultComboBoxModel<String> m = new DefaultComboBoxModel<>();
         // Note: position of these elements in the menu *must* match the
         // corresponding ProxyControl.GROUPING_* values.
-        m.addElement(JMeterUtils.getResString("grouping_no_groups")); // $NON-NLS-1$
-        m.addElement(JMeterUtils.getResString("grouping_add_separators")); // $NON-NLS-1$
-        m.addElement(JMeterUtils.getResString("grouping_in_controllers")); // $NON-NLS-1$
-        m.addElement(JMeterUtils.getResString("grouping_store_first_only")); // $NON-NLS-1$
-        m.addElement(JMeterUtils.getResString("grouping_in_transaction_controllers")); // $NON-NLS-1$
+        m.addElement(JMeterUtils.getResString("grouping_no_groups"));
+        m.addElement(JMeterUtils.getResString("grouping_add_separators"));
+        m.addElement(JMeterUtils.getResString("grouping_in_controllers"));
+        m.addElement(JMeterUtils.getResString("grouping_store_first_only"));
+        m.addElement(JMeterUtils.getResString("grouping_in_transaction_controllers"));
         groupingMode = new JComboBox<>(m);
         groupingMode.setSelectedIndex(0);
         groupingMode.addItemListener(this);
 
-        JLabel label2 = new JLabel(JMeterUtils.getResString("grouping_mode")); // $NON-NLS-1$
+        JLabel label2 = new JLabel(JMeterUtils.getResString("grouping_mode"));
         label2.setLabelFor(groupingMode);
 
         destPanel.add(label2);
@@ -1050,22 +1050,22 @@ public class ProxyControlGui extends LogicControllerGui implements JMeterGUIComp
         contentTypeInclude = new JTextField(35);
         contentTypeInclude.addKeyListener(this);
         contentTypeInclude.setName(ENABLE_RESTART);
-        JLabel labelInclude = new JLabel(JMeterUtils.getResString("proxy_content_type_include")); // $NON-NLS-1$
+        JLabel labelInclude = new JLabel(JMeterUtils.getResString("proxy_content_type_include"));
         labelInclude.setLabelFor(contentTypeInclude);
         // Default value
-        contentTypeInclude.setText(JMeterUtils.getProperty("proxy.content_type_include")); // $NON-NLS-1$
+        contentTypeInclude.setText(JMeterUtils.getProperty("proxy.content_type_include"));
 
         contentTypeExclude = new JTextField(35);
         contentTypeExclude.addKeyListener(this);
         contentTypeExclude.setName(ENABLE_RESTART);
-        JLabel labelExclude = new JLabel(JMeterUtils.getResString("proxy_content_type_exclude")); // $NON-NLS-1$
+        JLabel labelExclude = new JLabel(JMeterUtils.getResString("proxy_content_type_exclude"));
         labelExclude.setLabelFor(contentTypeExclude);
         // Default value
-        contentTypeExclude.setText(JMeterUtils.getProperty("proxy.content_type_exclude")); // $NON-NLS-1$
+        contentTypeExclude.setText(JMeterUtils.getProperty("proxy.content_type_exclude"));
 
         HorizontalPanel panel = new HorizontalPanel();
         panel.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("proxy_content_type_filter"))); // $NON-NLS-1$
+                JMeterUtils.getResString("proxy_content_type_filter")));
         panel.add(labelInclude);
         panel.add(contentTypeInclude);
         panel.add(labelExclude);
@@ -1083,7 +1083,7 @@ public class ProxyControlGui extends LogicControllerGui implements JMeterGUIComp
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("patterns_to_include"))); // $NON-NLS-1$
+                JMeterUtils.getResString("patterns_to_include")));
 
         panel.add(GuiUtils.emptyBorder(new JScrollPane(includeTable)), BorderLayout.CENTER);
         panel.add(createTableButtonPanel(ADD_INCLUDE, DELETE_INCLUDE, ADD_TO_INCLUDE_FROM_CLIPBOARD, null), BorderLayout.SOUTH);
@@ -1100,7 +1100,7 @@ public class ProxyControlGui extends LogicControllerGui implements JMeterGUIComp
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("patterns_to_exclude"))); // $NON-NLS-1$
+                JMeterUtils.getResString("patterns_to_exclude")));
 
         panel.add(GuiUtils.emptyBorder(new JScrollPane(excludeTable)), BorderLayout.CENTER);
         panel.add(createTableButtonPanel(ADD_EXCLUDE, DELETE_EXCLUDE, ADD_TO_EXCLUDE_FROM_CLIPBOARD, ADD_SUGGESTED_EXCLUDES), BorderLayout.SOUTH);
@@ -1111,9 +1111,9 @@ public class ProxyControlGui extends LogicControllerGui implements JMeterGUIComp
     private JPanel createNotifyListenersPanel() {
         JPanel panel = new JPanel();
         panel.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("notify_child_listeners_fr"))); // $NON-NLS-1$
+                JMeterUtils.getResString("notify_child_listeners_fr")));
 
-        notifyChildSamplerListenerOfFilteredSamplersCB = new JCheckBox(JMeterUtils.getResString("notify_child_listeners_fr")); // $NON-NLS-1$
+        notifyChildSamplerListenerOfFilteredSamplersCB = new JCheckBox(JMeterUtils.getResString("notify_child_listeners_fr"));
         notifyChildSamplerListenerOfFilteredSamplersCB.setSelected(false);
         notifyChildSamplerListenerOfFilteredSamplersCB.addActionListener(this);
         notifyChildSamplerListenerOfFilteredSamplersCB.setActionCommand(ENABLE_RESTART);
@@ -1125,25 +1125,25 @@ public class ProxyControlGui extends LogicControllerGui implements JMeterGUIComp
     private JPanel createTableButtonPanel(String addCommand, String deleteCommand, String copyFromClipboard, String addSuggestedExcludes) {
         JPanel buttonPanel = new JPanel();
 
-        JButton addButton = new JButton(JMeterUtils.getResString("add")); // $NON-NLS-1$
+        JButton addButton = new JButton(JMeterUtils.getResString("add"));
         addButton.setActionCommand(addCommand);
         addButton.addActionListener(this);
         buttonPanel.add(addButton);
 
-        JButton deleteButton = new JButton(JMeterUtils.getResString("delete")); // $NON-NLS-1$
+        JButton deleteButton = new JButton(JMeterUtils.getResString("delete"));
         deleteButton.setActionCommand(deleteCommand);
         deleteButton.addActionListener(this);
         buttonPanel.add(deleteButton);
 
         /** A button for adding new excludes/includes to the table from the clipboard. */
-        JButton addFromClipboard = new JButton(JMeterUtils.getResString("add_from_clipboard")); // $NON-NLS-1$
+        JButton addFromClipboard = new JButton(JMeterUtils.getResString("add_from_clipboard"));
         addFromClipboard.setActionCommand(copyFromClipboard);
         addFromClipboard.addActionListener(this);
         buttonPanel.add(addFromClipboard);
 
         if(addSuggestedExcludes != null) {
             /** A button for adding suggested excludes. */
-            JButton addFromSuggestedExcludes = new JButton(JMeterUtils.getResString("add_from_suggested_excludes")); // $NON-NLS-1$
+            JButton addFromSuggestedExcludes = new JButton(JMeterUtils.getResString("add_from_suggested_excludes"));
             addFromSuggestedExcludes.setActionCommand(addSuggestedExcludes);
             addFromSuggestedExcludes.addActionListener(this);
             buttonPanel.add(addFromSuggestedExcludes);
@@ -1163,7 +1163,7 @@ public class ProxyControlGui extends LogicControllerGui implements JMeterGUIComp
         if (gp != null) {
             root = (JMeterTreeNode) GuiPackage.getInstance().getTreeModel().getRoot();
             targetNodesModel
-                    .addElement(new TreeNodeWrapper(null, JMeterUtils.getResString("use_recording_controller"))); // $NON-NLS-1$
+                    .addElement(new TreeNodeWrapper(null, JMeterUtils.getResString("use_recording_controller")));
             buildNodesModel(root, "", 0);
         }
         TreeNodeWrapper choice = null;
@@ -1214,7 +1214,7 @@ public class ProxyControlGui extends LogicControllerGui implements JMeterGUIComp
     @Override
     public JPopupMenu createPopupMenu() {
         JPopupMenu pop = new JPopupMenu();
-        JMenu addMenu = new JMenu(JMeterUtils.getResString("add")); // $NON-NLS-1$
+        JMenu addMenu = new JMenu(JMeterUtils.getResString("add"));
         addMenu.add(MenuFactory.makeMenu(MenuFactory.TIMERS, ActionNames.ADD));
         addMenu.add(MenuFactory.makeMenu(MenuFactory.PRE_PROCESSORS, ActionNames.ADD));
         addMenu.add(MenuFactory.makeMenu(MenuFactory.LISTENERS, ActionNames.ADD));

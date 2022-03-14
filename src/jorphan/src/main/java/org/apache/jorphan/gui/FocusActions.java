@@ -57,7 +57,7 @@ class FocusActions {
 
     private static class TransferFocusAction extends AbstractAction {
         public TransferFocusAction() {
-            super("Transfer focus forward"); // $NON-NLS-1$
+            super("Transfer focus forward");
         }
 
         @Override
@@ -71,7 +71,7 @@ class FocusActions {
 
     private static class TransferFocusBackwardAction extends AbstractAction {
         public TransferFocusBackwardAction() {
-            super("Transfer focus backward"); // $NON-NLS-1$
+            super("Transfer focus backward");
         }
 
         @Override

@@ -56,32 +56,32 @@ public class CookieManager extends ConfigTestElement implements TestStateListene
     private static final Logger log = LoggerFactory.getLogger(CookieManager.class);
 
     //++ JMX tag values
-    private static final String CLEAR = "CookieManager.clearEachIteration";// $NON-NLS-1$
-    private static final String COOKIES = "CookieManager.cookies";// $NON-NLS-1$
+    private static final String CLEAR = "CookieManager.clearEachIteration";
+    private static final String COOKIES = "CookieManager.cookies";
     private static final String POLICY = "CookieManager.policy"; //$NON-NLS-1$
     private static final String IMPLEMENTATION = "CookieManager.implementation"; //$NON-NLS-1$
-    private static final String CONTROLLED_BY_THREADGROUP = "CookieManager.controlledByThreadGroup";// $NON-NLS-1$
+    private static final String CONTROLLED_BY_THREADGROUP = "CookieManager.controlledByThreadGroup";
     //-- JMX tag values
 
     private static final String TAB = "\t"; //$NON-NLS-1$
 
     // See bug 33796
     private static final boolean DELETE_NULL_COOKIES =
-        JMeterUtils.getPropDefault("CookieManager.delete_null_cookies", true);// $NON-NLS-1$
+        JMeterUtils.getPropDefault("CookieManager.delete_null_cookies", true);
 
     // See bug 28715
     // Package protected for tests
     static final boolean ALLOW_VARIABLE_COOKIES
-        = JMeterUtils.getPropDefault("CookieManager.allow_variable_cookies", true);// $NON-NLS-1$
+        = JMeterUtils.getPropDefault("CookieManager.allow_variable_cookies", true);
 
     private static final String COOKIE_NAME_PREFIX =
         JMeterUtils.getPropDefault("CookieManager.name.prefix", "COOKIE_").trim();// $NON-NLS-1$ $NON-NLS-2$
 
     private static final boolean SAVE_COOKIES =
-        JMeterUtils.getPropDefault("CookieManager.save.cookies", false);// $NON-NLS-1$
+        JMeterUtils.getPropDefault("CookieManager.save.cookies", false);
 
     private static final boolean CHECK_COOKIES =
-        JMeterUtils.getPropDefault("CookieManager.check.cookies", true);// $NON-NLS-1$
+        JMeterUtils.getPropDefault("CookieManager.check.cookies", true);
 
     static {
         log.info("Settings: Delete null: {} Check: {} Allow variable: {} Save: {} Prefix: {}",
@@ -180,11 +180,11 @@ public class CookieManager extends ConfigTestElement implements TestStateListene
     public void save(String authFile) throws IOException {
         File file = new File(authFile);
         if (!file.isAbsolute()) {
-            file = new File(System.getProperty("user.dir") // $NON-NLS-1$
+            file = new File(System.getProperty("user.dir")
                     + File.separator + authFile);
         }
         try(PrintWriter writer = new PrintWriter(new FileWriter(file))) { // TODO Charset ?
-            writer.println("# JMeter generated Cookie file");// $NON-NLS-1$
+            writer.println("# JMeter generated Cookie file");
             long now = System.currentTimeMillis();
             for (JMeterProperty jMeterProperty : getCookies()) {
                 Cookie cook = (Cookie) jMeterProperty.getObjectValue();
@@ -210,7 +210,7 @@ public class CookieManager extends ConfigTestElement implements TestStateListene
     public void addFile(String cookieFile) throws IOException {
         File file = new File(cookieFile);
         if (!file.isAbsolute()) {
-            file = new File(System.getProperty("user.dir") // $NON-NLS-1$
+            file = new File(System.getProperty("user.dir")
                     + File.separator + cookieFile);
         }
         BufferedReader reader = null;

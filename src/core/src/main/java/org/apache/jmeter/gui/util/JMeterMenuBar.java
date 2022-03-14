@@ -95,12 +95,12 @@ public class JMeterMenuBar extends JMenuBar implements LocaleChangeListener {
     private JMenu searchMenu;
     private List<MenuCreator> menuCreators;
 
-    public static final String SYSTEM_LAF = "System"; // $NON-NLS-1$
-    public static final String CROSS_PLATFORM_LAF = "CrossPlatform"; // $NON-NLS-1$
-    public static final String DARCULA_LAF = "Darcula"; // $NON-NLS-1$
-    public static final String DARKLAF_LAF = "Darklaf"; // $NON-NLS-1$
-    public static final String DARCULA_LAF_CLASS = "com.bulenkov.darcula.DarculaLaf"; // $NON-NLS-1$
-    public static final String DARKLAF_LAF_CLASS = "com.github.weisj.darklaf.DarkLaf"; // $NON-NLS-1$
+    public static final String SYSTEM_LAF = "System";
+    public static final String CROSS_PLATFORM_LAF = "CrossPlatform";
+    public static final String DARCULA_LAF = "Darcula";
+    public static final String DARKLAF_LAF = "Darklaf";
+    public static final String DARCULA_LAF_CLASS = "com.bulenkov.darcula.DarculaLaf";
+    public static final String DARKLAF_LAF_CLASS = "com.github.weisj.darklaf.DarkLaf";
 
     public JMeterMenuBar() {
         // List for recent files menu items
@@ -396,11 +396,11 @@ public class JMeterMenuBar extends JMenuBar implements LocaleChangeListener {
         lang.add(Locale.ENGLISH.toString()); // en
         lang.add(Locale.FRENCH.toString()); // fr
         lang.add(Locale.GERMAN.toString()); // de
-        lang.add("no"); // $NON-NLS-1$
-        lang.add("pl"); // $NON-NLS-1$
-        lang.add("pt_BR"); // $NON-NLS-1$
-        lang.add("es"); // $NON-NLS-1$
-        lang.add("tr"); // $NON-NLS-1$
+        lang.add("no");
+        lang.add("pl");
+        lang.add("pt_BR");
+        lang.add("es");
+        lang.add("tr");
         lang.add(Locale.JAPANESE.toString()); // ja
         lang.add(Locale.SIMPLIFIED_CHINESE.toString()); // zh_CN
         lang.add(Locale.TRADITIONAL_CHINESE.toString()); // zh_TW

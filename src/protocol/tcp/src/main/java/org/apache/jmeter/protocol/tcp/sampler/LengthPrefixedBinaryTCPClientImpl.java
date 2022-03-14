@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
 public class LengthPrefixedBinaryTCPClientImpl extends TCPClientDecorator {
     private static final Logger log = LoggerFactory.getLogger(LengthPrefixedBinaryTCPClientImpl.class);
 
-    private final int lengthPrefixLen = JMeterUtils.getPropDefault("tcp.binarylength.prefix.length", 2); // $NON-NLS-1$
+    private final int lengthPrefixLen = JMeterUtils.getPropDefault("tcp.binarylength.prefix.length", 2);
 
     public LengthPrefixedBinaryTCPClientImpl() {
         super(new BinaryTCPClientImpl());

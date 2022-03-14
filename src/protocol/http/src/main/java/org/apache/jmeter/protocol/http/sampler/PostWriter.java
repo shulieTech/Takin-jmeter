@@ -41,11 +41,11 @@ import org.apache.jorphan.util.JOrphanUtils;
  */
 public class PostWriter {
 
-    private static final String DASH_DASH = "--";  // $NON-NLS-1$
+    private static final String DASH_DASH = "--";
     private static final byte[] DASH_DASH_BYTES = {'-', '-'};
 
     /** The boundary string between multiparts */
-    protected static final String BOUNDARY = "---------------------------7d159c1302d0y0"; // $NON-NLS-1$
+    protected static final String BOUNDARY = "---------------------------7d159c1302d0y0";
 
     private static final byte[] CRLF = { 0x0d, 0x0A };
 
@@ -121,7 +121,7 @@ public class PostWriter {
                 // Write the actual file content
                 writeFileToStream(file.getPath(), out);
                 // We just add placeholder text for file content
-                postedBody.append("<actual file content, not shown here>"); // $NON-NLS-1$
+                postedBody.append("<actual file content, not shown here>");
                 // Write the end of multipart file
                 byte[] fileMultipartEndDivider = getFileMultipartEndDivider();
                 out.write(fileMultipartEndDivider);
@@ -152,7 +152,7 @@ public class PostWriter {
                 out.close();
 
                 // We just add placeholder text for file content
-                postedBody.append("<actual file content, not shown here>"); // $NON-NLS-1$
+                postedBody.append("<actual file content, not shown here>");
             }
             else if (formDataUrlEncoded != null){ // may be null for PUT
                 // In an application/x-www-form-urlencoded request, we only support
@@ -183,7 +183,7 @@ public class PostWriter {
             // Set the content type
             connection.setRequestProperty(
                     HTTPConstants.HEADER_CONTENT_TYPE,
-                    HTTPConstants.MULTIPART_FORM_DATA + "; boundary=" + getBoundary()); // $NON-NLS-1$
+                    HTTPConstants.MULTIPART_FORM_DATA + "; boundary=" + getBoundary());
 
             // Write the form section
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -388,13 +388,13 @@ public class PostWriter {
     private void writeStartFileMultipart(OutputStream out, String filename,
             String nameField, String mimetype)
             throws IOException {
-        write(out, "Content-Disposition: form-data; name=\""); // $NON-NLS-1$
+        write(out, "Content-Disposition: form-data; name=\"");
         write(out, nameField);
-        write(out, "\"; filename=\"");// $NON-NLS-1$
+        write(out, "\"; filename=\"");
         write(out, new File(filename).getName());
-        writeln(out, "\""); // $NON-NLS-1$
-        writeln(out, "Content-Type: " + mimetype); // $NON-NLS-1$
-        writeln(out, "Content-Transfer-Encoding: binary"); // $NON-NLS-1$
+        writeln(out, "\"");
+        writeln(out, "Content-Type: " + mimetype);
+        writeln(out, "Content-Transfer-Encoding: binary");
         out.write(CRLF);
     }
 
@@ -438,8 +438,8 @@ public class PostWriter {
         throws IOException {
         writeln(out, "Content-Disposition: form-data; name=\"" + name + "\""); // $NON-NLS-1$ // $NON-NLS-2$
         if (!browserCompatibleMultipart){
-            writeln(out, "Content-Type: text/plain; charset=" + charSet); // $NON-NLS-1$
-            writeln(out, "Content-Transfer-Encoding: 8bit"); // $NON-NLS-1$
+            writeln(out, "Content-Type: text/plain; charset=" + charSet);
+            writeln(out, "Content-Transfer-Encoding: 8bit");
         }
         out.write(CRLF);
         out.write(value.getBytes(charSet));

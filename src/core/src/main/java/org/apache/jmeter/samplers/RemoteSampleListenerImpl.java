@@ -37,7 +37,7 @@ public class RemoteSampleListenerImpl extends java.rmi.server.UnicastRemoteObjec
     private final SampleListener sampleListener;
 
     private static final int DEFAULT_LOCAL_PORT = addOffset(
-        JMeterUtils.getPropDefault("client.rmi.localport", 0), 2); // $NON-NLS-1$
+        JMeterUtils.getPropDefault("client.rmi.localport", 0), 2);
 
     public RemoteSampleListenerImpl(Object listener) throws RemoteException {
         super(DEFAULT_LOCAL_PORT, RmiUtils.createClientSocketFactory(),  RmiUtils.createServerSocketFactory());

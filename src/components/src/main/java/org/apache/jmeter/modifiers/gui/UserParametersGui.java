@@ -63,9 +63,9 @@ public class UserParametersGui extends AbstractPreProcessorGui {
 
     private static final Logger log = LoggerFactory.getLogger(UserParametersGui.class);
 
-    private static final String NAME_COL_RESOURCE = "name"; // $NON-NLS-1$
-    private static final String USER_COL_RESOURCE = "user"; // $NON-NLS-1$
-    private static final String UNDERSCORE = "_"; // $NON-NLS-1$
+    private static final String NAME_COL_RESOURCE = "name";
+    private static final String USER_COL_RESOURCE = "user";
+    private static final String UNDERSCORE = "_";
 
     private JTable paramTable;
 
@@ -91,7 +91,7 @@ public class UserParametersGui extends AbstractPreProcessorGui {
 
     @Override
     public String getLabelResource() {
-        return "user_parameters_title"; // $NON-NLS-1$
+        return "user_parameters_title";
     }
 
     @Override
@@ -192,7 +192,7 @@ public class UserParametersGui extends AbstractPreProcessorGui {
         JPanel vertPanel = new VerticalPanel();
         vertPanel.add(makeTitlePanel());
 
-        perIterationCheck = new JCheckBox(JMeterUtils.getResString("update_per_iter"), true); // $NON-NLS-1$
+        perIterationCheck = new JCheckBox(JMeterUtils.getResString("update_per_iter"), true);
         Box perIterationPanel = Box.createHorizontalBox();
         perIterationPanel.add(perIterationCheck);
         perIterationPanel.add(Box.createHorizontalGlue());
@@ -203,7 +203,7 @@ public class UserParametersGui extends AbstractPreProcessorGui {
     }
 
     private JPanel makeParameterPanel() {
-        JLabel tableLabel = new JLabel(JMeterUtils.getResString("user_parameters_table")); // $NON-NLS-1$
+        JLabel tableLabel = new JLabel(JMeterUtils.getResString("user_parameters_table"));
         initTableModel();
         paramTable = new JTable(tableModel);
         paramTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -220,19 +220,19 @@ public class UserParametersGui extends AbstractPreProcessorGui {
     }
 
     protected void initTableModel() {
-        tableModel = new PowerTableModel(new String[] { NAME_COL_RESOURCE, // $NON-NLS-1$
+        tableModel = new PowerTableModel(new String[] { NAME_COL_RESOURCE,
                 getUserColName(numUserColumns) }, new Class[] { String.class, String.class });
     }
 
     private JPanel makeButtonPanel() {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(2, 2));
-        addParameterButton = new JButton(JMeterUtils.getResString("add_parameter")); // $NON-NLS-1$
-        addUserButton = new JButton(JMeterUtils.getResString("add_user")); // $NON-NLS-1$
-        deleteRowButton = new JButton(JMeterUtils.getResString("delete_parameter")); // $NON-NLS-1$
-        deleteColumnButton = new JButton(JMeterUtils.getResString("delete_user")); // $NON-NLS-1$
-        moveRowUpButton = new JButton(JMeterUtils.getResString("up")); // $NON-NLS-1$
-        moveRowDownButton = new JButton(JMeterUtils.getResString("down")); // $NON-NLS-1$
+        addParameterButton = new JButton(JMeterUtils.getResString("add_parameter"));
+        addUserButton = new JButton(JMeterUtils.getResString("add_user"));
+        deleteRowButton = new JButton(JMeterUtils.getResString("delete_parameter"));
+        deleteColumnButton = new JButton(JMeterUtils.getResString("delete_user"));
+        moveRowUpButton = new JButton(JMeterUtils.getResString("up"));
+        moveRowDownButton = new JButton(JMeterUtils.getResString("down"));
         buttonPanel.add(addParameterButton);
         buttonPanel.add(deleteRowButton);
         buttonPanel.add(moveRowUpButton);
@@ -367,7 +367,7 @@ public class UserParametersGui extends AbstractPreProcessorGui {
             int colSelected = paramTable.getSelectedColumn();
             if (colSelected == 0 || colSelected == 1) {
                 JOptionPane.showMessageDialog(null,
-                        JMeterUtils.getResString("column_delete_disallowed"), // $NON-NLS-1$
+                        JMeterUtils.getResString("column_delete_disallowed"),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;

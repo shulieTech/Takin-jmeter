@@ -129,7 +129,7 @@ public class WorkBenchGui extends AbstractJMeterGuiComponent {
                 MenuFactory.ASSERTIONS,
                 MenuFactory.LISTENERS,
                 },
-                JMeterUtils.getResString("add"), // $NON-NLS-1$
+                JMeterUtils.getResString("add"),
                 ActionNames.ADD);
         menu.add(addMenu);
         MenuFactory.addPasteResetMenu(menu);
@@ -139,7 +139,7 @@ public class WorkBenchGui extends AbstractJMeterGuiComponent {
 
     @Override
     public String getLabelResource() {
-        return "workbench_title"; // $NON-NLS-1$
+        return "workbench_title";
     }
 
     /**

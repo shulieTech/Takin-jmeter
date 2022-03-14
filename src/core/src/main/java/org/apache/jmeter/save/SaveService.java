@@ -71,11 +71,11 @@ public class SaveService {
     private static final Logger log = LoggerFactory.getLogger(SaveService.class);
 
     // Names of DataHolder entries for JTL processing
-    public static final String SAMPLE_EVENT_OBJECT = "SampleEvent"; // $NON-NLS-1$
-    public static final String RESULTCOLLECTOR_HELPER_OBJECT = "ResultCollectorHelper"; // $NON-NLS-1$
+    public static final String SAMPLE_EVENT_OBJECT = "SampleEvent";
+    public static final String RESULTCOLLECTOR_HELPER_OBJECT = "ResultCollectorHelper";
 
     // Names of DataHolder entries for JMX processing
-    public static final String TEST_CLASS_NAME = "TestClassName"; // $NON-NLS-1$
+    public static final String TEST_CLASS_NAME = "TestClassName";
 
     private static final class XStreamWrapper extends XStream {
         private XStreamWrapper(ReflectionProvider reflectionProvider) {
@@ -119,16 +119,16 @@ public class SaveService {
     }
 
     // The XML header, with placeholder for encoding, since that is controlled by property
-    private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"<ph>\"?>"; // $NON-NLS-1$
+    private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"<ph>\"?>";
 
     // Default file name
-    private static final String SAVESERVICE_PROPERTIES_FILE = "saveservice.properties"; // $NON-NLS-1$
+    private static final String SAVESERVICE_PROPERTIES_FILE = "saveservice.properties";
 
     // Property name used to define file name
-    private static final String SAVESERVICE_PROPERTIES = "saveservice_properties"; // $NON-NLS-1$
+    private static final String SAVESERVICE_PROPERTIES = "saveservice_properties";
 
     // Define file format versions
-    private static final String VERSION_2_2 = "2.2";  // $NON-NLS-1$
+    private static final String VERSION_2_2 = "2.2";
 
     // Holds the mappings from the saveservice properties file
     // Key: alias Entry: full class name
@@ -142,7 +142,7 @@ public class SaveService {
     // Version information for test plan header
     // This is written to JMX files by ScriptWrapperConverter
     // Also to JTL files by ResultCollector
-    private static final String VERSION = "1.2"; // $NON-NLS-1$
+    private static final String VERSION = "1.2";
 
     // This is written to JMX files by ScriptWrapperConverter
     private static String propertiesVersion = "";// read from properties file; written to JMX files
@@ -152,12 +152,12 @@ public class SaveService {
     static final String PROPVERSION = "5.0";// Expected version $NON-NLS-1$
 
     // Internal information only
-    private static String fileVersion = ""; // computed from saveservice.properties file// $NON-NLS-1$
+    private static String fileVersion = ""; // computed from saveservice.properties file
     // Must match the sha1 checksum of the file saveservice.properties (without newline character),
     // used to ensure saveservice.properties and SaveService are updated simultaneously
     static final String FILEVERSION = "56ae8319b2b02d33eb1028c4460db770cf246b5c"; // Expected value $NON-NLS-1$
 
-    private static String fileEncoding = ""; // read from properties file// $NON-NLS-1$
+    private static String fileEncoding = ""; // read from properties file
 
     static {
         log.info("Testplan (JMX) version: {}. Testlog (JTL) version: {}", VERSION_2_2, VERSION_2_2);
@@ -227,17 +227,17 @@ public class SaveService {
             for (Map.Entry<Object, Object> me : nameMap.entrySet()) {
                 String key = (String) me.getKey();
                 String val = (String) me.getValue();
-                if (!key.startsWith("_")) { // $NON-NLS-1$
+                if (!key.startsWith("_")) {
                     makeAlias(key, val);
                 } else {
                     // process special keys
-                    if (key.equalsIgnoreCase("_version")) { // $NON-NLS-1$
+                    if (key.equalsIgnoreCase("_version")) {
                         propertiesVersion = val;
                         log.info("Using SaveService properties version {}", propertiesVersion);
-                    } else if (key.equalsIgnoreCase("_file_version")) { // $NON-NLS-1$
+                    } else if (key.equalsIgnoreCase("_file_version")) {
                         log.info("SaveService properties file version is now computed by a checksum,"
                                 + "the property _file_version is not used anymore and can be removed.");
-                    } else if (key.equalsIgnoreCase("_file_encoding")) { // $NON-NLS-1$
+                    } else if (key.equalsIgnoreCase("_file_encoding")) {
                         fileEncoding = val;
                         log.info("Using SaveService properties file encoding {}", fileEncoding);
                     } else {

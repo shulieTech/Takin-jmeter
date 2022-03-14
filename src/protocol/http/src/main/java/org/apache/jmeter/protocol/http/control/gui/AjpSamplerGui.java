@@ -41,7 +41,7 @@ public class AjpSamplerGui extends HttpTestSampleGui {
     // Use this instead of getLabelResource() otherwise getDocAnchor() below does not work
     @Override
     public String getStaticLabel() {
-        return JMeterUtils.getResString("ajp_sampler_title"); // $NON-NLS-1$
+        return JMeterUtils.getResString("ajp_sampler_title");
     }
 
     @Override

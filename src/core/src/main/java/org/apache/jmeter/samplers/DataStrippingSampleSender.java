@@ -42,11 +42,11 @@ public class DataStrippingSampleSender extends AbstractSampleSender implements S
     private static final boolean DEFAULT_STRIP_ALSO_ON_ERROR = true;
 
     private static final boolean SERVER_CONFIGURED_STRIP_ALSO_ON_ERROR =
-            JMeterUtils.getPropDefault("sample_sender_strip_also_on_error", DEFAULT_STRIP_ALSO_ON_ERROR); // $NON-NLS-1$
+            JMeterUtils.getPropDefault("sample_sender_strip_also_on_error", DEFAULT_STRIP_ALSO_ON_ERROR);
 
     // instance fields are copied from the client instance
     private final boolean clientConfiguredStripAlsoOnError =
-            JMeterUtils.getPropDefault("sample_sender_strip_also_on_error", DEFAULT_STRIP_ALSO_ON_ERROR); // $NON-NLS-1$
+            JMeterUtils.getPropDefault("sample_sender_strip_also_on_error", DEFAULT_STRIP_ALSO_ON_ERROR);
 
 
     private final RemoteSampleListener listener;
@@ -60,7 +60,7 @@ public class DataStrippingSampleSender extends AbstractSampleSender implements S
      */
     @Deprecated
     public DataStrippingSampleSender(){
-        log.warn("Constructor only intended for use in testing"); // $NON-NLS-1$
+        log.warn("Constructor only intended for use in testing");
         listener = null;
         decoratedSender = null;
     }

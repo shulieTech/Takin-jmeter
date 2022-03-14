@@ -84,13 +84,13 @@ public class SamplerMetric {
 
     /**
      * 添加sumRt 增加计算rt精准性
-     * add by lipeng
+     * add by 李鹏
      */
     private long sumRt;
 
     /**
      * 添加业务活动URL
-     * add by lipeng
+     * add by 李鹏
      */
     private String transactionUrl;
     /**
@@ -202,7 +202,7 @@ public class SamplerMetric {
         }
         addHits(result, isCumulated);
         addNetworkData(result, isCumulated);
-        //添加sumRt计算 add by lipeng
+        //添加sumRt计算 add by 李鹏
         this.sumRt += result.getTime();
     }
 

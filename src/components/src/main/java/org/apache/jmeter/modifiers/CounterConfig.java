@@ -40,19 +40,19 @@ public class CounterConfig extends AbstractTestElement
 
     private static final long serialVersionUID = 235L;
 
-    private static final String START = "CounterConfig.start"; // $NON-NLS-1$
+    private static final String START = "CounterConfig.start";
 
-    private static final String END = "CounterConfig.end"; // $NON-NLS-1$
+    private static final String END = "CounterConfig.end";
 
-    private static final String INCREMENT = "CounterConfig.incr"; // $NON-NLS-1$
+    private static final String INCREMENT = "CounterConfig.incr";
 
-    private static final String FORMAT = "CounterConfig.format"; // $NON-NLS-1$
+    private static final String FORMAT = "CounterConfig.format";
 
-    private static final String PER_USER = "CounterConfig.per_user"; // $NON-NLS-1$
+    private static final String PER_USER = "CounterConfig.per_user";
 
-    private static final String VAR_NAME = "CounterConfig.name"; // $NON-NLS-1$
+    private static final String VAR_NAME = "CounterConfig.name";
 
-    private static final String RESET_ON_THREAD_GROUP_ITERATION = "CounterConfig.reset_on_tg_iteration"; // $NON-NLS-1$
+    private static final String RESET_ON_THREAD_GROUP_ITERATION = "CounterConfig.reset_on_tg_iteration";
 
     private static final boolean RESET_ON_THREAD_GROUP_ITERATION_DEFAULT = false;
 

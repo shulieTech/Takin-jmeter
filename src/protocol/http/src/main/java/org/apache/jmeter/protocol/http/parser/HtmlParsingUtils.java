@@ -97,7 +97,7 @@ public final class HtmlParsingUtils {
 
         final String path = config.getPath();
         if (!newLink.getPath().equals(path)
-                && !matcher.matches(newLink.getPath(), patternCache.getPattern("[/]*" + path, // $NON-NLS-1$
+                && !matcher.matches(newLink.getPath(), patternCache.getPattern("[/]*" + path,
                         Perl5Compiler.READ_ONLY_MASK))) {
             return false;
         }
@@ -105,7 +105,7 @@ public final class HtmlParsingUtils {
         for (JMeterProperty argument : arguments) {
             Argument item = (Argument) argument.getObjectValue();
             final String name = item.getName();
-            if (!query.contains(name + "=")) { // $NON-NLS-1$
+            if (!query.contains(name + "=")) {
                 if (!(matcher.contains(query, patternCache.getPattern(name, Perl5Compiler.READ_ONLY_MASK)))) {
                     return false;
                 }
@@ -291,36 +291,36 @@ public final class HtmlParsingUtils {
         try {
             if (inForm) {
                 HTTPSamplerBase url = urlConfigs.getLast();
-                if (tag.equalsIgnoreCase("form")) { // $NON-NLS-1$
+                if (tag.equalsIgnoreCase("form")) {
                     try {
                         urlConfigs.add(createFormUrlConfig(tempNode, context));
                     } catch (MalformedURLException e) {
                         inForm = false;
                     }
-                } else if (tag.equalsIgnoreCase("input")) { // $NON-NLS-1$
-                    url.addEncodedArgument(getAttributeValue(nodeAtts, "name"),  // $NON-NLS-1$
-                            getAttributeValue(nodeAtts, "value")); // $NON-NLS-1$
-                } else if (tag.equalsIgnoreCase("textarea")) { // $NON-NLS-1$
+                } else if (tag.equalsIgnoreCase("input")) {
+                    url.addEncodedArgument(getAttributeValue(nodeAtts, "name"),
+                            getAttributeValue(nodeAtts, "value"));
+                } else if (tag.equalsIgnoreCase("textarea")) {
                     try {
-                        url.addEncodedArgument(getAttributeValue(nodeAtts, "name"),  // $NON-NLS-1$
+                        url.addEncodedArgument(getAttributeValue(nodeAtts, "name"),
                                 tempNode.getFirstChild().getNodeValue());
                     } catch (NullPointerException e) {
-                        url.addArgument(getAttributeValue(nodeAtts, "name"), ""); // $NON-NLS-1$
+                        url.addArgument(getAttributeValue(nodeAtts, "name"), "");
                     }
-                } else if (tag.equalsIgnoreCase("select")) { // $NON-NLS-1$
-                    selectName = getAttributeValue(nodeAtts, "name"); // $NON-NLS-1$
-                } else if (tag.equalsIgnoreCase("option")) { // $NON-NLS-1$
-                    String value = getAttributeValue(nodeAtts, "value"); // $NON-NLS-1$
+                } else if (tag.equalsIgnoreCase("select")) {
+                    selectName = getAttributeValue(nodeAtts, "name");
+                } else if (tag.equalsIgnoreCase("option")) {
+                    String value = getAttributeValue(nodeAtts, "value");
                     if (value == null) {
                         try {
                             value = tempNode.getFirstChild().getNodeValue();
                         } catch (NullPointerException e) {
-                            value = ""; // $NON-NLS-1$
+                            value = "";
                         }
                     }
                     url.addEncodedArgument(selectName, value);
                 }
-            } else if (tag.equalsIgnoreCase("form")) { // $NON-NLS-1$
+            } else if (tag.equalsIgnoreCase("form")) {
                 try {
                     urlConfigs.add(createFormUrlConfig(tempNode, context));
                     inForm = true;
@@ -342,41 +342,41 @@ public final class HtmlParsingUtils {
         try {
             return att.getNamedItem(attName).getNodeValue();
         } catch (Exception ex) {
-            return ""; // $NON-NLS-1$
+            return "";
         }
     }
 
     private static String printNode(Node node) {
         StringBuilder buf = new StringBuilder();
-        buf.append('<'); // $NON-NLS-1$
+        buf.append('<');
         buf.append(node.getNodeName());
         NamedNodeMap atts = node.getAttributes();
         for (int x = 0; x < atts.getLength(); x++) {
-            buf.append(' '); // $NON-NLS-1$
+            buf.append(' ');
             buf.append(atts.item(x).getNodeName());
-            buf.append("=\""); // $NON-NLS-1$
+            buf.append("=\"");
             buf.append(atts.item(x).getNodeValue());
-            buf.append("\""); // $NON-NLS-1$
+            buf.append("\"");
         }
 
-        buf.append('>'); // $NON-NLS-1$
+        buf.append('>');
 
         return buf.toString();
     }
 
     private static HTTPSamplerBase createFormUrlConfig(Node tempNode, URL context) throws MalformedURLException {
         NamedNodeMap atts = tempNode.getAttributes();
-        if (atts.getNamedItem("action") == null) { // $NON-NLS-1$
+        if (atts.getNamedItem("action") == null) {
             throw new MalformedURLException();
         }
-        String action = atts.getNamedItem("action").getNodeValue(); // $NON-NLS-1$
+        String action = atts.getNamedItem("action").getNodeValue();
         return createUrlFromAnchor(action, context);
     }
 
     public static void extractStyleURLs(final URL baseUrl, final URLCollection urls, String styleTagStr) {
         Perl5Matcher matcher = JMeterUtils.getMatcher();
         Pattern pattern = JMeterUtils.getPatternCache().getPattern(
-                "URL\\(\\s*('|\")(.*)('|\")\\s*\\)", // $NON-NLS-1$
+                "URL\\(\\s*('|\")(.*)('|\")\\s*\\)",
                 Perl5Compiler.CASE_INSENSITIVE_MASK | Perl5Compiler.SINGLELINE_MASK | Perl5Compiler.READ_ONLY_MASK);
         PatternMatcherInput input = null;
         input = new PatternMatcherInput(styleTagStr);

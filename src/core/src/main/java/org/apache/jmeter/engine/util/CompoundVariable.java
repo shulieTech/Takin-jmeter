@@ -58,9 +58,9 @@ public class CompoundVariable implements Function {
     static {
         try {
             final String contain = // Classnames must contain this string [.functions.]
-                JMeterUtils.getProperty("classfinder.functions.contain"); // $NON-NLS-1$
+                JMeterUtils.getProperty("classfinder.functions.contain");
             final String notContain = // Classnames must not contain this string [.gui.]
-                JMeterUtils.getProperty("classfinder.functions.notContain"); // $NON-NLS-1$
+                JMeterUtils.getProperty("classfinder.functions.notContain");
             if (contain!=null){
                 log.info("Note: Function class names must contain the string: '{}'", contain);
             }
@@ -109,7 +109,7 @@ public class CompoundVariable implements Function {
             Sampler currentSampler = context.getCurrentSampler();
             return execute(previousResult, currentSampler);
         }
-        return permanentResults; // $NON-NLS-1$
+        return permanentResults;
     }
 
     /**
@@ -125,7 +125,7 @@ public class CompoundVariable implements Function {
     @Override
     public String execute(SampleResult previousResult, Sampler currentSampler) {
         if (compiledComponents == null || compiledComponents.isEmpty()) {
-            return ""; // $NON-NLS-1$
+            return "";
         }
 
         StringBuilder results = new StringBuilder();
@@ -196,7 +196,7 @@ public class CompoundVariable implements Function {
             try {
                 return functions.get(functionName).getDeclaredConstructor().newInstance();
             } catch (Exception e) {
-                log.error("Exception occurred while instantiating a function: {}", functionName, e); // $NON-NLS-1$
+                log.error("Exception occurred while instantiating a function: {}", functionName, e);
                 throw new InvalidVariableException(e);
             }
         }
@@ -222,7 +222,7 @@ public class CompoundVariable implements Function {
     /** {@inheritDoc} */
     @Override
     public String getReferenceKey() {
-        return ""; // $NON-NLS-1$
+        return "";
     }
 
     /** {@inheritDoc} */

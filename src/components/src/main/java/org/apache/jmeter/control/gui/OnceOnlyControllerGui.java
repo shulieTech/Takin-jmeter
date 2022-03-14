@@ -49,7 +49,7 @@ public class OnceOnlyControllerGui extends AbstractControllerGui {
 
     @Override
     public String getLabelResource() {
-        return "once_only_controller_title"; // $NON-NLS-1$
+        return "once_only_controller_title";
     }
 
     private void init() { // WARNING: called from ctor so must not be overridden (i.e. must be private or final)

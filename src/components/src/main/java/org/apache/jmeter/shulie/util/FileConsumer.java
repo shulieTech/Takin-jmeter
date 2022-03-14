@@ -1,71 +1,71 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to you under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package org.apache.jmeter.shulie.util;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.jmeter.shulie.data.CSVDataStore;
+import org.apache.jmeter.shulie.data.CsvDataStore;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * 零拷贝读取文件
  *
- * @author lipeng
+ * @author 李鹏
  * @date 2021-05-25 2:37 下午
  */
 public class FileConsumer implements Runnable {
 
     private static final Logger log = LoggerFactory.getLogger(FileConsumer.class);
 
-    private static final Charset defaultCharset = StandardCharsets.UTF_8;
+    private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
 
     private RandomAccessFile rAccessFile;
 
-    //缓冲大小
-    private int bufferSize;
+    /**
+     * 缓冲大小
+     */
+    private final int bufferSize;
 
-    //开始结束
-    private StartEndPair startEndPair;
+    /**
+     * 开始结束
+     */
+    private final StartEndPair startEndPair;
 
-    //字符集
-    private Charset charset;
+    /**
+     * 字符集
+     */
+    private final Charset charset;
 
-    //当前需读的总大小
+    /**
+     * 当前需读的总大小
+     */
     private long sliceSize;
 
-    //是否循环读取
-    private boolean recycle;
+    /**
+     * 是否循环读取
+     */
+    private final boolean recycle;
 
-    //读取行数
+    /**
+     * 读取行数
+     */
     private int consumeCount;
 
-    //分几个映射
+    /**
+     * 分几个映射
+     */
     private int bufferCount;
 
-    //内存映射缓冲
+    /**
+     * 内存映射缓冲
+     */
     private MappedByteBuffer[] mappedByteBuffers;
 
     /**
@@ -82,15 +82,17 @@ public class FileConsumer implements Runnable {
     /**
      * 分区
      */
-    private String partition;
+    private final String partition;
 
     private Boolean isSliceBigger;
 
-    //分区队列
-    private LinkedBlockingQueue<String> partitionQueue;
+    /**
+     * 分区队列
+     */
+    private final LinkedBlockingQueue<String> partitionQueue;
 
     public FileConsumer(String filePath, int bufferSize, StartEndPair startEndPair, String fileEncoding
-            , boolean recycle, LinkedBlockingQueue<String> partitionQueue) {
+        , boolean recycle, LinkedBlockingQueue<String> partitionQueue) {
         File file = new File(filePath);
         if (!file.exists()) {
             log.error("csv文件未找到 [{}]", file.getAbsolutePath());
@@ -98,9 +100,9 @@ public class FileConsumer implements Runnable {
         try {
             this.rAccessFile = new RandomAccessFile(file, "r");
             this.sliceSize = startEndPair.getEnd() - startEndPair.getStart() + 1;
-            if (this.sliceSize >= Integer.MAX_VALUE ){
+            if (this.sliceSize >= Integer.MAX_VALUE) {
                 isSliceBigger = true;
-                this.bufferCount = (int) Math.ceil((double) this.sliceSize / (double) Integer.MAX_VALUE);
+                this.bufferCount = (int)Math.ceil((double)this.sliceSize / (double)Integer.MAX_VALUE);
                 this.mappedByteBuffers = new MappedByteBuffer[this.bufferCount];
                 long preLength = startEndPair.getStart();
                 long regionSize = Integer.MAX_VALUE;
@@ -111,7 +113,7 @@ public class FileConsumer implements Runnable {
                     mappedByteBuffers[i] = this.rAccessFile.getChannel().map(FileChannel.MapMode.READ_ONLY, preLength, regionSize);
                     preLength += regionSize;
                 }
-            }else {
+            } else {
                 isSliceBigger = false;
             }
         } catch (IOException e) {
@@ -120,7 +122,7 @@ public class FileConsumer implements Runnable {
         this.partition = startEndPair.getPartition();
         this.bufferSize = bufferSize;
         this.startEndPair = startEndPair;
-        this.charset = StringUtils.isBlank(fileEncoding) ? defaultCharset : Charset.forName(fileEncoding);
+        this.charset = StringUtils.isBlank(fileEncoding) ? DEFAULT_CHARSET : Charset.forName(fileEncoding);
         this.recycle = recycle;
         this.bos = new ByteArrayOutputStream();
         this.partitionQueue = partitionQueue;
@@ -129,7 +131,7 @@ public class FileConsumer implements Runnable {
     /**
      * 不在内部循环
      *
-     * @return
+     * @return 异常
      */
     public synchronized int read() {
         if (bufferCountIndex >= bufferCount) {
@@ -138,10 +140,7 @@ public class FileConsumer implements Runnable {
         int limit = mappedByteBuffers[bufferCountIndex].limit();
         int position = mappedByteBuffers[bufferCountIndex].position();
 
-        int realSize = bufferSize;
-        if (limit - position < bufferSize) {
-            realSize = limit - position;
-        }
+        int realSize = Math.min(limit - position, bufferSize);
         byteBuffer = new byte[realSize];
         mappedByteBuffers[bufferCountIndex].get(byteBuffer);
 
@@ -155,7 +154,7 @@ public class FileConsumer implements Runnable {
     /**
      * 获取当前读到的字节
      *
-     * @return
+     * @return 字节
      */
     public synchronized byte[] getCurrentBytes() {
         return byteBuffer;
@@ -183,7 +182,7 @@ public class FileConsumer implements Runnable {
     /**
      * 重置初始化参数
      *
-     * @throws IOException
+     * @throws IOException 异常
      */
     public synchronized void reset() throws IOException {
         this.bufferCountIndex = 0;
@@ -200,7 +199,8 @@ public class FileConsumer implements Runnable {
 
     /**
      * 较小的文件读取
-     * @throws RuntimeException
+     *
+     * @throws RuntimeException 异常
      */
     public synchronized void consume() throws RuntimeException {
         if (this.sliceSize > Integer.MAX_VALUE) {
@@ -211,11 +211,11 @@ public class FileConsumer implements Runnable {
         ByteArrayOutputStream bos;
         try {
             MappedByteBuffer mapBuffer = this.rAccessFile.getChannel()
-                    .map(FileChannel.MapMode.READ_ONLY, startEndPair.getStart(), this.sliceSize);
+                .map(FileChannel.MapMode.READ_ONLY, startEndPair.getStart(), this.sliceSize);
             bos = new ByteArrayOutputStream();
             for (int offset = 0; offset < this.sliceSize; ) {
                 //如果队列长度高于50就先将队列消费，消费到低于50再往队列写数据
-                if (CSVDataStore.csvDataQuene.size() > 50) {
+                if (CsvDataStore.csvDataQueue.size() > 50) {
                     TimeUnit.MILLISECONDS.sleep(200);
                     continue;
                 }
@@ -226,9 +226,9 @@ public class FileConsumer implements Runnable {
                 }
                 //读完
                 else {
-                    readLength = (int) (this.sliceSize - offset);
+                    readLength = (int)(this.sliceSize - offset);
                 }
-                //mapbuffer中读取
+                //mapBuffer中读取
                 mapBuffer.get(readBuff, 0, readLength);
                 //每个字节读取，读到一行为止
                 for (int i = 0; i < readLength; i++) {
@@ -251,7 +251,7 @@ public class FileConsumer implements Runnable {
                 if (offset >= this.sliceSize && this.recycle) {
                     offset = 0;
                     mapBuffer = rAccessFile.getChannel().map(FileChannel.MapMode.READ_ONLY
-                            , startEndPair.getStart(), this.sliceSize);
+                        , startEndPair.getStart(), this.sliceSize);
                 }
             }
             log.info("处理完成【{}】条数据", this.consumeCount);
@@ -288,7 +288,7 @@ public class FileConsumer implements Runnable {
     /**
      * 处理行数据
      *
-     * @param bytes
+     * @param bytes 字节
      */
     private void handleLine(byte[] bytes) {
         //行数据
@@ -339,7 +339,7 @@ public class FileConsumer implements Runnable {
     public void run() {
         if (isSliceBigger) {
             consume0();
-        }else {
+        } else {
             consume();
         }
     }

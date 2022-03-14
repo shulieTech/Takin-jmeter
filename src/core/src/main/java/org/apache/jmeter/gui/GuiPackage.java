@@ -78,11 +78,11 @@ public final class GuiPackage implements LocaleChangeListener, HistoryListener {
 
     private static final Logger log = LoggerFactory.getLogger(GuiPackage.class);
 
-    private static final String LAF_EPOCH = "JMeter.laf_epoch"; // $NON-NLS-1$
+    private static final String LAF_EPOCH = "JMeter.laf_epoch";
 
-    private static final String SBR_PREFS_KEY = "save_before_run"; // $NON-NLS-1$
+    private static final String SBR_PREFS_KEY = "save_before_run";
 
-    private static final String SAVE_BEFORE_RUN_PROPERTY = "save_automatically_before_run"; // $NON-NLS-1$
+    private static final String SAVE_BEFORE_RUN_PROPERTY = "save_automatically_before_run";
 
     private static final boolean SAVE_BEFORE_RUN_PROPERTY_DEFAULT_VALUE = true;
 

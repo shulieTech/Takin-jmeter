@@ -62,8 +62,8 @@ public class RevertProject extends AbstractActionWithNoRunningTest {
         if (guiPackage.isDirty()) {
             // Check if the user wants to revert
             int response = JOptionPane.showConfirmDialog(GuiPackage.getInstance().getMainFrame(),
-                    JMeterUtils.getResString("cancel_revert_project"), // $NON-NLS-1$
-                    JMeterUtils.getResString("revert_project?"),  // $NON-NLS-1$
+                    JMeterUtils.getResString("cancel_revert_project"),
+                    JMeterUtils.getResString("revert_project?"),
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE);
             if (response == JOptionPane.YES_OPTION) {

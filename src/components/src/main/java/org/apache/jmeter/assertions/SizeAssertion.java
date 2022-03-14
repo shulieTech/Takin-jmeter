@@ -49,21 +49,21 @@ public class SizeAssertion extends AbstractScopedAssertion implements Serializab
     public static final int LESSTHANEQUAL = 6;
 
     /** Key for storing assertion-information in the jmx-file. */
-    private static final String SIZE_KEY = "SizeAssertion.size"; // $NON-NLS-1$
+    private static final String SIZE_KEY = "SizeAssertion.size";
 
-    private static final String OPERATOR_KEY = "SizeAssertion.operator"; // $NON-NLS-1$
+    private static final String OPERATOR_KEY = "SizeAssertion.operator";
 
-    private static final String TEST_FIELD = "Assertion.test_field";  // $NON-NLS-1$
+    private static final String TEST_FIELD = "Assertion.test_field";
 
-    private static final String RESPONSE_NETWORK_SIZE = "SizeAssertion.response_network_size"; // $NON-NLS-1$
+    private static final String RESPONSE_NETWORK_SIZE = "SizeAssertion.response_network_size";
 
-    private static final String RESPONSE_HEADERS = "SizeAssertion.response_headers"; // $NON-NLS-1$
+    private static final String RESPONSE_HEADERS = "SizeAssertion.response_headers";
 
-    private static final String RESPONSE_BODY = "SizeAssertion.response_data"; // $NON-NLS-1$
+    private static final String RESPONSE_BODY = "SizeAssertion.response_data";
 
-    private static final String RESPONSE_CODE = "SizeAssertion.response_code"; // $NON-NLS-1$
+    private static final String RESPONSE_CODE = "SizeAssertion.response_code";
 
-    private static final String RESPONSE_MESSAGE = "SizeAssertion.response_message"; // $NON-NLS-1$
+    private static final String RESPONSE_MESSAGE = "SizeAssertion.response_message";
 
     /**
      * Returns the result of the Assertion.

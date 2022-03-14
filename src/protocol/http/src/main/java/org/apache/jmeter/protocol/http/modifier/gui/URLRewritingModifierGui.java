@@ -47,7 +47,7 @@ public class URLRewritingModifierGui extends AbstractPreProcessorGui {
 
     @Override
     public String getLabelResource() {
-        return "http_url_rewriting_modifier_title"; // $NON-NLS-1$
+        return "http_url_rewriting_modifier_title";
     }
 
     public URLRewritingModifierGui() {
@@ -62,23 +62,23 @@ public class URLRewritingModifierGui extends AbstractPreProcessorGui {
 
         VerticalPanel mainPanel = new VerticalPanel();
 
-        argumentName = new JLabeledTextField(JMeterUtils.getResString("session_argument_name"), 10); // $NON-NLS-1$
+        argumentName = new JLabeledTextField(JMeterUtils.getResString("session_argument_name"), 10);
         mainPanel.add(argumentName);
 
-        pathExt = new JCheckBox(JMeterUtils.getResString("path_extension_choice")); // $NON-NLS-1$
+        pathExt = new JCheckBox(JMeterUtils.getResString("path_extension_choice"));
         mainPanel.add(pathExt);
 
-        pathExtNoEquals = new JCheckBox(JMeterUtils.getResString("path_extension_dont_use_equals")); // $NON-NLS-1$
+        pathExtNoEquals = new JCheckBox(JMeterUtils.getResString("path_extension_dont_use_equals"));
         mainPanel.add(pathExtNoEquals);
 
-        pathExtNoQuestionmark = new JCheckBox(JMeterUtils.getResString("path_extension_dont_use_questionmark")); // $NON-NLS-1$
+        pathExtNoQuestionmark = new JCheckBox(JMeterUtils.getResString("path_extension_dont_use_questionmark"));
         mainPanel.add(pathExtNoQuestionmark);
 
-        shouldCache = new JCheckBox(JMeterUtils.getResString("cache_session_id")); // $NON-NLS-1$
+        shouldCache = new JCheckBox(JMeterUtils.getResString("cache_session_id"));
         shouldCache.setSelected(true);
         mainPanel.add(shouldCache);
 
-        encode = new JCheckBox(JMeterUtils.getResString("encode")); // $NON-NLS-1$
+        encode = new JCheckBox(JMeterUtils.getResString("encode"));
         encode.setSelected(false);
         mainPanel.add(encode);
 

@@ -54,7 +54,7 @@ public class LogicControllerGui extends AbstractControllerGui {
 
     @Override
     public String getLabelResource() {
-        return "logic_controller_title"; // $NON-NLS-1$
+        return "logic_controller_title";
     }
 
     /**

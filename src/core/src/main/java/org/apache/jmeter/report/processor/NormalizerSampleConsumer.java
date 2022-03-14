@@ -41,7 +41,7 @@ public class NormalizerSampleConsumer extends AbstractSampleConsumer {
 
     private static final String TIMESTAMP_FORMAT =
             JMeterUtils.getPropDefault(
-                    "jmeter.save.saveservice.timestamp_format", // $NON-NLS-1$
+                    "jmeter.save.saveservice.timestamp_format",
                     SampleSaveConfiguration.MILLISECONDS);
 
     private static final String PARSE_TIMESTAMP_EXCEPTION_MESSAGE =

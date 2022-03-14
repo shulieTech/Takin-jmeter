@@ -48,14 +48,14 @@ public class AccessLogSamplerBeanInfo extends BeanInfoSupport {
         super(AccessLogSampler.class);
         log.debug("Entered access log sampler bean info");
         try {
-            createPropertyGroup("defaults",  // $NON-NLS-1$
+            createPropertyGroup("defaults", 
                     new String[] { "protocol", "domain", "portString", "imageParsing" });// $NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$ $NON-NLS-4$
 
-            createPropertyGroup("plugins",  // $NON-NLS-1$
+            createPropertyGroup("plugins", 
                     new String[] { "parserClassName", "filterClassName" }); // $NON-NLS-1$ $NON-NLS-2$ $NON-NLS-3$
 
-            createPropertyGroup("accesslogfile",  // $NON-NLS-1$
-                    new String[] { "logFile" }); // $NON-NLS-1$
+            createPropertyGroup("accesslogfile", 
+                    new String[] { "logFile" });
 
             PropertyDescriptor p;
 
@@ -68,33 +68,33 @@ public class AccessLogSamplerBeanInfo extends BeanInfoSupport {
             log.debug("found parsers: {}", LOG_PARSER_CLASSES);
             p.setValue(TAGS, LOG_PARSER_CLASSES.toArray(new String[LOG_PARSER_CLASSES.size()]));
 
-            p = property("filterClassName"); // $NON-NLS-1$
+            p = property("filterClassName");
             p.setValue(NOT_UNDEFINED, Boolean.FALSE);
-            p.setValue(DEFAULT, ""); // $NON-NLS-1$
+            p.setValue(DEFAULT, "");
             p.setValue(NOT_EXPRESSION, Boolean.TRUE);
             List<String> classes = ClassFinder.findClassesThatExtend(JMeterUtils.getSearchPaths(),
                     new Class[] { Filter.class }, false);
             p.setValue(TAGS, classes.toArray(new String[classes.size()]));
 
-            p = property("logFile"); // $NON-NLS-1$
+            p = property("logFile");
             p.setValue(NOT_UNDEFINED, Boolean.TRUE);
             p.setValue(DEFAULT, "");
             p.setPropertyEditorClass(FileEditor.class);
 
-            p = property("domain"); // $NON-NLS-1$
+            p = property("domain");
             p.setValue(NOT_UNDEFINED, Boolean.TRUE);
             p.setValue(DEFAULT, "");
 
-            p = property("protocol"); // $NON-NLS-1$
+            p = property("protocol");
             p.setValue(NOT_UNDEFINED, Boolean.TRUE);
-            p.setValue(DEFAULT, "http"); // $NON-NLS-1$
+            p.setValue(DEFAULT, "http");
             p.setValue(DEFAULT_NOT_SAVED, Boolean.TRUE);
 
-            p = property("portString"); // $NON-NLS-1$
+            p = property("portString");
             p.setValue(NOT_UNDEFINED, Boolean.TRUE);
-            p.setValue(DEFAULT, ""); // $NON-NLS-1$
+            p.setValue(DEFAULT, "");
 
-            p = property("imageParsing"); // $NON-NLS-1$
+            p = property("imageParsing");
             p.setValue(NOT_UNDEFINED, Boolean.TRUE);
             p.setValue(DEFAULT, Boolean.FALSE);
             p.setValue(NOT_OTHER, Boolean.TRUE);

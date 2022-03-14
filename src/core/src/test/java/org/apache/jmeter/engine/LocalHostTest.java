@@ -95,7 +95,7 @@ public class LocalHostTest {
 
     private InetAddress getLocalHost() throws UnknownHostException {
         final String key = "java.rmi.server.hostname";
-        String host = System.getProperties().getProperty(key); // $NON-NLS-1$
+        String host = System.getProperties().getProperty(key);
         perr(key + "=" + host);
         InetAddress localHost;
         if (host == null) {

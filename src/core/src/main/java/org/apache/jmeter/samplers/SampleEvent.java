@@ -36,7 +36,7 @@ public class SampleEvent implements Serializable {
     private static final long serialVersionUID = 233L;
 
     /** The property {@value} is used to define additional variables to be saved */
-    public static final String SAMPLE_VARIABLES = "sample_variables"; // $NON-NLS-1$
+    public static final String SAMPLE_VARIABLES = "sample_variables";
 
     public static final String HOSTNAME;
 

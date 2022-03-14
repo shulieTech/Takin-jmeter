@@ -86,11 +86,11 @@ public class ExampleSampler extends AbstractSampler {
             res.setDataType(SampleResult.TEXT);
 
             res.setResponseCodeOK();
-            res.setResponseMessage("OK");// $NON-NLS-1$
+            res.setResponseMessage("OK");
             isOK = true;
         } catch (Exception ex) {
             log.debug("", ex);
-            res.setResponseCode("500");// $NON-NLS-1$
+            res.setResponseCode("500");
             res.setResponseMessage(ex.toString());
         }
         res.sampleEnd(); // End timing

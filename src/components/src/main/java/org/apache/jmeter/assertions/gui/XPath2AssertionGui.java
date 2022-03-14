@@ -33,7 +33,7 @@ import org.apache.jmeter.util.JMeterUtils;
 @TestElementMetadata(labelResource = "xpath2_assertion_title")
 public class XPath2AssertionGui extends AbstractAssertionGui { // $NOSONAR
 
-    private static final long serialVersionUID = 240L;// $NON-NLS-1$
+    private static final long serialVersionUID = 240L;
     private XPath2Panel xpath;
 
 

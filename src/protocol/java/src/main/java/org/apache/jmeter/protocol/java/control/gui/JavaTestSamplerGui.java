@@ -48,7 +48,7 @@ public class JavaTestSamplerGui extends AbstractSamplerGui {
 
     @Override
     public String getLabelResource() {
-        return "java_request"; // $NON-NLS-1$
+        return "java_request";
     }
 
     /**

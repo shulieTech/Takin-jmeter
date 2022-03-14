@@ -46,17 +46,17 @@ public class BoundaryExtractor extends AbstractScopedTestElement implements Post
 
     private static final long serialVersionUID = 2L;
 
-    private static final String REFNAME = "BoundaryExtractor.refname"; // $NON-NLS-1$
-    private static final String MATCH_NUMBER = "BoundaryExtractor.match_number"; // $NON-NLS-1$
-    private static final String L_BOUNDARY = "BoundaryExtractor.lboundary"; // $NON-NLS-1$
-    private static final String R_BOUNDARY = "BoundaryExtractor.rboundary"; // $NON-NLS-1$
-    private static final String DEFAULT_EMPTY_VALUE = "BoundaryExtractor.default_empty_value"; // $NON-NLS-1$
-    private static final String DEFAULT = "BoundaryExtractor.default"; // $NON-NLS-1$
-    private static final String REF_MATCH_NR = "_matchNr"; // $NON-NLS-1$
-    private static final char UNDERSCORE = '_';  // $NON-NLS-1$
+    private static final String REFNAME = "BoundaryExtractor.refname";
+    private static final String MATCH_NUMBER = "BoundaryExtractor.match_number";
+    private static final String L_BOUNDARY = "BoundaryExtractor.lboundary";
+    private static final String R_BOUNDARY = "BoundaryExtractor.rboundary";
+    private static final String DEFAULT_EMPTY_VALUE = "BoundaryExtractor.default_empty_value";
+    private static final String DEFAULT = "BoundaryExtractor.default";
+    private static final String REF_MATCH_NR = "_matchNr";
+    private static final char UNDERSCORE = '_'; 
 
     // What to match against. N.B. do not change the string value or test plans will break!
-    private static final String MATCH_AGAINST = "BoundaryExtractor.useHeaders"; // $NON-NLS-1$
+    private static final String MATCH_AGAINST = "BoundaryExtractor.useHeaders";
     /*
      * Permissible values:
      *  true - match against headers
@@ -66,14 +66,14 @@ public class BoundaryExtractor extends AbstractScopedTestElement implements Post
      *
      *  Do not change these values!
      */
-    private static final String USE_HDRS = "true"; // $NON-NLS-1$
-    private static final String USE_REQUEST_HDRS = "request_headers"; // $NON-NLS-1$
-    private static final String USE_BODY = "false"; // $NON-NLS-1$
-    private static final String USE_BODY_UNESCAPED = "unescaped"; // $NON-NLS-1$
-    private static final String USE_BODY_AS_DOCUMENT = "as_document"; // $NON-NLS-1$
-    private static final String USE_URL = "URL"; // $NON-NLS-1$
-    private static final String USE_CODE = "code"; // $NON-NLS-1$
-    private static final String USE_MESSAGE = "message"; // $NON-NLS-1$
+    private static final String USE_HDRS = "true";
+    private static final String USE_REQUEST_HDRS = "request_headers";
+    private static final String USE_BODY = "false";
+    private static final String USE_BODY_UNESCAPED = "unescaped";
+    private static final String USE_BODY_AS_DOCUMENT = "as_document";
+    private static final String USE_URL = "URL";
+    private static final String USE_CODE = "code";
+    private static final String USE_MESSAGE = "message";
 
     /**
      * Parses the response data using Boundaries and saving the results

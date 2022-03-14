@@ -33,7 +33,7 @@ public class RenderAsHTMLWithEmbedded extends RenderAsHTML
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        return JMeterUtils.getResString("view_results_render_html_embedded"); // $NON-NLS-1$
+        return JMeterUtils.getResString("view_results_render_html_embedded");
     }
 
 }

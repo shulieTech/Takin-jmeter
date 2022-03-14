@@ -49,11 +49,11 @@ public class JMESPathExtractor extends AbstractScopedTestElement
     private static final long serialVersionUID = 3849270294526207081L;
 
     private static final Logger log = LoggerFactory.getLogger(JMESPathExtractor.class);
-    private static final String JMES_PATH_EXPRESSION = "JMESExtractor.jmesPathExpr"; // $NON-NLS-1$
-    private static final String REFERENCE_NAME = "JMESExtractor.referenceName"; // $NON-NLS-1$
-    private static final String DEFAULT_VALUE = "JMESExtractor.defaultValue"; // $NON-NLS-1$
-    private static final String MATCH_NUMBER = "JMESExtractor.matchNumber"; // $NON-NLS-1$
-    private static final String REF_MATCH_NR = "_matchNr"; // $NON-NLS-1$
+    private static final String JMES_PATH_EXPRESSION = "JMESExtractor.jmesPathExpr";
+    private static final String REFERENCE_NAME = "JMESExtractor.referenceName";
+    private static final String DEFAULT_VALUE = "JMESExtractor.defaultValue";
+    private static final String MATCH_NUMBER = "JMESExtractor.matchNumber";
+    private static final String REF_MATCH_NR = "_matchNr";
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     @Override
@@ -110,7 +110,7 @@ public class JMESPathExtractor extends AbstractScopedTestElement
             // Extract all
             int index = 1;
             for (String extractedString : resultList) {
-                vars.put(refName + "_" + index, extractedString); // $NON-NLS-1$
+                vars.put(refName + "_" + index, extractedString);
                 index++;
             }
         } else if (matchNumber == 0) {
@@ -219,7 +219,7 @@ public class JMESPathExtractor extends AbstractScopedTestElement
     }
 
     public void setDefaultValue(String defaultValue) {
-        setProperty(DEFAULT_VALUE, defaultValue, ""); // $NON-NLS-1$
+        setProperty(DEFAULT_VALUE, defaultValue, "");
     }
 
     public void setMatchNumber(String matchNumber) {

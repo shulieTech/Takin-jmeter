@@ -100,7 +100,7 @@ public class ClientJMeterEngine implements JMeterEngine {
         try {
             remote.rstopTest(now);
         } catch (Exception ex) {
-            log.error("", ex); // $NON-NLS-1$
+            log.error("", ex);
         }
     }
 
@@ -116,7 +116,7 @@ public class ClientJMeterEngine implements JMeterEngine {
                 remote.rreset();
             }
         } catch (Exception ex) {
-            log.error("Failed to reset remote engine", ex); // $NON-NLS-1$
+            log.error("Failed to reset remote engine", ex);
         }
     }
 
@@ -151,7 +151,7 @@ public class ClientJMeterEngine implements JMeterEngine {
                 methodName="rconfigure()"; // NOSONAR Used for tracing
                 remote.rconfigure(testTree, hostAndPort, baseDirRelative, scriptName);
             }
-            log.info("sent test to {} basedir='{}'", hostAndPort, baseDirRelative); // $NON-NLS-1$
+            log.info("sent test to {} basedir='{}'", hostAndPort, baseDirRelative);
             if(savep == null) {
                 savep = new Properties();
             }

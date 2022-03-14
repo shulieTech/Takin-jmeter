@@ -66,17 +66,17 @@ public class DNSCachePanel extends AbstractConfigGui implements ActionListener {
 
     public static final String OPTIONS = JMeterUtils.getResString("option");
 
-    private static final String ADD_COMMAND = JMeterUtils.getResString("add"); // $NON-NLS-1$
+    private static final String ADD_COMMAND = JMeterUtils.getResString("add");
 
-    private static final String ADD_HOST_COMMAND = JMeterUtils.getResString("add_host"); // $NON-NLS-1$
+    private static final String ADD_HOST_COMMAND = JMeterUtils.getResString("add_host");
 
-    private static final String DELETE_COMMAND = JMeterUtils.getResString("delete"); // $NON-NLS-1$
+    private static final String DELETE_COMMAND = JMeterUtils.getResString("delete");
 
-    private static final String DELETE_HOST_COMMAND = JMeterUtils.getResString("delete_host"); // $NON-NLS-1$
+    private static final String DELETE_HOST_COMMAND = JMeterUtils.getResString("delete_host");
 
-    private static final String SYS_RES_COMMAND = JMeterUtils.getResString("use_system_dns_resolver"); // $NON-NLS-1$
+    private static final String SYS_RES_COMMAND = JMeterUtils.getResString("use_system_dns_resolver");
 
-    private static final String CUST_RES_COMMAND = JMeterUtils.getResString("use_custom_dns_resolver"); // $NON-NLS-1$
+    private static final String CUST_RES_COMMAND = JMeterUtils.getResString("use_custom_dns_resolver");
 
     private JTable dnsHostsTable;
 
@@ -224,7 +224,7 @@ public class DNSCachePanel extends AbstractConfigGui implements ActionListener {
         northPanel.setLayout(new VerticalLayout(5, VerticalLayout.BOTH));
         northPanel.add(makeTitlePanel());
         JPanel optionsPane = new JPanel();
-        optionsPane.setBorder(BorderFactory.createTitledBorder(OPTIONS)); // $NON-NLS-1$
+        optionsPane.setBorder(BorderFactory.createTitledBorder(OPTIONS));
         optionsPane.setLayout(new VerticalLayout(5, VerticalLayout.BOTH));
         optionsPane.add(clearEachIteration, BorderLayout.WEST);
         optionsPane.add(createChooseResPanel(), BorderLayout.SOUTH);
@@ -251,7 +251,7 @@ public class DNSCachePanel extends AbstractConfigGui implements ActionListener {
 
         JPanel panel = new JPanel(new BorderLayout(0, 5));
         panel.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("dns_servers"))); // $NON-NLS-1$
+                JMeterUtils.getResString("dns_servers")));
         JScrollPane dnsServScrollPane = GuiUtils.emptyBorder(new JScrollPane(dnsServersTable));
         panel.add(dnsServScrollPane, BorderLayout.CENTER);
         dnsServButPanel = createButtonPanel();
@@ -268,7 +268,7 @@ public class DNSCachePanel extends AbstractConfigGui implements ActionListener {
 
         JPanel panel = new JPanel(new BorderLayout(0, 5));
         panel.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("dns_hosts"))); // $NON-NLS-1$
+                JMeterUtils.getResString("dns_hosts")));
         JScrollPane dnsHostsScrollPane = GuiUtils.emptyBorder(new JScrollPane(dnsHostsTable));
         panel.add(dnsHostsScrollPane, BorderLayout.CENTER);
         dnsHostsButPanel = createHostsButtonPanel();
@@ -303,8 +303,8 @@ public class DNSCachePanel extends AbstractConfigGui implements ActionListener {
     private JPanel createButtonPanel() {
         boolean tableEmpty = dnsServersTableModel.getRowCount() == 0;
 
-        addButton = createButton("add", 'A', ADD_COMMAND, custResButton.isSelected()); // $NON-NLS-1$
-        deleteButton = createButton("delete", 'D', DELETE_COMMAND, !tableEmpty); // $NON-NLS-1$
+        addButton = createButton("add", 'A', ADD_COMMAND, custResButton.isSelected());
+        deleteButton = createButton("delete", 'D', DELETE_COMMAND, !tableEmpty);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addButton, BorderLayout.WEST);
@@ -315,8 +315,8 @@ public class DNSCachePanel extends AbstractConfigGui implements ActionListener {
     private JPanel createHostsButtonPanel() {
         boolean tableEmpty = dnsHostsTableModel.getRowCount() == 0;
 
-        addHostButton = createButton("add_host", 'H', ADD_HOST_COMMAND, custResButton.isSelected()); // $NON-NLS-1$
-        deleteHostButton = createButton("delete_host", 'X', DELETE_HOST_COMMAND, !tableEmpty); // $NON-NLS-1$
+        addHostButton = createButton("add_host", 'H', ADD_HOST_COMMAND, custResButton.isSelected());
+        deleteHostButton = createButton("delete_host", 'X', DELETE_HOST_COMMAND, !tableEmpty);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addHostButton, BorderLayout.WEST);

@@ -71,7 +71,7 @@ public class RenderAsXML extends SamplerResultTab
     }
 
     private void showRenderXMLResponse(SampleResult res) {
-        results.setContentType("text/xml"); // $NON-NLS-1$
+        results.setContentType("text/xml");
         results.setCaretPosition(0);
         byte[] source = res.getResponseData();
         final ByteArrayInputStream baIS = new ByteArrayInputStream(source);
@@ -232,7 +232,7 @@ public class RenderAsXML extends SamplerResultTab
                         tree, value, sel, expanded, leaf, row, phasFocus);
 
                 DefaultMutableTreeNode valueTreeNode = (DefaultMutableTreeNode) value;
-                setToolTipText(getHTML(valueTreeNode.toString(), "<br>", 100)); // $NON-NLS-1$
+                setToolTipText(getHTML(valueTreeNode.toString(), "<br>", 100));
                 return this;
             }
 
@@ -240,7 +240,7 @@ public class RenderAsXML extends SamplerResultTab
              * get the html
              */
             private String getHTML(String str, String separator, int maxChar) {
-                StringBuilder strBuf = new StringBuilder("<html><body bgcolor=\"yellow\"><b>"); // $NON-NLS-1$
+                StringBuilder strBuf = new StringBuilder("<html><body bgcolor=\"yellow\"><b>");
                 char[] chars = str.toCharArray();
                 for (int i = 0; i < chars.length; i++) {
 
@@ -250,7 +250,7 @@ public class RenderAsXML extends SamplerResultTab
                     strBuf.append(encode(chars[i]));
 
                 }
-                strBuf.append("</b></body></html>"); // $NON-NLS-1$
+                strBuf.append("</b></body></html>");
                 return strBuf.toString();
 
             }
@@ -258,17 +258,17 @@ public class RenderAsXML extends SamplerResultTab
             private String encode(char c) {
                 String toReturn = String.valueOf(c);
                 switch (c) {
-                    case '<': // $NON-NLS-1$
-                        toReturn = "&lt;"; // $NON-NLS-1$
+                    case '<':
+                        toReturn = "&lt;";
                         break;
-                    case '>': // $NON-NLS-1$
-                        toReturn = "&gt;"; // $NON-NLS-1$
+                    case '>':
+                        toReturn = "&gt;";
                         break;
-                    case '\'': // $NON-NLS-1$
-                        toReturn = "&apos;"; // $NON-NLS-1$
+                    case '\'':
+                        toReturn = "&apos;";
                         break;
-                    case '\"': // $NON-NLS-1$
-                        toReturn = "&quot;"; // $NON-NLS-1$
+                    case '\"':
+                        toReturn = "&quot;";
                         break;
                     default:
                         // ignored
@@ -319,7 +319,7 @@ public class RenderAsXML extends SamplerResultTab
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        return JMeterUtils.getResString("view_results_render_xml"); // $NON-NLS-1$
+        return JMeterUtils.getResString("view_results_render_xml");
     }
 
 }

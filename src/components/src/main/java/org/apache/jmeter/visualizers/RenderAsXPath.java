@@ -67,7 +67,7 @@ public class RenderAsXPath implements ResultRenderer, ActionListener {
 
     private static final Logger log = LoggerFactory.getLogger(RenderAsXPath.class);
 
-    private static final String XPATH_TESTER_COMMAND = "xpath_tester"; // $NON-NLS-1$
+    private static final String XPATH_TESTER_COMMAND = "xpath_tester";
 
     private JPanel xmlWithXPathPane;
 
@@ -89,8 +89,8 @@ public class RenderAsXPath implements ResultRenderer, ActionListener {
     @Override
     public void clearData() {
         // N.B. don't set xpathExpressionField to empty to keep xpath
-        this.xmlDataField.setText(""); // $NON-NLS-1$
-        this.xpathResultField.setText(""); // $NON-NLS-1$
+        this.xmlDataField.setText("");
+        this.xpathResultField.setText("");
     }
 
     /** {@inheritDoc} */
@@ -193,7 +193,7 @@ public class RenderAsXPath implements ResultRenderer, ActionListener {
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        return JMeterUtils.getResString("xpath_tester"); // $NON-NLS-1$
+        return JMeterUtils.getResString("xpath_tester");
     }
 
 
@@ -201,8 +201,8 @@ public class RenderAsXPath implements ResultRenderer, ActionListener {
     @Override
     public void setupTabPane() {
          // Add xpath tester pane
-        if (rightSide.indexOfTab(JMeterUtils.getResString("xpath_tester_title")) < 0) { // $NON-NLS-1$
-            rightSide.addTab(JMeterUtils.getResString("xpath_tester_title"), xmlWithXPathPane); // $NON-NLS-1$
+        if (rightSide.indexOfTab(JMeterUtils.getResString("xpath_tester_title")) < 0) {
+            rightSide.addTab(JMeterUtils.getResString("xpath_tester_title"), xmlWithXPathPane);
         }
         clearData();
     }
@@ -245,9 +245,9 @@ public class RenderAsXPath implements ResultRenderer, ActionListener {
 
         Border margin = new EmptyBorder(5, 5, 0, 5);
         xpathActionPanel.setBorder(margin);
-        xpathExpressionField = new JLabeledTextField(JMeterUtils.getResString("xpath_tester_field")); // $NON-NLS-1$
+        xpathExpressionField = new JLabeledTextField(JMeterUtils.getResString("xpath_tester_field"));
 
-        JButton xpathTester = new JButton(JMeterUtils.getResString("xpath_tester_button_test")); // $NON-NLS-1$
+        JButton xpathTester = new JButton(JMeterUtils.getResString("xpath_tester_button_test"));
         xpathTester.setActionCommand(XPATH_TESTER_COMMAND);
         xpathTester.addActionListener(this);
 
@@ -292,7 +292,7 @@ public class RenderAsXPath implements ResultRenderer, ActionListener {
     @Override
     public void renderImage(SampleResult sampleResult) {
         clearData();
-        xmlDataField.setText(JMeterUtils.getResString("xpath_tester_no_text")); // $NON-NLS-1$
+        xmlDataField.setText(JMeterUtils.getResString("xpath_tester_no_text"));
     }
 
     /** {@inheritDoc} */

@@ -67,16 +67,16 @@ public class TableEditor extends PropertyEditorSupport implements FocusListener,
      * attribute name for class name of a table row;
      * value must be java.lang.String, or a class which supports set and get/is methods for the property name.
      */
-    public static final String CLASSNAME = "tableObject.classname"; // $NON-NLS-1$
+    public static final String CLASSNAME = "tableObject.classname";
 
     /**
      * attribute name for table headers, value must be a String array.
      * If {@link #CLASSNAME} is java.lang.String, there must be only a single entry.
      */
-    public static final String HEADERS = "table.headers"; // $NON-NLS-1$
+    public static final String HEADERS = "table.headers";
 
     /** attribute name for property names within the {@link #CLASSNAME}, value must be String array */
-    public static final String OBJECT_PROPERTIES = "tableObject.properties"; // $NON-NLS-1$
+    public static final String OBJECT_PROPERTIES = "tableObject.properties";
 
     private JTable table;
     private ObjectTableModel model;
@@ -90,17 +90,17 @@ public class TableEditor extends PropertyEditorSupport implements FocusListener,
     private final JButton downButton;
 
     public TableEditor() {
-        addButton = new JButton(JMeterUtils.getResString("add")); // $NON-NLS-1$
+        addButton = new JButton(JMeterUtils.getResString("add"));
         addButton.addActionListener(new AddListener());
-        clipButton = new JButton(JMeterUtils.getResString("add_from_clipboard")); // $NON-NLS-1$
+        clipButton = new JButton(JMeterUtils.getResString("add_from_clipboard"));
         clipButton.addActionListener(new ClipListener());
-        removeButton = new JButton(JMeterUtils.getResString("remove")); // $NON-NLS-1$
+        removeButton = new JButton(JMeterUtils.getResString("remove"));
         removeButton.addActionListener(new RemoveListener());
-        clearButton = new JButton(JMeterUtils.getResString("clear")); // $NON-NLS-1$
+        clearButton = new JButton(JMeterUtils.getResString("clear"));
         clearButton.addActionListener(new ClearListener());
-        upButton = new JButton(JMeterUtils.getResString("up")); // $NON-NLS-1$
+        upButton = new JButton(JMeterUtils.getResString("up"));
         upButton.addActionListener(new UpListener());
-        downButton = new JButton(JMeterUtils.getResString("down")); // $NON-NLS-1$
+        downButton = new JButton(JMeterUtils.getResString("down"));
         downButton.addActionListener(new DownListener());
     }
 
@@ -242,7 +242,7 @@ public class TableEditor extends PropertyEditorSupport implements FocusListener,
 
     private Functor[] createWriters(List<String> propNames) {
         return propNames.stream()
-                .map(propName -> "set" + propName) // $NON-NLS-1$
+                .map(propName -> "set" + propName)
                 .map(Functor::new)
                 .toArray(Functor[]::new);
     }
@@ -260,7 +260,7 @@ public class TableEditor extends PropertyEditorSupport implements FocusListener,
     private Class<?>[] getArgsForWriter(Class<?> c, List<String> propNames) {
         return propNames.stream()
                 .map(propName -> Arrays.stream(c.getMethods())
-                        .filter(m -> m.getName().equals("set" + propName)) // $NON-NLS-1$
+                        .filter(m -> m.getName().equals("set" + propName))
                         .map(m -> m.getParameterTypes()[0])
                         .findFirst()
                         .orElse(null))
@@ -316,9 +316,9 @@ public class TableEditor extends PropertyEditorSupport implements FocusListener,
                     return;
                 }
 
-                String[] clipboardLines = clipboardContent.split("\n"); // $NON-NLS-1$
+                String[] clipboardLines = clipboardContent.split("\n");
                 for (String clipboardLine : clipboardLines) {
-                    String[] columns = clipboardLine.split("\t"); // $NON-NLS-1$
+                    String[] columns = clipboardLine.split("\t");
 
                     model.addRow(clazz.getDeclaredConstructor().newInstance());
 

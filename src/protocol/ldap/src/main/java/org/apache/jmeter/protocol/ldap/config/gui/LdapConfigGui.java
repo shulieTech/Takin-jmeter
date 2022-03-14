@@ -70,23 +70,23 @@ public class LdapConfigGui extends AbstractConfigGui implements ItemListener {
 
     private JTextField port = new JTextField(20);
 
-    private JCheckBox userDefined = new JCheckBox(JMeterUtils.getResString("user_defined_test")); // $NON-NLS-1$
+    private JCheckBox userDefined = new JCheckBox(JMeterUtils.getResString("user_defined_test"));
 
-    private JRadioButton addTest = new JRadioButton(JMeterUtils.getResString("add_test")); // $NON-NLS-1$
+    private JRadioButton addTest = new JRadioButton(JMeterUtils.getResString("add_test"));
 
-    private JRadioButton modifyTest = new JRadioButton(JMeterUtils.getResString("modify_test")); // $NON-NLS-1$
+    private JRadioButton modifyTest = new JRadioButton(JMeterUtils.getResString("modify_test"));
 
-    private JRadioButton deleteTest = new JRadioButton(JMeterUtils.getResString("delete_test")); // $NON-NLS-1$
+    private JRadioButton deleteTest = new JRadioButton(JMeterUtils.getResString("delete_test"));
 
-    private JRadioButton searchTest = new JRadioButton(JMeterUtils.getResString("search_test")); // $NON-NLS-1$
+    private JRadioButton searchTest = new JRadioButton(JMeterUtils.getResString("search_test"));
 
     private ButtonGroup bGroup = new ButtonGroup();
 
     private boolean displayName = true;
 
-    private ArgumentsPanel tableAddPanel = new ArgumentsPanel(JMeterUtils.getResString("add_test")); // $NON-NLS-1$
+    private ArgumentsPanel tableAddPanel = new ArgumentsPanel(JMeterUtils.getResString("add_test"));
 
-    private ArgumentsPanel tableModifyPanel = new ArgumentsPanel(JMeterUtils.getResString("modify_test")); // $NON-NLS-1$
+    private ArgumentsPanel tableModifyPanel = new ArgumentsPanel(JMeterUtils.getResString("modify_test"));
 
     private JPanel cards;
 
@@ -109,7 +109,7 @@ public class LdapConfigGui extends AbstractConfigGui implements ItemListener {
 
     @Override
     public String getLabelResource() {
-        return "ldap_sample_title"; // $NON-NLS-1$
+        return "ldap_sample_title";
     }
 
     /**
@@ -154,7 +154,7 @@ public class LdapConfigGui extends AbstractConfigGui implements ItemListener {
             userDefined.setSelected(true);
         } else {
             userDefined.setSelected(false);
-            cl.show(cards, ""); // $NON-NLS-1$
+            cl.show(cards, "");
         }
     }
 
@@ -237,31 +237,31 @@ public class LdapConfigGui extends AbstractConfigGui implements ItemListener {
             if (addTest.isSelected()) {
                 cl.show(cards, "Add");
                 tableModifyPanel.clear();
-                modify.setText(""); // $NON-NLS-1$
-                searchbase.setText(""); // $NON-NLS-1$
-                searchfilter.setText(""); // $NON-NLS-1$
+                modify.setText("");
+                searchbase.setText("");
+                searchfilter.setText("");
                 delete.setText("");
             } else if (deleteTest.isSelected()) {
                 cl.show(cards, "Delete");
                 tableModifyPanel.clear();
-                modify.setText(""); // $NON-NLS-1$
+                modify.setText("");
                 tableAddPanel.clear();
-                add.setText(""); // $NON-NLS-1$
-                searchbase.setText(""); // $NON-NLS-1$
-                searchfilter.setText(""); // $NON-NLS-1$
+                add.setText("");
+                searchbase.setText("");
+                searchfilter.setText("");
             } else if (searchTest.isSelected()) {
                 cl.show(cards, "Search");
-                delete.setText(""); // $NON-NLS-1$
+                delete.setText("");
                 tableModifyPanel.clear();
-                modify.setText(""); // $NON-NLS-1$
+                modify.setText("");
                 tableAddPanel.clear();
-                add.setText(""); // $NON-NLS-1$
+                add.setText("");
             } else if (modifyTest.isSelected()) {
                 cl.show(cards, "Modify");
                 tableAddPanel.clear();
-                add.setText(""); // $NON-NLS-1$
-                searchbase.setText(""); // $NON-NLS-1$
-                searchfilter.setText(""); // $NON-NLS-1$
+                add.setText("");
+                searchbase.setText("");
+                searchfilter.setText("");
                 delete.setText("");
             } else {
                 resetCardLayout(cl);
@@ -272,14 +272,14 @@ public class LdapConfigGui extends AbstractConfigGui implements ItemListener {
     }
 
     private void resetCardLayout(CardLayout cl) {
-        cl.show(cards, ""); // $NON-NLS-1$
+        cl.show(cards, "");
         tableAddPanel.clear();
-        add.setText(""); // $NON-NLS-1$
+        add.setText("");
         tableModifyPanel.clear();
-        modify.setText(""); // $NON-NLS-1$
-        searchbase.setText(""); // $NON-NLS-1$
-        searchfilter.setText(""); // $NON-NLS-1$
-        delete.setText(""); // $NON-NLS-1$
+        modify.setText("");
+        searchbase.setText("");
+        searchfilter.setText("");
+        delete.setText("");
     }
 
     /**
@@ -344,7 +344,7 @@ public class LdapConfigGui extends AbstractConfigGui implements ItemListener {
      */
     private JPanel createLabelPanel(String key, JTextField field) {
         JPanel addInnerPanel = new JPanel(new BorderLayout(5, 0));
-        JLabel label = new JLabel(JMeterUtils.getResString(key)); // $NON-NLS-1$
+        JLabel label = new JLabel(JMeterUtils.getResString(key));
         label.setLabelFor(field);
         addInnerPanel.add(label, BorderLayout.WEST);
         addInnerPanel.add(field, BorderLayout.CENTER);
@@ -381,9 +381,9 @@ public class LdapConfigGui extends AbstractConfigGui implements ItemListener {
      */
     private JPanel createTestPanel() {
         JPanel testPanel = new JPanel(new BorderLayout());
-        testPanel.setBorder(BorderFactory.createTitledBorder(JMeterUtils.getResString("test_configuration"))); // $NON-NLS-1$
+        testPanel.setBorder(BorderFactory.createTitledBorder(JMeterUtils.getResString("test_configuration")));
 
-        testPanel.add(new JLabel(JMeterUtils.getResString("test"))); // $NON-NLS-1$
+        testPanel.add(new JLabel(JMeterUtils.getResString("test")));
         JPanel rowPanel = new JPanel();
 
         rowPanel.add(addTest);

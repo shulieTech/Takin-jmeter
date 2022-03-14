@@ -93,7 +93,7 @@ implements ActionListener, TreeSelectionListener, Clearable, ItemListener {
     public static final Color CLIENT_ERROR_COLOR = Color.blue;
     public static final Color REDIRECT_COLOR = Color.green;
 
-    protected static final String COMBO_CHANGE_COMMAND = "change_combo"; // $NON-NLS-1$
+    protected static final String COMBO_CHANGE_COMMAND = "change_combo";
 
     private static final Border RED_BORDER = BorderFactory.createLineBorder(Color.red);
     private static final Border BLUE_BORDER = BorderFactory.createLineBorder(Color.blue);
@@ -101,7 +101,7 @@ implements ActionListener, TreeSelectionListener, Clearable, ItemListener {
 
     // Default limited to 10 megabytes
     private static final int MAX_DISPLAY_SIZE =
-            JMeterUtils.getPropDefault("view.results.tree.max_size", 10485760); // $NON-NLS-1$
+            JMeterUtils.getPropDefault("view.results.tree.max_size", 10485760);
 
     // default display order
     private static final String VIEWERS_ORDER =
@@ -325,7 +325,7 @@ implements ActionListener, TreeSelectionListener, Clearable, ItemListener {
     /** {@inheritDoc} */
     @Override
     public String getLabelResource() {
-        return "view_results_tree_title"; // $NON-NLS-1$
+        return "view_results_tree_title";
     }
 
     /**
@@ -426,7 +426,7 @@ implements ActionListener, TreeSelectionListener, Clearable, ItemListener {
         VerticalPanel leftPane = new VerticalPanel();
         leftPane.add(treePane, BorderLayout.CENTER);
         leftPane.add(createComboRender(), BorderLayout.NORTH);
-        autoScrollCB = new JCheckBox(JMeterUtils.getResString("view_results_autoscroll")); // $NON-NLS-1$
+        autoScrollCB = new JCheckBox(JMeterUtils.getResString("view_results_autoscroll"));
         autoScrollCB.setSelected(false);
         autoScrollCB.addItemListener(this);
         leftPane.add(autoScrollCB, BorderLayout.SOUTH);
@@ -451,7 +451,7 @@ implements ActionListener, TreeSelectionListener, Clearable, ItemListener {
         } catch (IOException e1) {
             // ignored
         }
-        String defaultRenderer = expandToClassname(".RenderAsText"); // $NON-NLS-1$
+        String defaultRenderer = expandToClassname(".RenderAsText");
         if (VIEWERS_ORDER.length() > 0) {
             defaultRenderer = expandToClassname(VIEWERS_ORDER.split(",", 2)[0]);
         }
@@ -499,7 +499,7 @@ implements ActionListener, TreeSelectionListener, Clearable, ItemListener {
 
     private String expandToClassname(String name) {
         if (name.startsWith(".")) {
-            return "org.apache.jmeter.visualizers" + name; // $NON-NLS-1$
+            return "org.apache.jmeter.visualizers" + name;
         }
         return name;
     }
@@ -551,7 +551,7 @@ implements ActionListener, TreeSelectionListener, Clearable, ItemListener {
                 StringBuilder builder = new StringBuilder(MAX_DISPLAY_SIZE + 100);
                 builder.append(JMeterUtils.getResString("view_results_response_too_large_message")) //$NON-NLS-1$
                     .append(len).append(" > Max: ").append(MAX_DISPLAY_SIZE)
-                    .append(", ").append(JMeterUtils.getResString("view_results_response_partial_message")) // $NON-NLS-1$
+                    .append(", ").append(JMeterUtils.getResString("view_results_response_partial_message"))
                     .append("\n").append(res.getResponseDataAsString(), 0, MAX_DISPLAY_SIZE).append("\n...");
                 response = builder.toString();
             } else {

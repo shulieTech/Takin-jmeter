@@ -125,12 +125,12 @@ public class CriticalSectionControllerGui extends AbstractControllerGui {
     @Override
     public void clearGui() {
         super.clearGui();
-        tfLockName.setText("global_lock"); // $NON-NLS-1$
+        tfLockName.setText("global_lock");
     }
 
     @Override
     public String getLabelResource() {
-        return "critical_section_controller_title"; // $NON-NLS-1$
+        return "critical_section_controller_title";
     }
 
     /**
@@ -164,11 +164,11 @@ public class CriticalSectionControllerGui extends AbstractControllerGui {
 
         // Condition LABEL
         JLabel conditionLabel = new JLabel(
-                JMeterUtils.getResString("critical_section_controller_label")); // $NON-NLS-1$
+                JMeterUtils.getResString("critical_section_controller_label"));
         conditionPanel.add(conditionLabel, BorderLayout.WEST);
 
         // TEXT FIELD
-        tfLockName = new JTextField(""); // $NON-NLS-1$
+        tfLockName = new JTextField("");
         conditionLabel.setLabelFor(tfLockName);
         conditionPanel.add(tfLockName, BorderLayout.CENTER);
 

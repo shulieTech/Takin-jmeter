@@ -50,7 +50,7 @@ public class ThreadGroup extends AbstractThreadGroup {
 
     /** How often to check for shutdown during ramp-up, default 1000ms */
     private static final int RAMPUP_GRANULARITY =
-            JMeterUtils.getPropDefault("jmeterthread.rampup.granularity", 1000); // $NON-NLS-1$
+            JMeterUtils.getPropDefault("jmeterthread.rampup.granularity", 1000);
 
     //+ JMX entries - do not change the string values
 

@@ -124,7 +124,7 @@ public class RunTimeGui extends AbstractControllerGui implements ActionListener 
     public void clearGui() {
         super.clearGui();
 
-        seconds.setText("1"); // $NON-NLS-1$
+        seconds.setText("1");
     }
 
     /**
@@ -141,7 +141,7 @@ public class RunTimeGui extends AbstractControllerGui implements ActionListener 
 
     @Override
     public String getLabelResource() {
-        return "runtime_controller_title"; // $NON-NLS-1$
+        return "runtime_controller_title";
     }
 
     /**
@@ -180,13 +180,13 @@ public class RunTimeGui extends AbstractControllerGui implements ActionListener 
         JPanel loopPanel = new JPanel(new BorderLayout(5, 0));
 
         // SECONDS LABEL
-        JLabel secondsLabel = new JLabel(JMeterUtils.getResString("runtime_seconds")); // $NON-NLS-1$
+        JLabel secondsLabel = new JLabel(JMeterUtils.getResString("runtime_seconds"));
         loopPanel.add(secondsLabel, BorderLayout.WEST);
 
         JPanel loopSubPanel = new JPanel(new BorderLayout(5, 0));
 
         // TEXT FIELD
-        seconds = new JTextField("1", 5); // $NON-NLS-1$
+        seconds = new JTextField("1", 5);
         secondsLabel.setLabelFor(seconds);
         loopSubPanel.add(seconds, BorderLayout.CENTER);
 

@@ -58,11 +58,11 @@ public class SystemSamplerGui extends AbstractSamplerGui implements ItemListener
 
     private JCheckBox checkReturnCode;
     private JLabeledTextField desiredReturnCode;
-    private final FilePanelEntry stdin = new FilePanelEntry(JMeterUtils.getResString("system_sampler_stdin")); // $NON-NLS-1$
-    private final FilePanelEntry stdout = new FilePanelEntry(JMeterUtils.getResString("system_sampler_stdout")); // $NON-NLS-1$
-    private final FilePanelEntry stderr = new FilePanelEntry(JMeterUtils.getResString("system_sampler_stderr")); // $NON-NLS-1$
-    private final FilePanelEntry directory = new FilePanelEntry(JMeterUtils.getResString("directory_field_title"), true); // $NON-NLS-1$
-    private final FilePanelEntry command = new FilePanelEntry(JMeterUtils.getResString("command_field_title")); // $NON-NLS-1$
+    private final FilePanelEntry stdin = new FilePanelEntry(JMeterUtils.getResString("system_sampler_stdin"));
+    private final FilePanelEntry stdout = new FilePanelEntry(JMeterUtils.getResString("system_sampler_stdout"));
+    private final FilePanelEntry stderr = new FilePanelEntry(JMeterUtils.getResString("system_sampler_stderr"));
+    private final FilePanelEntry directory = new FilePanelEntry(JMeterUtils.getResString("directory_field_title"), true);
+    private final FilePanelEntry command = new FilePanelEntry(JMeterUtils.getResString("command_field_title"));
     private JLabeledTextField timeout;
     private ArgumentsPanel argsPanel;
     private ArgumentsPanel envPanel;
@@ -77,7 +77,7 @@ public class SystemSamplerGui extends AbstractSamplerGui implements ItemListener
 
     @Override
     public String getLabelResource() {
-        return "system_sampler_title"; // $NON-NLS-1$
+        return "system_sampler_title";
     }
 
     @Override
@@ -155,7 +155,7 @@ public class SystemSamplerGui extends AbstractSamplerGui implements ItemListener
         stdin.setFilename(systemSampler.getStdin());
         stdout.setFilename(systemSampler.getStdout());
         stderr.setFilename(systemSampler.getStderr());
-        timeout.setText(systemSampler.getTimeout() == 0L ? "":  // $NON-NLS-1$
+        timeout.setText(systemSampler.getTimeout() == 0L ? "": 
             Long.toString(systemSampler.getTimeout())); // not sure if replace 0L to empty string is the good way.
     }
 
@@ -166,10 +166,10 @@ public class SystemSamplerGui extends AbstractSamplerGui implements ItemListener
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         panel.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("return_code_config_box_title"))); // $NON-NLS-1$
-        checkReturnCode = new JCheckBox(JMeterUtils.getResString("check_return_code_title")); // $NON-NLS-1$
+                JMeterUtils.getResString("return_code_config_box_title")));
+        checkReturnCode = new JCheckBox(JMeterUtils.getResString("check_return_code_title"));
         checkReturnCode.addItemListener(this);
-        desiredReturnCode = new JLabeledTextField(JMeterUtils.getResString("expected_return_code_title")); // $NON-NLS-1$
+        desiredReturnCode = new JLabeledTextField(JMeterUtils.getResString("expected_return_code_title"));
         desiredReturnCode.setSize(desiredReturnCode.getSize().height, 30);
         panel.add(checkReturnCode);
         panel.add(Box.createHorizontalStrut(5));
@@ -185,8 +185,8 @@ public class SystemSamplerGui extends AbstractSamplerGui implements ItemListener
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         panel.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("timeout_config_box_title"))); // $NON-NLS-1$
-        timeout = new JLabeledTextField(JMeterUtils.getResString("timeout_title")); // $NON-NLS-1$
+                JMeterUtils.getResString("timeout_config_box_title")));
+        timeout = new JLabeledTextField(JMeterUtils.getResString("timeout_title"));
         timeout.setSize(timeout.getSize().height, 30);
         panel.add(timeout);
         return panel;
@@ -206,7 +206,7 @@ public class SystemSamplerGui extends AbstractSamplerGui implements ItemListener
 
         JPanel panel = new VerticalPanel();
         panel.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("command_config_box_title"))); // $NON-NLS-1$
+                JMeterUtils.getResString("command_config_box_title")));
         panel.add(cmdPanel, BorderLayout.NORTH);
         panel.add(makeArgumentsPanel(), BorderLayout.CENTER);
         panel.add(makeEnvironmentPanel(), BorderLayout.SOUTH);
@@ -218,13 +218,13 @@ public class SystemSamplerGui extends AbstractSamplerGui implements ItemListener
      * @return JPanel Arguments Panel
      */
     private JPanel makeArgumentsPanel() {
-        argsPanel = new ArgumentsPanel(JMeterUtils.getResString("arguments_panel_title"), null, true, false ,  // $NON-NLS-1$
+        argsPanel = new ArgumentsPanel(JMeterUtils.getResString("arguments_panel_title"), null, true, false , 
                 new ObjectTableModel(new String[] { ArgumentsPanel.COLUMN_RESOURCE_NAMES_1 },
                         Argument.class,
                         new Functor[] {
-                        new Functor("getValue") },  // $NON-NLS-1$
+                        new Functor("getValue") }, 
                         new Functor[] {
-                        new Functor("setValue") }, // $NON-NLS-1$
+                        new Functor("setValue") },
                         new Class[] {String.class }));
         return argsPanel;
     }
@@ -233,7 +233,7 @@ public class SystemSamplerGui extends AbstractSamplerGui implements ItemListener
      * @return JPanel Environment Panel
      */
     private JPanel makeEnvironmentPanel() {
-        envPanel = new ArgumentsPanel(JMeterUtils.getResString("environment_panel_title")); // $NON-NLS-1$
+        envPanel = new ArgumentsPanel(JMeterUtils.getResString("environment_panel_title"));
         return envPanel;
     }
 
@@ -243,7 +243,7 @@ public class SystemSamplerGui extends AbstractSamplerGui implements ItemListener
     private JPanel makeStreamsPanel() {
         JPanel stdPane = new JPanel(new BorderLayout());
         stdPane.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("command_config_std_streams_title"))); // $NON-NLS-1$
+                JMeterUtils.getResString("command_config_std_streams_title")));
         stdPane.add(stdin, BorderLayout.NORTH);
         stdPane.add(stdout, BorderLayout.CENTER);
         stdPane.add(stderr, BorderLayout.SOUTH);
@@ -260,13 +260,13 @@ public class SystemSamplerGui extends AbstractSamplerGui implements ItemListener
         command.clearGui();
         argsPanel.clearGui();
         envPanel.clearGui();
-        desiredReturnCode.setText(""); // $NON-NLS-1$
+        desiredReturnCode.setText("");
         checkReturnCode.setSelected(false);
         desiredReturnCode.setEnabled(false);
         stdin.clearGui();
         stdout.clearGui();
         stderr.clearGui();
-        timeout.setText(""); // $NON-NLS-1$
+        timeout.setText("");
     }
 
     @Override

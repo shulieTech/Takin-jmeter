@@ -54,7 +54,7 @@ public class HtmlExtractorGui extends AbstractPostProcessorGui {
     /**
      * This choice means don't explicitly set Implementation and rely on default
      */
-    private static final String USE_DEFAULT_EXTRACTOR_IMPL = ""; // $NON-NLS-1$
+    private static final String USE_DEFAULT_EXTRACTOR_IMPL = "";
 
     private JLabeledTextField expressionField;
     private JLabeledTextField attributeField;
@@ -163,7 +163,7 @@ public class HtmlExtractorGui extends AbstractPostProcessorGui {
         m.addElement(USE_DEFAULT_EXTRACTOR_IMPL);
         extractorImplName = new JComboBox<>(m);
         extractorImplName.setSelectedItem(HtmlExtractor.DEFAULT_EXTRACTOR);
-        JLabel label2 = new JLabel(JMeterUtils.getResString("html_extractor_type")); // $NON-NLS-1$
+        JLabel label2 = new JLabel(JMeterUtils.getResString("html_extractor_type"));
         label2.setLabelFor(extractorImplName);
         panel.add(label2);
         panel.add(extractorImplName);

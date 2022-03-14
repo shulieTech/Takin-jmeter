@@ -50,22 +50,22 @@ public class ResponseAssertion extends AbstractScopedAssertion implements Serial
 
     private static final long serialVersionUID = 242L;
 
-    private static final String TEST_FIELD = "Assertion.test_field";  // $NON-NLS-1$
+    private static final String TEST_FIELD = "Assertion.test_field";
 
     // Values for TEST_FIELD
     // N.B. we cannot change the text value as it is in test plans
-    private static final String SAMPLE_URL = "Assertion.sample_label"; // $NON-NLS-1$
-    private static final String RESPONSE_DATA = "Assertion.response_data"; // $NON-NLS-1$
-    private static final String RESPONSE_DATA_AS_DOCUMENT = "Assertion.response_data_as_document"; // $NON-NLS-1$
-    private static final String RESPONSE_CODE = "Assertion.response_code"; // $NON-NLS-1$
-    private static final String RESPONSE_MESSAGE = "Assertion.response_message"; // $NON-NLS-1$
-    private static final String RESPONSE_HEADERS = "Assertion.response_headers"; // $NON-NLS-1$
-    private static final String REQUEST_HEADERS = "Assertion.request_headers"; // $NON-NLS-1$
-    private static final String REQUEST_DATA = "Assertion.request_data"; // $NON-NLS-1$
-    private static final String ASSUME_SUCCESS = "Assertion.assume_success"; // $NON-NLS-1$
-    private static final String TEST_STRINGS = "Asserion.test_strings"; // $NON-NLS-1$
-    private static final String TEST_TYPE = "Assertion.test_type"; // $NON-NLS-1$
-    private static final String CUSTOM_MESSAGE = "Assertion.custom_message"; // $NON-NLS-1$
+    private static final String SAMPLE_URL = "Assertion.sample_label";
+    private static final String RESPONSE_DATA = "Assertion.response_data";
+    private static final String RESPONSE_DATA_AS_DOCUMENT = "Assertion.response_data_as_document";
+    private static final String RESPONSE_CODE = "Assertion.response_code";
+    private static final String RESPONSE_MESSAGE = "Assertion.response_message";
+    private static final String RESPONSE_HEADERS = "Assertion.response_headers";
+    private static final String REQUEST_HEADERS = "Assertion.request_headers";
+    private static final String REQUEST_DATA = "Assertion.request_data";
+    private static final String ASSUME_SUCCESS = "Assertion.assume_success";
+    private static final String TEST_STRINGS = "Asserion.test_strings";
+    private static final String TEST_TYPE = "Assertion.test_type";
+    private static final String CUSTOM_MESSAGE = "Assertion.custom_message";
 
     /**
      * Mask values for TEST_TYPE

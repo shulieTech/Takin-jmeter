@@ -83,7 +83,7 @@ public class HttpClientDefaultParameters {
         File f = new File(file);
         if(! (f.exists() && f.canRead())) {
             f = new File(NewDriver.getJMeterDir() + File.separator
-                    + "bin" + File.separator + file); // $NON-NLS-1$
+                    + "bin" + File.separator + file);
             log.info(file + " httpclient parameters does not exist, trying "+f.getAbsolutePath());
             if(! (f.exists() && f.canRead())) {
                 log.error("Cannot read parameters file for HttpClient: "+ file);
@@ -97,7 +97,7 @@ public class HttpClientDefaultParameters {
             for (Map.Entry<Object, Object> me : props.entrySet()){
                 String key = (String) me.getKey();
                 String value = (String)me.getValue();
-                int typeSep = key.indexOf('$'); // $NON-NLS-1$
+                int typeSep = key.indexOf('$');
                 try {
                     if (typeSep > 0){
                         String type = key.substring(typeSep+1);// get past separator

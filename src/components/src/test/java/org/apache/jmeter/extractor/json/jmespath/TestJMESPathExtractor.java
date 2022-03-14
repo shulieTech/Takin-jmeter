@@ -35,9 +35,9 @@ import org.junit.runners.Parameterized.Parameters;
 
 @RunWith(Enclosed.class)
 public class TestJMESPathExtractor {
-    private static final String DEFAULT_VALUE = "NONE"; // $NON-NLS-1$
-    private static final String REFERENCE_NAME = "varname"; // $NON-NLS-1$
-    private static final String REFERENCE_NAME_MATCH_NUMBER = "varname_matchNr"; // $NON-NLS-1$
+    private static final String DEFAULT_VALUE = "NONE";
+    private static final String REFERENCE_NAME = "varname";
+    private static final String REFERENCE_NAME_MATCH_NUMBER = "varname_matchNr";
 
     private static JMESPathExtractor setupProcessor(JMeterVariables vars, SampleResult sampleResult, String data, boolean isSourceVars, String matchNumbers) {
         JMeterContext jmctx = JMeterContextService.getContext();

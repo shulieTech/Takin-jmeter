@@ -27,6 +27,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.alibaba.fastjson.TypeReference;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.samplers.SampleResult;
@@ -59,7 +60,7 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
     private static final String CUMULATED_METRICS = "all";
     private static final long SEND_INTERVAL = JMeterUtils.getPropDefault("backend_influxdb.send_interval", 5);
     private static final int MAX_POOL_SIZE = 1;
-    private static final String SEPARATOR = ";"; //$NON-NLS-1$
+    private static final String SEPARATOR = ";";
     private static final Object LOCK = new Object();
     private static final Map<String, String> DEFAULT_ARGS = new LinkedHashMap<>();
 
@@ -94,7 +95,9 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
         super();
     }
 
-    //使用newScheduledThreadPool线程池 每5S执行一次
+    /**
+     * 使用newScheduledThreadPool线程池 每5S执行一次
+     */
     @Override
     public void run() {
         sendMetrics();
@@ -103,7 +106,7 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
     private void sendMetrics() {
         synchronized (LOCK) {
             //算线程数单独拎出来，不要每个活动都去算，提升效率
-//            int activeThreadNum = getActiveThreadNum();
+            //            int activeThreadNum = getActiveThreadNum();
             UserMetric userMetrics = getUserMetrics();
             for (Map.Entry<String, SamplerMetric> entry : metricsPerSampler.entrySet()) {
                 String transaction = CUMULATED_METRICS.equals(entry.getKey()) ? CUMULATED_METRICS : AbstractInfluxdbMetricsSender.tagToStringValue(entry.getKey());
@@ -131,12 +134,12 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
         responseMetrics.setMinRt(NumberUtil.maybeNaN(metric.getAllMinTime()));
         responseMetrics.setTimestamp(System.currentTimeMillis());
         responseMetrics.setRt(NumberUtil.maybeNaN(metric.getAllMean()));
-        //modify by lipeng 当transcation为all时返回的saCount均设置为0，因为all的sa count为空，让cloud去聚合all的sacount数据
+        //modify by 李鹏 当transcation为all时返回的saCount均设置为0，因为all的sa count为空，让cloud去聚合all的sacount数据
         // 平台会设置每个业务活动的目标rt，而不会给all设置目标rt，设置目标rt根据脚本后端监听器中的businessMap参数传递过来
         responseMetrics.setSaCount(metric.getSaSuccess());
         //modify end
         String podNumber = System.getProperty("pod.number");
-        Map<String, String> tags = new HashMap<>();
+        Map<String, String> tags = new HashMap<>(1);
         tags.put("podNum", podNumber == null ? "" : podNumber);
         responseMetrics.setTags(tags);
         responseMetrics.setSentBytes(metric.getSentBytes());
@@ -144,26 +147,12 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
         responseMetrics.setActiveThreads(metric.getActiveThreads());
         responseMetrics.setErrorInfos(new HashSet<>());
         //add end
-        //add by lipeng 添加sumRt
+        //add by 李鹏 添加sumRt
         responseMetrics.setSumRt(metric.getSumRt());
         //把他放在最后，getPercentMap中有清数据
         responseMetrics.setPercentData(DataUtil.percentMapToString(metric.getPercentMap()));
         return responseMetrics;
     }
-
-
-    /**
-     * @author yuanba
-     */
-//    private int getActiveThreadNum() {
-//        int n = (int) Math.round(NumberUtil.divide(activeThreads, count));
-////        String pressureMode = System.getProperty("engine.perssure.mode");
-////        if ("0".equals(pressureMode)) {
-////            int cgan = ThreadUtil.getCurrentGroupActiveThreadNum();
-////            n = Math.min(cgan, n);
-////        }
-////        return n;
-//    }
 
     public String getSamplersRegex() {
         return samplersRegex;
@@ -183,13 +172,13 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
             for (SampleResult sampleResult : sampleResults) {
                 userMetrics.add(sampleResult);
                 addMetric(sampleResult);
-//                Matcher matcher = samplersToFilter.matcher(sampleResult.getSampleLabel());
-//                if (!summaryOnly && (matcher.find())) {
-//                    addMetric(sampleResult);
-//                }
-//                //TODO optimize sf add switch
-//                SamplerMetric cumulatedMetrics = getSamplerMetricInfluxdb(CUMULATED_METRICS, sampleResult.getTransactionUrl());
-//                cumulatedMetrics.addCumulated(sampleResult);
+                //                Matcher matcher = samplersToFilter.matcher(sampleResult.getSampleLabel());
+                //                if (!summaryOnly && (matcher.find())) {
+                //                    addMetric(sampleResult);
+                //                }
+                //                //TODO optimize sf add switch
+                //                SamplerMetric cumulatedMetrics = getSamplerMetricInfluxdb(CUMULATED_METRICS, sampleResult.getTransactionUrl());
+                //                cumulatedMetrics.addCumulated(sampleResult);
             }
         }
     }
@@ -214,14 +203,13 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
         samplerMetric.add(sampleResult);
     }
 
-
     @Override
     public void setupTest(BackendListenerContext context) throws Exception {
         summaryOnly = context.getBooleanParameter("summaryOnly", false);
         samplersRegex = context.getParameter("samplersRegex", "");
         String bizArgs = context.getParameter("businessMap", "");
         if (StringUtils.isNotBlank(bizArgs)) {
-            bizMap = JsonUtil.parseObject(bizArgs, new TypeReference<Map<String, BusinessActivityConfig>>(){});
+            bizMap = JsonUtil.parseObject(bizArgs, new TypeReference<Map<String, BusinessActivityConfig>>() {});
         }
 
         initPercentiles(context);
@@ -234,7 +222,7 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
         // Start immediately the scheduler and put the pooling ( 5 seconds by default )
         this.timerHandle = scheduler.scheduleAtFixedRate(this, 0, SEND_INTERVAL, TimeUnit.SECONDS);
         //测试 每500ms获取一次数据
-//        this.timerHandle = scheduler.scheduleAtFixedRate(this, 0, 500, TimeUnit.MILLISECONDS);
+        //        this.timerHandle = scheduler.scheduleAtFixedRate(this, 0, 500, TimeUnit.MILLISECONDS);
     }
 
     private void initInfluxdbMetricsManager(BackendListenerContext context) throws Exception {
@@ -276,7 +264,7 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
             return samplerMetric;
         }
         SamplerMetric newSamplerMetric = new SamplerMetric();
-        //add by lipeng  添加业务活动url
+        //add by 李鹏  添加业务活动url
         newSamplerMetric.setTransactionUrl(transactionUrl);
         String transaction = DataUtil.getTransaction(sampleLabel);
         BusinessActivityConfig config = bizMap.get(transaction);
@@ -287,10 +275,6 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
         }
         return newSamplerMetric;
     }
-
-//    public String getMetricLabel(String sampleLabel) {
-//        return sampleLabel + "_rt";
-//    }
 
     @Override
     public void teardownTest(BackendListenerContext context) throws Exception {
@@ -319,10 +303,10 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
     private void addAnnotation(boolean isStartOfTest) {
         EventMetrics eventMetrics = new EventMetrics();
         eventMetrics.setEventName(isStartOfTest ? METRICS_EVENTS_STARTED : METRICS_EVENTS_ENDED);
-        //add by lipeng tags添加当前jtl文件名
-        Map<String, String> tags = new HashMap<>();
+        //add by 李鹏 tags添加当前jtl文件名
+        Map<String, String> tags = new HashMap<>(1);
         tags.put(PressureConstants.CURRENT_JTL_FILE_NAME_SYSTEM_PROP_KEY
-                , System.getProperty(PressureConstants.CURRENT_JTL_FILE_NAME_SYSTEM_PROP_KEY));
+            , System.getProperty(PressureConstants.CURRENT_JTL_FILE_NAME_SYSTEM_PROP_KEY));
         eventMetrics.setTags(tags);
         eventMetrics.setTimestamp(System.currentTimeMillis());
         influxdbMetricsManager.addEventMetrics(eventMetrics);
@@ -335,9 +319,9 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
         return arguments;
     }
 
-//    @FunctionalInterface
-//    private interface PercentileProvider {
-//        double getPercentileValue(double percentile);
-//    }
+    //    @FunctionalInterface
+    //    private interface PercentileProvider {
+    //        double getPercentileValue(double percentile);
+    //    }
 
 }

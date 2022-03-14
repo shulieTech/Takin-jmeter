@@ -58,16 +58,16 @@ import org.slf4j.LoggerFactory;
  */
 public class HTTPJavaImpl extends HTTPAbstractImpl {
     private static final boolean OBEY_CONTENT_LENGTH =
-        JMeterUtils.getPropDefault("httpsampler.obey_contentlength", false); // $NON-NLS-1$
+        JMeterUtils.getPropDefault("httpsampler.obey_contentlength", false);
 
     private static final Logger log = LoggerFactory.getLogger(HTTPJavaImpl.class);
 
     private static final int MAX_CONN_RETRIES =
-        JMeterUtils.getPropDefault("http.java.sampler.retries" // $NON-NLS-1$
+        JMeterUtils.getPropDefault("http.java.sampler.retries"
                 ,0); // Maximum connection retries
 
     static {
-        log.info("Maximum connection retries = {}", MAX_CONN_RETRIES); // $NON-NLS-1$
+        log.info("Maximum connection retries = {}", MAX_CONN_RETRIES);
     }
 
     private static final byte[] NULL_BA = new byte[0];// can share these
@@ -317,9 +317,9 @@ public class HTTPJavaImpl extends HTTPAbstractImpl {
         String hfk;
         for (int i = 1; (hfk=conn.getHeaderFieldKey(i)) != null; i++) {
             headerBuf.append(hfk);
-            headerBuf.append(": "); // $NON-NLS-1$
+            headerBuf.append(": ");
             headerBuf.append(conn.getHeaderField(i));
-            headerBuf.append("\n"); // $NON-NLS-1$
+            headerBuf.append("\n");
         }
         return headerBuf.toString();
     }
@@ -437,16 +437,16 @@ public class HTTPJavaImpl extends HTTPAbstractImpl {
                 // value is a List of Strings
                 for (String value : entry.getValue()){
                     hdrs.append(headerKey);
-                    hdrs.append(": "); // $NON-NLS-1$
+                    hdrs.append(": ");
                     hdrs.append(value);
-                    hdrs.append("\n"); // $NON-NLS-1$
+                    hdrs.append("\n");
                 }
             }
         }
         if(addSecurityHeaders) {
             for(Map.Entry<String, String> entry : securityHeaders.entrySet()) {
-                hdrs.append(entry.getKey()).append(": ") // $NON-NLS-1$
-                    .append(entry.getValue()).append("\n"); // $NON-NLS-1$
+                hdrs.append(entry.getKey()).append(": ")
+                    .append(entry.getValue()).append("\n");
             }
         }
         return hdrs.toString();
@@ -580,7 +580,7 @@ public class HTTPJavaImpl extends HTTPAbstractImpl {
             String respMsg = conn.getResponseMessage();
             String hdr=conn.getHeaderField(0);
             if (hdr == null) {
-                hdr="(null)";  // $NON-NLS-1$
+                hdr="(null)"; 
             }
             if (errorLevel == -1){// Bug 38902 - sometimes -1 seems to be returned unnecessarily
                 if (respMsg != null) {// Bug 41902 - NPE
@@ -596,7 +596,7 @@ public class HTTPJavaImpl extends HTTPAbstractImpl {
                 }
             }
             if (errorLevel == -1) {
-                res.setResponseCode("(null)"); // $NON-NLS-1$
+                res.setResponseCode("(null)");
             } else {
                 res.setResponseCode(Integer.toString(errorLevel));
             }

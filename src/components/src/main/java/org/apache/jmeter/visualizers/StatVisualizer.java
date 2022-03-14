@@ -68,7 +68,7 @@ public class StatVisualizer extends AbstractVisualizer implements Clearable, Act
     private static final String SAVE_HEADERS = "saveHeaders"; //$NON-NLS-1$
     private static final String TOTAL_ROW_LABEL = JMeterUtils
             .getResString("aggregate_report_total_label"); //$NON-NLS-1$
-    private static final int REFRESH_PERIOD = JMeterUtils.getPropDefault("jmeter.gui.refresh_period", 500); // $NON-NLS-1$
+    private static final int REFRESH_PERIOD = JMeterUtils.getPropDefault("jmeter.gui.refresh_period", 500);
 
     private final JButton saveTable = new JButton(
             JMeterUtils.getResString("aggregate_graph_save_table")); //$NON-NLS-1$

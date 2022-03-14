@@ -34,9 +34,9 @@ import org.slf4j.LoggerFactory;
  */
 public class LoopController extends GenericController implements Serializable, IteratingController, LoopIterationListener {
 
-    public static final int INFINITE_LOOP_COUNT = -1; // $NON-NLS-1$
+    public static final int INFINITE_LOOP_COUNT = -1;
 
-    public static final String LOOPS = "LoopController.loops"; // $NON-NLS-1$
+    public static final String LOOPS = "LoopController.loops";
 
     private static final long serialVersionUID = 7833960784370272300L;
     private static final Logger LOGGER = LoggerFactory.getLogger(LoopController.class);
@@ -52,7 +52,7 @@ public class LoopController extends GenericController implements Serializable, I
      * Thread Group sets the value false, so nextIsNull() sets done, and the Thread Group will not be repeated.
      * However, it's not clear that a Thread Group could ever be repeated.
      */
-    private static final String CONTINUE_FOREVER = "LoopController.continue_forever"; // $NON-NLS-1$
+    private static final String CONTINUE_FOREVER = "LoopController.continue_forever";
 
     private transient int loopCount = 0;
 

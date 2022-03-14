@@ -51,7 +51,7 @@ public abstract class AbstractTestElement implements TestElement, Serializable, 
 
     private static final Logger log = LoggerFactory.getLogger(AbstractTestElement.class);
 
-    // modify by lipeng 20210624  修改为ConcurrentHashMap 否则高并发下会产生锁竞争
+    // modify by 李鹏 20210624  修改为ConcurrentHashMap 否则高并发下会产生锁竞争
 //    private final Map<String, JMeterProperty> propMap =
 //        Collections.synchronizedMap(new LinkedHashMap<String, JMeterProperty>());
     private final ConcurrentHashMap<String, JMeterProperty> propMap = new ConcurrentHashMap<>();

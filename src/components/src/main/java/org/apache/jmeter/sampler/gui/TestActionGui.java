@@ -65,29 +65,29 @@ public class TestActionGui extends AbstractSamplerGui { // NOSONAR Ignore hierar
 
     // String in the panel
     // Do not make these static, otherwise language changes don't work
-    private static final String TARGET_LABEL = JMeterUtils.getResString("test_action_target"); // $NON-NLS-1$
+    private static final String TARGET_LABEL = JMeterUtils.getResString("test_action_target");
 
-    private static final String THREAD_TARGET_LABEL = JMeterUtils.getResString("test_action_target_thread"); // $NON-NLS-1$
+    private static final String THREAD_TARGET_LABEL = JMeterUtils.getResString("test_action_target_thread");
 
-    private static final String TEST_TARGET_LABEL = JMeterUtils.getResString("test_action_target_test"); // $NON-NLS-1$
+    private static final String TEST_TARGET_LABEL = JMeterUtils.getResString("test_action_target_test");
 
-    private static final String ACTION_ON_THREAD_LABEL = JMeterUtils.getResString("test_action_action_thread"); // $NON-NLS-1$
+    private static final String ACTION_ON_THREAD_LABEL = JMeterUtils.getResString("test_action_action_thread");
 
-    private static final String ACTION_ON_THREAD_TEST_LABEL = JMeterUtils.getResString("test_action_action_test_thread"); // $NON-NLS-1$
+    private static final String ACTION_ON_THREAD_TEST_LABEL = JMeterUtils.getResString("test_action_action_test_thread");
 
-    private static final String PAUSE_ACTION_LABEL = JMeterUtils.getResString("test_action_pause"); // $NON-NLS-1$
+    private static final String PAUSE_ACTION_LABEL = JMeterUtils.getResString("test_action_pause");
 
-    private static final String STOP_ACTION_LABEL = JMeterUtils.getResString("test_action_stop"); // $NON-NLS-1$
+    private static final String STOP_ACTION_LABEL = JMeterUtils.getResString("test_action_stop");
 
-    private static final String STOP_NOW_ACTION_LABEL = JMeterUtils.getResString("test_action_stop_now"); // $NON-NLS-1$
+    private static final String STOP_NOW_ACTION_LABEL = JMeterUtils.getResString("test_action_stop_now");
 
-    private static final String RESTART_NEXT_THREAD_LOOP_LABEL = JMeterUtils.getResString("test_action_restart_next_loop"); // $NON-NLS-1$
+    private static final String RESTART_NEXT_THREAD_LOOP_LABEL = JMeterUtils.getResString("test_action_restart_next_loop");
 
-    private static final String START_NEXT_ITERATION_CURRENT_LOOP_ACTION = JMeterUtils.getResString("test_action_continue_current_loop"); // $NON-NLS-1$
+    private static final String START_NEXT_ITERATION_CURRENT_LOOP_ACTION = JMeterUtils.getResString("test_action_continue_current_loop");
 
-    private static final String BREAK_CURRENT_LOOP_ACTION = JMeterUtils.getResString("test_action_break_current_loop"); // $NON-NLS-1$
+    private static final String BREAK_CURRENT_LOOP_ACTION = JMeterUtils.getResString("test_action_break_current_loop");
 
-    private static final String DURATION_LABEL = JMeterUtils.getResString("test_action_duration"); // $NON-NLS-1$
+    private static final String DURATION_LABEL = JMeterUtils.getResString("test_action_duration");
 
     public TestActionGui() {
         super();
@@ -98,7 +98,7 @@ public class TestActionGui extends AbstractSamplerGui { // NOSONAR Ignore hierar
 
     @Override
     public String getLabelResource() {
-        return "test_action_title"; // $NON-NLS-1$
+        return "test_action_title";
     }
 
     @Override
@@ -241,7 +241,7 @@ public class TestActionGui extends AbstractSamplerGui { // NOSONAR Ignore hierar
 
         // Duration
         durationField = new JLabeledTextField(DURATION_LABEL, 15);
-        durationField.setText(""); // $NON-NLS-1$
+        durationField.setText("");
 
 
         actionButtons.add(pauseButton);

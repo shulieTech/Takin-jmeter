@@ -119,83 +119,83 @@ public abstract class HTTPSamplerBase extends AbstractSampler
             ));
 
     //+ JMX names - do not change
-    public static final String ARGUMENTS = "HTTPsampler.Arguments"; // $NON-NLS-1$
+    public static final String ARGUMENTS = "HTTPsampler.Arguments";
 
-    public static final String AUTH_MANAGER = "HTTPSampler.auth_manager"; // $NON-NLS-1$
+    public static final String AUTH_MANAGER = "HTTPSampler.auth_manager";
 
-    public static final String COOKIE_MANAGER = "HTTPSampler.cookie_manager"; // $NON-NLS-1$
+    public static final String COOKIE_MANAGER = "HTTPSampler.cookie_manager";
 
-    public static final String KEYSTORE_CONFIG = "HTTPSampler.keystore_configuration"; // $NON-NLS-1$
+    public static final String KEYSTORE_CONFIG = "HTTPSampler.keystore_configuration";
 
-    public static final String SAMPLE_TIMEOUT = "HTTPSampler.sample_timeout"; // $NON-NLS-1$
+    public static final String SAMPLE_TIMEOUT = "HTTPSampler.sample_timeout";
 
-    public static final String CACHE_MANAGER = "HTTPSampler.cache_manager"; // $NON-NLS-1$
+    public static final String CACHE_MANAGER = "HTTPSampler.cache_manager";
 
-    public static final String HEADER_MANAGER = "HTTPSampler.header_manager"; // $NON-NLS-1$
+    public static final String HEADER_MANAGER = "HTTPSampler.header_manager";
 
-    public static final String DNS_CACHE_MANAGER = "HTTPSampler.dns_cache_manager"; // $NON-NLS-1$
+    public static final String DNS_CACHE_MANAGER = "HTTPSampler.dns_cache_manager";
 
-    public static final String DOMAIN = "HTTPSampler.domain"; // $NON-NLS-1$
+    public static final String DOMAIN = "HTTPSampler.domain";
 
-    public static final String PORT = "HTTPSampler.port"; // $NON-NLS-1$
+    public static final String PORT = "HTTPSampler.port";
 
-    public static final String PROXYSCHEME = "HTTPSampler.proxyScheme"; // $NON-NLS-1$
+    public static final String PROXYSCHEME = "HTTPSampler.proxyScheme";
 
-    public static final String PROXYHOST = "HTTPSampler.proxyHost"; // $NON-NLS-1$
+    public static final String PROXYHOST = "HTTPSampler.proxyHost";
 
-    public static final String PROXYPORT = "HTTPSampler.proxyPort"; // $NON-NLS-1$
+    public static final String PROXYPORT = "HTTPSampler.proxyPort";
 
-    public static final String PROXYUSER = "HTTPSampler.proxyUser"; // $NON-NLS-1$
+    public static final String PROXYUSER = "HTTPSampler.proxyUser";
 
-    public static final String PROXYPASS = "HTTPSampler.proxyPass"; // $NON-NLS-1$
+    public static final String PROXYPASS = "HTTPSampler.proxyPass";
 
-    public static final String CONNECT_TIMEOUT = "HTTPSampler.connect_timeout"; // $NON-NLS-1$
+    public static final String CONNECT_TIMEOUT = "HTTPSampler.connect_timeout";
 
-    public static final String RESPONSE_TIMEOUT = "HTTPSampler.response_timeout"; // $NON-NLS-1$
+    public static final String RESPONSE_TIMEOUT = "HTTPSampler.response_timeout";
 
-    public static final String METHOD = "HTTPSampler.method"; // $NON-NLS-1$
+    public static final String METHOD = "HTTPSampler.method";
 
     /** This is the encoding used for the content, i.e. the charset name, not the header "Content-Encoding" */
-    public static final String CONTENT_ENCODING = "HTTPSampler.contentEncoding"; // $NON-NLS-1$
+    public static final String CONTENT_ENCODING = "HTTPSampler.contentEncoding";
 
-    public static final String IMPLEMENTATION = "HTTPSampler.implementation"; // $NON-NLS-1$
+    public static final String IMPLEMENTATION = "HTTPSampler.implementation";
 
-    public static final String PATH = "HTTPSampler.path"; // $NON-NLS-1$
+    public static final String PATH = "HTTPSampler.path";
 
-    public static final String FOLLOW_REDIRECTS = "HTTPSampler.follow_redirects"; // $NON-NLS-1$
+    public static final String FOLLOW_REDIRECTS = "HTTPSampler.follow_redirects";
 
-    public static final String AUTO_REDIRECTS = "HTTPSampler.auto_redirects"; // $NON-NLS-1$
+    public static final String AUTO_REDIRECTS = "HTTPSampler.auto_redirects";
 
-    public static final String PROTOCOL = "HTTPSampler.protocol"; // $NON-NLS-1$
+    public static final String PROTOCOL = "HTTPSampler.protocol";
 
-    static final String PROTOCOL_FILE = "file"; // $NON-NLS-1$
+    static final String PROTOCOL_FILE = "file";
 
     private static final String DEFAULT_PROTOCOL = HTTPConstants.PROTOCOL_HTTP;
 
-    public static final String URL = "HTTPSampler.URL"; // $NON-NLS-1$
+    public static final String URL = "HTTPSampler.URL";
 
     /**
      * IP source to use - does not apply to Java HTTP implementation currently
      */
-    public static final String IP_SOURCE = "HTTPSampler.ipSource"; // $NON-NLS-1$
+    public static final String IP_SOURCE = "HTTPSampler.ipSource";
 
-    public static final String IP_SOURCE_TYPE = "HTTPSampler.ipSourceType"; // $NON-NLS-1$
+    public static final String IP_SOURCE_TYPE = "HTTPSampler.ipSourceType";
 
-    public static final String USE_KEEPALIVE = "HTTPSampler.use_keepalive"; // $NON-NLS-1$
+    public static final String USE_KEEPALIVE = "HTTPSampler.use_keepalive";
 
-    public static final String DO_MULTIPART_POST = "HTTPSampler.DO_MULTIPART_POST"; // $NON-NLS-1$
+    public static final String DO_MULTIPART_POST = "HTTPSampler.DO_MULTIPART_POST";
 
-    public static final String BROWSER_COMPATIBLE_MULTIPART  = "HTTPSampler.BROWSER_COMPATIBLE_MULTIPART"; // $NON-NLS-1$
+    public static final String BROWSER_COMPATIBLE_MULTIPART  = "HTTPSampler.BROWSER_COMPATIBLE_MULTIPART";
 
-    public static final String CONCURRENT_DWN = "HTTPSampler.concurrentDwn"; // $NON-NLS-1$
+    public static final String CONCURRENT_DWN = "HTTPSampler.concurrentDwn";
 
-    public static final String CONCURRENT_POOL = "HTTPSampler.concurrentPool"; // $NON-NLS-1$
+    public static final String CONCURRENT_POOL = "HTTPSampler.concurrentPool";
 
     public static final int CONCURRENT_POOL_SIZE = 6; // Default concurrent pool size for download embedded resources
 
     private static final String CONCURRENT_POOL_DEFAULT = Integer.toString(CONCURRENT_POOL_SIZE); // default for concurrent pool
 
-    private static final String USER_AGENT = "User-Agent"; // $NON-NLS-1$
+    private static final String USER_AGENT = "User-Agent";
 
     //- JMX names
 
@@ -205,7 +205,7 @@ public abstract class HTTPSamplerBase extends AbstractSampler
             JMeterUtils.getPropDefault("httpsampler.max_bytes_to_store_per_request", 0); // $NON-NLS-1$ // default value: 0 don't truncate
 
     private static final int MAX_BUFFER_SIZE =
-            JMeterUtils.getPropDefault("httpsampler.max_buffer_size", 65 * 1024); // $NON-NLS-1$
+            JMeterUtils.getPropDefault("httpsampler.max_buffer_size", 65 * 1024);
 
     private static final boolean IGNORE_FAILED_EMBEDDED_RESOURCES =
             JMeterUtils.getPropDefault("httpsampler.ignore_failed_embedded_resources", false); // $NON-NLS-1$ // default value: false
@@ -215,7 +215,7 @@ public abstract class HTTPSamplerBase extends AbstractSampler
 
     public static final int SOURCE_TYPE_DEFAULT = HTTPSamplerBase.SourceType.HOSTNAME.ordinal();
 
-    public static final String DEFAULT_METHOD = HTTPConstants.GET; // $NON-NLS-1$
+    public static final String DEFAULT_METHOD = HTTPConstants.GET;
 
     private static final List<String> METHODLIST;
     static {
@@ -249,38 +249,38 @@ public abstract class HTTPSamplerBase extends AbstractSampler
 
     // @see mergeFileProperties
     // Must be private, as the file list needs special handling
-    private static final String FILE_ARGS = "HTTPsampler.Files"; // $NON-NLS-1$
+    private static final String FILE_ARGS = "HTTPsampler.Files";
     // MIMETYPE is kept for backward compatibility with old test plans
-    private static final String MIMETYPE = "HTTPSampler.mimetype"; // $NON-NLS-1$
+    private static final String MIMETYPE = "HTTPSampler.mimetype";
     // FILE_NAME is kept for backward compatibility with old test plans
-    private static final String FILE_NAME = "HTTPSampler.FILE_NAME"; // $NON-NLS-1$
+    private static final String FILE_NAME = "HTTPSampler.FILE_NAME";
     /* Shown as Parameter Name on the GUI */
     // FILE_FIELD is kept for backward compatibility with old test plans
-    private static final String FILE_FIELD = "HTTPSampler.FILE_FIELD"; // $NON-NLS-1$
+    private static final String FILE_FIELD = "HTTPSampler.FILE_FIELD";
 
-    public static final String CONTENT_TYPE = "HTTPSampler.CONTENT_TYPE"; // $NON-NLS-1$
+    public static final String CONTENT_TYPE = "HTTPSampler.CONTENT_TYPE";
 
     // IMAGE_PARSER now really means EMBEDDED_PARSER
-    public static final String IMAGE_PARSER = "HTTPSampler.image_parser"; // $NON-NLS-1$
+    public static final String IMAGE_PARSER = "HTTPSampler.image_parser";
 
     // Embedded URLs must match this RE (if provided)
-    public static final String EMBEDDED_URL_RE = "HTTPSampler.embedded_url_re"; // $NON-NLS-1$
+    public static final String EMBEDDED_URL_RE = "HTTPSampler.embedded_url_re";
 
     // Embedded URLs must not match this RE (if provided)
-    public static final String EMBEDDED_URL_EXCLUDE_RE = "HTTPSampler.embedded_url_exclude_re"; // $NON-NLS-1$
+    public static final String EMBEDDED_URL_EXCLUDE_RE = "HTTPSampler.embedded_url_exclude_re";
 
-    public static final String MONITOR = "HTTPSampler.monitor"; // $NON-NLS-1$
+    public static final String MONITOR = "HTTPSampler.monitor";
 
     // Store MD5 hash instead of storing response
-    public static final String MD5 = "HTTPSampler.md5"; // $NON-NLS-1$
+    public static final String MD5 = "HTTPSampler.md5";
 
     /** A number to indicate that the port has not been set. */
     public static final int UNSPECIFIED_PORT = 0;
-    public static final String UNSPECIFIED_PORT_AS_STRING = "0"; // $NON-NLS-1$
+    public static final String UNSPECIFIED_PORT_AS_STRING = "0";
 
     /** If the port is not present in a URL, getPort() returns -1 */
     public static final int URL_UNSPECIFIED_PORT = -1;
-    public static final String URL_UNSPECIFIED_PORT_AS_STRING = "-1"; // $NON-NLS-1$
+    public static final String URL_UNSPECIFIED_PORT_AS_STRING = "-1";
 
     protected static final String NON_HTTP_RESPONSE_CODE = "Non HTTP response code";
 
@@ -290,15 +290,15 @@ public abstract class HTTPSamplerBase extends AbstractSampler
 
     public static final boolean POST_BODY_RAW_DEFAULT = false;
 
-    private static final String ARG_VAL_SEP = "="; // $NON-NLS-1$
+    private static final String ARG_VAL_SEP = "=";
 
-    private static final String QRY_SEP = "&"; // $NON-NLS-1$
+    private static final String QRY_SEP = "&";
 
-    private static final String QRY_PFX = "?"; // $NON-NLS-1$
+    private static final String QRY_PFX = "?";
 
-    protected static final int MAX_REDIRECTS = JMeterUtils.getPropDefault("httpsampler.max_redirects", 20); // $NON-NLS-1$
+    protected static final int MAX_REDIRECTS = JMeterUtils.getPropDefault("httpsampler.max_redirects", 20);
 
-    protected static final int MAX_FRAME_DEPTH = JMeterUtils.getPropDefault("httpsampler.max_frame_depth", 5); // $NON-NLS-1$
+    protected static final int MAX_FRAME_DEPTH = JMeterUtils.getPropDefault("httpsampler.max_frame_depth", 5);
 
     // Derive the mapping of content types to parsers
     private static final Map<String, String> PARSERS_FOR_CONTENT_TYPE = new ConcurrentHashMap<>();
@@ -312,12 +312,12 @@ public abstract class HTTPSamplerBase extends AbstractSampler
     private static final boolean REMOVESLASHDOTDOT =
             JMeterUtils.getPropDefault("httpsampler.redirect.removeslashdotdot", true);
 
-    private static final String HTTP_PREFIX = HTTPConstants.PROTOCOL_HTTP+"://"; // $NON-NLS-1$
-    private static final String HTTPS_PREFIX = HTTPConstants.PROTOCOL_HTTPS+"://"; // $NON-NLS-1$
+    private static final String HTTP_PREFIX = HTTPConstants.PROTOCOL_HTTP+"://";
+    private static final String HTTPS_PREFIX = HTTPConstants.PROTOCOL_HTTPS+"://";
 
     // Bug 51939
     private static final boolean SEPARATE_CONTAINER =
-            JMeterUtils.getPropDefault("httpsampler.separate.container", true); // $NON-NLS-1$
+            JMeterUtils.getPropDefault("httpsampler.separate.container", true);
 
     static {
         String[] parsers = JOrphanUtils.split(RESPONSE_PARSERS, " " , true);// returns empty array for null
@@ -1089,8 +1089,8 @@ public abstract class HTTPSamplerBase extends AbstractSampler
             domain = null; // allow use of relative file URLs
         } else {
             // HTTP URLs must be absolute, allow file to be relative
-            if (!path.startsWith("/")) { // $NON-NLS-1$
-                pathAndQuery.append('/'); // $NON-NLS-1$
+            if (!path.startsWith("/")) {
+                pathAndQuery.append('/');
             }
         }
         pathAndQuery.append(path);
@@ -1396,8 +1396,8 @@ public abstract class HTTPSamplerBase extends AbstractSampler
                 try {
                     maxConcurrentDownloads = Integer.parseInt(getConcurrentPool());
                 } catch (NumberFormatException nfe) {
-                    log.warn("Concurrent download resources selected, "// $NON-NLS-1$
-                            + "but pool size value is bad. Use default value");// $NON-NLS-1$
+                    log.warn("Concurrent download resources selected, "
+                            + "but pool size value is bad. Use default value");
                 }
 
                 // if the user choose a number of parallel downloads of 1
@@ -1480,10 +1480,10 @@ public abstract class HTTPSamplerBase extends AbstractSampler
                         setParentSampleSuccess(res, res.isSuccessful() && (binRes.getResult() != null ? binRes.getResult().isSuccessful():true));
                     }
                 } catch (InterruptedException ie) {
-                    log.warn("Interrupted fetching embedded resources", ie); // $NON-NLS-1$
+                    log.warn("Interrupted fetching embedded resources", ie);
                     Thread.currentThread().interrupt();
                 } catch (ExecutionException ee) {
-                    log.warn("Execution issue when fetching embedded resources", ee); // $NON-NLS-1$
+                    log.warn("Execution issue when fetching embedded resources", ee);
                 }
             }
         }
@@ -1583,7 +1583,7 @@ public abstract class HTTPSamplerBase extends AbstractSampler
     }
 
     protected String encodeSpaces(String path) {
-        return JOrphanUtils.replaceAllChars(path, ' ', "%20"); // $NON-NLS-1$
+        return JOrphanUtils.replaceAllChars(path, ' ', "%20");
     }
 
     /**
@@ -1804,8 +1804,8 @@ public abstract class HTTPSamplerBase extends AbstractSampler
         StringBuilder newValue = new StringBuilder();
         for (int i = 0; i < value.length(); i++) {
             char charAt = value.charAt(i);
-            if (charAt == '\\') { // $NON-NLS-1$
-                newValue.append("\\\\"); // $NON-NLS-1$
+            if (charAt == '\\') {
+                newValue.append("\\\\");
             } else {
                 newValue.append(charAt);
             }

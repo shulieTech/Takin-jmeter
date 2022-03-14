@@ -39,13 +39,13 @@ public class SecuritySettingsPanel extends JPanel{
 
     //++JMX attribute names - do not change the values!
     // These were moved from SMTPSampler, which is why the prefix is still SMTSampler
-    public static final String USE_SSL              = "SMTPSampler.useSSL"; // $NON-NLS-1$
-    public static final String USE_STARTTLS         = "SMTPSampler.useStartTLS"; // $NON-NLS-1$
-    public static final String SSL_TRUST_ALL_CERTS  = "SMTPSampler.trustAllCerts"; // $NON-NLS-1$
-    public static final String ENFORCE_STARTTLS     = "SMTPSampler.enforceStartTLS"; // $NON-NLS-1$
-    public static final String USE_LOCAL_TRUSTSTORE = "SMTPSampler.useLocalTrustStore"; // $NON-NLS-1$
-    public static final String TRUSTSTORE_TO_USE    = "SMTPSampler.trustStoreToUse"; // $NON-NLS-1$
-    public static final String TLS_PROTOCOLS        = "SMTPSampler.tlsProtocols"; // $NON-NLS-1$
+    public static final String USE_SSL              = "SMTPSampler.useSSL";
+    public static final String USE_STARTTLS         = "SMTPSampler.useStartTLS";
+    public static final String SSL_TRUST_ALL_CERTS  = "SMTPSampler.trustAllCerts";
+    public static final String ENFORCE_STARTTLS     = "SMTPSampler.enforceStartTLS";
+    public static final String USE_LOCAL_TRUSTSTORE = "SMTPSampler.useLocalTrustStore";
+    public static final String TRUSTSTORE_TO_USE    = "SMTPSampler.trustStoreToUse";
+    public static final String TLS_PROTOCOLS        = "SMTPSampler.tlsProtocols";
     //--JMX attribute names
 
     private ButtonGroup bgSecuritySettings;
@@ -79,7 +79,7 @@ public class SecuritySettingsPanel extends JPanel{
     private void init(){ // WARNING: called from ctor so must not be overridden (i.e. must be private or final)
         this.setLayout(new GridBagLayout());
         this.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("smtp_security_settings"))); // $NON-NLS-1$
+                JMeterUtils.getResString("smtp_security_settings")));
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 3, 3);
@@ -87,16 +87,16 @@ public class SecuritySettingsPanel extends JPanel{
         gridBagConstraints.anchor = GridBagConstraints.WEST;
         gridBagConstraints.weightx = 0.5;
 
-        rbUseNone = new JRadioButton(JMeterUtils.getResString("smtp_usenone")); // $NON-NLS-1$
-        rbUseSSL = new JRadioButton(JMeterUtils.getResString("smtp_usessl")); // $NON-NLS-1$
-        rbUseStartTLS = new JRadioButton(JMeterUtils.getResString("smtp_usestarttls")); // $NON-NLS-1$
+        rbUseNone = new JRadioButton(JMeterUtils.getResString("smtp_usenone"));
+        rbUseSSL = new JRadioButton(JMeterUtils.getResString("smtp_usessl"));
+        rbUseStartTLS = new JRadioButton(JMeterUtils.getResString("smtp_usestarttls"));
 
-        cbTrustAllCerts = new JCheckBox(JMeterUtils.getResString("smtp_trustall")); // $NON-NLS-1$
-        cbEnforceStartTLS = new JCheckBox(JMeterUtils.getResString("smtp_enforcestarttls")); // $NON-NLS-1$
-        cbUseLocalTrustStore = new JCheckBox(JMeterUtils.getResString("smtp_usetruststore")); // $NON-NLS-1$
+        cbTrustAllCerts = new JCheckBox(JMeterUtils.getResString("smtp_trustall"));
+        cbEnforceStartTLS = new JCheckBox(JMeterUtils.getResString("smtp_enforcestarttls"));
+        cbUseLocalTrustStore = new JCheckBox(JMeterUtils.getResString("smtp_usetruststore"));
 
-        jlTrustStoreToUse = new JLabel(JMeterUtils.getResString("smtp_truststore")); // $NON-NLS-1$
-        jlTlsProtocolsToUse = new JLabel(JMeterUtils.getResString("smtp_tlsprotocols")); // $NON-NLS-1$
+        jlTrustStoreToUse = new JLabel(JMeterUtils.getResString("smtp_truststore"));
+        jlTlsProtocolsToUse = new JLabel(JMeterUtils.getResString("smtp_tlsprotocols"));
 
         tfTrustStoreToUse = new JTextField(20);
         tfTlsProtocolsToUse = new JTextField(20);
@@ -124,7 +124,7 @@ public class SecuritySettingsPanel extends JPanel{
         rbUseStartTLS.addItemListener(this::rbSecuritySettingsItemStateChanged);
 
         cbTrustAllCerts.setEnabled(false);
-        cbTrustAllCerts.setToolTipText(JMeterUtils.getResString("smtp_trustall_tooltip")); // $NON-NLS-1$
+        cbTrustAllCerts.setToolTipText(JMeterUtils.getResString("smtp_trustall_tooltip"));
         cbTrustAllCerts.addActionListener(this::cbTrustAllCertsActionPerformed);
 
         gridBagConstraints.gridx = 0;
@@ -133,7 +133,7 @@ public class SecuritySettingsPanel extends JPanel{
 
         cbEnforceStartTLS.setEnabled(false);
         cbEnforceStartTLS.addActionListener(this::cbEnforceStartTLSActionPerformed);
-        cbEnforceStartTLS.setToolTipText(JMeterUtils.getResString("smtp_enforcestarttls_tooltip")); // $NON-NLS-1$
+        cbEnforceStartTLS.setToolTipText(JMeterUtils.getResString("smtp_enforcestarttls_tooltip"));
 
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
@@ -142,7 +142,7 @@ public class SecuritySettingsPanel extends JPanel{
         cbUseLocalTrustStore.setEnabled(false);
         cbUseLocalTrustStore.addActionListener(this::cbUseLocalTrustStoreActionPerformed);
 
-        cbUseLocalTrustStore.setToolTipText(JMeterUtils.getResString("smtp_usetruststore_tooltip")); // $NON-NLS-1$
+        cbUseLocalTrustStore.setToolTipText(JMeterUtils.getResString("smtp_usetruststore_tooltip"));
 
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -152,23 +152,23 @@ public class SecuritySettingsPanel extends JPanel{
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 1;
-        jlTrustStoreToUse.setToolTipText(JMeterUtils.getResString("smtp_truststore_tooltip")); // $NON-NLS-1$
+        jlTrustStoreToUse.setToolTipText(JMeterUtils.getResString("smtp_truststore_tooltip"));
         this.add(jlTrustStoreToUse, gridBagConstraints);
 
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
-        tfTrustStoreToUse.setToolTipText(JMeterUtils.getResString("smtp_truststore_tooltip")); // $NON-NLS-1$
+        tfTrustStoreToUse.setToolTipText(JMeterUtils.getResString("smtp_truststore_tooltip"));
         this.add(tfTrustStoreToUse, gridBagConstraints);
 
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = 1;
-        jlTlsProtocolsToUse.setToolTipText(JMeterUtils.getResString("smtp_tlsprotocols_tooltip")); // $NON-NLS-1$
+        jlTlsProtocolsToUse.setToolTipText(JMeterUtils.getResString("smtp_tlsprotocols_tooltip"));
         this.add(jlTlsProtocolsToUse, gridBagConstraints);
 
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
-        tfTrustStoreToUse.setToolTipText(JMeterUtils.getResString("smtp_tlsprotocols_tooltip")); // $NON-NLS-1$
+        tfTrustStoreToUse.setToolTipText(JMeterUtils.getResString("smtp_tlsprotocols_tooltip"));
         this.add(tfTlsProtocolsToUse, gridBagConstraints);
     }
 

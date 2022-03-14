@@ -71,12 +71,12 @@ public class GenerateTreeGui extends AbstractConfigGui
 
     @Override
     public String getLabelResource() {
-        return "test_plan"; // $NON-NLS-1$
+        return "test_plan";
     }
 
     @Override
     public String getStaticLabel() {
-        return "Test Generator"; // $NON-NLS-1$
+        return "Test Generator";
     }
 
     @Override

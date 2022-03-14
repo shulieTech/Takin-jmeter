@@ -88,7 +88,7 @@ public class BeanShellAssertionGui extends AbstractAssertionGui {
 
     @Override
     public String getLabelResource() {
-        return "bsh_assertion_title"; // $NON-NLS-1$
+        return "bsh_assertion_title";
     }
 
     private JPanel createFilenamePanel() {
@@ -100,7 +100,7 @@ public class BeanShellAssertionGui extends AbstractAssertionGui {
     }
 
     private JPanel createResetPanel() {
-        resetInterpreter = new JCheckBox(JMeterUtils.getResString("bsh_script_reset_interpreter")); // $NON-NLS-1$
+        resetInterpreter = new JCheckBox(JMeterUtils.getResString("bsh_script_reset_interpreter"));
         resetInterpreter.setName(BeanShellAssertion.PARAMETERS);
 
         JPanel resetInterpreterPanel = new JPanel(new BorderLayout());
@@ -160,9 +160,9 @@ public class BeanShellAssertionGui extends AbstractAssertionGui {
     @Override
     public void clearGui() {
         super.clearGui();
-        filename.setFilename(""); // $NON-NLS-1$
-        parameters.setText(""); // $NON-NLS-1$
-        scriptField.setInitialText(""); // $NON-NLS-1$
+        filename.setFilename("");
+        parameters.setText("");
+        scriptField.setInitialText("");
         resetInterpreter.setSelected(false);
     }
 }

@@ -33,7 +33,7 @@ public class DurationAssertion extends AbstractScopedAssertion implements Serial
     private static final long serialVersionUID = 241L;
 
     /** Key for storing assertion-information in the jmx-file. */
-    public static final String DURATION_KEY = "DurationAssertion.duration"; // $NON-NLS-1$
+    public static final String DURATION_KEY = "DurationAssertion.duration";
 
     /**
      * Returns the result of the Assertion. Here it checks whether the Sample
@@ -53,7 +53,7 @@ public class DurationAssertion extends AbstractScopedAssertion implements Serial
                 result.setFailure(true);
                 Object[] arguments = {responseTime, duration};
                 String message = MessageFormat.format(
-                        JMeterUtils.getResString("duration_assertion_failure") // $NON-NLS-1$
+                        JMeterUtils.getResString("duration_assertion_failure")
                         , arguments);
                 result.setFailureMessage(message);
             }

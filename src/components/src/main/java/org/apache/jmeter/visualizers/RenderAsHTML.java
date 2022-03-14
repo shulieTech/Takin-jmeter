@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
 public class RenderAsHTML extends SamplerResultTab implements ResultRenderer {
     private static final Logger log = LoggerFactory.getLogger(RenderAsHTML.class);
 
-    private static final String TEXT_HTML = "text/html"; // $NON-NLS-1$
+    private static final String TEXT_HTML = "text/html";
 
     // Keep copies of the two editors needed
     private static final EditorKit customisedEditor = new LocalHTMLEditorKit();
@@ -62,11 +62,11 @@ public class RenderAsHTML extends SamplerResultTab implements ResultRenderer {
             return;
         }
 
-        int htmlIndex = response.indexOf("<HTML"); // could be <HTML lang=""> // $NON-NLS-1$
+        int htmlIndex = response.indexOf("<HTML"); // could be <HTML lang="">
 
         // Look for a case variation
         if (htmlIndex < 0) {
-            htmlIndex = response.indexOf("<html"); // ditto // $NON-NLS-1$
+            htmlIndex = response.indexOf("<html"); // ditto
         }
 
         // If we still can't find it, just try using all of the text
@@ -97,7 +97,7 @@ public class RenderAsHTML extends SamplerResultTab implements ResultRenderer {
          *
          * Is this due to a bug in Java?
          */
-        results.getDocument().putProperty("IgnoreCharsetDirective", Boolean.TRUE); // $NON-NLS-1$
+        results.getDocument().putProperty("IgnoreCharsetDirective", Boolean.TRUE);
 
         try {
             results.setText(html); // Bug can generate RTE
@@ -151,7 +151,7 @@ public class RenderAsHTML extends SamplerResultTab implements ResultRenderer {
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        return JMeterUtils.getResString("view_results_render_html"); // $NON-NLS-1$
+        return JMeterUtils.getResString("view_results_render_html");
     }
 
 }

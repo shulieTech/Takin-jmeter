@@ -30,9 +30,9 @@ public class PoissonRandomTimerGui extends AbstractRandomTimerGui {
 
     private static final long serialVersionUID = -3218002787832805275L;
 
-    private static final String DEFAULT_DELAY = "300"; // $NON-NLS-1$
+    private static final String DEFAULT_DELAY = "300";
 
-    private static final String DEFAULT_RANGE = "100"; // $NON-NLS-1$
+    private static final String DEFAULT_RANGE = "100";
 
     public PoissonRandomTimerGui() {
         super();

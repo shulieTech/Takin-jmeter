@@ -27,15 +27,15 @@ public class SampleSenderFactory {
 
     private static final Logger log = LoggerFactory.getLogger(SampleSenderFactory.class);
 
-    private static final String MODE_STANDARD = "Standard"; // $NON-NLS-1$
-    private static final String MODE_BATCH = "Batch"; // $NON-NLS-1$
-    private static final String MODE_STATISTICAL = "Statistical"; // $NON-NLS-1$
-    private static final String MODE_STRIPPED = "Stripped"; // $NON-NLS-1$
-    private static final String MODE_STRIPPED_BATCH = "StrippedBatch"; // $NON-NLS-1$
-    private static final String MODE_ASYNCH = "Asynch"; // $NON-NLS-1$
-    private static final String MODE_STRIPPED_ASYNCH = "StrippedAsynch"; // $NON-NLS-1$
-    private static final String MODE_DISKSTORE = "DiskStore"; // $NON-NLS-1$
-    private static final String MODE_STRIPPED_DISKSTORE = "StrippedDiskStore"; // $NON-NLS-1$
+    private static final String MODE_STANDARD = "Standard";
+    private static final String MODE_BATCH = "Batch";
+    private static final String MODE_STATISTICAL = "Statistical";
+    private static final String MODE_STRIPPED = "Stripped";
+    private static final String MODE_STRIPPED_BATCH = "StrippedBatch";
+    private static final String MODE_ASYNCH = "Asynch";
+    private static final String MODE_STRIPPED_ASYNCH = "StrippedAsynch";
+    private static final String MODE_DISKSTORE = "DiskStore";
+    private static final String MODE_STRIPPED_DISKSTORE = "StrippedDiskStore";
 
     private SampleSenderFactory() {
         // this is a singleton, so don't let anyone instantiate us
@@ -49,7 +49,7 @@ public class SampleSenderFactory {
      */
     static SampleSender getInstance(RemoteSampleListener listener) {
         // Extended property name
-        final String type = JMeterUtils.getPropDefault("mode", MODE_STRIPPED_BATCH); // $NON-NLS-1$
+        final String type = JMeterUtils.getPropDefault("mode", MODE_STRIPPED_BATCH);
 
         SampleSender s;
         if (type.equalsIgnoreCase(MODE_BATCH)) {

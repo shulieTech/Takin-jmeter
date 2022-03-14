@@ -105,7 +105,7 @@ public class DynamicStyle {
         action.run();
 
         PropertyChangeListener listener = evt -> {
-            if ("lookAndFeel".equals(evt.getPropertyName())) { // $NON-NLS-1$
+            if ("lookAndFeel".equals(evt.getPropertyName())) {
                 action.run();
             }
         };
@@ -136,7 +136,7 @@ public class DynamicStyle {
             UIManager.setLookAndFeel(className);
         } catch (IllegalAccessException | InstantiationException | ClassNotFoundException |
                 UnsupportedLookAndFeelException e) {
-            throw new IllegalStateException("Unable to update look and feel to " + className, e); // $NON-NLS-1$
+            throw new IllegalStateException("Unable to update look and feel to " + className, e);
         }
 
         List<Component> components = new ArrayList<>();

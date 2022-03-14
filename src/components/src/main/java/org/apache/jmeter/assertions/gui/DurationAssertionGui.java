@@ -46,11 +46,11 @@ public class DurationAssertionGui extends AbstractAssertionGui {
 
     @Override
     public String getLabelResource() {
-        return "duration_assertion_title"; // $NON-NLS-1$
+        return "duration_assertion_title";
     }
 
     public String getDurationAttributesTitle() {
-        return JMeterUtils.getResString("duration_assertion_duration_test"); // $NON-NLS-1$
+        return JMeterUtils.getResString("duration_assertion_duration_test");
     }
 
     @Override
@@ -110,7 +110,7 @@ public class DurationAssertionGui extends AbstractAssertionGui {
 
         JPanel labelPanel = new JPanel(new BorderLayout(5, 0));
         JLabel durationLabel =
-            new JLabel(JMeterUtils.getResString("duration_assertion_label")); // $NON-NLS-1$
+            new JLabel(JMeterUtils.getResString("duration_assertion_label"));
         labelPanel.add(durationLabel, BorderLayout.WEST);
 
         duration = new JTextField();

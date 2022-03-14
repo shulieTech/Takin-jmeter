@@ -22,7 +22,7 @@ import java.util.Arrays;
 /**
  * 引擎参数信息
  *
- * @author lipeng
+ * @author 李鹏
  * @date 2021-05-11 10:16 上午
  */
 public class PressureEngineParams {
@@ -97,7 +97,7 @@ public class PressureEngineParams {
         this.podNumber = podNumber;
     }
 
-    public PressureEngineParams() {};
+    public PressureEngineParams() {}
 
     public PressureEngineParams(Long sceneId, Long resultId, Long customerId, String callbackUrl, int samplingInterval,String podNumber) {
         this.sceneId = sceneId;

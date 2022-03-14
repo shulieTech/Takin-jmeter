@@ -124,7 +124,7 @@ public abstract class AbstractVisualizer
         super();
 
         // errorLogging and successOnlyLogging are mutually exclusive
-        errorLogging = new JCheckBox(JMeterUtils.getResString("log_errors_only")); // $NON-NLS-1$
+        errorLogging = new JCheckBox(JMeterUtils.getResString("log_errors_only"));
         errorLogging.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -133,26 +133,26 @@ public abstract class AbstractVisualizer
                 }
             }
         });
-        successOnlyLogging = new JCheckBox(JMeterUtils.getResString("log_success_only")); // $NON-NLS-1$
+        successOnlyLogging = new JCheckBox(JMeterUtils.getResString("log_success_only"));
         successOnlyLogging.addActionListener(e -> {
             if (successOnlyLogging.isSelected()) {
                 errorLogging.setSelected(false);
             }
         });
-        JButton saveConfigButton = new JButton(JMeterUtils.getResString("config_save_settings")); // $NON-NLS-1$
+        JButton saveConfigButton = new JButton(JMeterUtils.getResString("config_save_settings"));
         saveConfigButton.addActionListener(e -> {
             SavePropertyDialog d = new SavePropertyDialog(
                     GuiPackage.getInstance().getMainFrame(),
-                    JMeterUtils.getResString("sample_result_save_configuration"), // $NON-NLS-1$
+                    JMeterUtils.getResString("sample_result_save_configuration"),
                     true, collector.getSaveConfig());
             d.pack();
             ComponentUtil.centerComponentInComponent(GuiPackage.getInstance().getMainFrame(), d);
             d.setVisible(true);
         });
 
-        filePanel = new FilePanel(JMeterUtils.getResString("file_visualizer_output_file"), EXTS); // $NON-NLS-1$
+        filePanel = new FilePanel(JMeterUtils.getResString("file_visualizer_output_file"), EXTS);
         filePanel.addChangeListener(this);
-        filePanel.add(new JLabel(JMeterUtils.getResString("log_only"))); // $NON-NLS-1$
+        filePanel.add(new JLabel(JMeterUtils.getResString("log_only")));
         filePanel.add(errorLogging);
         filePanel.add(successOnlyLogging);
         filePanel.add(saveConfigButton);

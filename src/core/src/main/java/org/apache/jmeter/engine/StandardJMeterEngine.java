@@ -57,7 +57,7 @@ public class StandardJMeterEngine implements JMeterEngine, Runnable {
 
     // Should we exit at end of the test? (only applies to server, because host is non-null)
     private static final boolean EXIT_AFTER_TEST =
-        JMeterUtils.getPropDefault("server.exitaftertest", false);  // $NON-NLS-1$
+        JMeterUtils.getPropDefault("server.exitaftertest", false);
 
     // Allow engine and threads to be stopped from outside a thread
     // e.g. from beanshell server

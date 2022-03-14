@@ -78,29 +78,29 @@ public class MailReaderSamplerGui extends AbstractSamplerGui implements ActionLi
 
     // Labels - don't make these static, else language change will not work
 
-    private final String serverTypeLabel = JMeterUtils.getResString("mail_reader_server_type");// $NON-NLS-1$
+    private final String serverTypeLabel = JMeterUtils.getResString("mail_reader_server_type");
 
-    private final String serverLabel = JMeterUtils.getResString("mail_reader_server");// $NON-NLS-1$
+    private final String serverLabel = JMeterUtils.getResString("mail_reader_server");
 
-    private final String portLabel = JMeterUtils.getResString("mail_reader_port");// $NON-NLS-1$
+    private final String portLabel = JMeterUtils.getResString("mail_reader_port");
 
-    private final String accountLabel = JMeterUtils.getResString("mail_reader_account");// $NON-NLS-1$
+    private final String accountLabel = JMeterUtils.getResString("mail_reader_account");
 
-    private final String passwordLabel = JMeterUtils.getResString("mail_reader_password");// $NON-NLS-1$
+    private final String passwordLabel = JMeterUtils.getResString("mail_reader_password");
 
-    private final String numMessagesLabel = JMeterUtils.getResString("mail_reader_num_messages");// $NON-NLS-1$
+    private final String numMessagesLabel = JMeterUtils.getResString("mail_reader_num_messages");
 
-    private final String allMessagesLabel = JMeterUtils.getResString("mail_reader_all_messages");// $NON-NLS-1$
+    private final String allMessagesLabel = JMeterUtils.getResString("mail_reader_all_messages");
 
-    private final String deleteLabel = JMeterUtils.getResString("mail_reader_delete");// $NON-NLS-1$
+    private final String deleteLabel = JMeterUtils.getResString("mail_reader_delete");
 
-    private final String folderLabelStr = JMeterUtils.getResString("mail_reader_folder");// $NON-NLS-1$
+    private final String folderLabelStr = JMeterUtils.getResString("mail_reader_folder");
 
-    private final String storeMime = JMeterUtils.getResString("mail_reader_storemime");// $NON-NLS-1$
+    private final String storeMime = JMeterUtils.getResString("mail_reader_storemime");
 
-    private final String headerOnlyLabel = JMeterUtils.getResString("mail_reader_header_only");// $NON-NLS-1$
+    private final String headerOnlyLabel = JMeterUtils.getResString("mail_reader_header_only");
 
-    private static final String INBOX = "INBOX"; // $NON-NLS-1$
+    private static final String INBOX = "INBOX";
 
     private SecuritySettingsPanel securitySettingsPanel;
 
@@ -111,7 +111,7 @@ public class MailReaderSamplerGui extends AbstractSamplerGui implements ActionLi
 
     @Override
     public String getLabelResource() {
-        return "mail_reader_title"; // $NON-NLS-1$
+        return "mail_reader_title";
     }
 
     /**
@@ -128,7 +128,7 @@ public class MailReaderSamplerGui extends AbstractSamplerGui implements ActionLi
         passwordBox.setText(mrs.getPassword());
         if (mrs.getNumMessages() == MailReaderSampler.ALL_MESSAGES) {
             allMessagesButton.setSelected(true);
-            someMessagesField.setText("0"); // $NON-NLS-1$
+            someMessagesField.setText("0");
         } else {
             someMessagesButton.setSelected(true);
             someMessagesField.setText(mrs.getNumMessagesString());
@@ -299,10 +299,10 @@ public class MailReaderSamplerGui extends AbstractSamplerGui implements ActionLi
         storeMimeMessageBox.setSelected(false);
         folderBox.setText(INBOX);
         serverTypeBox.setText(MailReaderSampler.DEFAULT_PROTOCOL);
-        passwordBox.setText("");// $NON-NLS-1$
-        serverBox.setText("");// $NON-NLS-1$
-        portBox.setText("");// $NON-NLS-1$
-        usernameBox.setText("");// $NON-NLS-1$
+        passwordBox.setText("");
+        serverBox.setText("");
+        portBox.setText("");
+        usernameBox.setText("");
     }
 
     @Override

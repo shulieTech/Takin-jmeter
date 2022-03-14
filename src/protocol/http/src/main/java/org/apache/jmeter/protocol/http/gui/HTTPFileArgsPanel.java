@@ -73,15 +73,15 @@ public class HTTPFileArgsPanel extends JPanel implements ActionListener {
     private JButton delete;
 
     /** Command for adding a row to the table. */
-    private static final String ADD = "add"; // $NON-NLS-1$
+    private static final String ADD = "add";
 
     /** Command for browsing filesystem to set path of selected row in table. */
-    private static final String BROWSE = "browse"; // $NON-NLS-1$
+    private static final String BROWSE = "browse";
 
     /** Command for removing a row from the table. */
-    private static final String DELETE = "delete"; // $NON-NLS-1$
+    private static final String DELETE = "delete";
 
-    private static final String FILEPATH = "send_file_filename_label"; // $NON-NLS-1$
+    private static final String FILEPATH = "send_file_filename_label";
 
     /** The parameter name column title of file table. */
     private static final String PARAMNAME = "send_file_param_name_label"; //$NON-NLS-1$
@@ -320,14 +320,14 @@ public class HTTPFileArgsPanel extends JPanel implements ActionListener {
      * @return a GUI panel containing the buttons
      */
     private JPanel makeButtonPanel() {
-        add = new JButton(JMeterUtils.getResString("add")); // $NON-NLS-1$
+        add = new JButton(JMeterUtils.getResString("add"));
         add.setActionCommand(ADD);
         add.setEnabled(true);
 
-        browse = new JButton(JMeterUtils.getResString("browse")); // $NON-NLS-1$
+        browse = new JButton(JMeterUtils.getResString("browse"));
         browse.setActionCommand(BROWSE);
 
-        delete = new JButton(JMeterUtils.getResString("delete")); // $NON-NLS-1$
+        delete = new JButton(JMeterUtils.getResString("delete"));
         delete.setActionCommand(DELETE);
 
         checkDeleteAndBrowseStatus();

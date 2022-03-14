@@ -90,7 +90,7 @@ public class BackendListenerGui extends AbstractListenerGui implements ActionLis
     /** {@inheritDoc} */
     @Override
     public String getLabelResource() {
-        return "backend_listener"; // $NON-NLS-1$
+        return "backend_listener";
     }
 
     /**
@@ -133,7 +133,7 @@ public class BackendListenerGui extends AbstractListenerGui implements ActionLis
             log.debug("Exception getting interfaces.", e);
         }
 
-        JLabel label = new JLabel(JMeterUtils.getResString("backend_listener_classname")); // $NON-NLS-1$
+        JLabel label = new JLabel(JMeterUtils.getResString("backend_listener_classname"));
 
         classnameCombo = new JComboBox<>(possibleClasses.toArray(ArrayUtils.EMPTY_STRING_ARRAY));
         classnameCombo.addActionListener(this);
@@ -146,7 +146,7 @@ public class BackendListenerGui extends AbstractListenerGui implements ActionLis
 
         queueSize = new JTextField(BackendListener.DEFAULT_QUEUE_SIZE, 5);
         queueSize.setName("Queue Size"); //$NON-NLS-1$
-        JLabel queueSizeLabel = new JLabel(JMeterUtils.getResString("backend_listener_queue_size")); // $NON-NLS-1$
+        JLabel queueSizeLabel = new JLabel(JMeterUtils.getResString("backend_listener_queue_size"));
         queueSizeLabel.setLabelFor(queueSize);
         HorizontalPanel queueSizePanel = new HorizontalPanel();
         queueSizePanel.add(queueSizeLabel, BorderLayout.WEST);
@@ -247,7 +247,7 @@ public class BackendListenerGui extends AbstractListenerGui implements ActionLis
      * @return a panel containing the relevant components
      */
     private JPanel createParameterPanel() {
-        argsPanel = new ArgumentsPanel(JMeterUtils.getResString("backend_listener_paramtable")); // $NON-NLS-1$
+        argsPanel = new ArgumentsPanel(JMeterUtils.getResString("backend_listener_paramtable"));
         return argsPanel;
     }
 

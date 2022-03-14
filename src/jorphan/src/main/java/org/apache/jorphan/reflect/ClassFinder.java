@@ -44,8 +44,8 @@ import org.slf4j.LoggerFactory;
 public final class ClassFinder {
     private static final Logger log = LoggerFactory.getLogger(ClassFinder.class);
 
-    private static final String DOT_JAR = ".jar"; // $NON-NLS-1$
-    private static final String DOT_CLASS = ".class"; // $NON-NLS-1$
+    private static final String DOT_JAR = ".jar";
+    private static final String DOT_CLASS = ".class";
     private static final int DOT_CLASS_LEN = DOT_CLASS.length();
 
     // static only
@@ -84,7 +84,7 @@ public final class ClassFinder {
             if (notContains != null && className.contains(notContains)) {
                 return false; // It contains a banned string
             }
-            if (!className.contains("$") || inner) { // $NON-NLS-1$
+            if (!className.contains("$") || inner) {
                 return isChildOf(parents, className, contextClassLoader);
             }
             return false;
@@ -139,7 +139,7 @@ public final class ClassFinder {
 
         @Override
         public boolean accept(String className) {
-            if (!className.contains("$") || inner) { // $NON-NLS-1$
+            if (!className.contains("$") || inner) {
                 return hasAnnotationOnMethod(annotations,className, contextClassLoader);
             }
             return false;
@@ -353,8 +353,8 @@ public final class ClassFinder {
         if (path == null) {
             return null;
         }
-        if (path.equals(".")) { // $NON-NLS-1$
-            return System.getProperty("user.dir"); // $NON-NLS-1$
+        if (path.equals(".")) {
+            return System.getProperty("user.dir");
         }
         String resultPath = path;
         if (path.length() > 3 && path.matches("[a-z]:\\\\.*")) { // lower-case drive letter?
@@ -363,7 +363,7 @@ public final class ClassFinder {
         resultPath = resultPath.trim().replace('\\', '/'); // $NON-NLS-1$ // $NON-NLS-2$
         resultPath = JOrphanUtils.substitute(resultPath, "//", "/"); // $NON-NLS-1$// $NON-NLS-2$
 
-        while (resultPath.endsWith("/")) { // $NON-NLS-1$
+        while (resultPath.endsWith("/")) {
             resultPath = resultPath.substring(0, resultPath.length() - 1);
         }
         return resultPath;
@@ -419,8 +419,8 @@ public final class ClassFinder {
             } else if (file.getPath().endsWith(DOT_CLASS) && file.exists() && (file.length() != 0)) {
                 final String path = file.getPath();
                 String className = path.substring(strPathElement.length() + 1,
-                        path.lastIndexOf('.')) // $NON-NLS-1$
-                        .replace(File.separator.charAt(0), '.');// $NON-NLS-1$
+                        path.lastIndexOf('.'))
+                        .replace(File.separator.charAt(0), '.');
                 applyFiltering(listClasses, filter, className);
             }
         }

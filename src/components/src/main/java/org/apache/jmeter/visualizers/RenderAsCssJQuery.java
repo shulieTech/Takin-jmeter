@@ -55,7 +55,7 @@ import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
  */
 public class RenderAsCssJQuery implements ResultRenderer, ActionListener {
 
-    private static final String CSSJQUEY_TESTER_COMMAND = "cssjquery_tester"; // $NON-NLS-1$
+    private static final String CSSJQUEY_TESTER_COMMAND = "cssjquery_tester";
 
     private JPanel cssJqueryPane;
 
@@ -74,8 +74,8 @@ public class RenderAsCssJQuery implements ResultRenderer, ActionListener {
     /** {@inheritDoc} */
     @Override
     public void clearData() {
-        this.cssJqueryDataField.setText(""); // $NON-NLS-1$
-        this.cssJqueryResultField.setText(""); // $NON-NLS-1$
+        this.cssJqueryDataField.setText("");
+        this.cssJqueryResultField.setText("");
         // don't set cssJqueryField to empty to keep it
         // don't set attribute to empty to keep it
         // don't change impl
@@ -133,7 +133,7 @@ public class RenderAsCssJQuery implements ResultRenderer, ActionListener {
         } catch (Exception ex) {
             StringBuilder sb = new StringBuilder();
             String message = MessageFormat.format(
-                    JMeterUtils.getResString("cssjquery_tester_error") // $NON-NLS-1$
+                    JMeterUtils.getResString("cssjquery_tester_error")
                     , new Object[]{cssJqueryField.getText(), ex.getMessage()});
             sb.append(message);
             return sb.toString();
@@ -153,8 +153,8 @@ public class RenderAsCssJQuery implements ResultRenderer, ActionListener {
     @Override
     public void setupTabPane() {
          // Add cssJquery tester pane
-        if (rightSide.indexOfTab(JMeterUtils.getResString("cssjquery_tester_title")) < 0) { // $NON-NLS-1$
-            rightSide.addTab(JMeterUtils.getResString("cssjquery_tester_title"), cssJqueryPane); // $NON-NLS-1$
+        if (rightSide.indexOfTab(JMeterUtils.getResString("cssjquery_tester_title")) < 0) {
+            rightSide.addTab(JMeterUtils.getResString("cssjquery_tester_title"), cssJqueryPane);
         }
         clearData();
     }
@@ -205,27 +205,27 @@ public class RenderAsCssJQuery implements ResultRenderer, ActionListener {
         cssJqueryActionPanel.setLayout(g);
         Border margin = new EmptyBorder(5, 5, 0, 5);
         cssJqueryActionPanel.setBorder(margin);
-        cssJqueryField = new JLabeledTextField(JMeterUtils.getResString("cssjquery_tester_field")); // $NON-NLS-1$
+        cssJqueryField = new JLabeledTextField(JMeterUtils.getResString("cssjquery_tester_field"));
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx=0;
         c.gridy=0;
         cssJqueryActionPanel.add(cssJqueryField, c);
 
         cssJqueryLabeledChoice = new JLabeledChoice(
-                JMeterUtils.getResString("cssjquery_impl"), // $NON-NLS-1$
+                JMeterUtils.getResString("cssjquery_impl"),
                 getImplementations());
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx=1;
         c.gridy=0;
         cssJqueryActionPanel.add(cssJqueryLabeledChoice, c);
 
-        attributeField = new JLabeledTextField(JMeterUtils.getResString("cssjquery_attribute")); // $NON-NLS-1$
+        attributeField = new JLabeledTextField(JMeterUtils.getResString("cssjquery_attribute"));
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx=0;
         c.gridy=1;
         cssJqueryActionPanel.add(attributeField, c);
 
-        JButton cssJqueryTester = new JButton(JMeterUtils.getResString("cssjquery_tester_button_test")); // $NON-NLS-1$
+        JButton cssJqueryTester = new JButton(JMeterUtils.getResString("cssjquery_tester_button_test"));
         cssJqueryTester.setActionCommand(CSSJQUEY_TESTER_COMMAND);
         cssJqueryTester.addActionListener(this);
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -266,14 +266,14 @@ public class RenderAsCssJQuery implements ResultRenderer, ActionListener {
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        return JMeterUtils.getResString("cssjquery_tester_title"); // $NON-NLS-1$
+        return JMeterUtils.getResString("cssjquery_tester_title");
     }
 
     /** {@inheritDoc} */
     @Override
     public void renderImage(SampleResult sampleResult) {
         clearData();
-        cssJqueryDataField.setText(JMeterUtils.getResString("cssjquery_render_no_text")); // $NON-NLS-1$
+        cssJqueryDataField.setText(JMeterUtils.getResString("cssjquery_render_no_text"));
     }
 
     /** {@inheritDoc} */

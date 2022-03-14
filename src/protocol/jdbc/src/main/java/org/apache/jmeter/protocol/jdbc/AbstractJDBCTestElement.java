@@ -62,18 +62,18 @@ public abstract class AbstractJDBCTestElement extends AbstractTestElement implem
 
     private static final Logger log = LoggerFactory.getLogger(AbstractJDBCTestElement.class);
 
-    private static final String COMMA = ","; // $NON-NLS-1$
+    private static final String COMMA = ",";
     private static final char COMMA_CHAR = ',';
 
-    private static final String UNDERSCORE = "_"; // $NON-NLS-1$
+    private static final String UNDERSCORE = "_";
 
     // String used to indicate a null value
     private static final String NULL_MARKER =
-        JMeterUtils.getPropDefault("jdbcsampler.nullmarker","]NULL["); // $NON-NLS-1$
+        JMeterUtils.getPropDefault("jdbcsampler.nullmarker","]NULL[");
 
-    private static final String INOUT = "INOUT"; // $NON-NLS-1$
+    private static final String INOUT = "INOUT";
 
-    private static final String OUT = "OUT"; // $NON-NLS-1$
+    private static final String OUT = "OUT";
 
     // TODO - should the encoding be configurable?
     protected static final String ENCODING = StandardCharsets.UTF_8.name();
@@ -102,32 +102,32 @@ public abstract class AbstractJDBCTestElement extends AbstractTestElement implem
 
     // Query types (used to communicate with GUI)
     // N.B. These must not be changed, as they are used in the JMX files
-    static final String SELECT   = "Select Statement"; // $NON-NLS-1$
-    static final String UPDATE   = "Update Statement"; // $NON-NLS-1$
-    static final String CALLABLE = "Callable Statement"; // $NON-NLS-1$
-    static final String PREPARED_SELECT = "Prepared Select Statement"; // $NON-NLS-1$
-    static final String PREPARED_UPDATE = "Prepared Update Statement"; // $NON-NLS-1$
-    static final String COMMIT   = "Commit"; // $NON-NLS-1$
-    static final String ROLLBACK = "Rollback"; // $NON-NLS-1$
-    static final String AUTOCOMMIT_FALSE = "AutoCommit(false)"; // $NON-NLS-1$
-    static final String AUTOCOMMIT_TRUE  = "AutoCommit(true)"; // $NON-NLS-1$
+    static final String SELECT   = "Select Statement";
+    static final String UPDATE   = "Update Statement";
+    static final String CALLABLE = "Callable Statement";
+    static final String PREPARED_SELECT = "Prepared Select Statement";
+    static final String PREPARED_UPDATE = "Prepared Update Statement";
+    static final String COMMIT   = "Commit";
+    static final String ROLLBACK = "Rollback";
+    static final String AUTOCOMMIT_FALSE = "AutoCommit(false)";
+    static final String AUTOCOMMIT_TRUE  = "AutoCommit(true)";
 
-    static final String RS_STORE_AS_STRING = "Store as String"; // $NON-NLS-1$
-    static final String RS_STORE_AS_OBJECT = "Store as Object"; // $NON-NLS-1$
-    static final String RS_COUNT_RECORDS = "Count Records"; // $NON-NLS-1$
+    static final String RS_STORE_AS_STRING = "Store as String";
+    static final String RS_STORE_AS_OBJECT = "Store as Object";
+    static final String RS_COUNT_RECORDS = "Count Records";
 
-    private String query = ""; // $NON-NLS-1$
+    private String query = "";
 
-    private String dataSource = ""; // $NON-NLS-1$
+    private String dataSource = "";
 
     private String queryType = SELECT;
-    private String queryArguments = ""; // $NON-NLS-1$
-    private String queryArgumentsTypes = ""; // $NON-NLS-1$
-    private String variableNames = ""; // $NON-NLS-1$
+    private String queryArguments = "";
+    private String queryArgumentsTypes = "";
+    private String variableNames = "";
     private String resultSetHandler = RS_STORE_AS_STRING;
-    private String resultVariable = ""; // $NON-NLS-1$
-    private String queryTimeout = ""; // $NON-NLS-1$
-    private String resultSetMaxRows = ""; // $NON-NLS-1$
+    private String resultVariable = "";
+    private String queryTimeout = "";
+    private String resultSetMaxRows = "";
 
     private static final int MAX_RETAIN_SIZE = JMeterUtils.getPropDefault("jdbcsampler.max_retain_result_size", 64 * 1024);
 
@@ -249,7 +249,7 @@ public abstract class AbstractJDBCTestElement extends AbstractTestElement implem
                 ResultSet rs = null;
                 try {
                     rs = pstmt.getResultSet();
-                    sb.append(getStringFromResultSet(rs)).append("\n"); // $NON-NLS-1$
+                    sb.append(getStringFromResultSet(rs)).append("\n");
                 } finally {
                     close(rs);
                 }
@@ -566,7 +566,7 @@ public abstract class AbstractJDBCTestElement extends AbstractTestElement implem
         for (String varName : varNames) {
             String name = varName.trim();
             if (name.length() > 0 && jmvars != null) {
-                final String varCount = name + "_#"; // $NON-NLS-1$
+                final String varCount = name + "_#";
                 // Get the previous count
                 String prevCount = jmvars.get(varCount);
                 if (prevCount != null) {
@@ -714,9 +714,9 @@ public abstract class AbstractJDBCTestElement extends AbstractTestElement implem
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(80);
-        sb.append("["); // $NON-NLS-1$
+        sb.append("[");
         sb.append(getQueryType());
-        sb.append("] "); // $NON-NLS-1$
+        sb.append("] ");
         sb.append(getQuery());
         sb.append("\n");
         sb.append(getQueryArguments());

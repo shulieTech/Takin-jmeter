@@ -85,6 +85,6 @@ public class RenderAsJmesPathRenderer extends AbstractRenderAsJsonRenderer {
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        return JMeterUtils.getResString("jmespath_renderer"); // $NON-NLS-1$
+        return JMeterUtils.getResString("jmespath_renderer");
     }
 }

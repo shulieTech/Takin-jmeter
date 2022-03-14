@@ -37,104 +37,110 @@ import org.apache.jmeter.shulie.util.HttpNotifyTroCloudUtils;
 
 /**
  * Main class for JMeter - sets up initial classpath and the loader.
- *
  */
 public final class NewDriver {
 
     private static final String CLASSPATH_SEPARATOR = File.pathSeparator;
 
-    private static final String OS_NAME = System.getProperty("os.name");// $NON-NLS-1$
+    private static final String OS_NAME = System.getProperty("os.name");
 
     private static final String OS_NAME_LC = OS_NAME.toLowerCase(java.util.Locale.ENGLISH);
 
-    private static final String JAVA_CLASS_PATH = "java.class.path";// $NON-NLS-1$
+    private static final String JAVA_CLASS_PATH = "java.class.path";
 
-    private static final String JMETER_LOGFILE_SYSTEM_PROPERTY = "jmeter.logfile";// $NON-NLS-1$
+    private static final String JMETER_LOGFILE_SYSTEM_PROPERTY = "jmeter.logfile";
 
-    private static final String HEADLESS_MODE_PROPERTY = "java.awt.headless";// $NON-NLS-1$
-    /** The class loader to use for loading JMeter classes. */
+    private static final String HEADLESS_MODE_PROPERTY = "java.awt.headless";
+    /**
+     * The class loader to use for loading JMeter classes.
+     */
     private static final DynamicClassLoader loader;
 
-    /** The directory JMeter is installed in. */
+    /**
+     * The directory JMeter is installed in.
+     */
     private static final String JMETER_INSTALLATION_DIRECTORY;
 
     private static final List<Exception> EXCEPTIONS_IN_INIT = new ArrayList<>();
 
     static {
         final List<URL> jars = new LinkedList<>();
-        final String initiaClasspath = System.getProperty(JAVA_CLASS_PATH);
+        final String initialClasspath = System.getProperty(JAVA_CLASS_PATH);
 
         // Find JMeter home dir from the initial classpath
         String tmpDir;
-        StringTokenizer tok = new StringTokenizer(initiaClasspath, File.pathSeparator);
+        StringTokenizer tok = new StringTokenizer(initialClasspath, File.pathSeparator);
+        // Java on Mac OS can add a second entry to the initial classpath
         if (tok.countTokens() == 1
-                || (tok.countTokens()  == 2 // Java on Mac OS can add a second entry to the initial classpath
-                    && OS_NAME_LC.startsWith("mac os x")// $NON-NLS-1$
-                   )
-           ) {
+            || (tok.countTokens() == 2 && OS_NAME_LC.startsWith("mac os x"))) {
             File jar = new File(tok.nextToken());
             try {
                 tmpDir = jar.getCanonicalFile().getParentFile().getParent();
             } catch (IOException e) {
                 tmpDir = null;
             }
-        } else {// e.g. started from IDE with full classpath
-            tmpDir = System.getProperty("jmeter.home", System.getenv("JMETER_HOME"));// Allow override $NON-NLS-1$ $NON-NLS-2$
+        }
+        // e.g. started from IDE with full classpath
+        else {
+            // Allow override $NON-NLS-1$ $NON-NLS-2$
+            tmpDir = System.getProperty("jmeter.home", System.getenv("JMETER_HOME"));
             if (tmpDir == null || tmpDir.length() == 0) {
-                File userDir = new File(System.getProperty("user.dir"));// $NON-NLS-1$
+                File userDir = new File(System.getProperty("user.dir"));
                 tmpDir = userDir.getAbsoluteFile().getParent();
             }
         }
         if (tmpDir == null) {
             tmpDir = System.getenv("JMETER_HOME");
         }
-        JMETER_INSTALLATION_DIRECTORY=tmpDir;
+        JMETER_INSTALLATION_DIRECTORY = tmpDir;
 
         /*
          * Does the system support UNC paths? If so, may need to fix them up
          * later
          */
-        boolean usesUNC = OS_NAME_LC.startsWith("windows");// $NON-NLS-1$
+        boolean usesUNC = OS_NAME_LC.startsWith("windows");
 
         // Add standard jar locations to initial classpath
         StringBuilder classpath = new StringBuilder();
-        File[] libDirs = new File[] { new File(JMETER_INSTALLATION_DIRECTORY + File.separator + "lib"),// $NON-NLS-1$ $NON-NLS-2$
-                new File(JMETER_INSTALLATION_DIRECTORY + File.separator + "lib" + File.separator + "ext"),// $NON-NLS-1$ $NON-NLS-2$
-                new File(JMETER_INSTALLATION_DIRECTORY + File.separator + "lib" + File.separator + "junit")};// $NON-NLS-1$ $NON-NLS-2$
+        File[] libDirs = new File[] {new File(JMETER_INSTALLATION_DIRECTORY + File.separator + "lib"),
+            new File(JMETER_INSTALLATION_DIRECTORY + File.separator + "lib" + File.separator + "ext"),
+            new File(JMETER_INSTALLATION_DIRECTORY + File.separator + "lib" + File.separator + "junit")};
         for (File libDir : libDirs) {
             File[] libJars = libDir.listFiles((dir, name) -> name.endsWith(".jar"));
             if (libJars == null) {
-                new Throwable("Could not access " + libDir).printStackTrace(); // NOSONAR No logging here
+                new Throwable("Could not access " + libDir).printStackTrace();
                 continue;
             }
-            Arrays.sort(libJars); // Bug 50708 Ensure predictable order of jars
+            // Bug 50708 Ensure predictable order of jars
+            Arrays.sort(libJars);
             for (File libJar : libJars) {
                 try {
                     String s = libJar.getPath();
 
                     // Fix path to allow the use of UNC URLs
                     if (usesUNC) {
-                        if (s.startsWith("\\\\") && !s.startsWith("\\\\\\")) {// $NON-NLS-1$ $NON-NLS-2$
-                            s = "\\\\" + s;// $NON-NLS-1$
-                        } else if (s.startsWith("//") && !s.startsWith("///")) {// $NON-NLS-1$ $NON-NLS-2$
-                            s = "//" + s;// $NON-NLS-1$
+                        if (s.startsWith("\\\\") && !s.startsWith("\\\\\\")) {
+                            s = "\\\\" + s;
+                        } else if (s.startsWith("//") && !s.startsWith("///")) {
+                            s = "//" + s;
                         }
-                    } // usesUNC
+                    }
 
-                    jars.add(new File(s).toURI().toURL());// See Java bug 4496398
+                    // See Java bug 4496398
+                    jars.add(new File(s).toURI().toURL());
                     classpath.append(CLASSPATH_SEPARATOR);
                     classpath.append(s);
-                } catch (MalformedURLException e) { // NOSONAR
-                    EXCEPTIONS_IN_INIT.add(new Exception("Error adding jar:"+libJar.getAbsolutePath(), e));
+                } catch (MalformedURLException e) {
+                    EXCEPTIONS_IN_INIT.add(new Exception("Error adding jar:" + libJar.getAbsolutePath(), e));
                 }
             }
         }
 
         // ClassFinder needs the classpath
-        System.setProperty(JAVA_CLASS_PATH, initiaClasspath + classpath.toString());
+        System.setProperty(JAVA_CLASS_PATH, initialClasspath + classpath);
         loader = AccessController.doPrivileged(
-                (PrivilegedAction<DynamicClassLoader>) () ->
-                        new DynamicClassLoader(jars.toArray(new URL[jars.size()]))
+            (PrivilegedAction<DynamicClassLoader>)() ->
+                new DynamicClassLoader(jars.toArray(new URL[jars.size()]))
         );
     }
 
@@ -153,7 +159,7 @@ public final class NewDriver {
     private static File[] listJars(File dir) {
         if (dir.isDirectory()) {
             return dir.listFiles((f, name) -> {
-                if (name.endsWith(".jar")) {// $NON-NLS-1$
+                if (name.endsWith(".jar")) {
                     File jar = new File(f, name);
                     return jar.isFile() && jar.canRead();
                 }
@@ -171,10 +177,12 @@ public final class NewDriver {
      */
     public static void addURL(String path) throws MalformedURLException {
         File furl = new File(path);
-        loader.addURL(furl.toURI().toURL()); // See Java bug 4496398
+        // See Java bug 4496398
+        loader.addURL(furl.toURI().toURL());
         File[] jars = listJars(furl);
         for (File jar : jars) {
-            loader.addURL(jar.toURI().toURL()); // See Java bug 4496398
+            // See Java bug 4496398
+            loader.addURL(jar.toURI().toURL());
         }
     }
 
@@ -182,8 +190,7 @@ public final class NewDriver {
      * Add a URL to the loader classpath only; does not update the system
      * classpath.
      *
-     * @param url
-     *            The {@link URL} to add to the classpath
+     * @param url The {@link URL} to add to the classpath
      */
     public static void addURL(URL url) {
         loader.addURL(url);
@@ -192,31 +199,31 @@ public final class NewDriver {
     /**
      * Add a directory or jar to the loader and system classpaths.
      *
-     * @param path
-     *            to add to the loader and system classpath
-     * @throws MalformedURLException
-     *             if <code>path</code> can not be transformed to a valid
-     *             {@link URL}
+     * @param path to add to the loader and system classpath
+     * @throws MalformedURLException if <code>path</code> can not be transformed to a valid
+     * {@link URL}
      */
     public static void addPath(String path) throws MalformedURLException {
         File file = new File(path);
         // Ensure that directory URLs end in "/"
-        if (file.isDirectory() && !path.endsWith("/")) {// $NON-NLS-1$
-            file = new File(path + "/");// $NON-NLS-1$
+        if (file.isDirectory() && !path.endsWith("/")) {
+            file = new File(path + "/");
         }
-        loader.addURL(file.toURI().toURL()); // See Java bug 4496398
+        // See Java bug 4496398
+        loader.addURL(file.toURI().toURL());
         StringBuilder sb = new StringBuilder(System.getProperty(JAVA_CLASS_PATH));
         sb.append(CLASSPATH_SEPARATOR);
         sb.append(path);
         File[] jars = listJars(file);
         for (File jar : jars) {
-            loader.addURL(jar.toURI().toURL()); // See Java bug 4496398
+            // See Java bug 4496398
+            loader.addURL(jar.toURI().toURL());
             sb.append(CLASSPATH_SEPARATOR);
             sb.append(jar.getPath());
         }
 
         // ClassFinder needs this
-        System.setProperty(JAVA_CLASS_PATH,sb.toString());
+        System.setProperty(JAVA_CLASS_PATH, sb.toString());
     }
 
     /**
@@ -232,38 +239,41 @@ public final class NewDriver {
     /**
      * The main program which actually runs JMeter.
      *
-     * @param args
-     *            the command line arguments
+     * @param args the command line arguments
      */
     public static void main(String[] args) {
         HttpNotifyTroCloudUtils.init(loader);
-        //add by lipeng 添加callbackurl及参数
+        //add by 李鹏 添加callbackurl及参数
         PressureConstants.pressureEngineParamsInstance = getPressureEngineParams(args);
         // add end
-        if(!EXCEPTIONS_IN_INIT.isEmpty()) {
+        if (!EXCEPTIONS_IN_INIT.isEmpty()) {
             String excetionsMsg = exceptionsToString(EXCEPTIONS_IN_INIT);
-            System.err.println("Configuration error during init, see exceptions:"+excetionsMsg); // NOSONAR Intentional System.err use
-            //add by lipeng 错误信息上报cloud
+            // NOSONAR Intentional System.err use
+            System.err.println("Configuration error during init, see exceptions:" + excetionsMsg);
+            //add by 李鹏 错误信息上报cloud
             HttpNotifyTroCloudUtils.notifyTroCloud(PressureConstants.pressureEngineParamsInstance, PressureConstants.ENGINE_STATUS_FAILED, excetionsMsg);
         } else {
             Thread.currentThread().setContextClassLoader(loader);
             setLoggingProperties(args);
 
             try {
-                // Only set property if it has not been set explicitely
-                if(System.getProperty(HEADLESS_MODE_PROPERTY) == null && shouldBeHeadless(args)) {
+                // Only set property if it has not been set explicitly
+                if (System.getProperty(HEADLESS_MODE_PROPERTY) == null && shouldBeHeadless(args)) {
                     System.setProperty(HEADLESS_MODE_PROPERTY, "true");
                 }
                 Class<?> initialClass = loader.loadClass("org.apache.jmeter.JMeter");
                 Object instance = initialClass.getDeclaredConstructor().newInstance();
-                Method startup = initialClass.getMethod("start", new Class[] { PressureConstants.pressureEngineParamsInstance.getClass() });
-                //modify by lipeng 将start方法入参改为pressureEngineParams
+                Method startup = initialClass.getMethod("start", PressureConstants.pressureEngineParamsInstance.getClass());
+                //modify by 李鹏 将start方法入参改为pressureEngineParams
                 startup.invoke(instance, PressureConstants.pressureEngineParamsInstance);
                 //正常启动后不需要上报cloud已正常启动，在receive接口会上报started标记
-            } catch(Throwable e){ // NOSONAR We want to log home directory in case of exception
-                e.printStackTrace(); // NOSONAR No logger at this step
-                System.err.println("JMeter home directory was detected as: "+JMETER_INSTALLATION_DIRECTORY); // NOSONAR Intentional System.err use
-                //add by lipeng 错误信息上报cloud
+            }
+            //  We want to log home directory in case of exception
+            catch (Throwable e) {
+                e.printStackTrace(); //   No logger at this step
+                //  Intentional System.err use
+                System.err.println("JMeter home directory was detected as: " + JMETER_INSTALLATION_DIRECTORY);
+                //add by 李鹏 错误信息上报cloud
                 HttpNotifyTroCloudUtils.notifyTroCloud(PressureConstants.pressureEngineParamsInstance, PressureConstants.ENGINE_STATUS_FAILED, throwableToString(e));
             }
         }
@@ -272,8 +282,8 @@ public final class NewDriver {
     /**
      * 获取引擎参数信息
      *
-     * @param args
-     * @return
+     * @param args 参数
+     * @return 引擎参数
      */
     private static PressureEngineParams getPressureEngineParams(String[] args) {
         PressureEngineParams result = new PressureEngineParams();
@@ -292,15 +302,16 @@ public final class NewDriver {
         int samplingInterval = Integer.parseInt(System.getProperty("SamplingInterval", "0"));
         result.setSamplingInterval(samplingInterval);
         //podNumber
-        String podNumber = System.getProperty("pod.number","1");
+        String podNumber = System.getProperty("pod.number", "1");
         result.setPodNumber(podNumber);
-        System.setProperty("pod.number",podNumber);
-        //callbackurl
+        System.setProperty("pod.number", podNumber);
+        //callbackUrl
         result.setCallbackUrl(System.getProperty("CallbackUrl"));
         //jmeter args
         result.setJmeterArgs(args);
         return result;
     }
+
     /**
      * @param throwable List of {@link Throwable}
      * @return String
@@ -309,9 +320,9 @@ public final class NewDriver {
         StringBuilder builder = new StringBuilder();
         StringWriter stringWriter = new StringWriter();
         PrintWriter printWriter = new PrintWriter(stringWriter);
-        throwable.printStackTrace(printWriter); // NOSONAR
-        builder.append(stringWriter.toString())
-                .append("\r\n");
+        throwable.printStackTrace(printWriter);
+        builder.append(stringWriter)
+            .append("\r\n");
         return builder.toString();
     }
 
@@ -324,8 +335,8 @@ public final class NewDriver {
         for (Exception exception : exceptionsInInit) {
             StringWriter stringWriter = new StringWriter();
             PrintWriter printWriter = new PrintWriter(stringWriter);
-            exception.printStackTrace(printWriter); // NOSONAR
-            builder.append(stringWriter.toString())
+            exception.printStackTrace(printWriter);
+            builder.append(stringWriter)
                 .append("\r\n");
         }
         return builder.toString();
@@ -335,53 +346,53 @@ public final class NewDriver {
      * Set logging related system properties.
      */
     private static void setLoggingProperties(String[] args) {
-        String jmLogFile = getCommandLineArgument(args, 'j', "jmeterlogfile");// $NON-NLS-1$ $NON-NLS-2$
-
+        String jmLogFile = getCommandLineArgument(args, 'j', "jmeterlogfile");
         if (jmLogFile != null && !jmLogFile.isEmpty()) {
             jmLogFile = replaceDateFormatInFileName(jmLogFile);
-            System.setProperty(JMETER_LOGFILE_SYSTEM_PROPERTY, jmLogFile);// $NON-NLS-1$
-        } else if (System.getProperty(JMETER_LOGFILE_SYSTEM_PROPERTY) == null) {// $NON-NLS-1$
-            System.setProperty(JMETER_LOGFILE_SYSTEM_PROPERTY, "jmeter.log");// $NON-NLS-1$ $NON-NLS-2$
+            System.setProperty(JMETER_LOGFILE_SYSTEM_PROPERTY, jmLogFile);
+        } else if (System.getProperty(JMETER_LOGFILE_SYSTEM_PROPERTY) == null) {
+            System.setProperty(JMETER_LOGFILE_SYSTEM_PROPERTY, "jmeter.log");
         }
 
-        String jmLogConf = getCommandLineArgument(args, 'i', "jmeterlogconf");// $NON-NLS-1$ $NON-NLS-2$
+        String jmLogConf = getCommandLineArgument(args, 'i', "jmeterlogconf");
         File logConfFile = null;
 
         if (jmLogConf != null && !jmLogConf.isEmpty()) {
             logConfFile = new File(jmLogConf);
-        } else if (System.getProperty("log4j.configurationFile") == null) {// $NON-NLS-1$
-            logConfFile = new File("log4j2.xml");// $NON-NLS-1$
+        } else if (System.getProperty("log4j.configurationFile") == null) {
+            logConfFile = new File("log4j2.xml");
             if (!logConfFile.isFile()) {
-                logConfFile = new File(JMETER_INSTALLATION_DIRECTORY, "bin" + File.separator + "log4j2.xml");// $NON-NLS-1$ $NON-NLS-2$
+                logConfFile = new File(JMETER_INSTALLATION_DIRECTORY, "bin" + File.separator + "log4j2.xml");
             }
         }
 
         if (logConfFile != null) {
-            System.setProperty("log4j.configurationFile", logConfFile.toURI().toString());// $NON-NLS-1$
+            System.setProperty("log4j.configurationFile", logConfFile.toURI().toString());
         }
     }
 
     private static boolean shouldBeHeadless(String[] args) {
         for (String arg : args) {
-            if("-n".equals(arg) || "-s".equals(arg) || "-g".equals(arg)) {
+            if ("-n".equals(arg) || "-s".equals(arg) || "-g".equals(arg)) {
                 return true;
             }
         }
         return false;
     }
+
     /*
      * Find command line argument option value by the id and name.
      */
     private static String getCommandLineArgument(String[] args, int id, String name) {
-        final String shortArgName = "-" + ((char) id);// $NON-NLS-1$
-        final String longArgName = "--" + name;// $NON-NLS-1$
+        final String shortArgName = "-" + ((char)id);
+        final String longArgName = "--" + name;
 
         String value = null;
 
         for (int i = 0; i < args.length; i++) {
             if ((shortArgName.equals(args[i]) && i < args.length - 1)
-                    || longArgName.equals(args[i])) {
-                if (!args[i + 1].startsWith("-")) {// $NON-NLS-1$
+                || longArgName.equals(args[i])) {
+                if (!args[i + 1].startsWith("-")) {
                     value = args[i + 1];
                 }
                 break;
@@ -403,19 +414,19 @@ public final class NewDriver {
 
             final Date date = new Date();
             int fromIndex = 0;
-            int begin = fileName.indexOf('\'', fromIndex);// $NON-NLS-1$
+            int begin = fileName.indexOf('\'', fromIndex);
             int end;
 
             String format;
             SimpleDateFormat dateFormat;
 
             while (begin != -1) {
-                builder.append(fileName.substring(fromIndex, begin));
+                builder.append(fileName, fromIndex, begin);
 
                 fromIndex = begin + 1;
-                end = fileName.indexOf('\'', fromIndex);// $NON-NLS-1$
+                end = fileName.indexOf('\'', fromIndex);
                 if (end == -1) {
-                    throw new IllegalArgumentException("Invalid pairs of single-quotes in the file name: " + fileName);// $NON-NLS-1$
+                    throw new IllegalArgumentException("Invalid pairs of single-quotes in the file name: " + fileName);
                 }
 
                 format = fileName.substring(begin + 1, end);
@@ -423,7 +434,7 @@ public final class NewDriver {
                 builder.append(dateFormat.format(date));
 
                 fromIndex = end + 1;
-                begin = fileName.indexOf('\'', fromIndex);// $NON-NLS-1$
+                begin = fileName.indexOf('\'', fromIndex);
             }
 
             if (fromIndex < fileName.length() - 1) {
@@ -432,7 +443,7 @@ public final class NewDriver {
 
             return builder.toString();
         } catch (Exception ex) {
-            System.err.println("Error replacing date format in file name:"+fileName+", error:"+ex.getMessage()); // NOSONAR
+            System.err.println("Error replacing date format in file name:" + fileName + ", error:" + ex.getMessage());
         }
 
         return fileName;

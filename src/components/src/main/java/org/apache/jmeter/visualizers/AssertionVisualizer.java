@@ -49,7 +49,7 @@ public class AssertionVisualizer extends AbstractVisualizer implements Clearable
 
     @Override
     public String getLabelResource() {
-        return "assertion_visualizer_title"; // $NON-NLS-1$
+        return "assertion_visualizer_title";
     }
 
     @Override
@@ -58,7 +58,7 @@ public class AssertionVisualizer extends AbstractVisualizer implements Clearable
         final StringBuilder sb = new StringBuilder(100);
         sb.append(sample.getSampleLabel());
         sb.append(getAssertionResult(sample));
-        sb.append("\n"); // $NON-NLS-1$
+        sb.append("\n");
         JMeterUtils.runSafe(false, () -> {
             synchronized (textArea) {
                 textArea.append(sb.toString());
@@ -69,7 +69,7 @@ public class AssertionVisualizer extends AbstractVisualizer implements Clearable
 
     @Override
     public void clearData() {
-        textArea.setText(""); // $NON-NLS-1$
+        textArea.setText("");
     }
 
     private String getAssertionResult(SampleResult res) {
@@ -78,8 +78,8 @@ public class AssertionVisualizer extends AbstractVisualizer implements Clearable
             AssertionResult[] assertionResults = res.getAssertionResults();
             for (AssertionResult item : assertionResults) {
                 if (item.isFailure() || item.isError()) {
-                    display.append("\n\t"); // $NON-NLS-1$
-                    display.append(item.getName() != null ? item.getName() + " : " : "");// $NON-NLS-1$
+                    display.append("\n\t");
+                    display.append(item.getName() != null ? item.getName() + " : " : "");
                     display.append(item.getFailureMessage());
                 }
             }
@@ -101,7 +101,7 @@ public class AssertionVisualizer extends AbstractVisualizer implements Clearable
 
         // TEXTAREA LABEL
         JLabel textAreaLabel =
-            new JLabel(JMeterUtils.getResString("assertion_textarea_label")); // $NON-NLS-1$
+            new JLabel(JMeterUtils.getResString("assertion_textarea_label"));
         textAreaLabel.setLabelFor(textArea);
         Box mainPanel = Box.createVerticalBox();
         mainPanel.add(textAreaLabel);

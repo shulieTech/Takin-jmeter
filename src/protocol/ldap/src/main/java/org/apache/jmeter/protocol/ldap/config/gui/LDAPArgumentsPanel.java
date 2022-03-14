@@ -112,7 +112,7 @@ public class LDAPArgumentsPanel extends AbstractConfigGui implements ActionListe
 
     @Override
     public String getLabelResource() {
-        return "ldapext_sample_title"; // $NON-NLS-1$
+        return "ldapext_sample_title";
     }
 
     /* Implements JMeterGUIComponent.createTestElement() */

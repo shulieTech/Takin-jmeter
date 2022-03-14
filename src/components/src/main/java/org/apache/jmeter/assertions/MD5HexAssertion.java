@@ -74,7 +74,7 @@ public class MD5HexAssertion extends AbstractTestElement implements Serializable
 
             Object[] arguments = { md5Result, getAllowedMD5Hex() };
             String message = MessageFormat.format(
-                    JMeterUtils.getResString("md5hex_assertion_failure"), // $NON-NLS-1$
+                    JMeterUtils.getResString("md5hex_assertion_failure"),
                     arguments);
             result.setFailureMessage(message);
         }

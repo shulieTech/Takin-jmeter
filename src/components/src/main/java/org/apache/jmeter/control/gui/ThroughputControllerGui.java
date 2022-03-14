@@ -51,11 +51,11 @@ public class ThroughputControllerGui extends AbstractControllerGui {
     private boolean isPerThread = true;
 
     // These must not be static, otherwise Language change does not work
-    private final String BYNUMBER_LABEL = JMeterUtils.getResString("throughput_control_bynumber_label"); // $NON-NLS-1$
+    private final String BYNUMBER_LABEL = JMeterUtils.getResString("throughput_control_bynumber_label");
 
-    private final String BYPERCENT_LABEL = JMeterUtils.getResString("throughput_control_bypercent_label"); // $NON-NLS-1$
+    private final String BYPERCENT_LABEL = JMeterUtils.getResString("throughput_control_bypercent_label");
 
-    private final String PERTHREAD_LABEL = JMeterUtils.getResString("throughput_control_perthread_label"); // $NON-NLS-1$
+    private final String PERTHREAD_LABEL = JMeterUtils.getResString("throughput_control_perthread_label");
 
     public ThroughputControllerGui() {
         init();
@@ -83,7 +83,7 @@ public class ThroughputControllerGui extends AbstractControllerGui {
                 ((ThroughputController) tc).setMaxThroughput(Integer.parseInt(throughput.getText().trim()));
             } catch (NumberFormatException e) {
                 // In case we are converting back from floating point, drop the decimal fraction
-                ((ThroughputController) tc).setMaxThroughput(throughput.getText().trim().split("\\.")[0]); // $NON-NLS-1$
+                ((ThroughputController) tc).setMaxThroughput(throughput.getText().trim().split("\\.")[0]);
             }
         } else {
             try {
@@ -101,7 +101,7 @@ public class ThroughputControllerGui extends AbstractControllerGui {
     public void clearGui() {
         super.clearGui();
         styleBox.setSelectedIndex(1);
-        throughput.setText("1"); // $NON-NLS-1$
+        throughput.setText("1");
         perthread.setSelected(false);
     }
 
@@ -120,7 +120,7 @@ public class ThroughputControllerGui extends AbstractControllerGui {
 
     @Override
     public String getLabelResource() {
-        return "throughput_control_title"; // $NON-NLS-1$
+        return "throughput_control_title";
     }
 
     private void init() { // WARNING: called from ctor so must not be overridden (i.e. must be private or final)
@@ -150,7 +150,7 @@ public class ThroughputControllerGui extends AbstractControllerGui {
         throughput = new JTextField(15);
         panel.add(JMeterUtils.labelFor(throughput, "throughput_control_tplabel"));
         panel.add(throughput);
-        throughput.setText("1"); // $NON-NLS-1$
+        throughput.setText("1");
 
         // PERTHREAD FIELD
         perthread = new JCheckBox(PERTHREAD_LABEL, isPerThread);

@@ -169,10 +169,10 @@ public class BeanShellSampler extends BeanShellTestElement implements Sampler, I
     public boolean interrupt() {
         if (savedBsh != null) {
             try {
-                savedBsh.evalNoLog("interrupt()"); // $NON-NLS-1$
+                savedBsh.evalNoLog("interrupt()");
             } catch (JMeterException ignored) {
                 if (log.isDebugEnabled()) {
-                    log.debug("{} : {}", getClass(), ignored.getLocalizedMessage()); // $NON-NLS-1$
+                    log.debug("{} : {}", getClass(), ignored.getLocalizedMessage());
                 }
             }
             return true;

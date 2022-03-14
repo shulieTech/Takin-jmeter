@@ -30,7 +30,7 @@ import org.apache.commons.codec.binary.Base64;
 /**
  * DES加密 解密算法
  *
- * @author lipeng
+ * @author 李鹏
  */
 public class DesUtil {
 

@@ -43,11 +43,11 @@ import org.slf4j.LoggerFactory;
 public final class Utils {
     // By default priority is 4
     // http://docs.oracle.com/javaee/6/tutorial/doc/bncfu.html
-    public static final String DEFAULT_PRIORITY_4 = "4"; // $NON-NLS-1$
+    public static final String DEFAULT_PRIORITY_4 = "4";
 
     // By default a message never expires
     // http://docs.oracle.com/javaee/6/tutorial/doc/bncfu.html
-    public static final String DEFAULT_NO_EXPIRY = "0"; // $NON-NLS-1$
+    public static final String DEFAULT_NO_EXPIRY = "0";
 
     private static final Logger log = LoggerFactory.getLogger(Utils.class);
 
@@ -231,9 +231,9 @@ public final class Utils {
 
             // Some JMS implemenations do not allow certain header fields to be set using properties
             // e.g.: WebsphereMQ does not allow corr. id. to be set using setStringProperty()
-            if ("JMSCorrelationID".equalsIgnoreCase(name)) { // $NON-NLS-1$
+            if ("JMSCorrelationID".equalsIgnoreCase(name)) {
                 msg.setJMSCorrelationID((String)value);
-            } else if ("JMSType".equalsIgnoreCase(name)) { // $NON-NLS-1$
+            } else if ("JMSType".equalsIgnoreCase(name)) {
                 msg.setJMSType((String)value);
             } else {
                 msg.setObjectProperty(name, value);

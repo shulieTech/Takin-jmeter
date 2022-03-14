@@ -90,7 +90,7 @@ public class ConvertListeners implements HashTreeTraverser {
                         }
                     }
                 } catch (RemoteException e) {
-                    log.error("RemoteException occurred while replacing Remotable item.", e); // $NON-NLS-1$
+                    log.error("RemoteException occurred while replacing Remotable item.", e);
                 }
             }
         }

@@ -67,13 +67,13 @@ public class DNSCacheManager extends ConfigTestElement implements TestIterationL
     public static final boolean DEFAULT_CLEAR_CACHE_EACH_ITER = false;
 
     //++ JMX tag values
-    private static final String CLEAR_CACHE_EACH_ITER = "DNSCacheManager.clearEachIteration"; // $NON-NLS-1$
+    private static final String CLEAR_CACHE_EACH_ITER = "DNSCacheManager.clearEachIteration";
 
-    private static final String SERVERS = "DNSCacheManager.servers"; // $NON-NLS-1$
+    private static final String SERVERS = "DNSCacheManager.servers";
 
-    private static final String HOSTS = "DNSCacheManager.hosts"; // $NON-NLS-1$
+    private static final String HOSTS = "DNSCacheManager.hosts";
 
-    private static final String IS_CUSTOM_RESOLVER = "DNSCacheManager.isCustomResolver"; // $NON-NLS-1$
+    private static final String IS_CUSTOM_RESOLVER = "DNSCacheManager.isCustomResolver";
     //-- JMX tag values
 
     private static final boolean DEFAULT_IS_CUSTOM_RESOLVER = false;

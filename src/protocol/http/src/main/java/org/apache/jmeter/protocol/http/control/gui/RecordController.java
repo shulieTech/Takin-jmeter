@@ -54,7 +54,7 @@ public class RecordController extends LogicControllerGui implements ActionListen
 
     @Override
     public String getLabelResource() {
-        return "record_controller_title"; // $NON-NLS-1$
+        return "record_controller_title";
     }
 
     @Override

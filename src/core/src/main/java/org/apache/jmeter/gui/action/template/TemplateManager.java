@@ -47,7 +47,7 @@ import org.xml.sax.SAXParseException;
  * @since 2.10
  */
 public class TemplateManager {
-    private static final String TEMPLATE_FILES = JMeterUtils.getPropDefault("template.files", // $NON-NLS-1$
+    private static final String TEMPLATE_FILES = JMeterUtils.getPropDefault("template.files",
             "/bin/templates/templates.xml");
 
     private static final Logger log = LoggerFactory.getLogger(TemplateManager.class);

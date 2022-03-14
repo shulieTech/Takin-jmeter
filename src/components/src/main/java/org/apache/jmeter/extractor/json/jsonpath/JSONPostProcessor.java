@@ -44,16 +44,16 @@ public class JSONPostProcessor
     private static final long serialVersionUID = 1L;
     private static final Logger log = LoggerFactory.getLogger(JSONPostProcessor.class);
 
-    private static final String JSON_PATH_EXPRESSIONS = "JSONPostProcessor.jsonPathExprs"; // $NON-NLS-1$
-    private static final String REFERENCE_NAMES = "JSONPostProcessor.referenceNames"; // $NON-NLS-1$
-    private static final String DEFAULT_VALUES = "JSONPostProcessor.defaultValues"; // $NON-NLS-1$
-    private static final String MATCH_NUMBERS = "JSONPostProcessor.match_numbers"; // $NON-NLS-1$
-    private static final String COMPUTE_CONCATENATION = "JSONPostProcessor.compute_concat"; // $NON-NLS-1$
-    private static final String REF_MATCH_NR = "_matchNr"; // $NON-NLS-1$
-    private static final String ALL_SUFFIX = "_ALL"; // $NON-NLS-1$
+    private static final String JSON_PATH_EXPRESSIONS = "JSONPostProcessor.jsonPathExprs";
+    private static final String REFERENCE_NAMES = "JSONPostProcessor.referenceNames";
+    private static final String DEFAULT_VALUES = "JSONPostProcessor.defaultValues";
+    private static final String MATCH_NUMBERS = "JSONPostProcessor.match_numbers";
+    private static final String COMPUTE_CONCATENATION = "JSONPostProcessor.compute_concat";
+    private static final String REF_MATCH_NR = "_matchNr";
+    private static final String ALL_SUFFIX = "_ALL";
 
     private static final String JSON_CONCATENATION_SEPARATOR = ","; //$NON-NLS-1$
-    private static final String SEPARATOR = ";"; // $NON-NLS-1$
+    private static final String SEPARATOR = ";";
     public static final boolean COMPUTE_CONCATENATION_DEFAULT_VALUE = false;
 
     private static final ThreadLocal<JSONManager> localMatcher = ThreadLocal.withInitial(JSONManager::new);
@@ -120,9 +120,9 @@ public class JSONPostProcessor
                 refNames.length != defaultValues.length) {
             log.error(
                     "Number of JSON Path variables must match number of default values and json-path expressions,"
-                    + " check you use separator ';' if you have many values"); // $NON-NLS-1$
+                    + " check you use separator ';' if you have many values");
             throw new IllegalArgumentException(JMeterUtils
-                    .getResString("jsonpp_error_number_arguments_mismatch_error")); // $NON-NLS-1$
+                    .getResString("jsonpp_error_number_arguments_mismatch_error"));
         }
     }
 
@@ -255,7 +255,7 @@ public class JSONPostProcessor
     }
 
     public void setDefaultValues(String defaultValue) {
-        setProperty(DEFAULT_VALUES, defaultValue, ""); // $NON-NLS-1$
+        setProperty(DEFAULT_VALUES, defaultValue, "");
     }
 
     public boolean getComputeConcatenation() {

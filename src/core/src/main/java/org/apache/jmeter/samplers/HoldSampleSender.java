@@ -43,7 +43,7 @@ public class HoldSampleSender extends AbstractSampleSender implements Serializab
      */
     @Deprecated
     public HoldSampleSender(){
-        log.warn("Constructor only intended for use in testing"); // $NON-NLS-1$
+        log.warn("Constructor only intended for use in testing");
         listener = null;
     }
 

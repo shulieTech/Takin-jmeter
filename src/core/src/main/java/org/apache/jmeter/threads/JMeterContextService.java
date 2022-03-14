@@ -87,7 +87,7 @@ public final class JMeterContextService {
         if (testStart == 0) {
             numberOfActiveThreads = 0;
             testStart = System.currentTimeMillis();
-            JMeterUtils.setProperty("TESTSTART.MS",Long.toString(testStart));// $NON-NLS-1$
+            JMeterUtils.setProperty("TESTSTART.MS",Long.toString(testStart));
         }
     }
 

@@ -40,7 +40,7 @@ public class RenderAsJSON extends SamplerResultTab implements ResultRenderer {
     }
 
     private void showRenderJSONResponse(String response) {
-        results.setContentType("text/plain"); // $NON-NLS-1$
+        results.setContentType("text/plain");
         setTextOptimized(response == null ? "" : prettyJSON(response));
         results.setCaretPosition(0);
         resultsScrollPane.setViewportView(results);
@@ -83,7 +83,7 @@ public class RenderAsJSON extends SamplerResultTab implements ResultRenderer {
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        return JMeterUtils.getResString("view_results_render_json"); // $NON-NLS-1$
+        return JMeterUtils.getResString("view_results_render_json");
     }
 
     private static class PrettyJSONStyle extends JSONStyle {

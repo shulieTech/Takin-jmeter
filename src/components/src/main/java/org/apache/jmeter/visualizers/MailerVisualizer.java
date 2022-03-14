@@ -134,7 +134,7 @@ public class MailerVisualizer extends AbstractVisualizer implements ActionListen
 
     @Override
     public String toString() {
-        return JMeterUtils.getResString("mailer_string"); // $NON-NLS-1$
+        return JMeterUtils.getResString("mailer_string");
     }
 
     /**
@@ -152,7 +152,7 @@ public class MailerVisualizer extends AbstractVisualizer implements ActionListen
 
         JPanel attributePane = new VerticalPanel();
         attributePane.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("mailer_title_settings"))); // $NON-NLS-1$
+                JMeterUtils.getResString("mailer_title_settings")));
 
         // Settings panes
         attributePane.add(createMailingSettings());
@@ -160,7 +160,7 @@ public class MailerVisualizer extends AbstractVisualizer implements ActionListen
 
         // Test mail button
         JPanel testerPanel = new JPanel(new BorderLayout());
-        testerButton = new JButton(JMeterUtils.getResString("mailer_test_mail")); // $NON-NLS-1$
+        testerButton = new JButton(JMeterUtils.getResString("mailer_test_mail"));
         testerButton.addActionListener(this);
         testerButton.setEnabled(true);
         testerPanel.add(testerButton, BorderLayout.EAST);
@@ -170,7 +170,7 @@ public class MailerVisualizer extends AbstractVisualizer implements ActionListen
 
         // Failures count
         JPanel mailerPanel = new JPanel(new BorderLayout());
-        mailerPanel.add(new JLabel(JMeterUtils.getResString("mailer_failures")), BorderLayout.WEST); // $NON-NLS-1$
+        mailerPanel.add(new JLabel(JMeterUtils.getResString("mailer_failures")), BorderLayout.WEST);
         failureField = new JTextField(6);
         failureField.setEditable(false);
         mailerPanel.add(failureField, BorderLayout.CENTER);
@@ -182,19 +182,19 @@ public class MailerVisualizer extends AbstractVisualizer implements ActionListen
     private JPanel createMailingSettings() {
         JPanel settingsPane = new JPanel(new BorderLayout());
         settingsPane.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("mailer_title_message"))); // $NON-NLS-1$
+                JMeterUtils.getResString("mailer_title_message")));
 
         JPanel headerPane = new JPanel(new BorderLayout());
         headerPane.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
         JPanel fromPane = new JPanel(new BorderLayout());
-        fromPane.add(new JLabel(JMeterUtils.getResString("mailer_from")), BorderLayout.WEST); // $NON-NLS-1$
+        fromPane.add(new JLabel(JMeterUtils.getResString("mailer_from")), BorderLayout.WEST);
         fromField = new JTextField(25);
         fromField.setEditable(true);
         fromPane.add(fromField, BorderLayout.CENTER);
         fromPane.add(Box.createRigidArea(new Dimension(5,0)), BorderLayout.EAST);
         headerPane.add(fromPane, BorderLayout.WEST);
         JPanel addressPane = new JPanel(new BorderLayout());
-        addressPane.add(new JLabel(JMeterUtils.getResString("mailer_addressees")), BorderLayout.WEST); // $NON-NLS-1$
+        addressPane.add(new JLabel(JMeterUtils.getResString("mailer_addressees")), BorderLayout.WEST);
         addressField = new JTextField(10);
         addressField.setEditable(true);
         addressPane.add(addressField, BorderLayout.CENTER);
@@ -203,15 +203,15 @@ public class MailerVisualizer extends AbstractVisualizer implements ActionListen
         JPanel successPane = new JPanel(new BorderLayout());
         successPane.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
         JPanel succesSubjectPane = new JPanel(new BorderLayout());
-        succesSubjectPane.add(new JLabel(JMeterUtils.getResString("mailer_success_subject")), BorderLayout.WEST); // $NON-NLS-1$
+        succesSubjectPane.add(new JLabel(JMeterUtils.getResString("mailer_success_subject")), BorderLayout.WEST);
         successSubjectField = new JTextField(10);
         successSubjectField.setEditable(true);
         succesSubjectPane.add(successSubjectField, BorderLayout.CENTER);
         succesSubjectPane.add(Box.createRigidArea(new Dimension(5,0)), BorderLayout.EAST);
         successPane.add(succesSubjectPane, BorderLayout.CENTER);
         JPanel successLimitPane = new JPanel(new BorderLayout());
-        successLimitPane.add(new JLabel(JMeterUtils.getResString("mailer_success_limit")), BorderLayout.WEST); // $NON-NLS-1$
-        successLimitField = new JTextField("2", 5); // $NON-NLS-1$
+        successLimitPane.add(new JLabel(JMeterUtils.getResString("mailer_success_limit")), BorderLayout.WEST);
+        successLimitField = new JTextField("2", 5);
         successLimitField.setEditable(true);
         successLimitPane.add(successLimitField, BorderLayout.CENTER);
         successPane.add(successLimitPane, BorderLayout.EAST);
@@ -219,15 +219,15 @@ public class MailerVisualizer extends AbstractVisualizer implements ActionListen
         JPanel failurePane = new JPanel(new BorderLayout());
         failurePane.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
         JPanel failureSubjectPane = new JPanel(new BorderLayout());
-        failureSubjectPane.add(new JLabel(JMeterUtils.getResString("mailer_failure_subject")), BorderLayout.WEST); // $NON-NLS-1$
+        failureSubjectPane.add(new JLabel(JMeterUtils.getResString("mailer_failure_subject")), BorderLayout.WEST);
         failureSubjectField = new JTextField(10);
         failureSubjectField.setEditable(true);
         failureSubjectPane.add(failureSubjectField, BorderLayout.CENTER);
         failureSubjectPane.add(Box.createRigidArea(new Dimension(5,0)), BorderLayout.EAST);
         failurePane.add(failureSubjectPane, BorderLayout.CENTER);
         JPanel failureLimitPane = new JPanel(new BorderLayout());
-        failureLimitPane.add(new JLabel(JMeterUtils.getResString("mailer_failure_limit")), BorderLayout.WEST); // $NON-NLS-1$
-        failureLimitField = new JTextField("2", 5); // $NON-NLS-1$
+        failureLimitPane.add(new JLabel(JMeterUtils.getResString("mailer_failure_limit")), BorderLayout.WEST);
+        failureLimitField = new JTextField("2", 5);
         failureLimitField.setEditable(true);
         failureLimitPane.add(failureLimitField, BorderLayout.CENTER);
         failurePane.add(failureLimitPane, BorderLayout.EAST);
@@ -242,19 +242,19 @@ public class MailerVisualizer extends AbstractVisualizer implements ActionListen
     private JPanel createSmtpSettings() {
         JPanel settingsPane = new JPanel(new BorderLayout());
         settingsPane.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("mailer_title_smtpserver"))); // $NON-NLS-1$
+                JMeterUtils.getResString("mailer_title_smtpserver")));
 
         JPanel hostPane = new JPanel(new BorderLayout());
         hostPane.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
         JPanel smtpHostPane = new JPanel(new BorderLayout());
-        smtpHostPane.add(new JLabel(JMeterUtils.getResString("mailer_host")), BorderLayout.WEST); // $NON-NLS-1$
+        smtpHostPane.add(new JLabel(JMeterUtils.getResString("mailer_host")), BorderLayout.WEST);
         smtpHostField = new JTextField(10);
         smtpHostField.setEditable(true);
         smtpHostPane.add(smtpHostField, BorderLayout.CENTER);
         smtpHostPane.add(Box.createRigidArea(new Dimension(5,0)), BorderLayout.EAST);
         hostPane.add(smtpHostPane, BorderLayout.CENTER);
         JPanel smtpPortPane = new JPanel(new BorderLayout());
-        smtpPortPane.add(new JLabel(JMeterUtils.getResString("mailer_port")), BorderLayout.WEST); // $NON-NLS-1$
+        smtpPortPane.add(new JLabel(JMeterUtils.getResString("mailer_port")), BorderLayout.WEST);
         smtpPortField = new JTextField(10);
         smtpPortField.setEditable(true);
         smtpPortPane.add(smtpPortField, BorderLayout.CENTER);
@@ -263,14 +263,14 @@ public class MailerVisualizer extends AbstractVisualizer implements ActionListen
         JPanel authPane = new JPanel(new BorderLayout());
         hostPane.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
         JPanel smtpLoginPane = new JPanel(new BorderLayout());
-        smtpLoginPane.add(new JLabel(JMeterUtils.getResString("mailer_login")), BorderLayout.WEST); // $NON-NLS-1$
+        smtpLoginPane.add(new JLabel(JMeterUtils.getResString("mailer_login")), BorderLayout.WEST);
         smtpLoginField = new JTextField(10);
         smtpLoginField.setEditable(true);
         smtpLoginPane.add(smtpLoginField, BorderLayout.CENTER);
         smtpLoginPane.add(Box.createRigidArea(new Dimension(5,0)), BorderLayout.EAST);
         authPane.add(smtpLoginPane, BorderLayout.CENTER);
         JPanel smtpPasswordPane = new JPanel(new BorderLayout());
-        smtpPasswordPane.add(new JLabel(JMeterUtils.getResString("mailer_password")), BorderLayout.WEST); // $NON-NLS-1$
+        smtpPasswordPane.add(new JLabel(JMeterUtils.getResString("mailer_password")), BorderLayout.WEST);
         smtpPasswordField = new JPasswordField(10);
         smtpPasswordField.setEditable(true);
         smtpPasswordPane.add(smtpPasswordField, BorderLayout.CENTER);
@@ -278,12 +278,12 @@ public class MailerVisualizer extends AbstractVisualizer implements ActionListen
         authPane.add(smtpPasswordPane, BorderLayout.EAST);
 
         JPanel authTypePane = new JPanel(new BorderLayout());
-        authTypePane.add(new JLabel(JMeterUtils.getResString("mailer_connection_security")), BorderLayout.WEST); // $NON-NLS-1$
+        authTypePane.add(new JLabel(JMeterUtils.getResString("mailer_connection_security")), BorderLayout.WEST);
         authTypeCombo = new JComboBox<>(new String[] {
                 MailerModel.MailAuthType.NONE.toString(),
                 MailerModel.MailAuthType.SSL.toString(),
                 MailerModel.MailAuthType.TLS.toString()});
-        authTypeCombo.setFont(new Font("SansSerif", Font.PLAIN, 10)); // $NON-NLS-1$
+        authTypeCombo.setFont(new Font("SansSerif", Font.PLAIN, 10));
         authTypePane.add(authTypeCombo, BorderLayout.CENTER);
 
         JPanel credPane = new JPanel(new BorderLayout());
@@ -421,8 +421,8 @@ public class MailerVisualizer extends AbstractVisualizer implements ActionListen
     private void displayMessage(String message, boolean isError) {
         int type = isError ? JOptionPane.ERROR_MESSAGE : JOptionPane.INFORMATION_MESSAGE;
         JOptionPane.showMessageDialog(null, message, isError ?
-                JMeterUtils.getResString("mailer_msg_title_error") :  // $NON-NLS-1$
-                    JMeterUtils.getResString("mailer_msg_title_information"), type); // $NON-NLS-1$
+                JMeterUtils.getResString("mailer_msg_title_error") :
+                    JMeterUtils.getResString("mailer_msg_title_information"), type);
     }
 
     /**

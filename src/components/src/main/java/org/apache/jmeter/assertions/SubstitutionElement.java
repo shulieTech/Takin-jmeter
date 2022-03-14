@@ -23,9 +23,9 @@ public class SubstitutionElement extends AbstractTestElement {
     private static final long serialVersionUID = 1;
 
     // These constants are used both for the JMX file and for the setters/getters
-    public static final String REGEX = "regex"; // $NON-NLS-1$
+    public static final String REGEX = "regex";
 
-    public static final String SUBSTITUTE = "substitute"; // $NON-NLS-1$
+    public static final String SUBSTITUTE = "substitute";
 
     public SubstitutionElement() {
         super();

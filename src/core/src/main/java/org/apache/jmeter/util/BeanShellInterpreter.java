@@ -128,7 +128,7 @@ public class BeanShellInterpreter {
             File in = new File(fileToUse);
             if (!in.exists()){// Cannot find the file locally, so try the bin directory
                 fileToUse=JMeterUtils.getJMeterHome()
-                        +File.separator+"bin" // $NON-NLS-1$
+                        +File.separator+"bin"
                         +File.separator+initFile;
                 in = new File(fileToUse);
                 if (!in.exists()) {

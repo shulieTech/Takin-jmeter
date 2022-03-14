@@ -41,7 +41,7 @@ public class SimpleDataWriter extends AbstractVisualizer {
 
     @Override
     public String getLabelResource() {
-        return "simple_data_writer_title"; // $NON-NLS-1$
+        return "simple_data_writer_title";
     }
 
     /**

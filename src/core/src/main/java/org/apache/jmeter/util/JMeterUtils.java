@@ -90,13 +90,13 @@ public class JMeterUtils implements UnitTestManager {
             super();
         }
         public static final PatternCacheLRU INSTANCE = new PatternCacheLRU(
-                getPropDefault("oro.patterncache.size",1000), // $NON-NLS-1$
+                getPropDefault("oro.patterncache.size",1000),
                 new Perl5Compiler());
     }
 
-    public static final String RES_KEY_PFX = "[res_key="; // $NON-NLS-1$
+    public static final String RES_KEY_PFX = "[res_key=";
 
-    private static final String EXPERT_MODE_PROPERTY = "jmeter.expertMode"; // $NON-NLS-1$
+    private static final String EXPERT_MODE_PROPERTY = "jmeter.expertMode";
 
     private static final String ENGLISH_LANGUAGE = Locale.ENGLISH.getLanguage();
 
@@ -165,13 +165,13 @@ public class JMeterUtils implements UnitTestManager {
      * Initialise the JMeter Locale
      */
     public static void initLocale() {
-        String loc = appProperties.getProperty("language"); // $NON-NLS-1$
+        String loc = appProperties.getProperty("language");
         if (loc != null) {
-            String []parts = JOrphanUtils.split(loc,"_");// $NON-NLS-1$
+            String []parts = JOrphanUtils.split(loc,"_");
             if (parts.length==2) {
                 setLocale(new Locale(parts[0], parts[1]));
             } else {
-                setLocale(new Locale(loc, "")); // $NON-NLS-1$
+                setLocale(new Locale(loc, ""));
             }
         } else {
             setLocale(Locale.getDefault());
@@ -194,7 +194,7 @@ public class JMeterUtils implements UnitTestManager {
             p.load(new InputStreamReader(is, StandardCharsets.UTF_8));
         } catch (IOException e) {
             try (InputStream is = ClassLoader.getSystemResourceAsStream(
-                        "org/apache/jmeter/jmeter.properties")) { // $NON-NLS-1$
+                        "org/apache/jmeter/jmeter.properties")) {
                 if (is == null) {
                     throw new RuntimeException("Could not read JMeter properties file:" + file);
                 }
@@ -314,15 +314,15 @@ public class JMeterUtils implements UnitTestManager {
      * @return array of path strings
      */
     public static String[] getSearchPaths() {
-        String p = JMeterUtils.getPropDefault("search_paths", null); // $NON-NLS-1$
+        String p = JMeterUtils.getPropDefault("search_paths", null);
         String[] result = new String[1];
 
         if (p != null) {
-            String[] paths = p.split(";"); // $NON-NLS-1$
+            String[] paths = p.split(";");
             result = new String[paths.length + 1];
             System.arraycopy(paths, 0, result, 1, paths.length);
         }
-        result[0] = getJMeterHome() + "/lib/ext"; // $NON-NLS-1$
+        result[0] = getJMeterHome() + "/lib/ext";
         return result;
     }
 
@@ -364,13 +364,13 @@ public class JMeterUtils implements UnitTestManager {
                 def = null; // no need to reset Locale
             }
         }
-        if ("ignoreResources".equals(loc.toString())){ // $NON-NLS-1$
+        if ("ignoreResources".equals(loc.toString())){
             log.warn("Resource bundles will be ignored");
             ignoreResources = true;
             // Keep existing settings
         } else {
             ignoreResources = false;
-            ResourceBundle resBund = ResourceBundle.getBundle("org.apache.jmeter.resources.messages", loc); // $NON-NLS-1$
+            ResourceBundle resBund = ResourceBundle.getBundle("org.apache.jmeter.resources.messages", loc);
             resources = resBund;
             locale = loc;
             final Locale resBundLocale = resBund.getLocale();
@@ -436,7 +436,7 @@ public class JMeterUtils implements UnitTestManager {
      *         "[res_key="+key+"]"
      */
     public static String getResString(String key) {
-        return getResStringDefault(key, RES_KEY_PFX + key + "]"); // $NON-NLS-1$
+        return getResStringDefault(key, RES_KEY_PFX + key + "]");
     }
 
     /**
@@ -452,7 +452,7 @@ public class JMeterUtils implements UnitTestManager {
      * @since 2.7
      */
     public static String getResString(String key, Locale forcedLocale) {
-        return getResStringDefault(key, RES_KEY_PFX + key + "]", // $NON-NLS-1$
+        return getResStringDefault(key, RES_KEY_PFX + key + "]",
                 forcedLocale);
     }
 
@@ -539,7 +539,7 @@ public class JMeterUtils implements UnitTestManager {
     private static ResourceBundle getBundle(Locale forcedLocale) {
         for (Locale locale: Arrays.asList(forcedLocale, getLocale())) {
             if(locale != null) {
-                ResourceBundle bundle = ResourceBundle.getBundle("org.apache.jmeter.resources.messages", locale); // $NON-NLS-1$
+                ResourceBundle bundle = ResourceBundle.getBundle("org.apache.jmeter.resources.messages", locale);
                 if (bundle == null) {
                     log.warn("Could not resolve ResourceBundle for Locale [{}]", locale);
                 } else {
@@ -625,7 +625,7 @@ public class JMeterUtils implements UnitTestManager {
             URL url = JMeterUtils.class.getClassLoader().getResource(
                     "org/apache/jmeter/images/" + name.trim());
             if(url != null) {
-                return new ImageIcon(url); // $NON-NLS-1$
+                return new ImageIcon(url);
             } else {
                 log.warn("no icon for {}", name);
                 return null;
@@ -658,7 +658,7 @@ public class JMeterUtils implements UnitTestManager {
 
     public static String getResourceFileAsText(String name) {
         try {
-            String lineEnd = System.getProperty("line.separator"); // $NON-NLS-1$
+            String lineEnd = System.getProperty("line.separator");
             InputStream is = JMeterUtils.class.getClassLoader().getResourceAsStream(name);
             if(is != null) {
                 try (Reader in = new InputStreamReader(is);
@@ -667,10 +667,10 @@ public class JMeterUtils implements UnitTestManager {
                             .collect(Collectors.joining(lineEnd, "", lineEnd));
                 }
             } else {
-                return ""; // $NON-NLS-1$
+                return "";
             }
         } catch (IOException e) {
-            return ""; // $NON-NLS-1$
+            return "";
         }
     }
 
@@ -827,7 +827,7 @@ public class JMeterUtils implements UnitTestManager {
      * @param errorMsg - the error message.
      */
     public static void reportErrorToUser(String errorMsg) {
-        reportErrorToUser(errorMsg, JMeterUtils.getResString("error_title"), null); // $NON-NLS-1$
+        reportErrorToUser(errorMsg, JMeterUtils.getResString("error_title"), null);
     }
 
     /**
@@ -1020,7 +1020,7 @@ public class JMeterUtils implements UnitTestManager {
 
     public static void setJMeterHome(String home) {
         jmDir = home;
-        jmBin = jmDir + File.separator + "bin"; // $NON-NLS-1$
+        jmBin = jmDir + File.separator + "bin";
     }
 
     /**
@@ -1126,11 +1126,11 @@ public class JMeterUtils implements UnitTestManager {
      */
     public static LinkedHashMap<String, String> parseHeaders(String headers) {
         LinkedHashMap<String, String> linkedHeaders = new LinkedHashMap<>();
-        String[] list = headers.split("\n"); // $NON-NLS-1$
+        String[] list = headers.split("\n");
         for (String header : list) {
-            int colon = header.indexOf(':'); // $NON-NLS-1$
+            int colon = header.indexOf(':');
             if (colon <= 0) {
-                linkedHeaders.put(header, ""); // Empty value // $NON-NLS-1$
+                linkedHeaders.put(header, ""); // Empty value
             } else {
                 linkedHeaders.put(header.substring(0, colon).trim(), header
                         .substring(colon + 1).trim());
@@ -1191,7 +1191,7 @@ public class JMeterUtils implements UnitTestManager {
     public static void clearMatcherMemory(Perl5Matcher matcher, Pattern pattern) {
         try {
             if (pattern != null) {
-                matcher.matches("", pattern); // $NON-NLS-1$
+                matcher.matches("", pattern);
             }
         } catch (Exception e) {
             // NOOP
@@ -1204,7 +1204,7 @@ public class JMeterUtils implements UnitTestManager {
      */
     @API(since = "5.3", status = API.Status.DEPRECATED)
     public static boolean getHiDPIMode() {
-        return JMeterUtils.getPropDefault("jmeter.hidpi.mode", false);  // $NON-NLS-1$
+        return JMeterUtils.getPropDefault("jmeter.hidpi.mode", false);
     }
 
     /**

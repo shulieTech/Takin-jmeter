@@ -203,7 +203,7 @@ public class IfController extends GenericController implements Serializable, Thr
 
 
     private static boolean evaluateExpression(String cond) {
-        return cond.equalsIgnoreCase("true"); // $NON-NLS-1$
+        return cond.equalsIgnoreCase("true");
     }
 
     @Override

@@ -56,13 +56,13 @@ public class PropertyControlGui extends AbstractConfigGui implements
 
     private static final long serialVersionUID = 1L;
 
-    private static final String COLUMN_NAMES_0 = "name"; // $NON-NLS-1$
+    private static final String COLUMN_NAMES_0 = "name";
 
-    private static final String COLUMN_NAMES_1 = "value"; // $NON-NLS-1$
+    private static final String COLUMN_NAMES_1 = "value";
 
-    private static final String SYSTEM = "system"; // $NON-NLS-1$
+    private static final String SYSTEM = "system";
 
-    private static final String JMETER = "jmeter"; // $NON-NLS-1$
+    private static final String JMETER = "jmeter";
 
     private final JCheckBox systemButton = new JCheckBox("System");
 
@@ -83,7 +83,7 @@ public class PropertyControlGui extends AbstractConfigGui implements
 
     @Override
     public String getLabelResource() {
-        return "property_visualiser_title"; // $NON-NLS-1$
+        return "property_visualiser_title";
     }
 
     @Override
@@ -199,12 +199,12 @@ public class PropertyControlGui extends AbstractConfigGui implements
     private void initializeTableModel() {
         tableModel = new ObjectTableModel(new String[] { COLUMN_NAMES_0, COLUMN_NAMES_1 },
                 new Functor[] {
-                    new Functor(Map.Entry.class, "getKey"), // $NON-NLS-1$
-                    new Functor(Map.Entry.class, "getValue") // $NON-NLS-1$
+                    new Functor(Map.Entry.class, "getKey"),
+                    new Functor(Map.Entry.class, "getValue")
                 },
                 new Functor[] {
-                    null, // $NON-NLS-1$
-                    new Functor(Map.Entry.class,"setValue", new Class[] { Object.class }) // $NON-NLS-1$
+                    null,
+                    new Functor(Map.Entry.class,"setValue", new Class[] { Object.class })
                 },
                 new Class[] { String.class, String.class });
     }

@@ -112,8 +112,8 @@ public class SchematicView extends AbstractAction implements MenuCreator {
                     File outputFile = jFileChooser.getSelectedFile();
                     if (outputFile.exists()) {
                         int response = JOptionPane.showConfirmDialog(GuiPackage.getInstance().getMainFrame(),
-                                JMeterUtils.getResString("save_overwrite_existing_file"), // $NON-NLS-1$
-                                JMeterUtils.getResString("save?"),  // $NON-NLS-1$
+                                JMeterUtils.getResString("save_overwrite_existing_file"),
+                                JMeterUtils.getResString("save?"), 
                                 JOptionPane.YES_NO_OPTION,
                                 JOptionPane.QUESTION_MESSAGE);
                         if (response == JOptionPane.CLOSED_OPTION || response == JOptionPane.NO_OPTION) {

@@ -40,18 +40,18 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class ConversionUtils {
 
-    private static final String CHARSET_EQ = "charset="; // $NON-NLS-1$
+    private static final String CHARSET_EQ = "charset=";
     private static final int CHARSET_EQ_LEN = CHARSET_EQ.length();
 
-    private static final String SLASHDOTDOT = "/.."; // $NON-NLS-1$
-    private static final String DOTDOT = ".."; // $NON-NLS-1$
-    private static final String SLASH = "/"; // $NON-NLS-1$
-    private static final String COLONSLASHSLASH = "://"; // $NON-NLS-1$
+    private static final String SLASHDOTDOT = "/..";
+    private static final String DOTDOT = "..";
+    private static final String SLASH = "/";
+    private static final String COLONSLASHSLASH = "://";
 
     /**
      * Match /../[../] etc.
      */
-    private static final Pattern MAKE_RELATIVE_PATTERN = Pattern.compile("^/((?:\\.\\./)+)"); // $NON-NLS-1$
+    private static final Pattern MAKE_RELATIVE_PATTERN = Pattern.compile("^/((?:\\.\\./)+)");
 
     /**
      * Extract the encoding (charset) from the Content-Type, e.g.
@@ -110,7 +110,7 @@ public class ConversionUtils {
         URL initial = new URL(baseURL,location);
 
         // skip expensive processing if it cannot apply
-        if (!location.startsWith("../")){// $NON-NLS-1$
+        if (!location.startsWith("../")){
             return initial;
         }
         String path = initial.getPath();

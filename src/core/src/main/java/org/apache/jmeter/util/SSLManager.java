@@ -51,15 +51,15 @@ import org.slf4j.LoggerFactory;
 public abstract class SSLManager {
     private static final Logger log = LoggerFactory.getLogger(SSLManager.class);
 
-    private static final String SSL_TRUST_STORE = "javax.net.ssl.trustStore";// $NON-NLS-1$
+    private static final String SSL_TRUST_STORE = "javax.net.ssl.trustStore";
 
     private static final String KEY_STORE_PASSWORD = "javax.net.ssl.keyStorePassword"; // $NON-NLS-1$ NOSONAR no hard coded password
 
-    public static final String JAVAX_NET_SSL_KEY_STORE = "javax.net.ssl.keyStore"; // $NON-NLS-1$
+    public static final String JAVAX_NET_SSL_KEY_STORE = "javax.net.ssl.keyStore";
 
-    private static final String JAVAX_NET_SSL_KEY_STORE_TYPE = "javax.net.ssl.keyStoreType"; // $NON-NLS-1$
+    private static final String JAVAX_NET_SSL_KEY_STORE_TYPE = "javax.net.ssl.keyStoreType";
 
-    private static final String PKCS12 = "pkcs12"; // $NON-NLS-1$
+    private static final String PKCS12 = "pkcs12";
 
     /** Singleton instance of the manager */
     private static SSLManager manager;

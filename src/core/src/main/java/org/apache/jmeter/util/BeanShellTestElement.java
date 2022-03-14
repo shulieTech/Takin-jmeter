@@ -141,7 +141,7 @@ public abstract class BeanShellTestElement extends AbstractTestElement
 
         bsh.set("FileName", fileName);//$NON-NLS-1$
         // Set params as a single line
-        bsh.set("Parameters", params); // $NON-NLS-1$
+        bsh.set("Parameters", params);
         // and set as an array
         bsh.set("bsh.args",//$NON-NLS-1$
                 JOrphanUtils.split(params, " "));//$NON-NLS-1$
@@ -176,32 +176,32 @@ public abstract class BeanShellTestElement extends AbstractTestElement
 
     @Override
     public void threadStarted() {
-        tryEvalNoLog("threadStarted()"); // $NON-NLS-1$
+        tryEvalNoLog("threadStarted()");
     }
 
     @Override
     public void threadFinished() {
-        tryEvalNoLog("threadFinished()"); // $NON-NLS-1$
+        tryEvalNoLog("threadFinished()");
     }
 
     @Override
     public void testEnded() {
-        tryEvalNoLog("testEnded()"); // $NON-NLS-1$
+        tryEvalNoLog("testEnded()");
     }
 
     @Override
     public void testEnded(String host) {
-        tryEval("testEnded(\"" + host + "\")"); // $NON-NLS-1$
+        tryEval("testEnded(\"" + host + "\")");
     }
 
     @Override
     public void testStarted() {
-        tryEvalNoLog("testStarted()");// $NON-NLS-1$
+        tryEvalNoLog("testStarted()");
     }
 
     @Override
     public void testStarted(String host) {
-        tryEval("testStarted(\"" + host + "\")"); // $NON-NLS-1$
+        tryEval("testStarted(\"" + host + "\")");
     }
 
     private void tryEval(String code) {
@@ -212,7 +212,7 @@ public abstract class BeanShellTestElement extends AbstractTestElement
             bshInterpreter.eval(code);
         } catch (JMeterException e) {
             if (log.isDebugEnabled()) {
-                log.debug("{} : {}", getClass().getName(), e.getLocalizedMessage()); // $NON-NLS-1$
+                log.debug("{} : {}", getClass().getName(), e.getLocalizedMessage());
             }
         }
     }
@@ -225,7 +225,7 @@ public abstract class BeanShellTestElement extends AbstractTestElement
             bshInterpreter.evalNoLog(code);
         } catch (JMeterException e) {
             if (log.isDebugEnabled()) {
-                log.debug("{} : {}", getClass().getName(), e.getLocalizedMessage()); // $NON-NLS-1$
+                log.debug("{} : {}", getClass().getName(), e.getLocalizedMessage());
             }
         }
     }

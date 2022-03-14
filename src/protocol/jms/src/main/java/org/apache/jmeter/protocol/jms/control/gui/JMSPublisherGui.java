@@ -114,14 +114,14 @@ public class JMSPublisherGui extends AbstractSamplerGui implements ChangeListene
     private final JCheckBox useNonPersistentDelivery = new JCheckBox(JMeterUtils.getResString("jms_use_non_persistent_delivery"),false); //$NON-NLS-1$
 
     // These are the names of properties used to define the labels
-    private static final String DEST_SETUP_STATIC = "jms_dest_setup_static"; // $NON-NLS-1$
+    private static final String DEST_SETUP_STATIC = "jms_dest_setup_static";
 
-    private static final String DEST_SETUP_DYNAMIC = "jms_dest_setup_dynamic"; // $NON-NLS-1$
+    private static final String DEST_SETUP_DYNAMIC = "jms_dest_setup_dynamic";
     // Button group resources
     private static final String[] DEST_SETUP_ITEMS = { DEST_SETUP_STATIC, DEST_SETUP_DYNAMIC };
 
     private final JLabeledRadioI18N destSetup =
-        new JLabeledRadioI18N("jms_dest_setup", DEST_SETUP_ITEMS, DEST_SETUP_STATIC); // $NON-NLS-1$
+        new JLabeledRadioI18N("jms_dest_setup", DEST_SETUP_ITEMS, DEST_SETUP_STATIC);
 
     private JMSPropertiesPanel jmsPropertiesPanel;
 
@@ -262,24 +262,24 @@ public class JMSPublisherGui extends AbstractSamplerGui implements ChangeListene
     public void clearGui(){
         super.clearGui();
         useProperties.setSelected(false);
-        jndiICF.setText(""); // $NON-NLS-1$
-        urlField.setText(""); // $NON-NLS-1$
-        jndiConnFac.setText(""); // $NON-NLS-1$
-        jmsDestination.setText(""); // $NON-NLS-1$
-        expiration.setText(""); // $NON-NLS-1$
+        jndiICF.setText("");
+        urlField.setText("");
+        jndiConnFac.setText("");
+        jmsDestination.setText("");
+        expiration.setText("");
         jmsErrorReconnectOnCodes.setText("");
-        priority.setText(""); // $NON-NLS-1$
-        jmsUser.setText(""); // $NON-NLS-1$
-        jmsPwd.setText(""); // $NON-NLS-1$
-        textMessage.setInitialText(""); // $NON-NLS-1$
-        messageFile.setFilename(""); // $NON-NLS-1$
-        randomFile.setFilename(""); // $NON-NLS-1$
-        msgChoice.setText(""); // $NON-NLS-1$
+        priority.setText("");
+        jmsUser.setText("");
+        jmsPwd.setText("");
+        textMessage.setInitialText("");
+        messageFile.setFilename("");
+        randomFile.setFilename("");
+        msgChoice.setText("");
         fileEncoding.setSelectedIndex(0);
         configChoice.setText(USE_TEXT_RSC);
         updateConfig(USE_TEXT_RSC);
         msgChoice.setText(TEXT_MSG_RSC);
-        iterations.setText("1"); // $NON-NLS-1$
+        iterations.setText("1");
         useAuth.setSelected(false);
         jmsUser.setEnabled(false);
         jmsPwd.setEnabled(false);

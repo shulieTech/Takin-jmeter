@@ -1,31 +1,15 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to you under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package org.apache.jmeter.shulie.util;
 
 import java.net.InetAddress;
-import java.net.NetworkInterface;
 import java.util.Enumeration;
+import java.net.NetworkInterface;
 
 import org.apache.commons.lang3.StringUtils;
 
 /**
  * TraceId生成器
  *
+ * @author 李鹏
  */
 public class TraceIdGenerator {
 
@@ -36,16 +20,15 @@ public class TraceIdGenerator {
      * 根据本机ip和当前线程序号生成TraceId
      *
      * @param currentThreadNum 线程序号
-     *
-     * @return
+     * @return traceId
      */
     public static String generateTraceId(int currentThreadNum) {
-        // add by lipeng  jmeter每个pod启动一个实例  ip不变  所以如果IP_16算好了 就不用每次进行计算了
+        // add by 李鹏  jmeter每个pod启动一个实例  ip不变  所以如果IP_16算好了 就不用每次进行计算了
         StringBuilder appender = new StringBuilder(30);
         return appender.append(IP_16)
-                .append(System.currentTimeMillis())
-                .append(StringUtils.leftPad(currentThreadNum+"", 9, '0'))
-                .toString();
+            .append(System.currentTimeMillis())
+            .append(StringUtils.leftPad(currentThreadNum + "", 9, '0'))
+            .toString();
     }
 
     static {
@@ -65,7 +48,7 @@ public class TraceIdGenerator {
     private static String getLocalInetAddress() {
         try {
             Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-            InetAddress address = null;
+            InetAddress address;
             while (interfaces.hasMoreElements()) {
                 NetworkInterface ni = interfaces.nextElement();
                 Enumeration<InetAddress> addresses = ni.getInetAddresses();

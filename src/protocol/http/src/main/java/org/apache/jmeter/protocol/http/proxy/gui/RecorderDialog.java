@@ -121,10 +121,10 @@ public class RecorderDialog extends JDialog implements ItemListener, KeyListener
         this.getContentPane().setLayout(new BorderLayout(10,10));
 
         DefaultComboBoxModel<String> choice = new DefaultComboBoxModel<>();
-        choice.addElement(JMeterUtils.getResString("sample_name_prefix")); // $NON-NLS-1$
-        choice.addElement(JMeterUtils.getResString("sample_name_transaction")); // $NON-NLS-1$
-        choice.addElement(JMeterUtils.getResString("sample_name_suffix")); // $NON-NLS-1$
-        choice.addElement(JMeterUtils.getResString("sample_name_formatter")); // $NON-NLS-1$
+        choice.addElement(JMeterUtils.getResString("sample_name_prefix"));
+        choice.addElement(JMeterUtils.getResString("sample_name_transaction"));
+        choice.addElement(JMeterUtils.getResString("sample_name_suffix"));
+        choice.addElement(JMeterUtils.getResString("sample_name_formatter"));
         httpSampleNamingMode = new JComboBox<>(choice);
         httpSampleNamingMode.setName(ProxyControlGui.HTTP_SAMPLER_NAMING_MODE);
         httpSampleNamingMode.addItemListener(this);
@@ -138,12 +138,12 @@ public class RecorderDialog extends JDialog implements ItemListener, KeyListener
         proxyPauseHTTPSample.setName(ProxyControlGui.PROXY_PAUSE_HTTP_SAMPLER);
 
         proxyPauseHTTPSample.setActionCommand(ProxyControlGui.ENABLE_RESTART);
-        JLabel labelProxyPause = new JLabel(JMeterUtils.getResString("proxy_pause_http_sampler")); // $NON-NLS-1$
+        JLabel labelProxyPause = new JLabel(JMeterUtils.getResString("proxy_pause_http_sampler"));
         labelProxyPause.setLabelFor(proxyPauseHTTPSample);
 
         JPanel panel = new JPanel(new MigLayout("fillx, wrap 3"));
         panel.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("proxy_sampler_settings"))); // $NON-NLS-1$
+                JMeterUtils.getResString("proxy_sampler_settings")));
         JLabel labelTransactionName = new JLabel(JMeterUtils.getResString("sample_name_transaction"));
         labelTransactionName.setLabelFor(prefixHTTPSampleName);
         panel.add(labelTransactionName);
@@ -240,8 +240,8 @@ public class RecorderDialog extends JDialog implements ItemListener, KeyListener
             } catch (NumberFormatException nfe) {
                 int length = proxyPauseHTTPSample.getText().length();
                 if (length > 0) {
-                    JOptionPane.showMessageDialog(this, JMeterUtils.getResString("proxy_settings_pause_error_digits"), // $NON-NLS-1$
-                            JMeterUtils.getResString("proxy_settings_pause_error_invalid_data"), // $NON-NLS-1$
+                    JOptionPane.showMessageDialog(this, JMeterUtils.getResString("proxy_settings_pause_error_digits"),
+                            JMeterUtils.getResString("proxy_settings_pause_error_invalid_data"),
                             JOptionPane.WARNING_MESSAGE);
                     // Drop the last character:
                     proxyPauseHTTPSample.setText(proxyPauseHTTPSample.getText().substring(0, length - 1));

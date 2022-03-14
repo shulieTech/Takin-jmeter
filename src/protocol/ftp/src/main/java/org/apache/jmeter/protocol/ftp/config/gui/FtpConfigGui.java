@@ -72,7 +72,7 @@ public class FtpConfigGui extends AbstractConfigGui {
 
     @Override
     public String getLabelResource() {
-        return "ftp_sample_title"; // $NON-NLS-1$
+        return "ftp_sample_title";
     }
 
     @Override
@@ -153,7 +153,7 @@ public class FtpConfigGui extends AbstractConfigGui {
     private JPanel getPortPanel() {
         port = new JTextField(4);
 
-        JLabel label = new JLabel(JMeterUtils.getResString("web_server_port")); // $NON-NLS-1$
+        JLabel label = new JLabel(JMeterUtils.getResString("web_server_port"));
         label.setLabelFor(port);
 
         JPanel panel = new JPanel(new BorderLayout(5, 0));

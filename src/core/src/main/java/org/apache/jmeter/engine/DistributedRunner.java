@@ -48,9 +48,9 @@ public class DistributedRunner {
 
     private static final Logger log = LoggerFactory.getLogger(DistributedRunner.class);
 
-    public static final String RETRIES_NUMBER = "client.tries"; // $NON-NLS-1$
-    public static final String RETRIES_DELAY = "client.retries_delay"; // $NON-NLS-1$
-    public static final String CONTINUE_ON_FAIL = "client.continue_on_fail"; // $NON-NLS-1$
+    public static final String RETRIES_NUMBER = "client.tries";
+    public static final String RETRIES_DELAY = "client.retries_delay";
+    public static final String CONTINUE_ON_FAIL = "client.continue_on_fail";
 
     private final Properties remoteProps;
     private final boolean continueOnFail;
@@ -139,7 +139,7 @@ public class DistributedRunner {
                 }
             } catch (IllegalStateException | JMeterEngineException e) { // NOSONAR already reported to user
                 failedEngines.add(address);
-                JMeterUtils.reportErrorToUser(e.getMessage(), JMeterUtils.getResString("remote_error_starting")); // $NON-NLS-1$
+                JMeterUtils.reportErrorToUser(e.getMessage(), JMeterUtils.getResString("remote_error_starting"));
             }
         }
         println("Remote engines have been started:" + startedEngines);

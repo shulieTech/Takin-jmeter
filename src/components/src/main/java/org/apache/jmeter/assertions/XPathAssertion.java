@@ -48,16 +48,16 @@ public class XPathAssertion extends AbstractScopedAssertion implements Serializa
     private static final long serialVersionUID = 241L;
 
     //+ JMX file attributes
-    private static final String XPATH_KEY         = "XPath.xpath"; // $NON-NLS-1$
-    private static final String WHITESPACE_KEY    = "XPath.whitespace"; // $NON-NLS-1$
-    private static final String VALIDATE_KEY      = "XPath.validate"; // $NON-NLS-1$
-    private static final String TOLERANT_KEY      = "XPath.tolerant"; // $NON-NLS-1$
-    private static final String NEGATE_KEY        = "XPath.negate"; // $NON-NLS-1$
-    private static final String NAMESPACE_KEY     = "XPath.namespace"; // $NON-NLS-1$
-    private static final String QUIET_KEY         = "XPath.quiet"; // $NON-NLS-1$
-    private static final String REPORT_ERRORS_KEY = "XPath.report_errors"; // $NON-NLS-1$
-    private static final String SHOW_WARNINGS_KEY = "XPath.show_warnings"; // $NON-NLS-1$
-    private static final String DOWNLOAD_DTDS     = "XPath.download_dtds"; // $NON-NLS-1$
+    private static final String XPATH_KEY         = "XPath.xpath";
+    private static final String WHITESPACE_KEY    = "XPath.whitespace";
+    private static final String VALIDATE_KEY      = "XPath.validate";
+    private static final String TOLERANT_KEY      = "XPath.tolerant";
+    private static final String NEGATE_KEY        = "XPath.negate";
+    private static final String NAMESPACE_KEY     = "XPath.namespace";
+    private static final String QUIET_KEY         = "XPath.quiet";
+    private static final String REPORT_ERRORS_KEY = "XPath.report_errors";
+    private static final String SHOW_WARNINGS_KEY = "XPath.show_warnings";
+    private static final String DOWNLOAD_DTDS     = "XPath.download_dtds";
     //- JMX file attributes
 
     public static final String DEFAULT_XPATH = "/";

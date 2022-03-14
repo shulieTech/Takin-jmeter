@@ -54,9 +54,9 @@ public class HTMLAssertionGui extends AbstractAssertionGui implements KeyListene
     private static final long serialVersionUID = 2L;
 
     // Names for the fields
-    private static final String WARNING_THRESHOLD_FIELD = "warningThresholdField"; // $NON-NLS-1$
+    private static final String WARNING_THRESHOLD_FIELD = "warningThresholdField";
 
-    private static final String ERROR_THRESHOLD_FIELD = "errorThresholdField"; // $NON-NLS-1$
+    private static final String ERROR_THRESHOLD_FIELD = "errorThresholdField";
 
     // instance attributes
     private JTextField errorThresholdField = null;
@@ -87,7 +87,7 @@ public class HTMLAssertionGui extends AbstractAssertionGui implements KeyListene
      */
     @Override
     public String getLabelResource() {
-        return "html_assertion_title"; // $NON-NLS-1$
+        return "html_assertion_title";
     }
 
     /**
@@ -241,12 +241,12 @@ public class HTMLAssertionGui extends AbstractAssertionGui implements KeyListene
         // thresholds
         HorizontalPanel thresholdPanel = new HorizontalPanel();
         thresholdPanel.add(new JLabel("Error threshold:"));
-        errorThresholdField = new JTextField("0", 5); // $NON-NLS-1$
+        errorThresholdField = new JTextField("0", 5);
         errorThresholdField.setName(ERROR_THRESHOLD_FIELD);
         errorThresholdField.addKeyListener(this);
         thresholdPanel.add(errorThresholdField);
         thresholdPanel.add(new JLabel("Warning threshold:"));
-        warningThresholdField = new JTextField("0", 5); // $NON-NLS-1$
+        warningThresholdField = new JTextField("0", 5);
         warningThresholdField.setName(WARNING_THRESHOLD_FIELD);
         warningThresholdField.addKeyListener(this);
         thresholdPanel.add(warningThresholdField);

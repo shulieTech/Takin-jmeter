@@ -95,7 +95,7 @@ public class LdapExtTestSamplerGui extends AbstractSamplerGui {
 
     @Override
     public String getLabelResource() {
-        return "ldapext_testing_title"; // $NON-NLS-1$
+        return "ldapext_testing_title";
     }
 
     private void init() { // WARNING: called from ctor so must not be overridden (i.e. must be private or final)

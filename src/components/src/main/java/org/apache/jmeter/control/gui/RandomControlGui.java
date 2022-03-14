@@ -80,7 +80,7 @@ public class RandomControlGui extends AbstractControllerGui {
 
     @Override
     public String getLabelResource() {
-        return "random_control_title"; // $NON-NLS-1$
+        return "random_control_title";
     }
 
     private void init() { // WARNING: called from ctor so must not be overridden (i.e. must be private or final)
@@ -88,7 +88,7 @@ public class RandomControlGui extends AbstractControllerGui {
         setBorder(makeBorder());
         add(makeTitlePanel());
 
-        style = new JCheckBox(JMeterUtils.getResString("ignore_subcontrollers")); // $NON-NLS-1$
+        style = new JCheckBox(JMeterUtils.getResString("ignore_subcontrollers"));
         add(CheckBoxPanel.wrap(style));
     }
 }

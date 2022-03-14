@@ -42,7 +42,7 @@ public class StandardSampleSender extends AbstractSampleSender implements Serial
     @Deprecated
     public StandardSampleSender(){
         this.listener = null;
-        log.warn("Constructor only intended for use in testing"); // $NON-NLS-1$
+        log.warn("Constructor only intended for use in testing");
     }
 
     StandardSampleSender(RemoteSampleListener listener) {

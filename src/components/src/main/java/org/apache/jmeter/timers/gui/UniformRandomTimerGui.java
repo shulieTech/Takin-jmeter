@@ -32,8 +32,8 @@ public class UniformRandomTimerGui extends AbstractRandomTimerGui {
 
     private static final long serialVersionUID = 240L;
 
-    private static final String DEFAULT_DELAY = "0"; // $NON-NLS-1$
-    private static final String DEFAULT_RANGE = "100.0";// $NON-NLS-1$
+    private static final String DEFAULT_DELAY = "0";
+    private static final String DEFAULT_RANGE = "100.0";
 
     public UniformRandomTimerGui() {
         super();

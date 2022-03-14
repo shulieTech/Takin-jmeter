@@ -67,7 +67,7 @@ public class CacheManager extends ConfigTestElement implements TestStateListener
     private static final int DEFAULT_MAX_SIZE = 5000;
     private static final long ONE_YEAR_MS = 365*24*60*60*1000L;
     private static final String[] CACHEABLE_METHODS = JMeterUtils.getPropDefault("cacheable_methods", "GET").split("[ ,]");
-    private static final String CONTROLLED_BY_THREAD = "CacheManager.controlledByThread";// $NON-NLS-1$
+    private static final String CONTROLLED_BY_THREAD = "CacheManager.controlledByThread";
 
     static {
         if (log.isInfoEnabled()) {
@@ -75,9 +75,9 @@ public class CacheManager extends ConfigTestElement implements TestStateListener
         }
     }
     //+ JMX attributes, do not change values
-    public static final String CLEAR = "clearEachIteration"; // $NON-NLS-1$
-    public static final String USE_EXPIRES = "useExpires"; // $NON-NLS-1$
-    public static final String MAX_SIZE = "maxSize";  // $NON-NLS-1$
+    public static final String CLEAR = "clearEachIteration";
+    public static final String USE_EXPIRES = "useExpires";
+    public static final String MAX_SIZE = "maxSize";
     //-
 
     private transient InheritableThreadLocal<Map<String, CacheEntry>> threadCache;
@@ -359,9 +359,9 @@ public class CacheManager extends ConfigTestElement implements TestStateListener
         }
         final String responseCode = res.getResponseCode();
         return isCacheableMethod(res)
-                && (("200".compareTo(responseCode) <= 0  // $NON-NLS-1$
-                    && "299".compareTo(responseCode) >= 0)  // $NON-NLS-1$
-                    || "304".equals(responseCode));  // $NON-NLS-1$
+                && (("200".compareTo(responseCode) <= 0
+                    && "299".compareTo(responseCode) >= 0)
+                    || "304".equals(responseCode));
     }
 
     private boolean isCacheableMethod(HTTPSampleResult res) {

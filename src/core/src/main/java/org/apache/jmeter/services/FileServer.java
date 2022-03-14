@@ -51,15 +51,15 @@ public class FileServer implements FileService {
      * The default base used for resolving relative files, i.e.<br/>
      * {@code System.getProperty("user.dir")}
      */
-    private static final String DEFAULT_BASE = System.getProperty("user.dir");// $NON-NLS-1$
+    private static final String DEFAULT_BASE = System.getProperty("user.dir");
 
     /**
      * Default base prefix: {@value}
      */
-    private static final String BASE_PREFIX_DEFAULT = "~/"; // $NON-NLS-1$
+    private static final String BASE_PREFIX_DEFAULT = "~/";
 
     private static final String BASE_PREFIX =
-            JMeterUtils.getPropDefault("jmeter.save.saveservice.base_prefix", // $NON-NLS-1$
+            JMeterUtils.getPropDefault("jmeter.save.saveservice.base_prefix",
                     BASE_PREFIX_DEFAULT);
 
     private File base;

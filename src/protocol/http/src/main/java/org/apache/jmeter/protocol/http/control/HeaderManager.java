@@ -44,11 +44,11 @@ public class HeaderManager extends ConfigTestElement implements Serializable, Re
 
     private static final long serialVersionUID = 240L;
 
-    public static final String HEADERS = "HeaderManager.headers";// $NON-NLS-1$
+    public static final String HEADERS = "HeaderManager.headers";
 
     private static final String[] COLUMN_RESOURCE_NAMES = {
-          "name",             // $NON-NLS-1$
-          "value"             // $NON-NLS-1$
+          "name",
+          "value"
         };
 
     private static final int COLUMN_COUNT = COLUMN_RESOURCE_NAMES.length;
@@ -101,12 +101,12 @@ public class HeaderManager extends ConfigTestElement implements Serializable, Re
     public void save(String headFile) throws IOException {
         File file = new File(headFile);
         if (!file.isAbsolute()) {
-            file = new File(System.getProperty("user.dir")// $NON-NLS-1$
+            file = new File(System.getProperty("user.dir")
                     + File.separator + headFile);
         }
         try ( FileWriter fw = new FileWriter(file);
                 PrintWriter writer = new PrintWriter(fw);) { // TODO Charset ?
-            writer.println("# JMeter generated Header file");// $NON-NLS-1$
+            writer.println("# JMeter generated Header file");
             final CollectionProperty hdrs = getHeaders();
             for (int i = 0; i < hdrs.size(); i++) {
                 final JMeterProperty hdr = hdrs.get(i);
@@ -128,7 +128,7 @@ public class HeaderManager extends ConfigTestElement implements Serializable, Re
     public void addFile(String headerFile) throws IOException {
         File file = new File(headerFile);
         if (!file.isAbsolute()) {
-            file = new File(System.getProperty("user.dir")// $NON-NLS-1$
+            file = new File(System.getProperty("user.dir")
                     + File.separator + headerFile);
         }
         if (!file.canRead()) {
@@ -139,7 +139,7 @@ public class HeaderManager extends ConfigTestElement implements Serializable, Re
             String line;
             while ((line = reader.readLine()) != null) {
                 try {
-                    if (line.startsWith("#") || JOrphanUtils.isBlank(line)) {// $NON-NLS-1$
+                    if (line.startsWith("#") || JOrphanUtils.isBlank(line)) {
                         continue;
                     }
                     String[] st = JOrphanUtils.split(line, "\t", " ");// $NON-NLS-1$ $NON-NLS-2$

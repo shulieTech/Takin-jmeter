@@ -42,17 +42,17 @@ public class BatchSampleSender extends AbstractSampleSender implements Serializa
 
     // Static fields are resolved on the server
     private static final int NUM_SAMPLES_THRESHOLD =
-        JMeterUtils.getPropDefault("num_sample_threshold", DEFAULT_NUM_SAMPLE_THRESHOLD); // $NON-NLS-1$
+        JMeterUtils.getPropDefault("num_sample_threshold", DEFAULT_NUM_SAMPLE_THRESHOLD);
 
     private static final long TIME_THRESHOLD_MS =
-        JMeterUtils.getPropDefault("time_threshold", DEFAULT_TIME_THRESHOLD); // $NON-NLS-1$
+        JMeterUtils.getPropDefault("time_threshold", DEFAULT_TIME_THRESHOLD);
 
     // instance fields are copied from the client instance
     private final int clientConfiguredNumSamplesThreshold =
-            JMeterUtils.getPropDefault("num_sample_threshold", DEFAULT_NUM_SAMPLE_THRESHOLD); // $NON-NLS-1$
+            JMeterUtils.getPropDefault("num_sample_threshold", DEFAULT_NUM_SAMPLE_THRESHOLD);
 
     private final long clientConfiguredTimeThresholdMs =
-            JMeterUtils.getPropDefault("time_threshold", DEFAULT_TIME_THRESHOLD); // $NON-NLS-1$
+            JMeterUtils.getPropDefault("time_threshold", DEFAULT_TIME_THRESHOLD);
 
     private final RemoteSampleListener listener;
 
@@ -73,7 +73,7 @@ public class BatchSampleSender extends AbstractSampleSender implements Serializa
     @Deprecated
     public BatchSampleSender(){
         this(null);
-        log.warn("Constructor only intended for use in testing"); // $NON-NLS-1$
+        log.warn("Constructor only intended for use in testing");
     }
     /**
      * Constructor

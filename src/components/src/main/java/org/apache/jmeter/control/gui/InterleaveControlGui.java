@@ -87,7 +87,7 @@ public class InterleaveControlGui extends AbstractControllerGui {
 
     @Override
     public String getLabelResource() {
-        return "interleave_control_title"; // $NON-NLS-1$
+        return "interleave_control_title";
     }
 
     private void init() { // WARNING: called from ctor so must not be overridden (i.e. must be private or final)
@@ -96,10 +96,10 @@ public class InterleaveControlGui extends AbstractControllerGui {
 
         add(makeTitlePanel());
 
-        style = new JCheckBox(JMeterUtils.getResString("ignore_subcontrollers")); // $NON-NLS-1$
+        style = new JCheckBox(JMeterUtils.getResString("ignore_subcontrollers"));
         add(CheckBoxPanel.wrap(style));
 
-        accrossThreads = new JCheckBox(JMeterUtils.getResString("interleave_accross_threads")); // $NON-NLS-1$
+        accrossThreads = new JCheckBox(JMeterUtils.getResString("interleave_accross_threads"));
         add(CheckBoxPanel.wrap(accrossThreads));
     }
 }

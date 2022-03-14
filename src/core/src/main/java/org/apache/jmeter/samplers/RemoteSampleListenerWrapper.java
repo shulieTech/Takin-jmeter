@@ -48,7 +48,7 @@ public class RemoteSampleListenerWrapper extends AbstractTestElement implements 
         try {
             listener.sampleOccurred(e);
         } catch (RemoteException err) {
-            log.error("RemoteException while handling sample occurred event.", err); // $NON-NLS-1$
+            log.error("RemoteException while handling sample occurred event.", err);
         }
     }
 
@@ -57,7 +57,7 @@ public class RemoteSampleListenerWrapper extends AbstractTestElement implements 
         try {
             listener.sampleStarted(e);
         } catch (RemoteException err) {
-            log.error("RemoteException while handling sample started event.", err); // $NON-NLS-1$
+            log.error("RemoteException while handling sample started event.", err);
         }
     }
 
@@ -66,7 +66,7 @@ public class RemoteSampleListenerWrapper extends AbstractTestElement implements 
         try {
             listener.sampleStopped(e);
         } catch (RemoteException err) {
-            log.error("RemoteException while handling sample stopped event.", err); // $NON-NLS-1$
+            log.error("RemoteException while handling sample stopped event.", err);
         }
     }
 }

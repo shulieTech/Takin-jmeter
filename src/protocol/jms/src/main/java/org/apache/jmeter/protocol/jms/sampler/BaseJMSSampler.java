@@ -46,46 +46,46 @@ public abstract class BaseJMSSampler extends AbstractSampler {
     private static final Logger LOGGER = LoggerFactory.getLogger(BaseJMSSampler.class);
 
     //++ These are JMX file attribute names and must not be changed
-    private static final String JNDI_INITIAL_CONTEXT_FAC = "jms.initial_context_factory"; // $NON-NLS-1$
+    private static final String JNDI_INITIAL_CONTEXT_FAC = "jms.initial_context_factory";
 
-    private static final String PROVIDER_URL = "jms.provider_url"; // $NON-NLS-1$
+    private static final String PROVIDER_URL = "jms.provider_url";
 
-    private static final String CONN_FACTORY = "jms.connection_factory"; // $NON-NLS-1$
+    private static final String CONN_FACTORY = "jms.connection_factory";
 
     // N.B. Cannot change value, as that is used in JMX files
-    private static final String DEST = "jms.topic"; // $NON-NLS-1$
+    private static final String DEST = "jms.topic";
 
-    private static final String PRINCIPAL = "jms.security_principle"; // $NON-NLS-1$
+    private static final String PRINCIPAL = "jms.security_principle";
 
-    private static final String CREDENTIALS = "jms.security_credentials"; // $NON-NLS-1$
+    private static final String CREDENTIALS = "jms.security_credentials";
 
     /*
      * The number of samples to aggregate
      */
-    private static final String ITERATIONS = "jms.iterations"; // $NON-NLS-1$
+    private static final String ITERATIONS = "jms.iterations";
 
-    private static final String USE_AUTH = "jms.authenticate"; // $NON-NLS-1$
+    private static final String USE_AUTH = "jms.authenticate";
 
-    private static final String USE_PROPERTIES_FILE = "jms.jndi_properties"; // $NON-NLS-1$
+    private static final String USE_PROPERTIES_FILE = "jms.jndi_properties";
 
     /*
      * If true, store the response in the sampleResponse
      * (N.B. do not change the value, as it is used in JMX files)
      */
-    private static final String STORE_RESPONSE = "jms.read_response"; // $NON-NLS-1$
+    private static final String STORE_RESPONSE = "jms.read_response";
 
     // Is Destination setup static? else dynamic
-    private static final String DESTINATION_STATIC = "jms.destination_static"; // $NON-NLS-1$
+    private static final String DESTINATION_STATIC = "jms.destination_static";
     private static final boolean DESTINATION_STATIC_DEFAULT = true; // default to maintain compatibility
 
     /** Property name for regex of error codes which force reconnection **/
-    private static final String ERROR_RECONNECT_ON_CODES = "jms_error_reconnect_on_codes"; // $NON-NLS-1$
+    private static final String ERROR_RECONNECT_ON_CODES = "jms_error_reconnect_on_codes";
     private transient Predicate<String> isReconnectErrorCode = e -> false;
 
     //-- End of JMX file attribute names
 
     // See BUG 45460. We need to keep the resource in order to interpret existing files
-    private static final String REQUIRED = JMeterUtils.getResString("jms_auth_required"); // $NON-NLS-1$
+    private static final String REQUIRED = JMeterUtils.getResString("jms_auth_required");
 
     public BaseJMSSampler() {
     }
@@ -254,7 +254,7 @@ public abstract class BaseJMSSampler extends AbstractSampler {
      */
     public boolean isUseAuth() {
         final String useAuth = getPropertyAsString(USE_AUTH);
-        return useAuth.equalsIgnoreCase("true") || useAuth.equals(REQUIRED); // $NON-NLS-1$
+        return useAuth.equalsIgnoreCase("true") || useAuth.equals(REQUIRED);
     }
 
     /**

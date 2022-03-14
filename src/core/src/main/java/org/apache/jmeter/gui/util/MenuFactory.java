@@ -281,15 +281,15 @@ public final class MenuFactory {
         }
 
         addSeparator(menu);
-        menu.add(makeMenuItemRes("open", ActionNames.OPEN));// $NON-NLS-1$
-        menu.add(makeMenuItemRes("menu_merge", ActionNames.MERGE));// $NON-NLS-1$
-        menu.add(makeMenuItemRes("save_as", ActionNames.SAVE_AS));// $NON-NLS-1$
+        menu.add(makeMenuItemRes("open", ActionNames.OPEN));
+        menu.add(makeMenuItemRes("menu_merge", ActionNames.MERGE));
+        menu.add(makeMenuItemRes("save_as", ActionNames.SAVE_AS));
         if(addSaveTestFragmentMenu) {
-            menu.add(makeMenuItemRes("save_as_test_fragment", // $NON-NLS-1$
+            menu.add(makeMenuItemRes("save_as_test_fragment",
                     ActionNames.SAVE_AS_TEST_FRAGMENT));
         }
         addSeparator(menu);
-        JMenuItem savePicture = makeMenuItemRes("save_as_image",// $NON-NLS-1$
+        JMenuItem savePicture = makeMenuItemRes("save_as_image",
                 ActionNames.SAVE_GRAPHICS,
                 KeyStrokes.SAVE_GRAPHICS);
         menu.add(savePicture);
@@ -297,24 +297,24 @@ public final class MenuFactory {
             savePicture.setEnabled(false);
         }
 
-        JMenuItem savePictureAll = makeMenuItemRes("save_as_image_all",// $NON-NLS-1$
+        JMenuItem savePictureAll = makeMenuItemRes("save_as_image_all",
                 ActionNames.SAVE_GRAPHICS_ALL,
                 KeyStrokes.SAVE_GRAPHICS_ALL);
         menu.add(savePictureAll);
 
         addSeparator(menu);
 
-        JMenuItem disabled = makeMenuItemRes("disable", ActionNames.DISABLE);// $NON-NLS-1$
-        JMenuItem enabled = makeMenuItemRes("enable", ActionNames.ENABLE);// $NON-NLS-1$
+        JMenuItem disabled = makeMenuItemRes("disable", ActionNames.DISABLE);
+        JMenuItem enabled = makeMenuItemRes("enable", ActionNames.ENABLE);
         boolean isEnabled = GuiPackage.getInstance().getTreeListener().getCurrentNode().isEnabled();
         disabled.setEnabled(isEnabled);
         enabled.setEnabled(!isEnabled);
         menu.add(enabled);
         menu.add(disabled);
-        JMenuItem toggle = makeMenuItemRes("toggle", ActionNames.TOGGLE, KeyStrokes.TOGGLE);// $NON-NLS-1$
+        JMenuItem toggle = makeMenuItemRes("toggle", ActionNames.TOGGLE, KeyStrokes.TOGGLE);
         menu.add(toggle);
         addSeparator(menu);
-        menu.add(makeMenuItemRes("help", ActionNames.HELP));// $NON-NLS-1$
+        menu.add(makeMenuItemRes("help", ActionNames.HELP));
     }
 
     /**
@@ -349,24 +349,24 @@ public final class MenuFactory {
     public static JPopupMenu getDefaultControllerMenu() {
         JPopupMenu pop = new JPopupMenu();
         String addAction = ActionNames.ADD;
-        JMenu addMenu = new JMenu(JMeterUtils.getResString("add")); // $NON-NLS-1$
+        JMenu addMenu = new JMenu(JMeterUtils.getResString("add"));
         addMenu.add(MenuFactory.makeMenu(MenuFactory.SAMPLERS, addAction));
         addMenu.addSeparator();
         addMenu.add(MenuFactory.makeMenu(MenuFactory.CONTROLLERS, addAction));
         addMenu.addSeparator();
         pop.add(addDefaultAddMenuToMenu(addMenu, addAction));
-        pop.add(MenuFactory.makeMenuItemRes("add_think_times",// $NON-NLS-1$
+        pop.add(MenuFactory.makeMenuItemRes("add_think_times",
                 ActionNames.ADD_THINK_TIME_BETWEEN_EACH_STEP));
 
-        pop.add(MenuFactory.makeMenuItemRes("apply_naming",// $NON-NLS-1$
+        pop.add(MenuFactory.makeMenuItemRes("apply_naming",
                 ActionNames.APPLY_NAMING_CONVENTION));
 
         pop.add(makeMenus(new String[]{CONTROLLERS},
-                JMeterUtils.getResString("change_parent"),// $NON-NLS-1$
+                JMeterUtils.getResString("change_parent"),
                 ActionNames.CHANGE_PARENT));
 
         pop.add(makeMenus(new String[]{CONTROLLERS},
-                JMeterUtils.getResString("insert_parent"),// $NON-NLS-1$
+                JMeterUtils.getResString("insert_parent"),
                 ActionNames.ADD_PARENT));
         MenuFactory.addEditMenu(pop, true);
         MenuFactory.addFileMenu(pop);
@@ -375,7 +375,7 @@ public final class MenuFactory {
 
     private static JMenu createDefaultAddMenu() {
         String addAction = ActionNames.ADD;
-        JMenu addMenu = new JMenu(JMeterUtils.getResString("add")); // $NON-NLS-1$
+        JMenu addMenu = new JMenu(JMeterUtils.getResString("add"));
         addDefaultAddMenuToMenu(addMenu, addAction);
         return addMenu;
     }
@@ -397,7 +397,7 @@ public final class MenuFactory {
         JPopupMenu pop = new JPopupMenu();
         pop.add(createDefaultAddMenu());
         pop.add(makeMenus(new String[]{CONTROLLERS},
-                JMeterUtils.getResString("insert_parent"),// $NON-NLS-1$
+                JMeterUtils.getResString("insert_parent"),
                 ActionNames.ADD_PARENT));
         MenuFactory.addEditMenu(pop, true);
         MenuFactory.addFileMenu(pop);

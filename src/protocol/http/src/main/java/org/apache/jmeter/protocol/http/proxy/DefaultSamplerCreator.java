@@ -59,9 +59,9 @@ public class DefaultSamplerCreator extends AbstractSamplerCreator {
     /*
     * Must be the same order than in org.apache.jmeter.protocol.http.proxy.gui.ProxyControlGui class in createHTTPSamplerPanel method
     */
-    private static final int SAMPLER_NAME_NAMING_MODE_PREFIX = 0;  // $NON-NLS-1$
-    private static final int SAMPLER_NAME_NAMING_MODE_COMPLETE = 1;  // $NON-NLS-1$
-    private static final int SAMPLER_NAME_NAMING_MODE_SUFFIX = 2; // $NON-NLS-1$
+    private static final int SAMPLER_NAME_NAMING_MODE_PREFIX = 0; 
+    private static final int SAMPLER_NAME_NAMING_MODE_COMPLETE = 1; 
+    private static final int SAMPLER_NAME_NAMING_MODE_SUFFIX = 2;
     private static final int SAMPLER_NAME_NAMING_MODE_FORMATTER = 3; // $NON_NLS-1$
 
     /**

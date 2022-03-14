@@ -64,9 +64,9 @@ public class HttpMirrorControlGui extends LogicControllerGui
     private JButton stop;
     private JButton start;
 
-    private static final String ACTION_STOP = "stop"; // $NON-NLS-1$
+    private static final String ACTION_STOP = "stop";
 
-    private static final String ACTION_START = "start"; // $NON-NLS-1$
+    private static final String ACTION_START = "start";
 
     private HttpMirrorControl mirrorController;
 
@@ -103,7 +103,7 @@ public class HttpMirrorControlGui extends LogicControllerGui
 
     @Override
     public String getLabelResource() {
-        return "httpmirror_title"; // $NON-NLS-1$
+        return "httpmirror_title";
     }
 
     @Override
@@ -157,12 +157,12 @@ public class HttpMirrorControlGui extends LogicControllerGui
     }
 
     private JPanel createControls() {
-        start = new JButton(JMeterUtils.getResString("start")); // $NON-NLS-1$
+        start = new JButton(JMeterUtils.getResString("start"));
         start.addActionListener(this);
         start.setActionCommand(ACTION_START);
         start.setEnabled(true);
 
-        stop = new JButton(JMeterUtils.getResString("stop")); // $NON-NLS-1$
+        stop = new JButton(JMeterUtils.getResString("stop"));
         stop.addActionListener(this);
         stop.setActionCommand(ACTION_STOP);
         stop.setEnabled(false);
@@ -177,24 +177,24 @@ public class HttpMirrorControlGui extends LogicControllerGui
         portField = new JTextField(HttpMirrorControl.DEFAULT_PORT_S, 8);
         portField.setName(HttpMirrorControl.PORT);
 
-        JLabel label = new JLabel(JMeterUtils.getResString("port")); // $NON-NLS-1$
+        JLabel label = new JLabel(JMeterUtils.getResString("port"));
         label.setLabelFor(portField);
 
         maxPoolSizeField = new JTextField(Integer.toString(HttpMirrorControl.DEFAULT_MAX_POOL_SIZE), 8);
         maxPoolSizeField.setName(HttpMirrorControl.MAX_POOL_SIZE);
 
-        JLabel mpsLabel = new JLabel(JMeterUtils.getResString("httpmirror_max_pool_size")); // $NON-NLS-1$
+        JLabel mpsLabel = new JLabel(JMeterUtils.getResString("httpmirror_max_pool_size"));
         mpsLabel.setLabelFor(maxPoolSizeField);
 
         maxQueueSizeField = new JTextField(Integer.toString(HttpMirrorControl.DEFAULT_MAX_QUEUE_SIZE), 8);
         maxQueueSizeField.setName(HttpMirrorControl.MAX_QUEUE_SIZE);
 
-        JLabel mqsLabel = new JLabel(JMeterUtils.getResString("httpmirror_max_queue_size")); // $NON-NLS-1$
+        JLabel mqsLabel = new JLabel(JMeterUtils.getResString("httpmirror_max_queue_size"));
         mqsLabel.setLabelFor(maxQueueSizeField);
 
         HorizontalPanel panel = new HorizontalPanel();
         panel.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("httpmirror_settings"))); // $NON-NLS-1$
+                JMeterUtils.getResString("httpmirror_settings")));
 
         panel.add(label);
         panel.add(portField);

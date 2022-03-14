@@ -66,11 +66,11 @@ public abstract class JSR223BeanInfoSupport extends ScriptingBeanInfoSupport {
             CONSTANT_LANGUAGE_NAMES[i][0] = key;
             final ScriptEngineFactory fact = me.getValue();
             CONSTANT_LANGUAGE_NAMES[i++][1] = key +
-                    "     (" // $NON-NLS-1$
-                    + fact.getLanguageName() + " " + fact.getLanguageVersion()  // $NON-NLS-1$
-                    + " / "  // $NON-NLS-1$
-                    + fact.getEngineName() + " " + fact.getEngineVersion() // $NON-NLS-1$
-                    + ")";   // $NON-NLS-1$
+                    "     ("
+                    + fact.getLanguageName() + " " + fact.getLanguageVersion()
+                    + " / "
+                    + fact.getEngineName() + " " + fact.getEngineVersion()
+                    + ")";
         }
 
         LANGUAGE_NAMES = getLanguageNames(); // NOSONAR Kept for backward compatibility

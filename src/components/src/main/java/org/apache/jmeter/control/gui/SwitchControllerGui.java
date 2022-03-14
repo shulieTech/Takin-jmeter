@@ -35,7 +35,7 @@ import org.apache.jmeter.util.JMeterUtils;
 public class SwitchControllerGui extends AbstractControllerGui {
     private static final long serialVersionUID = 240L;
 
-    private static final String SWITCH_LABEL = "switch_controller_label"; // $NON-NLS-1$
+    private static final String SWITCH_LABEL = "switch_controller_label";
 
     private JTextField switchValue;
 
@@ -67,7 +67,7 @@ public class SwitchControllerGui extends AbstractControllerGui {
     @Override
     public void clearGui() {
         super.clearGui();
-        switchValue.setText(""); // $NON-NLS-1$
+        switchValue.setText("");
     }
 
     @Override
@@ -78,7 +78,7 @@ public class SwitchControllerGui extends AbstractControllerGui {
 
     @Override
     public String getLabelResource() {
-        return "switch_controller_title"; // $NON-NLS-1$
+        return "switch_controller_title";
     }
 
     private void init() { // WARNING: called from ctor so must not be overridden (i.e. must be private or final)
@@ -94,7 +94,7 @@ public class SwitchControllerGui extends AbstractControllerGui {
     private JPanel createSwitchPanel() {
         JPanel switchPanel = new JPanel(new BorderLayout(5, 0));
         JLabel selectionLabel = new JLabel(JMeterUtils.getResString(SWITCH_LABEL));
-        switchValue = new JTextField(""); // $NON-NLS-1$
+        switchValue = new JTextField("");
         selectionLabel.setLabelFor(switchValue);
         switchPanel.add(selectionLabel, BorderLayout.WEST);
         switchPanel.add(switchValue, BorderLayout.CENTER);

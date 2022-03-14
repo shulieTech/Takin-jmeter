@@ -45,9 +45,9 @@ import org.slf4j.LoggerFactory;
  */
 public class HttpMirrorServer extends Thread implements Stoppable, NonTestElement {
 
-    private static final int HELP_OPT_ID = '?';// $NON-NLS-1$
-    private static final int PORT_OPT_ID = 'P';// $NON-NLS-1$
-    private static final int LOGLEVEL_OPT_ID = 'L';// $NON-NLS-1$
+    private static final int HELP_OPT_ID = '?';
+    private static final int PORT_OPT_ID = 'P';
+    private static final int LOGLEVEL_OPT_ID = 'L';
 
     /* Define the understood command line flags. */
     private static final CLOptionDescriptor HELP_OPT =
@@ -210,7 +210,7 @@ public class HttpMirrorServer extends Thread implements Stoppable, NonTestElemen
 
         int port = getHttpPort(args, clArgsParser);
 
-        if (System.getProperty("log4j.configurationFile") == null) {// $NON-NLS-1$
+        if (System.getProperty("log4j.configurationFile") == null) {
             Configurator.setRootLevel(Level.INFO);
         }
 
@@ -256,15 +256,15 @@ public class HttpMirrorServer extends Thread implements Stoppable, NonTestElemen
         String value = logLevelOption.getArgument(1);
         if (StringUtils.isEmpty(value)) {
             // Set root level
-            getLogger().info("Setting root log level to '{}'", name);// $NON-NLS-1$
+            getLogger().info("Setting root log level to '{}'", name);
             Configurator.setRootLevel(logLevel);
         } else {
             // Set category
             String loggerName = name;
             if (name.startsWith("jmeter") || name.startsWith("jorphan")) {
-                loggerName = "org.apache." + name; // $NON-NLS-1$
+                loggerName = "org.apache." + name;
             }
-            getLogger().info("Setting log level to '{}' for '{}'.", value, loggerName); // $NON-NLS-1$
+            getLogger().info("Setting log level to '{}' for '{}'.", value, loggerName);
             Configurator.setAllLevels(loggerName, logLevel);
         }
     }

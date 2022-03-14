@@ -44,13 +44,13 @@ public class Help extends AbstractAction {
             JMeterUtils.getPropDefault("help.local", false);
     private static final Set<String> commands = new HashSet<>();
 
-    private static final String HELP_DOCS = "file:///"  // $NON-NLS-1$
+    private static final String HELP_DOCS = "file:///"
         + JMeterUtils.getJMeterHome()
-        + "/printable_docs/usermanual/"; // $NON-NLS-1$
+        + "/printable_docs/usermanual/";
 
-    private static final String HELP_COMPONENTS = HELP_DOCS + "component_reference.html"; // $NON-NLS-1$
+    private static final String HELP_COMPONENTS = HELP_DOCS + "component_reference.html";
 
-    public static final String HELP_FUNCTIONS = HELP_DOCS + "functions.html"; // $NON-NLS-1$
+    public static final String HELP_FUNCTIONS = HELP_DOCS + "functions.html";
 
     private static JDialog helpWindow;
 

@@ -383,10 +383,10 @@ public class SampleSaveConfiguration implements Cloneable, Serializable {
     private static final SampleSaveConfiguration STATIC_SAVE_CONFIGURATION = new SampleSaveConfiguration();
 
     // for test code only
-    static final String CONFIG_GETTER_PREFIX = "save";  // $NON-NLS-1$
+    static final String CONFIG_GETTER_PREFIX = "save";
 
     // for test code only
-    static final String CONFIG_SETTER_PREFIX = "set";  // $NON-NLS-1$
+    static final String CONFIG_SETTER_PREFIX = "set";
 
     /**
      * List of saveXXX/setXXX(boolean) methods which is used to build the Sample Result Save Configuration dialog.

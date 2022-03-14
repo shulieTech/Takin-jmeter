@@ -51,7 +51,7 @@ public class HashTree implements Serializable, Map<Object, HashTree>, Cloneable 
     private static final long serialVersionUID = 240L;
 
     // Used for the RuntimeException to short-circuit the traversal
-    private static final String FOUND = "found"; // $NON-NLS-1$
+    private static final String FOUND = "found";
 
     // N.B. The keys can be either JMeterTreeNode or TestElement
     protected final Map<Object, HashTree> data;

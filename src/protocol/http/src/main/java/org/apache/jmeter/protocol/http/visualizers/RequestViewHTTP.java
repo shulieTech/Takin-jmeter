@@ -79,16 +79,16 @@ public class RequestViewHTTP implements RequestView {
     private ObjectTableModel headersModel = null;
 
     private static final String[] COLUMNS_REQUEST = new String[] {
-            " ", // one space for blank header // $NON-NLS-1$
-            " " }; // one space for blank header  // $NON-NLS-1$
+            " ", // one space for blank header
+            " " }; // one space for blank header
 
     private static final String[] COLUMNS_PARAMS = new String[] {
-            "view_results_table_request_params_key", // $NON-NLS-1$
-            "view_results_table_request_params_value" }; // $NON-NLS-1$
+            "view_results_table_request_params_key",
+            "view_results_table_request_params_value" };
 
     private static final String[] COLUMNS_HEADERS = new String[] {
-            "view_results_table_request_headers_key", // $NON-NLS-1$
-            "view_results_table_request_headers_value" }; // $NON-NLS-1$
+            "view_results_table_request_headers_key",
+            "view_results_table_request_headers_value" };
 
     private JTable tableRequest = null;
 
@@ -122,22 +122,22 @@ public class RequestViewHTTP implements RequestView {
     public RequestViewHTTP() {
         requestModel = new ObjectTableModel(COLUMNS_REQUEST, RowResult.class, // The object used for each row
                 new Functor[] {
-                        new Functor("getKey"), // $NON-NLS-1$
-                        new Functor("getValue") }, // $NON-NLS-1$
+                        new Functor("getKey"),
+                        new Functor("getValue") },
                 new Functor[] {
                         null, null }, new Class[] {
                         String.class, String.class }, false);
         paramsModel = new ObjectTableModel(COLUMNS_PARAMS, RowResult.class, // The object used for each row
                 new Functor[] {
-                        new Functor("getKey"), // $NON-NLS-1$
-                        new Functor("getValue") }, // $NON-NLS-1$
+                        new Functor("getKey"),
+                        new Functor("getValue") },
                 new Functor[] {
                         null, null }, new Class[] {
                         String.class, String.class }, false);
         headersModel = new ObjectTableModel(COLUMNS_HEADERS, RowResult.class, // The object used for each row
                 new Functor[] {
-                        new Functor("getKey"), // $NON-NLS-1$
-                        new Functor("getValue") }, // $NON-NLS-1$
+                        new Functor("getKey"),
+                        new Functor("getValue") },
                 new Functor[] {
                         null, null }, new Class[] {
                         String.class, String.class }, false);
@@ -291,14 +291,14 @@ public class RequestViewHTTP implements RequestView {
             String name = decodeQuery(paramSplit[0]);
 
             // hack for SOAP request (generally)
-            if (name.trim().startsWith("<?")) { // $NON-NLS-1$
-                map.put(" ", new String[] {query}); //blank name // $NON-NLS-1$
+            if (name.trim().startsWith("<?")) {
+                map.put(" ", new String[] {query}); //blank name
                 return map;
             }
 
             // the post payload is not key=value
             if((param.startsWith("=") && paramSplit.length == 1) || paramSplit.length > 2) {
-                map.put(" ", new String[] {query}); //blank name // $NON-NLS-1$
+                map.put(" ", new String[] {query}); //blank name
                 return map;
             }
 
@@ -359,7 +359,7 @@ public class RequestViewHTTP implements RequestView {
         // Set up the 1st table Result with empty headers
         tableRequest = new JTable(requestModel);
         JMeterUtils.applyHiDPI(tableRequest);
-        tableRequest.setToolTipText(JMeterUtils.getResString("textbox_tooltip_cell")); // $NON-NLS-1$
+        tableRequest.setToolTipText(JMeterUtils.getResString("textbox_tooltip_cell"));
         tableRequest.addMouseListener(new TextBoxDoubleClick(tableRequest));
 
         setFirstColumnPreferredAndMaxWidth(tableRequest);
@@ -368,7 +368,7 @@ public class RequestViewHTTP implements RequestView {
         // Set up the 2nd table
         tableParams = new JTable(paramsModel);
         JMeterUtils.applyHiDPI(tableParams);
-        tableParams.setToolTipText(JMeterUtils.getResString("textbox_tooltip_cell")); // $NON-NLS-1$
+        tableParams.setToolTipText(JMeterUtils.getResString("textbox_tooltip_cell"));
         tableParams.addMouseListener(new TextBoxDoubleClick(tableParams));
         TableColumn column = tableParams.getColumnModel().getColumn(0);
         column.setPreferredWidth(160);
@@ -378,7 +378,7 @@ public class RequestViewHTTP implements RequestView {
         // Set up the 3rd table
         tableHeaders = new JTable(headersModel);
         JMeterUtils.applyHiDPI(tableHeaders);
-        tableHeaders.setToolTipText(JMeterUtils.getResString("textbox_tooltip_cell")); // $NON-NLS-1$
+        tableHeaders.setToolTipText(JMeterUtils.getResString("textbox_tooltip_cell"));
         tableHeaders.addMouseListener(new TextBoxDoubleClick(tableHeaders));
         setFirstColumnPreferredAndMaxWidth(tableHeaders);
         tableHeaders.getTableHeader().setDefaultRenderer(

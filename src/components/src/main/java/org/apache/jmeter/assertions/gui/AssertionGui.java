@@ -141,7 +141,7 @@ public class AssertionGui extends AbstractAssertionGui {
 
     @Override
     public String getLabelResource() {
-        return "assertion_title"; // $NON-NLS-1$
+        return "assertion_title";
     }
 
     /* Implements JMeterGUIComponent.createTestElement() */

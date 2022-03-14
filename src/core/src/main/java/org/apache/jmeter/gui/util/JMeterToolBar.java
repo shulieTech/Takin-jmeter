@@ -174,8 +174,8 @@ public class JMeterToolBar extends JToolBar implements LocaleChangeListener {
         Properties defaultProps = JMeterUtils.loadProperties(DEFAULT_TOOLBAR_PROPERTY_FILE);
         if (defaultProps == null) {
             JOptionPane.showMessageDialog(null,
-                    JMeterUtils.getResString("toolbar_icon_set_not_found"), // $NON-NLS-1$
-                    JMeterUtils.getResString("toolbar_icon_set_not_found"), // $NON-NLS-1$
+                    JMeterUtils.getResString("toolbar_icon_set_not_found"),
+                    JMeterUtils.getResString("toolbar_icon_set_not_found"),
                     JOptionPane.WARNING_MESSAGE);
             return null;
         }
@@ -192,8 +192,8 @@ public class JMeterToolBar extends JToolBar implements LocaleChangeListener {
         if (order == null) {
             log.warn("Could not find toolbar definition list");
             JOptionPane.showMessageDialog(null,
-                    JMeterUtils.getResString("toolbar_icon_set_not_found"), // $NON-NLS-1$
-                    JMeterUtils.getResString("toolbar_icon_set_not_found"), // $NON-NLS-1$
+                    JMeterUtils.getResString("toolbar_icon_set_not_found"),
+                    JMeterUtils.getResString("toolbar_icon_set_not_found"),
                     JOptionPane.WARNING_MESSAGE);
             return null;
         }

@@ -63,8 +63,8 @@ public class TestHTTPSamplersAgainstHttpMirrorServer extends JMeterTestCaseJUnit
     private static final int HTTP_SAMPLER3 = 2;
 
     /** The encodings used for http headers and control information */
-    private static final String ISO_8859_1 = "ISO-8859-1"; // $NON-NLS-1$
-    private static final String US_ASCII = "US-ASCII"; // $NON-NLS-1$
+    private static final String ISO_8859_1 = "ISO-8859-1";
+    private static final String US_ASCII = "US-ASCII";
 
     private static final String CONTENT_TYPE_TEXT_PLAIN = "text/plain";
 

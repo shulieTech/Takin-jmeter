@@ -54,7 +54,7 @@ abstract class AbstractRenderAsJsonRenderer implements ResultRenderer, ActionLis
     protected static final String NO_MATCH = "NO MATCH"; //$NON-NLS-1$
     private static final String TAB_SEPARATOR = "    "; //$NON-NLS-1$
 
-    private static final String TESTER_COMMAND = "TESTER_COMMAND"; // $NON-NLS-1$
+    private static final String TESTER_COMMAND = "TESTER_COMMAND";
 
     private JPanel jsonWithExtractorPanel;
 
@@ -71,9 +71,9 @@ abstract class AbstractRenderAsJsonRenderer implements ResultRenderer, ActionLis
     /** {@inheritDoc} */
     @Override
     public void clearData() {
-        this.jsonDataField.setText(""); // $NON-NLS-1$
+        this.jsonDataField.setText("");
         // don't set empty to keep json path
-        this.resultField.setText(""); // $NON-NLS-1$
+        this.resultField.setText("");
     }
 
     /** {@inheritDoc} */
@@ -128,8 +128,8 @@ abstract class AbstractRenderAsJsonRenderer implements ResultRenderer, ActionLis
     @Override
     public void setupTabPane() {
          // Add json-path tester pane
-        if (rightSide.indexOfTab(getTabLabel()) < 0) { // $NON-NLS-1$
-            rightSide.addTab(getTabLabel(), jsonWithExtractorPanel); // $NON-NLS-1$
+        if (rightSide.indexOfTab(getTabLabel()) < 0) {
+            rightSide.addTab(getTabLabel(), jsonWithExtractorPanel);
         }
         clearData();
     }
@@ -171,10 +171,10 @@ abstract class AbstractRenderAsJsonRenderer implements ResultRenderer, ActionLis
         jsonPathActionPanel.setLayout(new BoxLayout(jsonPathActionPanel, BoxLayout.X_AXIS));
         Border margin = new EmptyBorder(5, 5, 0, 5);
         jsonPathActionPanel.setBorder(margin);
-        expressionField = new JLabeledTextField(getExpressionLabel()); // $NON-NLS-1$
+        expressionField = new JLabeledTextField(getExpressionLabel());
         jsonPathActionPanel.add(expressionField, BorderLayout.WEST);
 
-        JButton testerButton = new JButton(getTestButtonLabel()); // $NON-NLS-1$
+        JButton testerButton = new JButton(getTestButtonLabel());
         testerButton.setActionCommand(TESTER_COMMAND);
         testerButton.addActionListener(this);
         jsonPathActionPanel.add(testerButton, BorderLayout.EAST);
@@ -216,7 +216,7 @@ abstract class AbstractRenderAsJsonRenderer implements ResultRenderer, ActionLis
     @Override
     public void renderImage(SampleResult sampleResult) {
         clearData();
-        jsonDataField.setText(JMeterUtils.getResString("render_no_text")); // $NON-NLS-1$
+        jsonDataField.setText(JMeterUtils.getResString("render_no_text"));
     }
 
     /** {@inheritDoc} */

@@ -107,10 +107,10 @@ public class XPath2ExtractorGui extends AbstractPostProcessorGui{ // NOSONAR Ign
     @Override
     public void clearGui() {
         super.clearGui();
-        xpathQueryField.setText(""); // $NON-NLS-1$
-        defaultField.setText(""); // $NON-NLS-1$
-        refNameField.setText(""); // $NON-NLS-1$
-        matchNumberField.setText(XPath2Extractor.DEFAULT_VALUE_AS_STRING); // $NON-NLS-1$
+        xpathQueryField.setText("");
+        defaultField.setText("");
+        refNameField.setText("");
+        matchNumberField.setText(XPath2Extractor.DEFAULT_VALUE_AS_STRING);
         namespacesTA.setText("");
     }
 

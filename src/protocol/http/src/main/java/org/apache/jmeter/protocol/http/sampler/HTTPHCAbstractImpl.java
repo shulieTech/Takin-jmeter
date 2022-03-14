@@ -110,10 +110,10 @@ public abstract class HTTPHCAbstractImpl extends HTTPAbstractImpl {
                     + "timeout in HTTP Request GUI, HTTP Request Defaults or set http.socket.timeout in httpclient.parameters");
         }
         if (NONPROXY_HOSTS.length() > 0) {
-            StringTokenizer s = new StringTokenizer(NONPROXY_HOSTS,"|");// $NON-NLS-1$
+            StringTokenizer s = new StringTokenizer(NONPROXY_HOSTS,"|");
             while (s.hasMoreTokens()) {
                 String t = s.nextToken();
-                if (t.indexOf('*') ==0) {// e.g. *.apache.org // $NON-NLS-1$
+                if (t.indexOf('*') ==0) {// e.g. *.apache.org
                     nonProxyHostSuffix.add(t.substring(1));
                 } else {
                     nonProxyHostFull.add(t);// e.g. www.apache.org
@@ -124,7 +124,7 @@ public abstract class HTTPHCAbstractImpl extends HTTPAbstractImpl {
 
         InetAddress inet = null;
         String localHostOrIP =
-            JMeterUtils.getPropDefault("httpclient.localaddress",""); // $NON-NLS-1$
+            JMeterUtils.getPropDefault("httpclient.localaddress","");
         if (localHostOrIP.length() > 0) {
             try {
                 inet = InetAddress.getByName(localHostOrIP);

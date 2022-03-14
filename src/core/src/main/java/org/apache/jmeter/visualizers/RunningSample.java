@@ -37,9 +37,9 @@ import org.apache.jmeter.samplers.SampleResult;
  */
 public class RunningSample {
 
-    private final DecimalFormat rateFormatter = new DecimalFormat("#.0"); // $NON-NLS-1$
+    private final DecimalFormat rateFormatter = new DecimalFormat("#.0");
 
-    private final DecimalFormat errorFormatter = new DecimalFormat("#0.00%"); // $NON-NLS-1$
+    private final DecimalFormat errorFormatter = new DecimalFormat("#0.00%");
 
     private long counter;
 

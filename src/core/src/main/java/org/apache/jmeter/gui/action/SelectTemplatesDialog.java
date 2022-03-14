@@ -212,8 +212,8 @@ public class SelectTemplatesDialog extends JDialog implements ChangeListener, Ac
         if (guiPackage.isDirty()) {
             // Check if the user wants to create from template
             int response = JOptionPane.showConfirmDialog(GuiPackage.getInstance().getMainFrame(),
-                    JMeterUtils.getResString("cancel_new_from_template"), // $NON-NLS-1$
-                    JMeterUtils.getResString("template_load?"),  // $NON-NLS-1$
+                    JMeterUtils.getResString("cancel_new_from_template"),
+                    JMeterUtils.getResString("template_load?"),
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.QUESTION_MESSAGE);
             if (response == JOptionPane.YES_OPTION) {

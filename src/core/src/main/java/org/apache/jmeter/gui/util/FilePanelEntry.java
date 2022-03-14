@@ -103,7 +103,7 @@ public class FilePanelEntry extends HorizontalPanel implements ActionListener {
     }
 
     public void clearGui(){
-        filename.setText(""); // $NON-NLS-1$
+        filename.setText("");
     }
 
     /**

@@ -39,7 +39,7 @@ public class RemoteStart extends AbstractAction {
 
     private static final String REMOTE_HOSTS = "remote_hosts"; // $NON-NLS-1$ jmeter.properties
 
-    private static final String REMOTE_HOSTS_SEPARATOR = ","; // $NON-NLS-1$
+    private static final String REMOTE_HOSTS_SEPARATOR = ",";
 
     private static final Set<String> commands = new HashSet<>();
 

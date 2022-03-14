@@ -51,9 +51,9 @@ public class TransactionController extends GenericController implements SampleLi
 
     private static final String TRUE = Boolean.toString(true); // i.e. "true"
 
-    private static final String GENERATE_PARENT_SAMPLE = "TransactionController.parent";// $NON-NLS-1$
+    private static final String GENERATE_PARENT_SAMPLE = "TransactionController.parent";
 
-    private static final String INCLUDE_TIMERS = "TransactionController.includeTimers";// $NON-NLS-1$
+    private static final String INCLUDE_TIMERS = "TransactionController.includeTimers";
 
     private static final Logger log = LoggerFactory.getLogger(TransactionController.class);
 

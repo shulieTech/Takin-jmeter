@@ -47,7 +47,7 @@ public class JMSSubscriberGui extends AbstractSamplerGui implements ChangeListen
     private static final long serialVersionUID = 240L;
 
     private final JCheckBox useProperties =
-        new JCheckBox(JMeterUtils.getResString("jms_use_properties_file"), false); // $NON-NLS-1$
+        new JCheckBox(JMeterUtils.getResString("jms_use_properties_file"), false);
 
     private final JTextField jndiICF = new JTextField();
 
@@ -67,15 +67,15 @@ public class JMSSubscriberGui extends AbstractSamplerGui implements ChangeListen
             new JCheckBox(JMeterUtils.getResString("jms_use_auth"), false); //$NON-NLS-1$
 
     private final JLabeledTextField jmsUser =
-        new JLabeledTextField(JMeterUtils.getResString("jms_user")); // $NON-NLS-1$
+        new JLabeledTextField(JMeterUtils.getResString("jms_user"));
 
     private final JLabeledTextField jmsPwd =
-        new JLabeledPasswordField(JMeterUtils.getResString("jms_pwd")); // $NON-NLS-1$
+        new JLabeledPasswordField(JMeterUtils.getResString("jms_pwd"));
 
     private final JTextField samplesToAggregate = new JTextField();
 
     private final JCheckBox storeResponse =
-        new JCheckBox(JMeterUtils.getResString("jms_store_response"), true); // $NON-NLS-1$
+        new JCheckBox(JMeterUtils.getResString("jms_store_response"), true);
 
     private final JTextField timeout = new JTextField();
 
@@ -86,29 +86,29 @@ public class JMSSubscriberGui extends AbstractSamplerGui implements ChangeListen
     private final JTextField separator = new JTextField();
 
     //++ Do not change these strings; they are used in JMX files to record the button settings
-    public static final String RECEIVE_RSC = "jms_subscriber_receive"; // $NON-NLS-1$
+    public static final String RECEIVE_RSC = "jms_subscriber_receive";
 
-    public static final String ON_MESSAGE_RSC = "jms_subscriber_on_message"; // $NON-NLS-1$
+    public static final String ON_MESSAGE_RSC = "jms_subscriber_on_message";
     //--
 
     // Button group resources
     private static final String[] CLIENT_ITEMS = { RECEIVE_RSC, ON_MESSAGE_RSC };
 
     private final JLabeledRadioI18N clientChoice =
-        new JLabeledRadioI18N("jms_client_type", CLIENT_ITEMS, RECEIVE_RSC); // $NON-NLS-1$
+        new JLabeledRadioI18N("jms_client_type", CLIENT_ITEMS, RECEIVE_RSC);
 
     private final JCheckBox stopBetweenSamples =
-        new JCheckBox(JMeterUtils.getResString("jms_stop_between_samples"), true); // $NON-NLS-1$
+        new JCheckBox(JMeterUtils.getResString("jms_stop_between_samples"), true);
 
     // These are the names of properties used to define the labels
-    private static final String DEST_SETUP_STATIC = "jms_dest_setup_static"; // $NON-NLS-1$
+    private static final String DEST_SETUP_STATIC = "jms_dest_setup_static";
 
-    private static final String DEST_SETUP_DYNAMIC = "jms_dest_setup_dynamic"; // $NON-NLS-1$
+    private static final String DEST_SETUP_DYNAMIC = "jms_dest_setup_dynamic";
     // Button group resources
     private static final String[] DEST_SETUP_ITEMS = { DEST_SETUP_STATIC, DEST_SETUP_DYNAMIC };
 
     private final JLabeledRadioI18N destSetup =
-        new JLabeledRadioI18N("jms_dest_setup", DEST_SETUP_ITEMS, DEST_SETUP_STATIC); // $NON-NLS-1$
+        new JLabeledRadioI18N("jms_dest_setup", DEST_SETUP_ITEMS, DEST_SETUP_STATIC);
 
     public JMSSubscriberGui() {
         init();
@@ -116,7 +116,7 @@ public class JMSSubscriberGui extends AbstractSamplerGui implements ChangeListen
 
     @Override
     public String getLabelResource() {
-        return "jms_subscriber_title"; // $NON-NLS-1$
+        return "jms_subscriber_title";
     }
 
     /**
@@ -263,19 +263,19 @@ public class JMSSubscriberGui extends AbstractSamplerGui implements ChangeListen
     @Override
     public void clearGui(){
         super.clearGui();
-        useProperties.setSelected(false); // $NON-NLS-1$
-        jndiICF.setText(""); // $NON-NLS-1$
-        urlField.setText(""); // $NON-NLS-1$
-        jndiConnFac.setText(""); // $NON-NLS-1$
-        jmsDestination.setText(""); // $NON-NLS-1$
-        jmsDurableSubscriptionId.setText(""); // $NON-NLS-1$
-        jmsClientId.setText(""); // $NON-NLS-1$
-        jmsSelector.setText(""); // $NON-NLS-1$
-        jmsUser.setText(""); // $NON-NLS-1$
-        jmsPwd.setText(""); // $NON-NLS-1$
-        samplesToAggregate.setText("1"); // $NON-NLS-1$
-        timeout.setText(""); // $NON-NLS-1$
-        separator.setText(""); // $NON-NLS-1$
+        useProperties.setSelected(false);
+        jndiICF.setText("");
+        urlField.setText("");
+        jndiConnFac.setText("");
+        jmsDestination.setText("");
+        jmsDurableSubscriptionId.setText("");
+        jmsClientId.setText("");
+        jmsSelector.setText("");
+        jmsUser.setText("");
+        jmsPwd.setText("");
+        samplesToAggregate.setText("1");
+        timeout.setText("");
+        separator.setText("");
         useAuth.setSelected(false);
         jmsUser.setEnabled(false);
         jmsPwd.setEnabled(false);

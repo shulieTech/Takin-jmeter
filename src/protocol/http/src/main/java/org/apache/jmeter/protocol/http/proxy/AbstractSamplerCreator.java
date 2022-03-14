@@ -35,37 +35,37 @@ import org.apache.jmeter.util.JMeterUtils;
  */
 public abstract class AbstractSamplerCreator implements SamplerCreator {
 
-    protected static final String HTTP = "http"; // $NON-NLS-1$
-    protected static final String HTTPS = "https"; // $NON-NLS-1$
-    protected static final String DEFAULT_ENCODING_KEY = "__defaultEncoding"; // $NON-NLS-1$
+    protected static final String HTTP = "http";
+    protected static final String HTTPS = "https";
+    protected static final String DEFAULT_ENCODING_KEY = "__defaultEncoding";
 
     /** FileType to be used for the temporary binary files*/
     private static final String BINARY_FILE_SUFFIX =
-        JMeterUtils.getPropDefault("proxy.binary.filesuffix",// $NON-NLS-1$
-                                   ".binary"); // $NON-NLS-1$
+        JMeterUtils.getPropDefault("proxy.binary.filesuffix",
+                                   ".binary");
 
     /** Which content-types will be treated as binary (exact match) */
     private static final Set<String> BINARY_CONTENT_TYPES = new HashSet<>();
 
     /** Where to store the temporary binary files */
     private static final String BINARY_DIRECTORY =
-        JMeterUtils.getPropDefault("proxy.binary.directory",// $NON-NLS-1$
+        JMeterUtils.getPropDefault("proxy.binary.directory",
                 System.getProperty("user.dir")); // $NON-NLS-1$ proxy.binary.fileType=binary
 
     /*
      * Optionally number the requests
      */
     private static final boolean NUMBER_REQUESTS =
-        JMeterUtils.getPropDefault("proxy.number.requests", true); // $NON-NLS-1$
+        JMeterUtils.getPropDefault("proxy.number.requests", true);
 
     private static AtomicInteger REQUEST_NUMBER = new AtomicInteger(0);// running number
 
 
     static {
-        String binaries = JMeterUtils.getPropDefault("proxy.binary.types", // $NON-NLS-1$
-                "application/x-amf,application/x-java-serialized-object,binary/octet-stream"); // $NON-NLS-1$
+        String binaries = JMeterUtils.getPropDefault("proxy.binary.types",
+                "application/x-amf,application/x-java-serialized-object,binary/octet-stream");
         if (binaries.length() > 0){
-            StringTokenizer s = new StringTokenizer(binaries,"|, ");// $NON-NLS-1$
+            StringTokenizer s = new StringTokenizer(binaries,"|, ");
             while (s.hasMoreTokens()){
                 BINARY_CONTENT_TYPES.add(s.nextToken());
             }

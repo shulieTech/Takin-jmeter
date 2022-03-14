@@ -30,8 +30,8 @@ public class RenderAsText extends SamplerResultTab implements ResultRenderer {
     }
 
     private void showTextResponse(String response) {
-        results.setContentType("text/plain"); // $NON-NLS-1$
-        setTextOptimized(response == null ? "" : response); // $NON-NLS-1$
+        results.setContentType("text/plain");
+        setTextOptimized(response == null ? "" : response);
         results.setCaretPosition(0);
         resultsScrollPane.setViewportView(results);
         // Bug 55111 - Refresh JEditor pane size depending on the presence or absence of scrollbars
@@ -42,7 +42,7 @@ public class RenderAsText extends SamplerResultTab implements ResultRenderer {
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        return JMeterUtils.getResString("view_results_render_text"); // $NON-NLS-1$
+        return JMeterUtils.getResString("view_results_render_text");
     }
 
 }

@@ -126,9 +126,9 @@ public class TestBeanGUI extends AbstractJMeterGuiComponent implements JMeterGUI
 
     static {
         List<String> paths = new LinkedList<>();
-        paths.add("org.apache.jmeter.testbeans.gui");// $NON-NLS-1$
+        paths.add("org.apache.jmeter.testbeans.gui");
         paths.addAll(Arrays.asList(PropertyEditorManager.getEditorSearchPath()));
-        String s = JMeterUtils.getPropDefault("propertyEditorSearchPath", null);// $NON-NLS-1$
+        String s = JMeterUtils.getPropDefault("propertyEditorSearchPath", null);
         if (s != null) {
             paths.addAll(Arrays.asList(JOrphanUtils.split(s, ",", "")));// $NON-NLS-1$ // $NON-NLS-2$
         }
@@ -140,7 +140,7 @@ public class TestBeanGUI extends AbstractJMeterGuiComponent implements JMeterGUI
      */
     @Deprecated
     public TestBeanGUI() {
-        log.warn("Constructor only for use in testing");// $NON-NLS-1$
+        log.warn("Constructor only for use in testing");
         testBeanClass = null;
         customizerClass = null;
         beanInfo = null;
@@ -190,7 +190,7 @@ public class TestBeanGUI extends AbstractJMeterGuiComponent implements JMeterGUI
     @Override
     public String getStaticLabel() {
         if (beanInfo == null){
-            return "null";// $NON-NLS-1$
+            return "null";
         }
         return beanInfo.getBeanDescriptor().getDisplayName();
     }
@@ -485,7 +485,7 @@ public class TestBeanGUI extends AbstractJMeterGuiComponent implements JMeterGUI
     @Override
     public String getDocAnchor() {
         ResourceBundle resourceBundle = ResourceBundle.getBundle(
-                testBeanClass.getName() + "Resources",  // $NON-NLS-1$
+                testBeanClass.getName() + "Resources",
                 new Locale("",""));
 
         String name = resourceBundle.getString("displayName");

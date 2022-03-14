@@ -116,10 +116,10 @@ public class MainFrame extends JFrame implements TestStateListener, Remoteable, 
 
     // This is used to keep track of local (non-remote) tests
     // The name is chosen to be an unlikely host-name
-    public static final String LOCAL = "*local*"; // $NON-NLS-1$
+    public static final String LOCAL = "*local*";
 
     // The application name
-    private static final String DEFAULT_APP_NAME = "Apache JMeter"; // $NON-NLS-1$
+    private static final String DEFAULT_APP_NAME = "Apache JMeter";
 
     // The default title for the Menu bar
     private static final String DEFAULT_TITLE = DEFAULT_APP_NAME +
@@ -127,11 +127,11 @@ public class MainFrame extends JFrame implements TestStateListener, Remoteable, 
 
     // Allow display/hide LoggerPanel
     private static final boolean DISPLAY_LOGGER_PANEL =
-            JMeterUtils.getPropDefault("jmeter.loggerpanel.display", false); // $NON-NLS-1$
+            JMeterUtils.getPropDefault("jmeter.loggerpanel.display", false);
 
     private static final Logger log = LoggerFactory.getLogger(MainFrame.class);
 
-    private static final String OS_NAME = System.getProperty("os.name");// $NON-NLS-1$
+    private static final String OS_NAME = System.getProperty("os.name");
 
     private static final boolean IS_MAC =
             Pattern.compile("mac os x|darwin|osx", Pattern.CASE_INSENSITIVE)
@@ -156,13 +156,13 @@ public class MainFrame extends JFrame implements TestStateListener, Remoteable, 
     private final String iconSize = JMeterUtils.getPropDefault(JMeterToolBar.TOOLBAR_ICON_SIZE, JMeterToolBar.DEFAULT_TOOLBAR_ICON_SIZE);
 
     /** An image which is displayed when a test is running. */
-    private final ImageIcon runningIcon = JMeterUtils.getImage("status/" + iconSize +"/user-online-2.png");// $NON-NLS-1$
+    private final ImageIcon runningIcon = JMeterUtils.getImage("status/" + iconSize +"/user-online-2.png");
 
     /** An image which is displayed when a test is not currently running. */
-    private final ImageIcon stoppedIcon = JMeterUtils.getImage("status/" + iconSize +"/user-offline-2.png");// $NON-NLS-1$
+    private final ImageIcon stoppedIcon = JMeterUtils.getImage("status/" + iconSize +"/user-offline-2.png");
 
     /** An image which is displayed to indicate FATAL, ERROR or WARNING. */
-    private final ImageIcon warningIcon = JMeterUtils.getImage("status/" + iconSize +"/pictogram-din-w000-general.png");// $NON-NLS-1$
+    private final ImageIcon warningIcon = JMeterUtils.getImage("status/" + iconSize +"/pictogram-din-w000-general.png");
 
     /** The button used to display the running/stopped image. */
     private JButton runningIndicator;
@@ -212,8 +212,8 @@ public class MainFrame extends JFrame implements TestStateListener, Remoteable, 
         testTimeDuration = new JLabel("00:00:00"); //$NON-NLS-1$
         testTimeDuration.setToolTipText(JMeterUtils.getResString("duration_tooltip")); //$NON-NLS-1$
 
-        activeAndTotalThreads = new JLabel("0/0"); // $NON-NLS-1$
-        activeAndTotalThreads.setToolTipText(JMeterUtils.getResString("active_total_threads_tooltip")); // $NON-NLS-1$
+        activeAndTotalThreads = new JLabel("0/0");
+        activeAndTotalThreads.setToolTipText(JMeterUtils.getResString("active_total_threads_tooltip"));
 
         warnIndicator = new JButton(warningIcon);
         warnIndicator.setMargin(new Insets(0, 0, 0, 0));
@@ -222,7 +222,7 @@ public class MainFrame extends JFrame implements TestStateListener, Remoteable, 
         warnIndicator.setContentAreaFilled(false);
         warnIndicator.setBorderPainted(false);
         warnIndicator.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        warnIndicator.setToolTipText(JMeterUtils.getResString("error_indicator_tooltip")); // $NON-NLS-1$
+        warnIndicator.setToolTipText(JMeterUtils.getResString("error_indicator_tooltip"));
         warnIndicator.addActionListener(this);
 
         tree = makeTree(treeModel, treeListener);
@@ -460,7 +460,7 @@ public class MainFrame extends JFrame implements TestStateListener, Remoteable, 
         hosts.add(host);
         computeTestDurationTimer.start();
         runningIndicator.setIcon(runningIcon);
-        activeAndTotalThreads.setText("0/0"); // $NON-NLS-1$
+        activeAndTotalThreads.setText("0/0");
         menuBar.setRunning(true, host);
         if (LOCAL.equals(host)) {
             toolbar.setLocalTestStarted(true);
@@ -555,7 +555,7 @@ public class MainFrame extends JFrame implements TestStateListener, Remoteable, 
         // Building is complete, register as listener
         GuiPackage.getInstance().registerAsListener();
         setTitle(DEFAULT_TITLE);
-        setIconImage(JMeterUtils.getImage("icon-apache.png").getImage());// $NON-NLS-1$
+        setIconImage(JMeterUtils.getImage("icon-apache.png").getImage());
         setWindowTitle(); // define AWT WM_CLASS string
         refreshErrorsTimer.start();
     }
@@ -577,7 +577,7 @@ public class MainFrame extends JFrame implements TestStateListener, Remoteable, 
 
         // allow for windows / chars in filename
         String temp = fname.replace('\\', '/'); // $NON-NLS-1$ // $NON-NLS-2$
-        String simpleName = temp.substring(temp.lastIndexOf('/') + 1);// $NON-NLS-1$
+        String simpleName = temp.substring(temp.lastIndexOf('/') + 1);
         setTitle(simpleName + " (" + fname + ") - " + DEFAULT_TITLE); // $NON-NLS-1$ // $NON-NLS-2$
     }
 
@@ -753,7 +753,7 @@ public class MainFrame extends JFrame implements TestStateListener, Remoteable, 
                     guiPackage.getMainFrame().getTree().setSelectionPath(new TreePath(node.getPath()));
                 }
             } catch (Exception err) {
-                log.warn("Failed to perform quick component add: {}", comp, err); // $NON-NLS-1$
+                log.warn("Failed to perform quick component add: {}", comp, err);
             }
         }
 
@@ -902,12 +902,12 @@ public class MainFrame extends JFrame implements TestStateListener, Remoteable, 
         Class<?> xtoolkit = Toolkit.getDefaultToolkit().getClass();
         if (xtoolkit.getName().equals("sun.awt.X11.XToolkit")) { // NOSONAR (we don't want to depend on native LAF) $NON-NLS-1$
             try {
-                final Field awtAppClassName = xtoolkit.getDeclaredField("awtAppClassName"); // $NON-NLS-1$
+                final Field awtAppClassName = xtoolkit.getDeclaredField("awtAppClassName");
                 awtAppClassName.setAccessible(true);
                 awtAppClassName.set(null, DEFAULT_APP_NAME);
             } catch (NoSuchFieldException | IllegalAccessException nsfe) {
                 if (log.isWarnEnabled()) {
-                    log.warn("Error awt title: {}", nsfe.toString()); // $NON-NLS-1$
+                    log.warn("Error awt title: {}", nsfe.toString());
                 }
             }
         }

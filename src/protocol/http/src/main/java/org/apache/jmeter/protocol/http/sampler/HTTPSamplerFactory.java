@@ -36,11 +36,11 @@ public final class HTTPSamplerFactory {
     public static final String HTTP_SAMPLER_APACHE = "HTTPSampler2"; //$NON-NLS-1$
 
     //+ JMX implementation attribute values (also displayed in GUI) - do not change
-    public static final String IMPL_HTTP_CLIENT4 = "HttpClient4";  // $NON-NLS-1$
+    public static final String IMPL_HTTP_CLIENT4 = "HttpClient4";
 
-    public static final String IMPL_HTTP_CLIENT3_1 = "HttpClient3.1"; // $NON-NLS-1$
+    public static final String IMPL_HTTP_CLIENT3_1 = "HttpClient3.1";
 
-    public static final String IMPL_JAVA = "Java"; // $NON-NLS-1$
+    public static final String IMPL_JAVA = "Java";
 
     // type
     public static final String IMPL_APPRF = "Apprf";

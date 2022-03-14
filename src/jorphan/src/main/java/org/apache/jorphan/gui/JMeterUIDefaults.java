@@ -56,25 +56,25 @@ import org.slf4j.LoggerFactory;
 public class JMeterUIDefaults {
     private static final Logger log = LoggerFactory.getLogger(JMeterUIDefaults.class);
 
-    public static final String BUTTON_SMALL_FONT = "[jmeter]Button.smallFont"; // $NON-NLS-1$
-    public static final String CHECKBOX_SMALL_FONT = "[jmeter]CheckBox.smallFont"; // $NON-NLS-1$
-    public static final String LABEL_SMALL_FONT = "[jmeter]Label.smallFont"; // $NON-NLS-1$
-    public static final String TEXTFIELD_SMALL_FONT = "[jmeter]TextField.smallFont"; // $NON-NLS-1$
-    public static final String TOOLBAR_SMALL_FONT = "[jmeter]ToolBar.smallFont"; // $NON-NLS-1$
-    public static final String LABEL_BIG_FONT = "[jmeter]Label.bigFont"; // $NON-NLS-1$
+    public static final String BUTTON_SMALL_FONT = "[jmeter]Button.smallFont";
+    public static final String CHECKBOX_SMALL_FONT = "[jmeter]CheckBox.smallFont";
+    public static final String LABEL_SMALL_FONT = "[jmeter]Label.smallFont";
+    public static final String TEXTFIELD_SMALL_FONT = "[jmeter]TextField.smallFont";
+    public static final String TOOLBAR_SMALL_FONT = "[jmeter]ToolBar.smallFont";
+    public static final String LABEL_BIG_FONT = "[jmeter]Label.bigFont";
 
-    public static final String TEXTAREA_BORDER = "[jmeter]TextArea.border"; // $NON-NLS-1$
+    public static final String TEXTAREA_BORDER = "[jmeter]TextArea.border";
 
-    public static final String LABEL_WARNING_FONT = "[jmeter]Label.warningFont"; // $NON-NLS-1$
-    public static final String LABEL_WARNING_FOREGROUND = "[jmeter]Label.warningForeground"; // $NON-NLS-1$
+    public static final String LABEL_WARNING_FONT = "[jmeter]Label.warningFont";
+    public static final String LABEL_WARNING_FOREGROUND = "[jmeter]Label.warningForeground";
 
-    public static final String LABEL_ERROR_FONT = "[jmeter]Label.errorFont"; // $NON-NLS-1$
-    public static final String LABEL_ERROR_FOREGROUND = "[jmeter]Label.errorForeground"; // $NON-NLS-1$
+    public static final String LABEL_ERROR_FONT = "[jmeter]Label.errorFont";
+    public static final String LABEL_ERROR_FOREGROUND = "[jmeter]Label.errorForeground";
 
-    public static final String BUTTON_ERROR_FOREGROUND = "[jmeter]Button.errorForeground"; // $NON-NLS-1$
+    public static final String BUTTON_ERROR_FOREGROUND = "[jmeter]Button.errorForeground";
 
-    public static final String TABLE_ROW_HEIGHT = "Table.rowHeight"; // $NON-NLS-1$
-    public static final String TREE_ROW_HEIGHT = "Tree.rowHeight"; // $NON-NLS-1$
+    public static final String TABLE_ROW_HEIGHT = "Table.rowHeight";
+    public static final String TREE_ROW_HEIGHT = "Tree.rowHeight";
 
     private static final float SMALL_FONT_SCALE = 10f / 12;
     private static final float BIG_FONT_SCALE = 4f / 3;
@@ -112,25 +112,25 @@ public class JMeterUIDefaults {
                 // We don't want to make controls extra big, so we damp the scaling factors
                 scaleControlsProperties(defaults, (float) Math.sqrt(scale));
             }
-            configureRowHeight(defaults, scale, TABLE_ROW_HEIGHT, "Table.font"); // $NON-NLS-1$
-            configureRowHeight(defaults, scale, TREE_ROW_HEIGHT, "Tree.font"); // $NON-NLS-1$
+            configureRowHeight(defaults, scale, TABLE_ROW_HEIGHT, "Table.font");
+            configureRowHeight(defaults, scale, TREE_ROW_HEIGHT, "Tree.font");
 
-            defaults.put("Button.defaultButtonFollowsFocus", false); // $NON-NLS-1$
+            defaults.put("Button.defaultButtonFollowsFocus", false);
             defaults.put(TEXTAREA_BORDER, (UIDefaults.LazyValue) d -> new JTextField().getBorder());
 
-            addScaledFont(defaults, BUTTON_SMALL_FONT, "Button.font", SMALL_FONT_SCALE); // $NON-NLS-1$
-            addScaledFont(defaults, CHECKBOX_SMALL_FONT, "CheckBox.font", SMALL_FONT_SCALE); // $NON-NLS-1$
-            addScaledFont(defaults, LABEL_SMALL_FONT, "Label.font", SMALL_FONT_SCALE); // $NON-NLS-1$
-            addScaledFont(defaults, TEXTFIELD_SMALL_FONT, "TextField.font", SMALL_FONT_SCALE); // $NON-NLS-1$
-            addScaledFont(defaults, TOOLBAR_SMALL_FONT, "ToolBar.font", SMALL_FONT_SCALE); // $NON-NLS-1$
+            addScaledFont(defaults, BUTTON_SMALL_FONT, "Button.font", SMALL_FONT_SCALE);
+            addScaledFont(defaults, CHECKBOX_SMALL_FONT, "CheckBox.font", SMALL_FONT_SCALE);
+            addScaledFont(defaults, LABEL_SMALL_FONT, "Label.font", SMALL_FONT_SCALE);
+            addScaledFont(defaults, TEXTFIELD_SMALL_FONT, "TextField.font", SMALL_FONT_SCALE);
+            addScaledFont(defaults, TOOLBAR_SMALL_FONT, "ToolBar.font", SMALL_FONT_SCALE);
 
-            addScaledFont(defaults, LABEL_BIG_FONT, "Label.font", BIG_FONT_SCALE); // $NON-NLS-1$
+            addScaledFont(defaults, LABEL_BIG_FONT, "Label.font", BIG_FONT_SCALE);
 
-            addDerivedFont(defaults, LABEL_WARNING_FONT, "Label.font", // $NON-NLS-1$
+            addDerivedFont(defaults, LABEL_WARNING_FONT, "Label.font",
                     f -> f.deriveFont(f.getStyle() | Font.BOLD, f.getSize2D() * WARNING_FONT_SCALE));
-            defaults.put(LABEL_WARNING_FOREGROUND, defaults.get("Label.foreground")); // $NON-NLS-1$
+            defaults.put(LABEL_WARNING_FOREGROUND, defaults.get("Label.foreground"));
 
-            addDerivedFont(defaults, LABEL_ERROR_FONT, "Label.font", // $NON-NLS-1$
+            addDerivedFont(defaults, LABEL_ERROR_FONT, "Label.font",
                     f -> f.deriveFont(f.getStyle() | Font.BOLD, f.getSize2D() * ERROR_FONT_SCALE));
             defaults.put(LABEL_ERROR_FOREGROUND, Color.red);
 
@@ -161,11 +161,11 @@ public class JMeterUIDefaults {
 
     private void scaleIntProperties(UIDefaults defaults, float scale) {
         // Below are both standard and custom properties in a sorted order
-        scaleIntProperty(defaults, "ArrowButton.size", scale); // $NON-NLS-1$
-        scaleIntProperty(defaults, "ComboBox:\"ComboBox.arrowButton\".size", scale); // $NON-NLS-1$
-        scaleIntProperty(defaults, "FileChooser.rowHeight", scale); // $NON-NLS-1$
-        scaleIntProperty(defaults, "Spinner:\"Spinner.codeviousButton\".size", scale); // $NON-NLS-1$
-        scaleIntProperty(defaults, "Spinner:\"Spinner.nextButton\".size", scale); // $NON-NLS-1$
+        scaleIntProperty(defaults, "ArrowButton.size", scale);
+        scaleIntProperty(defaults, "ComboBox:\"ComboBox.arrowButton\".size", scale);
+        scaleIntProperty(defaults, "FileChooser.rowHeight", scale);
+        scaleIntProperty(defaults, "Spinner:\"Spinner.codeviousButton\".size", scale);
+        scaleIntProperty(defaults, "Spinner:\"Spinner.nextButton\".size", scale);
     }
 
     private void configureRowHeight(UIDefaults defaults, float scale, String rowHeight, String font) {
@@ -192,10 +192,10 @@ public class JMeterUIDefaults {
 
 
     private void scaleControlsProperties(UIDefaults defaults, float scale) {
-        scaleIntProperty(defaults, "ScrollBar.thumbHeight", scale); // $NON-NLS-1$
-        scaleIntProperty(defaults, "ScrollBar.width", scale); // $NON-NLS-1$
-        scaleIntProperty(defaults, "ScrollBar:\"ScrollBar.button\".size", scale); // $NON-NLS-1$
-        scaleIntProperty(defaults, "SplitPane.size", scale); // $NON-NLS-1$
+        scaleIntProperty(defaults, "ScrollBar.thumbHeight", scale);
+        scaleIntProperty(defaults, "ScrollBar.width", scale);
+        scaleIntProperty(defaults, "ScrollBar:\"ScrollBar.button\".size", scale);
+        scaleIntProperty(defaults, "SplitPane.size", scale);
     }
 
     private void scaleIntProperty(UIDefaults defaults, String key, float scale) {
@@ -206,13 +206,13 @@ public class JMeterUIDefaults {
     }
 
     private void scaleFonts(UIDefaults defaults) {
-        log.info("Applying font scale factor: {}", scale); // $NON-NLS-1$
-        if ("Nimbus".equals(UIManager.getLookAndFeel().getID())) { // $NON-NLS-1$
+        log.info("Applying font scale factor: {}", scale);
+        if ("Nimbus".equals(UIManager.getLookAndFeel().getID())) {
             // Nimbus derives all the fonts from defaultFont, so it is enough to update it
-            Font defaultFont = defaults.getFont("defaultFont"); // $NON-NLS-1$
+            Font defaultFont = defaults.getFont("defaultFont");
             if (defaultFont != null) {
                 Font newFont = defaultFont.deriveFont(defaultFont.getSize2D() * scale);
-                defaults.put("defaultFont", sameUiResource(defaultFont, newFont)); // $NON-NLS-1$
+                defaults.put("defaultFont", sameUiResource(defaultFont, newFont));
                 return;
             }
         }

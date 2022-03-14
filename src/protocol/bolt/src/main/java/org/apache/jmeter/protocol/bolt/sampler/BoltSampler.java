@@ -50,7 +50,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 public class BoltSampler extends AbstractBoltTestElement implements Sampler, TestBean, ConfigMergabilityIndicator {
 
     private static final Set<String> APPLICABLE_CONFIG_CLASSES = new HashSet<>(
-            Collections.singletonList("org.apache.jmeter.config.gui.SimpleConfigGui")); // $NON-NLS-1$
+            Collections.singletonList("org.apache.jmeter.config.gui.SimpleConfigGui"));
 
     // Enables to initialize object mapper on demand
     private static class Holder {
@@ -63,7 +63,7 @@ public class BoltSampler extends AbstractBoltTestElement implements Sampler, Tes
         res.setSampleLabel(getName());
         res.setSamplerData(request());
         res.setDataType(SampleResult.TEXT);
-        res.setContentType("text/plain"); // $NON-NLS-1$
+        res.setContentType("text/plain");
         res.setDataEncoding(StandardCharsets.UTF_8.name());
 
         Map<String, Object> params;

@@ -50,7 +50,7 @@ public class ModuleController extends GenericController implements ReplaceableCo
 
     private static final long serialVersionUID = 240L;
 
-    private static final String NODE_PATH = "ModuleController.node_path";// $NON-NLS-1$
+    private static final String NODE_PATH = "ModuleController.node_path";
 
     private transient JMeterTreeNode selectedNode = null;
 

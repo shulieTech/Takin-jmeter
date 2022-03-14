@@ -72,16 +72,16 @@ public class Proxy extends Thread {
     private static final byte[] CRLF_BYTES = { 0x0d, 0x0a };
     private static final String CRLF_STRING = "\r\n";
 
-    private static final String NEW_LINE = "\n"; // $NON-NLS-1$
+    private static final String NEW_LINE = "\n";
 
     private static final String[] HEADERS_TO_REMOVE;
 
     // Allow list of headers to be overridden
-    private static final String PROXY_HEADERS_REMOVE = "proxy.headers.remove"; // $NON-NLS-1$
+    private static final String PROXY_HEADERS_REMOVE = "proxy.headers.remove";
 
-    private static final String PROXY_HEADERS_REMOVE_DEFAULT = "If-Modified-Since,If-None-Match,Host"; // $NON-NLS-1$
+    private static final String PROXY_HEADERS_REMOVE_DEFAULT = "If-Modified-Since,If-None-Match,Host";
 
-    private static final String PROXY_HEADERS_REMOVE_SEPARATOR = ","; // $NON-NLS-1$
+    private static final String PROXY_HEADERS_REMOVE_SEPARATOR = ",";
 
     private static final String KEYMANAGERFACTORY =
         JMeterUtils.getPropDefault("proxy.cert.factory", "SunX509"); // $NON-NLS-1$ $NON-NLS-2$
@@ -187,10 +187,10 @@ public class Proxy extends Thread {
                 log.debug("{} Method CONNECT => SSL", port);
                 // write a OK response to browser, to engage SSL exchange
                 outStreamClient.write(
-                        "HTTP/1.0 200 OK\r\n\r\n".getBytes(SampleResult.DEFAULT_HTTP_ENCODING)); // $NON-NLS-1$
+                        "HTTP/1.0 200 OK\r\n\r\n".getBytes(SampleResult.DEFAULT_HTTP_ENCODING));
                 outStreamClient.flush();
                // With ssl request, url is host:port (without https:// or path)
-                String[] param = request.getUrl().split(":");  // $NON-NLS-1$
+                String[] param = request.getUrl().split(":");
                 if (param.length == 2) {
                     log.debug("{} Start to negotiate SSL connection, host: {}", port ,param[0]);
                     clientSocket = startSSL(clientSocket, param[0]);
@@ -399,7 +399,7 @@ public class Proxy extends Thread {
         String[] parts = host.split("\\."); // get the component parts
         // Assume domains must have at least 2 parts, e.g. apache.org
         // Replace the first part with "*"
-        StringBuilder sb = new StringBuilder("*"); // $NON-NLS-1$
+        StringBuilder sb = new StringBuilder("*");
         for(int j = 1; j < parts.length ; j++) { // Skip the first part
             sb.append('.');
             sb.append(parts[j]);
@@ -526,7 +526,7 @@ public class Proxy extends Thread {
         boolean fixContentLength = false;
         for (int i = 0; i < headerLines.length; i++) {
             String line = headerLines[i];
-            String[] parts = line.split(":\\s+", 2); // $NON-NLS-1$
+            String[] parts = line.split(":\\s+", 2);
             if (parts.length == 2) {
                 if (HTTPConstants.TRANSFER_ENCODING.equalsIgnoreCase(parts[0])) {
                     headerLines[i] = null; // We don't want this passed on to browser

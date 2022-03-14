@@ -38,7 +38,7 @@ public class XMLAssertionGui extends AbstractAssertionGui {
      */
     @Override
     public String getLabelResource() {
-        return "xml_assertion_title"; // $NON-NLS-1$
+        return "xml_assertion_title";
     }
 
     @Override

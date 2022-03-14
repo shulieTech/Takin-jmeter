@@ -161,7 +161,7 @@ public class HttpTestSampleGui extends AbstractSamplerGui {
      */
     @Override
     public String getLabelResource() {
-        return "web_testing_title"; // $NON-NLS-1$
+        return "web_testing_title";
     }
 
     private void init() {// called from ctor, so must not be overridable
@@ -210,7 +210,7 @@ public class HttpTestSampleGui extends AbstractSamplerGui {
     private JPanel getTimeOutPanel() {
         JPanel timeOut = new HorizontalPanel();
         timeOut.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("web_server_timeout_title"))); // $NON-NLS-1$
+                JMeterUtils.getResString("web_server_timeout_title")));
         final JPanel connPanel = getConnectTimeOutPanel();
         final JPanel reqPanel = getResponseTimeOutPanel();
         timeOut.add(connPanel);
@@ -221,7 +221,7 @@ public class HttpTestSampleGui extends AbstractSamplerGui {
     private JPanel getConnectTimeOutPanel() {
         connectTimeOut = new JTextField(10);
 
-        JLabel label = new JLabel(JMeterUtils.getResString("web_server_timeout_connect")); // $NON-NLS-1$
+        JLabel label = new JLabel(JMeterUtils.getResString("web_server_timeout_connect"));
         label.setLabelFor(connectTimeOut);
 
         JPanel panel = new JPanel(new BorderLayout(5, 0));
@@ -234,7 +234,7 @@ public class HttpTestSampleGui extends AbstractSamplerGui {
     private JPanel getResponseTimeOutPanel() {
         responseTimeOut = new JTextField(10);
 
-        JLabel label = new JLabel(JMeterUtils.getResString("web_server_timeout_response")); // $NON-NLS-1$
+        JLabel label = new JLabel(JMeterUtils.getResString("web_server_timeout_response"));
         label.setLabelFor(responseTimeOut);
 
         JPanel panel = new JPanel(new BorderLayout(5, 0));
@@ -246,14 +246,14 @@ public class HttpTestSampleGui extends AbstractSamplerGui {
 
     protected JPanel createEmbeddedRsrcPanel() {
         // retrieve Embedded resources
-        retrieveEmbeddedResources = new JCheckBox(JMeterUtils.getResString("web_testing_retrieve_images")); // $NON-NLS-1$
+        retrieveEmbeddedResources = new JCheckBox(JMeterUtils.getResString("web_testing_retrieve_images"));
         // add a listener to activate or not concurrent dwn.
         retrieveEmbeddedResources.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) { enableConcurrentDwn(true); }
             else { enableConcurrentDwn(false); }
         });
         // Download concurrent resources
-        concurrentDwn = new JCheckBox(JMeterUtils.getResString("web_testing_concurrent_download")); // $NON-NLS-1$
+        concurrentDwn = new JCheckBox(JMeterUtils.getResString("web_testing_concurrent_download"));
         concurrentDwn.addItemListener(e -> {
             if (retrieveEmbeddedResources.isSelected() && e.getStateChange() == ItemEvent.SELECTED) { concurrentPool.setEnabled(true); }
             else { concurrentPool.setEnabled(false); }
@@ -264,22 +264,22 @@ public class HttpTestSampleGui extends AbstractSamplerGui {
 
         final JPanel embeddedRsrcPanel = new JPanel(new MigLayout());
         embeddedRsrcPanel.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("web_testing_retrieve_title"))); // $NON-NLS-1$
+                JMeterUtils.getResString("web_testing_retrieve_title")));
         embeddedRsrcPanel.add(retrieveEmbeddedResources);
         embeddedRsrcPanel.add(concurrentDwn);
         embeddedRsrcPanel.add(concurrentPool, "wrap");
 
         // Embedded URL match regex
-        embeddedAllowRE = addTextFieldWithLabel(embeddedRsrcPanel, JMeterUtils.getResString("web_testing_embedded_url_pattern")); // $NON-NLS-1$
+        embeddedAllowRE = addTextFieldWithLabel(embeddedRsrcPanel, JMeterUtils.getResString("web_testing_embedded_url_pattern"));
 
         // Embedded URL to not match regex
-        embeddedExcludeRE = addTextFieldWithLabel(embeddedRsrcPanel, JMeterUtils.getResString("web_testing_embedded_url_exclude_pattern")); // $NON-NLS-1$
+        embeddedExcludeRE = addTextFieldWithLabel(embeddedRsrcPanel, JMeterUtils.getResString("web_testing_embedded_url_exclude_pattern"));
 
         return embeddedRsrcPanel;
     }
 
     private JTextField addTextFieldWithLabel(JPanel panel, String labelText) {
-        JLabel label = new JLabel(labelText); // $NON-NLS-1$
+        JLabel label = new JLabel(labelText);
         JTextField field = new JTextField(100);
         label.setLabelFor(field);
         panel.add(label);
@@ -295,9 +295,9 @@ public class HttpTestSampleGui extends AbstractSamplerGui {
     protected final JPanel getImplementationPanel(){
         JPanel implPanel = new HorizontalPanel();
         implPanel.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("web_server_client"))); // $NON-NLS-1$
-        implPanel.add(new JLabel(JMeterUtils.getResString("http_implementation"))); // $NON-NLS-1$
-        httpImplementation.addItem("");// $NON-NLS-1$
+                JMeterUtils.getResString("web_server_client")));
+        implPanel.add(new JLabel(JMeterUtils.getResString("http_implementation")));
+        httpImplementation.addItem("");
         implPanel.add(httpImplementation);
         return implPanel;
     }
@@ -306,10 +306,10 @@ public class HttpTestSampleGui extends AbstractSamplerGui {
         // OPTIONAL TASKS
         final JPanel checkBoxPanel = new VerticalPanel();
         checkBoxPanel.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("optional_tasks"))); // $NON-NLS-1$
+                JMeterUtils.getResString("optional_tasks")));
 
         // Use MD5
-        useMD5 = new JCheckBox(JMeterUtils.getResString("response_save_as_md5")); // $NON-NLS-1$
+        useMD5 = new JCheckBox(JMeterUtils.getResString("response_save_as_md5"));
         checkBoxPanel.add(useMD5);
 
         return checkBoxPanel;
@@ -318,7 +318,7 @@ public class HttpTestSampleGui extends AbstractSamplerGui {
     protected JPanel createSourceAddrPanel() {
         final JPanel sourceAddrPanel = new HorizontalPanel();
         sourceAddrPanel.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("web_testing_source_ip"))); // $NON-NLS-1$
+                JMeterUtils.getResString("web_testing_source_ip")));
 
         // Add a new field source ip address (for HC implementations only)
         sourceIpType.setSelectedIndex(HTTPSamplerBase.SourceType.HOSTNAME.ordinal()); //default: IP/Hostname
@@ -349,18 +349,18 @@ public class HttpTestSampleGui extends AbstractSamplerGui {
         enableConcurrentDwn(false);
         useMD5.setSelected(false);
         urlConfigGui.clear();
-        embeddedAllowRE.setText(""); // $NON-NLS-1$
+        embeddedAllowRE.setText("");
         if (!isAJP) {
-            sourceIpAddr.setText(""); // $NON-NLS-1$
+            sourceIpAddr.setText("");
             sourceIpType.setSelectedIndex(HTTPSamplerBase.SourceType.HOSTNAME.ordinal()); //default: IP/Hostname
-            proxyScheme.setText(""); // $NON-NLS-1$
-            proxyHost.setText(""); // $NON-NLS-1$
-            proxyPort.setText(""); // $NON-NLS-1$
-            proxyUser.setText(""); // $NON-NLS-1$
-            proxyPass.setText(""); // $NON-NLS-1$
-            httpImplementation.setSelectedItem(""); // $NON-NLS-1$
-            connectTimeOut.setText(""); // $NON-NLS-1$
-            responseTimeOut.setText(""); // $NON-NLS-1$
+            proxyScheme.setText("");
+            proxyHost.setText("");
+            proxyPort.setText("");
+            proxyUser.setText("");
+            proxyPass.setText("");
+            httpImplementation.setSelectedItem("");
+            connectTimeOut.setText("");
+            responseTimeOut.setText("");
         }
     }
 
@@ -389,7 +389,7 @@ public class HttpTestSampleGui extends AbstractSamplerGui {
 
         JPanel proxyServerPanel = new HorizontalPanel();
         proxyServerPanel.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("web_proxy_server_title"))); // $NON-NLS-1$
+                JMeterUtils.getResString("web_proxy_server_title")));
         proxyServerPanel.add(proxyServer);
         proxyServerPanel.add(proxyLogin);
 
@@ -399,7 +399,7 @@ public class HttpTestSampleGui extends AbstractSamplerGui {
     private JPanel getProxySchemePanel() {
         proxyScheme = new JTextField(5);
 
-        JLabel label = new JLabel(JMeterUtils.getResString("web_proxy_scheme")); // $NON-NLS-1$
+        JLabel label = new JLabel(JMeterUtils.getResString("web_proxy_scheme"));
         label.setLabelFor(proxyScheme);
         JFactory.small(label);
 
@@ -412,7 +412,7 @@ public class HttpTestSampleGui extends AbstractSamplerGui {
     private JPanel getProxyHostPanel() {
         proxyHost = new JTextField(10);
 
-        JLabel label = new JLabel(JMeterUtils.getResString("web_server_domain")); // $NON-NLS-1$
+        JLabel label = new JLabel(JMeterUtils.getResString("web_server_domain"));
         label.setLabelFor(proxyHost);
         JFactory.small(label);
 
@@ -425,7 +425,7 @@ public class HttpTestSampleGui extends AbstractSamplerGui {
     private JPanel getProxyPortPanel() {
         proxyPort = new JTextField(10);
 
-        JLabel label = new JLabel(JMeterUtils.getResString("web_server_port")); // $NON-NLS-1$
+        JLabel label = new JLabel(JMeterUtils.getResString("web_server_port"));
         label.setLabelFor(proxyPort);
         JFactory.small(label);
 
@@ -439,7 +439,7 @@ public class HttpTestSampleGui extends AbstractSamplerGui {
     private JPanel getProxyUserPanel() {
         proxyUser = new JTextField(5);
 
-        JLabel label = new JLabel(JMeterUtils.getResString("username")); // $NON-NLS-1$
+        JLabel label = new JLabel(JMeterUtils.getResString("username"));
         label.setLabelFor(proxyUser);
         JFactory.small(label);
 
@@ -452,7 +452,7 @@ public class HttpTestSampleGui extends AbstractSamplerGui {
     private JPanel getProxyPassPanel() {
         proxyPass = new JPasswordField(5);
 
-        JLabel label = new JLabel(JMeterUtils.getResString("password")); // $NON-NLS-1$
+        JLabel label = new JLabel(JMeterUtils.getResString("password"));
         label.setLabelFor(proxyPass);
         JFactory.small(label);
 

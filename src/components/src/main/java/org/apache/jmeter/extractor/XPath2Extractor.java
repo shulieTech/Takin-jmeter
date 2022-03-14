@@ -64,23 +64,23 @@ public class XPath2Extractor
     private static final int DEFAULT_VALUE = 0;
     public static final String DEFAULT_VALUE_AS_STRING = Integer.toString(DEFAULT_VALUE);
 
-    private static final String REF_MATCH_NR    = "matchNr"; // $NON-NLS-1$
+    private static final String REF_MATCH_NR    = "matchNr";
 
     //+ JMX file attributes
-    private static final String XPATH_QUERY     = "XPathExtractor2.xpathQuery"; // $NON-NLS-1$
-    private static final String REFNAME         = "XPathExtractor2.refname"; // $NON-NLS-1$
-    private static final String DEFAULT         = "XPathExtractor2.default"; // $NON-NLS-1$
-    private static final String FRAGMENT        = "XPathExtractor2.fragment"; // $NON-NLS-1$
-    private static final String NAMESPACES      = "XPathExtractor2.namespaces"; // $NON-NLS-1$
-    private static final String MATCH_NUMBER    = "XPathExtractor2.matchNumber"; // $NON-NLS-1$
+    private static final String XPATH_QUERY     = "XPathExtractor2.xpathQuery";
+    private static final String REFNAME         = "XPathExtractor2.refname";
+    private static final String DEFAULT         = "XPathExtractor2.default";
+    private static final String FRAGMENT        = "XPathExtractor2.fragment";
+    private static final String NAMESPACES      = "XPathExtractor2.namespaces";
+    private static final String MATCH_NUMBER    = "XPathExtractor2.matchNumber";
     //- JMX file attributes
 
     private String concat(String s1,String s2){
-        return s1 + "_" + s2; // $NON-NLS-1$
+        return s1 + "_" + s2;
     }
 
     private String concat(String s1, int i){
-        return s1 + "_" + i; // $NON-NLS-1$
+        return s1 + "_" + i;
     }
 
     /**
@@ -106,8 +106,8 @@ public class XPath2Extractor
             // ignored
         }
 
-        vars.put(matchNR, "0"); // In case parse fails // $NON-NLS-1$
-        vars.remove(concat(refName,"1")); // In case parse fails // $NON-NLS-1$
+        vars.put(matchNR, "0"); // In case parse fails
+        vars.remove(concat(refName,"1")); // In case parse fails
 
         int matchNumber = getMatchNumber();
         List<String> matches = new ArrayList<>();
@@ -160,7 +160,7 @@ public class XPath2Extractor
 
     private void addAssertionFailure(final SampleResult previousResult,
             final Throwable thrown, final boolean setFailed) {
-        AssertionResult ass = new AssertionResult(getName()); // $NON-NLS-1$
+        AssertionResult ass = new AssertionResult(getName());
         ass.setFailure(true);
         ass.setFailureMessage(thrown.getLocalizedMessage()+"\nSee log file for further details.");
         previousResult.addAssertionResult(ass);

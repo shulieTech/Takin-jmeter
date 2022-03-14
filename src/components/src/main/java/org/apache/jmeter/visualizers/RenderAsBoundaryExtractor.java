@@ -46,7 +46,7 @@ import org.apache.jorphan.gui.JLabeledTextField;
  */
 public class RenderAsBoundaryExtractor implements ResultRenderer, ActionListener {
 
-    private static final String BOUNDARY_EXTRACTOR_TESTER_COMMAND = "boundary_extractor_tester"; // $NON-NLS-1$
+    private static final String BOUNDARY_EXTRACTOR_TESTER_COMMAND = "boundary_extractor_tester";
 
     private JPanel boundaryExtractorPane;
 
@@ -113,10 +113,10 @@ public class RenderAsBoundaryExtractor implements ResultRenderer, ActionListener
     /** {@inheritDoc} */
     @Override
     public void clearData() {
-        this.boundaryExtractorDataField.setText(""); // $NON-NLS-1$
-        this.boundaryExtractorFieldLeft.setText(""); // $NON-NLS-1$
-        this.boundaryExtractorFieldRight.setText(""); // $NON-NLS-1$
-        this.boundaryExtractorResultField.setText(""); // $NON-NLS-1$
+        this.boundaryExtractorDataField.setText("");
+        this.boundaryExtractorFieldLeft.setText("");
+        this.boundaryExtractorFieldRight.setText("");
+        this.boundaryExtractorResultField.setText("");
     }
 
     /** {@inheritDoc} */
@@ -158,12 +158,12 @@ public class RenderAsBoundaryExtractor implements ResultRenderer, ActionListener
         boundaryExtractorActionPanel.setLayout(new BoxLayout(boundaryExtractorActionPanel, BoxLayout.X_AXIS));
         Border margin = new EmptyBorder(5, 5, 0, 5);
         boundaryExtractorActionPanel.setBorder(margin);
-        boundaryExtractorFieldLeft = new JLabeledTextField(JMeterUtils.getResString("boundaryextractor_leftboundary_field")); // $NON-NLS-1$
+        boundaryExtractorFieldLeft = new JLabeledTextField(JMeterUtils.getResString("boundaryextractor_leftboundary_field"));
         boundaryExtractorActionPanel.add(boundaryExtractorFieldLeft, BorderLayout.WEST);
-        boundaryExtractorFieldRight = new JLabeledTextField(JMeterUtils.getResString("boundaryextractor_rightboundary_field")); // $NON-NLS-1$
+        boundaryExtractorFieldRight = new JLabeledTextField(JMeterUtils.getResString("boundaryextractor_rightboundary_field"));
         boundaryExtractorActionPanel.add(boundaryExtractorFieldRight, BorderLayout.WEST);
 
-        JButton boundaryExtractorTester = new JButton(JMeterUtils.getResString("boundaryextractor_tester_button_test")); // $NON-NLS-1$
+        JButton boundaryExtractorTester = new JButton(JMeterUtils.getResString("boundaryextractor_tester_button_test"));
         boundaryExtractorTester.setActionCommand(BOUNDARY_EXTRACTOR_TESTER_COMMAND);
         boundaryExtractorTester.addActionListener(this);
         boundaryExtractorActionPanel.add(boundaryExtractorTester, BorderLayout.EAST);
@@ -184,8 +184,8 @@ public class RenderAsBoundaryExtractor implements ResultRenderer, ActionListener
     @Override
     public void setupTabPane() {
          // Add boundaryExtractor tester pane
-        if (rightSide.indexOfTab(JMeterUtils.getResString("boundaryextractor_tester_title")) < 0) { // $NON-NLS-1$
-            rightSide.addTab(JMeterUtils.getResString("boundaryextractor_tester_title"), boundaryExtractorPane); // $NON-NLS-1$
+        if (rightSide.indexOfTab(JMeterUtils.getResString("boundaryextractor_tester_title")) < 0) {
+            rightSide.addTab(JMeterUtils.getResString("boundaryextractor_tester_title"), boundaryExtractorPane);
         }
         clearData();
     }
@@ -219,14 +219,14 @@ public class RenderAsBoundaryExtractor implements ResultRenderer, ActionListener
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        return JMeterUtils.getResString("boundaryextractor_tester_title"); // $NON-NLS-1$
+        return JMeterUtils.getResString("boundaryextractor_tester_title");
     }
 
     /** {@inheritDoc} */
     @Override
     public void renderImage(SampleResult sampleResult) {
         clearData();
-        boundaryExtractorDataField.setText(JMeterUtils.getResString("boundaryextractor_render_no_text")); // $NON-NLS-1$
+        boundaryExtractorDataField.setText(JMeterUtils.getResString("boundaryextractor_render_no_text"));
     }
 
     /** {@inheritDoc} */

@@ -40,17 +40,17 @@ public class HtmlExtractor extends AbstractScopedTestElement implements PostProc
 
     public static final String EXTRACTOR_JSOUP = "JSOUP"; //$NON-NLS-1$
     public static final String EXTRACTOR_JODD = "JODD"; //$NON-NLS-1$
-    public static final String DEFAULT_EXTRACTOR = ""; // $NON-NLS-1$
+    public static final String DEFAULT_EXTRACTOR = "";
 
-    private static final String EXPRESSION = "HtmlExtractor.expr"; // $NON-NLS-1$
-    private static final String ATTRIBUTE = "HtmlExtractor.attribute"; // $NON-NLS-1$
-    private static final String REFNAME = "HtmlExtractor.refname"; // $NON-NLS-1$
-    private static final String MATCH_NUMBER = "HtmlExtractor.match_number"; // $NON-NLS-1$
-    private static final String DEFAULT = "HtmlExtractor.default"; // $NON-NLS-1$
-    private static final String EXTRACTOR_IMPL = "HtmlExtractor.extractor_impl"; // $NON-NLS-1$
-    private static final String REF_MATCH_NR = "_matchNr"; // $NON-NLS-1$
-    private static final String UNDERSCORE = "_";  // $NON-NLS-1$
-    private static final String DEFAULT_EMPTY_VALUE = "HtmlExtractor.default_empty_value"; // $NON-NLS-1$
+    private static final String EXPRESSION = "HtmlExtractor.expr";
+    private static final String ATTRIBUTE = "HtmlExtractor.attribute";
+    private static final String REFNAME = "HtmlExtractor.refname";
+    private static final String MATCH_NUMBER = "HtmlExtractor.match_number";
+    private static final String DEFAULT = "HtmlExtractor.default";
+    private static final String EXTRACTOR_IMPL = "HtmlExtractor.extractor_impl";
+    private static final String REF_MATCH_NR = "_matchNr";
+    private static final String UNDERSCORE = "_";
+    private static final String DEFAULT_EMPTY_VALUE = "HtmlExtractor.default_empty_value";
 
     private Extractor extractor;
 
@@ -236,7 +236,7 @@ public class HtmlExtractor extends AbstractScopedTestElement implements PostProc
     }
 
     public String getAttribute() {
-        return getPropertyAsString(ATTRIBUTE, ""); // $NON-NLS-1$
+        return getPropertyAsString(ATTRIBUTE, "");
     }
 
     public void setExpression(String regex) {

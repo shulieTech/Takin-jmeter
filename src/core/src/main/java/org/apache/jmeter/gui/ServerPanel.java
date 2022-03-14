@@ -103,7 +103,7 @@ public class ServerPanel extends JPanel {
         // Target server panel
         JPanel webServerPanel = new HorizontalPanel();
         webServerPanel.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("target_server"))); // $NON-NLS-1$
+                JMeterUtils.getResString("target_server")));
         final JPanel domainPanel = getDomainPanel();
         final JPanel portPanel = getPortPanel();
         webServerPanel.add(domainPanel, BorderLayout.CENTER);
@@ -111,7 +111,7 @@ public class ServerPanel extends JPanel {
 
         JPanel timeOut = new HorizontalPanel();
         timeOut.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("web_server_timeout_title"))); // $NON-NLS-1$
+                JMeterUtils.getResString("web_server_timeout_title")));
         final JPanel connPanel = getConnectTimeOutPanel();
         final JPanel reqPanel = getResponseTimeOutPanel();
         timeOut.add(connPanel);
@@ -130,7 +130,7 @@ public class ServerPanel extends JPanel {
     private JPanel getDomainPanel() {
         domain = new JTextField(20);
 
-        JLabel label = new JLabel(JMeterUtils.getResString("web_server_domain")); // $NON-NLS-1$
+        JLabel label = new JLabel(JMeterUtils.getResString("web_server_domain"));
         label.setLabelFor(domain);
 
         JPanel panel = new JPanel(new BorderLayout(5, 0));
@@ -142,7 +142,7 @@ public class ServerPanel extends JPanel {
     private JPanel getPortPanel() {
         port = new JTextField(4);
 
-        JLabel label = new JLabel(JMeterUtils.getResString("web_server_port")); // $NON-NLS-1$
+        JLabel label = new JLabel(JMeterUtils.getResString("web_server_port"));
         label.setLabelFor(port);
 
         JPanel panel = new JPanel(new BorderLayout(5, 0));
@@ -155,7 +155,7 @@ public class ServerPanel extends JPanel {
     private JPanel getConnectTimeOutPanel() {
         connectTimeOut = new JTextField(4);
 
-        JLabel label = new JLabel(JMeterUtils.getResString("web_server_timeout_connect")); // $NON-NLS-1$
+        JLabel label = new JLabel(JMeterUtils.getResString("web_server_timeout_connect"));
         label.setLabelFor(connectTimeOut);
 
         JPanel panel = new JPanel(new BorderLayout(5, 0));
@@ -168,7 +168,7 @@ public class ServerPanel extends JPanel {
     private JPanel getResponseTimeOutPanel() {
         responseTimeOut = new JTextField(4);
 
-        JLabel label = new JLabel(JMeterUtils.getResString("web_server_timeout_response")); // $NON-NLS-1$
+        JLabel label = new JLabel(JMeterUtils.getResString("web_server_timeout_response"));
         label.setLabelFor(responseTimeOut);
 
         JPanel panel = new JPanel(new BorderLayout(5, 0));

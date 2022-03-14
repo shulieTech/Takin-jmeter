@@ -59,7 +59,7 @@ public class ConstantTimerGui extends AbstractTimerGui {
 
     @Override
     public String getLabelResource() {
-        return "constant_timer_title"; // $NON-NLS-1$
+        return "constant_timer_title";
     }
 
     /**

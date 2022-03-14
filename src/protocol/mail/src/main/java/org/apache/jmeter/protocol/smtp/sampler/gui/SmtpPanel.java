@@ -511,21 +511,21 @@ public class SmtpPanel extends JPanel {
      * Main method of class, builds all gui-components for SMTP-sampler.
      */
     private void initComponents() {
-        JLabel jlAddressReplyTo = new JLabel(JMeterUtils.getResString("smtp_replyto")); // $NON-NLS-1$
-        JLabel jlAddressFrom = new JLabel(JMeterUtils.getResString("smtp_from")); // $NON-NLS-1$
-        JLabel jlAddressTo = new JLabel(JMeterUtils.getResString("smtp_to")); // $NON-NLS-1$
-        JLabel jlAddressToCC = new JLabel(JMeterUtils.getResString("smtp_cc")); // $NON-NLS-1$
-        JLabel jlAddressToBCC = new JLabel(JMeterUtils.getResString("smtp_bcc")); // $NON-NLS-1$
-        JLabel jlMailServerPort = new JLabel(JMeterUtils.getResString("smtp_server_port")); // $NON-NLS-1$
-        JLabel jlMailServer = new JLabel(JMeterUtils.getResString("smtp_server")); // $NON-NLS-1$
-        JLabel jlMailServerTimeout = new JLabel(JMeterUtils.getResString("smtp_server_timeout")); // $NON-NLS-1$
-        JLabel jlMailServerConnectionTimeout = new JLabel(JMeterUtils.getResString("smtp_server_connection_timeout")); // $NON-NLS-1$
-        JLabel jlAttachFile = new JLabel(JMeterUtils.getResString("smtp_attach_file")); // $NON-NLS-1$
-        JLabel jlDutPortStandard = new JLabel(JMeterUtils.getResString("smtp_default_port")); // $NON-NLS-1$
-        JLabel jlUsername = new JLabel(JMeterUtils.getResString("smtp_username")); // $NON-NLS-1$
-        JLabel jlPassword = new JLabel(JMeterUtils.getResString("smtp_password")); // $NON-NLS-1$
-        JLabel jlSubject = new JLabel(JMeterUtils.getResString("smtp_subject")); // $NON-NLS-1$
-        JLabel jlMessage = new JLabel(JMeterUtils.getResString("smtp_message")); // $NON-NLS-1$
+        JLabel jlAddressReplyTo = new JLabel(JMeterUtils.getResString("smtp_replyto"));
+        JLabel jlAddressFrom = new JLabel(JMeterUtils.getResString("smtp_from"));
+        JLabel jlAddressTo = new JLabel(JMeterUtils.getResString("smtp_to"));
+        JLabel jlAddressToCC = new JLabel(JMeterUtils.getResString("smtp_cc"));
+        JLabel jlAddressToBCC = new JLabel(JMeterUtils.getResString("smtp_bcc"));
+        JLabel jlMailServerPort = new JLabel(JMeterUtils.getResString("smtp_server_port"));
+        JLabel jlMailServer = new JLabel(JMeterUtils.getResString("smtp_server"));
+        JLabel jlMailServerTimeout = new JLabel(JMeterUtils.getResString("smtp_server_timeout"));
+        JLabel jlMailServerConnectionTimeout = new JLabel(JMeterUtils.getResString("smtp_server_connection_timeout"));
+        JLabel jlAttachFile = new JLabel(JMeterUtils.getResString("smtp_attach_file"));
+        JLabel jlDutPortStandard = new JLabel(JMeterUtils.getResString("smtp_default_port"));
+        JLabel jlUsername = new JLabel(JMeterUtils.getResString("smtp_username"));
+        JLabel jlPassword = new JLabel(JMeterUtils.getResString("smtp_password"));
+        JLabel jlSubject = new JLabel(JMeterUtils.getResString("smtp_subject"));
+        JLabel jlMessage = new JLabel(JMeterUtils.getResString("smtp_message"));
 
         tfMailServer = new JTextField(30);
         tfMailServerPort = new JTextField(6);
@@ -544,23 +544,23 @@ public class SmtpPanel extends JPanel {
 
         taMessage = new JTextArea(5, 20);
 
-        cbPlainBody = new JCheckBox(JMeterUtils.getResString("smtp_plainbody")); // $NON-NLS-1$
+        cbPlainBody = new JCheckBox(JMeterUtils.getResString("smtp_plainbody"));
 
-        cbSuppressSubject = new JCheckBox(JMeterUtils.getResString("smtp_suppresssubj")); // $NON-NLS-1$
+        cbSuppressSubject = new JCheckBox(JMeterUtils.getResString("smtp_suppresssubj"));
         cbSuppressSubject.addChangeListener(this::emptySubjectActionPerformed);
 
-        cbUseAuth = new JCheckBox(JMeterUtils.getResString("smtp_useauth")); // $NON-NLS-1$
+        cbUseAuth = new JCheckBox(JMeterUtils.getResString("smtp_useauth"));
 
-        cbIncludeTimestamp = new JCheckBox(JMeterUtils.getResString("smtp_timestamp")); // $NON-NLS-1$
-        cbMessageSizeStats = new JCheckBox(JMeterUtils.getResString("smtp_messagesize")); // $NON-NLS-1$
-        cbEnableDebug = new JCheckBox(JMeterUtils.getResString("smtp_enabledebug")); // $NON-NLS-1$
-        cbUseEmlMessage = new JCheckBox(JMeterUtils.getResString("smtp_eml")); // $NON-NLS-1$
+        cbIncludeTimestamp = new JCheckBox(JMeterUtils.getResString("smtp_timestamp"));
+        cbMessageSizeStats = new JCheckBox(JMeterUtils.getResString("smtp_messagesize"));
+        cbEnableDebug = new JCheckBox(JMeterUtils.getResString("smtp_enabledebug"));
+        cbUseEmlMessage = new JCheckBox(JMeterUtils.getResString("smtp_eml"));
 
         attachmentFileChooser = new JFileChooser();
         emlFileChooser = new JFileChooser();
 
-        browseButton = new JButton(JMeterUtils.getResString("browse")); // $NON-NLS-1$
-        emlBrowseButton = new JButton(JMeterUtils.getResString("browse")); // $NON-NLS-1$
+        browseButton = new JButton(JMeterUtils.getResString("browse"));
+        emlBrowseButton = new JButton(JMeterUtils.getResString("browse"));
 
         attachmentFileChooser
                 .addActionListener(this::attachmentFolderFileChooserActionPerformed);
@@ -585,7 +585,7 @@ public class SmtpPanel extends JPanel {
          */
         JPanel panelServerSettings = new VerticalPanel();
         panelServerSettings.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("smtp_server_settings"))); // $NON-NLS-1$
+                JMeterUtils.getResString("smtp_server_settings")));
 
         JPanel panelMailServer = new JPanel(new BorderLayout(5, 0));
         panelMailServer.add(jlMailServer, BorderLayout.WEST);
@@ -600,7 +600,7 @@ public class SmtpPanel extends JPanel {
 
         JPanel panelServerTimeoutsSettings = new VerticalPanel();
         panelServerTimeoutsSettings.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("smtp_server_timeouts_settings"))); // $NON-NLS-1$
+                JMeterUtils.getResString("smtp_server_timeouts_settings")));
 
         JPanel panelMailServerConnectionTimeout = new JPanel(new BorderLayout(5, 0));
         panelMailServerConnectionTimeout.add(jlMailServerConnectionTimeout, BorderLayout.WEST);
@@ -625,7 +625,7 @@ public class SmtpPanel extends JPanel {
          */
         JPanel panelMailSettings = new JPanel(new GridBagLayout());
         panelMailSettings.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("smtp_mail_settings"))); // $NON-NLS-1$
+                JMeterUtils.getResString("smtp_mail_settings")));
 
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -676,7 +676,7 @@ public class SmtpPanel extends JPanel {
          */
         JPanel panelAuthSettings = new JPanel(new GridBagLayout());
         panelAuthSettings.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("smtp_auth_settings"))); // $NON-NLS-1$
+                JMeterUtils.getResString("smtp_auth_settings")));
 
         cbUseAuth.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         cbUseAuth.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -728,7 +728,7 @@ public class SmtpPanel extends JPanel {
          */
         JPanel panelMessageSettings = new JPanel(new GridBagLayout());
         panelMessageSettings.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("smtp_message_settings"))); // $NON-NLS-1$
+                JMeterUtils.getResString("smtp_message_settings")));
 
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -757,10 +757,10 @@ public class SmtpPanel extends JPanel {
          * Add the header panel
          */
 
-        addHeaderFieldButton = new JButton(JMeterUtils.getResString("smtp_header_add")); // $NON-NLS-1$
+        addHeaderFieldButton = new JButton(JMeterUtils.getResString("smtp_header_add"));
         addHeaderFieldButton.addActionListener(this::addHeaderActionPerformed);
-        headerFieldName = new JLabel(JMeterUtils.getResString("smtp_header_name")); // $NON-NLS-1$
-        headerFieldValue = new JLabel(JMeterUtils.getResString("smtp_header_value")); // $NON-NLS-1$
+        headerFieldName = new JLabel(JMeterUtils.getResString("smtp_header_name"));
+        headerFieldValue = new JLabel(JMeterUtils.getResString("smtp_header_value"));
         headerFieldsPanel = new JPanel(new GridBagLayout());
 
         headerFieldName.setVisible(false);
@@ -808,7 +808,7 @@ public class SmtpPanel extends JPanel {
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
         panelMessageSettings.add(tfAttachment, gridBagConstraints);
-        tfAttachment.setToolTipText(JMeterUtils.getResString("smtp_attach_file_tooltip")); // $NON-NLS-1$
+        tfAttachment.setToolTipText(JMeterUtils.getResString("smtp_attach_file_tooltip"));
 
         browseButton.addActionListener(this::browseButtonActionPerformed);
 
@@ -848,7 +848,7 @@ public class SmtpPanel extends JPanel {
          */
         JPanel panelAdditionalSettings = new JPanel(new GridBagLayout());
         panelAdditionalSettings.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("smtp_additional_settings"))); // $NON-NLS-1$
+                JMeterUtils.getResString("smtp_additional_settings")));
 
         cbMessageSizeStats.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         cbMessageSizeStats.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -1003,7 +1003,7 @@ public class SmtpPanel extends JPanel {
         }
         JTextField nameTF = new JTextField();
         JTextField valueTF = new JTextField();
-        JButton removeButton = new JButton(JMeterUtils.getResString("smtp_header_remove")); // $NON-NLS-1$
+        JButton removeButton = new JButton(JMeterUtils.getResString("smtp_header_remove"));
         headerFields.put(nameTF, valueTF);
         removeButtons.put(removeButton, nameTF);
 

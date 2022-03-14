@@ -36,41 +36,41 @@ public abstract class HTMLParser extends BaseParser {
 
     private static final Logger log = LoggerFactory.getLogger(HTMLParser.class);
 
-    protected static final String ATT_BACKGROUND    = "background";// $NON-NLS-1$
-    protected static final String ATT_CODE          = "code";// $NON-NLS-1$
-    protected static final String ATT_CODEBASE      = "codebase";// $NON-NLS-1$
-    protected static final String ATT_DATA          = "data";// $NON-NLS-1$
-    protected static final String ATT_HREF          = "href";// $NON-NLS-1$
-    protected static final String ATT_REL           = "rel";// $NON-NLS-1$
-    protected static final String ATT_SRC           = "src";// $NON-NLS-1$
-    protected static final String ATT_STYLE         = "style";// $NON-NLS-1$
-    protected static final String ATT_TYPE          = "type";// $NON-NLS-1$
-    protected static final String ATT_IS_IMAGE      = "image";// $NON-NLS-1$
-    protected static final String TAG_APPLET        = "applet";// $NON-NLS-1$
-    protected static final String TAG_BASE          = "base";// $NON-NLS-1$
-    protected static final String TAG_BGSOUND       = "bgsound";// $NON-NLS-1$
-    protected static final String TAG_BODY          = "body";// $NON-NLS-1$
-    protected static final String TAG_EMBED         = "embed";// $NON-NLS-1$
-    protected static final String TAG_FRAME         = "frame";// $NON-NLS-1$
-    protected static final String TAG_IFRAME        = "iframe";// $NON-NLS-1$
-    protected static final String TAG_IMAGE         = "img";// $NON-NLS-1$
-    protected static final String TAG_INPUT         = "input";// $NON-NLS-1$
-    protected static final String TAG_LINK          = "link";// $NON-NLS-1$
-    protected static final String TAG_OBJECT        = "object";// $NON-NLS-1$
-    protected static final String TAG_SCRIPT        = "script";// $NON-NLS-1$
-    protected static final String STYLESHEET        = "stylesheet";// $NON-NLS-1$
+    protected static final String ATT_BACKGROUND    = "background";
+    protected static final String ATT_CODE          = "code";
+    protected static final String ATT_CODEBASE      = "codebase";
+    protected static final String ATT_DATA          = "data";
+    protected static final String ATT_HREF          = "href";
+    protected static final String ATT_REL           = "rel";
+    protected static final String ATT_SRC           = "src";
+    protected static final String ATT_STYLE         = "style";
+    protected static final String ATT_TYPE          = "type";
+    protected static final String ATT_IS_IMAGE      = "image";
+    protected static final String TAG_APPLET        = "applet";
+    protected static final String TAG_BASE          = "base";
+    protected static final String TAG_BGSOUND       = "bgsound";
+    protected static final String TAG_BODY          = "body";
+    protected static final String TAG_EMBED         = "embed";
+    protected static final String TAG_FRAME         = "frame";
+    protected static final String TAG_IFRAME        = "iframe";
+    protected static final String TAG_IMAGE         = "img";
+    protected static final String TAG_INPUT         = "input";
+    protected static final String TAG_LINK          = "link";
+    protected static final String TAG_OBJECT        = "object";
+    protected static final String TAG_SCRIPT        = "script";
+    protected static final String STYLESHEET        = "stylesheet";
 
     protected static final String SHORTCUT_ICON     = "shortcut icon";
     protected static final String ICON              = "icon";
 
-    protected static final String IE_UA             = "MSIE ([0-9]+.[0-9]+)";// $NON-NLS-1$
+    protected static final String IE_UA             = "MSIE ([0-9]+.[0-9]+)";
     protected static final Pattern IE_UA_PATTERN    = Pattern.compile(IE_UA);
     private   static final float IE_10                = 10.0f;
 
-    public static final String PARSER_CLASSNAME = "htmlParser.className"; // $NON-NLS-1$
+    public static final String PARSER_CLASSNAME = "htmlParser.className";
 
     public static final String DEFAULT_PARSER =
-        "org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser"; // $NON-NLS-1$
+        "org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser";
 
     private static final Pattern NORMALIZE_URL_PATTERN = Pattern.compile("[\n\r\b\f]+"); //$NON-NLS-1$
 

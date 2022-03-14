@@ -192,7 +192,7 @@ public class StatGraphVisualizer extends AbstractVisualizer implements Clearable
     /**
      * checkbox for use dynamic graph size
      */
-    private JCheckBox dynamicGraphSize = new JCheckBox(JMeterUtils.getResString("aggregate_graph_dynamic_size")); // $NON-NLS-1$
+    private JCheckBox dynamicGraphSize = new JCheckBox(JMeterUtils.getResString("aggregate_graph_dynamic_size"));
 
     private JLabeledTextField graphWidth =
         new JLabeledTextField(JMeterUtils.getResString("aggregate_graph_width"), 6);        //$NON-NLS-1$
@@ -217,11 +217,11 @@ public class StatGraphVisualizer extends AbstractVisualizer implements Clearable
 
     private JTextField columnMatchLabel = new JTextField();
 
-    private JButton applyFilterBtn = new JButton(JMeterUtils.getResString("graph_apply_filter")); // $NON-NLS-1$
+    private JButton applyFilterBtn = new JButton(JMeterUtils.getResString("graph_apply_filter"));
 
-    private JCheckBox caseChkBox = new JCheckBox(JMeterUtils.getResString("search_text_chkbox_case"), false); // $NON-NLS-1$
+    private JCheckBox caseChkBox = new JCheckBox(JMeterUtils.getResString("search_text_chkbox_case"), false);
 
-    private JCheckBox regexpChkBox = new JCheckBox(JMeterUtils.getResString("search_text_chkbox_regexp"), true); // $NON-NLS-1$
+    private JCheckBox regexpChkBox = new JCheckBox(JMeterUtils.getResString("search_text_chkbox_regexp"), true);
 
     private JComboBox<String> titleFontNameList = new JComboBox<>(keys(StatGraphProperties.getFontNameMap()));
 
@@ -244,13 +244,13 @@ public class StatGraphVisualizer extends AbstractVisualizer implements Clearable
     private JComboBox<String> legendPlacementList = new JComboBox<>(keys(StatGraphProperties.getPlacementNameMap()));
 
     // Default checked
-    private JCheckBox drawOutlinesBar = new JCheckBox(JMeterUtils.getResString("aggregate_graph_draw_outlines"), true); // $NON-NLS-1$
+    private JCheckBox drawOutlinesBar = new JCheckBox(JMeterUtils.getResString("aggregate_graph_draw_outlines"), true);
 
     // Default checked
-    private JCheckBox numberShowGrouping = new JCheckBox(JMeterUtils.getResString("aggregate_graph_number_grouping"), true); // $NON-NLS-1$
+    private JCheckBox numberShowGrouping = new JCheckBox(JMeterUtils.getResString("aggregate_graph_number_grouping"), true);
 
     // Default checked
-    private JCheckBox valueLabelsVertical = new JCheckBox(JMeterUtils.getResString("aggregate_graph_value_labels_vertical"), true); // $NON-NLS-1$
+    private JCheckBox valueLabelsVertical = new JCheckBox(JMeterUtils.getResString("aggregate_graph_value_labels_vertical"), true);
 
     private Color colorBarGraph = Color.YELLOW;
 
@@ -807,8 +807,8 @@ public class StatGraphVisualizer extends AbstractVisualizer implements Clearable
             tabbedGraph.setSelectedIndex(1);
         } else {
             JOptionPane.showMessageDialog(null, JMeterUtils
-                    .getResString("aggregate_graph_no_values_to_graph"), // $NON-NLS-1$
-                    JMeterUtils.getResString("aggregate_graph_no_values_to_graph"), // $NON-NLS-1$
+                    .getResString("aggregate_graph_no_values_to_graph"),
+                    JMeterUtils.getResString("aggregate_graph_no_values_to_graph"),
                     JOptionPane.WARNING_MESSAGE);
         }
     }
@@ -876,7 +876,7 @@ public class StatGraphVisualizer extends AbstractVisualizer implements Clearable
 
         JPanel columnPane = new JPanel(new BorderLayout());
         columnPane.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("aggregate_graph_column_settings"))); // $NON-NLS-1$
+                JMeterUtils.getResString("aggregate_graph_column_settings")));
         columnPane.add(barPane, BorderLayout.NORTH);
         columnPane.add(Box.createRigidArea(new Dimension(0,3)), BorderLayout.CENTER);
         columnPane.add(createGraphSelectionSubPane(), BorderLayout.SOUTH);
@@ -944,7 +944,7 @@ public class StatGraphVisualizer extends AbstractVisualizer implements Clearable
 
         JPanel titlePane = new JPanel(new BorderLayout());
         titlePane.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("aggregate_graph_title_group"))); // $NON-NLS-1$
+                JMeterUtils.getResString("aggregate_graph_title_group")));
         titlePane.add(titleNamePane, BorderLayout.NORTH);
         titlePane.add(titleStylePane, BorderLayout.SOUTH);
         return titlePane;
@@ -970,7 +970,7 @@ public class StatGraphVisualizer extends AbstractVisualizer implements Clearable
         JPanel dimensionPane = new JPanel();
         dimensionPane.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         dimensionPane.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("aggregate_graph_dimension"))); // $NON-NLS-1$
+                JMeterUtils.getResString("aggregate_graph_dimension")));
 
         dimensionPane.add(dynamicGraphSize);
         dynamicGraphSize.setSelected(true); // default option
@@ -992,7 +992,7 @@ public class StatGraphVisualizer extends AbstractVisualizer implements Clearable
         JPanel xAxisPane = new JPanel();
         xAxisPane.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         xAxisPane.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("aggregate_graph_xaxis_group"))); // $NON-NLS-1$
+                JMeterUtils.getResString("aggregate_graph_xaxis_group")));
         xAxisPane.add(maxLengthXAxisLabel);
         return xAxisPane;
     }
@@ -1005,7 +1005,7 @@ public class StatGraphVisualizer extends AbstractVisualizer implements Clearable
         JPanel yAxisPane = new JPanel();
         yAxisPane.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         yAxisPane.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("aggregate_graph_yaxis_group"))); // $NON-NLS-1$
+                JMeterUtils.getResString("aggregate_graph_yaxis_group")));
         yAxisPane.add(maxValueYAxisLabel);
         return yAxisPane;
     }
@@ -1018,7 +1018,7 @@ public class StatGraphVisualizer extends AbstractVisualizer implements Clearable
         JPanel legendPanel = new JPanel();
         legendPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         legendPanel.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("aggregate_graph_legend"))); // $NON-NLS-1$
+                JMeterUtils.getResString("aggregate_graph_legend")));
 
         legendPanel.add(GuiUtils.createLabelCombo(JMeterUtils.getResString("aggregate_graph_legend_placement"), //$NON-NLS-1$
                 legendPlacementList));

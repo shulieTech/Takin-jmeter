@@ -40,19 +40,19 @@ import org.apache.jorphan.gui.layout.VerticalLayout;
     private static final long serialVersionUID = 1L;
 
     private final JCheckBox verifySignature =
-        new JCheckBox(JMeterUtils.getResString("smime_assertion_verify_signature")); // $NON-NLS-1$
+        new JCheckBox(JMeterUtils.getResString("smime_assertion_verify_signature"));
 
     private final JCheckBox notSigned =
-        new JCheckBox(JMeterUtils.getResString("smime_assertion_not_signed")); // $NON-NLS-1$
+        new JCheckBox(JMeterUtils.getResString("smime_assertion_not_signed"));
 
     private final JRadioButton signerNoCheck =
-        new JRadioButton(JMeterUtils.getResString("smime_assertion_signer_no_check")); // $NON-NLS-1$
+        new JRadioButton(JMeterUtils.getResString("smime_assertion_signer_no_check"));
 
     private final JRadioButton signerCheckConstraints =
-        new JRadioButton(JMeterUtils.getResString("smime_assertion_signer_constraints")); // $NON-NLS-1$
+        new JRadioButton(JMeterUtils.getResString("smime_assertion_signer_constraints"));
 
     private final JRadioButton signerCheckByFile =
-        new JRadioButton(JMeterUtils.getResString("smime_assertion_signer_by_file")); // $NON-NLS-1$
+        new JRadioButton(JMeterUtils.getResString("smime_assertion_signer_by_file"));
 
     private final JTextField signerDnField = new JTextField(50);
 
@@ -108,7 +108,7 @@ import org.apache.jorphan.gui.layout.VerticalLayout;
     private JPanel createSignaturePanel() {
         JPanel panel = new JPanel();
         panel.setBorder(BorderFactory.createTitledBorder(JMeterUtils
-            .getResString("smime_assertion_signature"))); // $NON-NLS-1$
+            .getResString("smime_assertion_signature")));
         notSigned.addChangeListener(
                 evt -> verifySignature.setEnabled(!notSigned.isSelected()));
 
@@ -121,7 +121,7 @@ import org.apache.jorphan.gui.layout.VerticalLayout;
     private JPanel createSignerPanel() {
         JPanel panel = new JPanel();
         panel.setBorder(BorderFactory.createTitledBorder(JMeterUtils
-            .getResString("smime_assertion_signer"))); // $NON-NLS-1$
+            .getResString("smime_assertion_signer")));
 
         panel.setLayout(new VerticalLayout(5, VerticalLayout.LEFT));
 
@@ -141,25 +141,25 @@ import org.apache.jorphan.gui.layout.VerticalLayout;
                 issuerDnField.setEnabled(signerCC);
                 });
         Box box = Box.createHorizontalBox();
-        box.add(new JLabel(JMeterUtils.getResString("smime_assertion_signer_dn"))); // $NON-NLS-1$
+        box.add(new JLabel(JMeterUtils.getResString("smime_assertion_signer_dn")));
         box.add(Box.createHorizontalStrut(5));
         box.add(signerDnField);
         panel.add(box);
 
         box = Box.createHorizontalBox();
-        box.add(new JLabel(JMeterUtils.getResString("smime_assertion_signer_email"))); // $NON-NLS-1$
+        box.add(new JLabel(JMeterUtils.getResString("smime_assertion_signer_email")));
         box.add(Box.createHorizontalStrut(5));
         box.add(signerEmailField);
         panel.add(box);
 
         box = Box.createHorizontalBox();
-        box.add(new JLabel(JMeterUtils.getResString("smime_assertion_issuer_dn"))); // $NON-NLS-1$
+        box.add(new JLabel(JMeterUtils.getResString("smime_assertion_issuer_dn")));
         box.add(Box.createHorizontalStrut(5));
         box.add(issuerDnField);
         panel.add(box);
 
         box = Box.createHorizontalBox();
-        box.add(new JLabel(JMeterUtils.getResString("smime_assertion_signer_serial"))); // $NON-NLS-1$
+        box.add(new JLabel(JMeterUtils.getResString("smime_assertion_signer_serial")));
         box.add(Box.createHorizontalStrut(5));
         box.add(signerSerialNumberField);
         panel.add(box);
@@ -178,7 +178,7 @@ import org.apache.jorphan.gui.layout.VerticalLayout;
     private JPanel createMessagePositionPanel(){
         JPanel panel = new JPanel();
         panel.setBorder(BorderFactory.createTitledBorder(JMeterUtils
-            .getResString("smime_assertion_message_position"))); // $NON-NLS-1$
+            .getResString("smime_assertion_message_position")));
         panel.add(messagePositionTf);
         return panel;
     }

@@ -35,13 +35,13 @@ public class JMSProperty extends AbstractTestElement implements Serializable {
     private static final long serialVersionUID = 6371090992800805753L;
 
     /** Name used to store the JmsProperty's name. */
-    public static final String PROP_NAME = "JMSProperty.name"; // $NON-NLS-1$
+    public static final String PROP_NAME = "JMSProperty.name";
 
     /** Name used to store the JmsProperty's value. */
-    public static final String PROP_VALUE = "JMSProperty.value"; // $NON-NLS-1$
+    public static final String PROP_VALUE = "JMSProperty.value";
 
     /** Name used to store the JmsProperty's description. */
-    public static final String PROP_TYPE = "JMSProperty.type"; // $NON-NLS-1$
+    public static final String PROP_TYPE = "JMSProperty.type";
 
     private static final String DFLT_TYPE = String.class.getName();
 

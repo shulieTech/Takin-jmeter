@@ -144,7 +144,7 @@ public abstract class AbstractJMeterGuiComponent extends JPanel implements JMete
         if (namePanel != null) {
             return namePanel.getName();
         }
-        return ""; // $NON-NLS-1$
+        return "";
     }
 
     /**

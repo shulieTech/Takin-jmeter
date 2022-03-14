@@ -114,10 +114,10 @@ public class XPathExtractorGui extends AbstractPostProcessorGui {
     public void clearGui() {
         super.clearGui();
 
-        xpathQueryField.setText(""); // $NON-NLS-1$
-        defaultField.setText(""); // $NON-NLS-1$
-        refNameField.setText(""); // $NON-NLS-1$
-        matchNumberField.setText(XPathExtractor.DEFAULT_VALUE_AS_STRING); // $NON-NLS-1$
+        xpathQueryField.setText("");
+        defaultField.setText("");
+        refNameField.setText("");
+        matchNumberField.setText(XPathExtractor.DEFAULT_VALUE_AS_STRING);
         xml.setDefaultValues();
     }
 

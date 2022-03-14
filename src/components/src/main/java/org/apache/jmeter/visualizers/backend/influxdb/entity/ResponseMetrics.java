@@ -46,7 +46,7 @@ public class ResponseMetrics extends AbstractMetrics {
     private Double maxRt;
     private Double minRt;
     private long timestamp;
-    //add by lipeng 添加当前活跃线程数和transactionUrl
+    //add by 李鹏 添加当前活跃线程数和transactionUrl
     private Integer activeThreads;
     private String transactionUrl;
     //add end

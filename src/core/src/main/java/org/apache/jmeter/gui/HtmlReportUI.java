@@ -78,9 +78,9 @@ public class HtmlReportUI implements ActionListener {
     private static final String BROWSE = "browse";
     /** An image which is displayed when a test is running. */
     private static final String IMAGES_PREFIX = "status/";
-    private final ImageIcon runningIcon = JMeterUtils.getImage(IMAGES_PREFIX + iconSize +"/task-recurring.png");// $NON-NLS-1$
-    private final ImageIcon inErrorIcon = JMeterUtils.getImage(IMAGES_PREFIX + iconSize +"/dialog-error-5.png");// $NON-NLS-1$
-    private final ImageIcon completedIcon = JMeterUtils.getImage(IMAGES_PREFIX + iconSize +"/task-complete.png");// $NON-NLS-1$
+    private final ImageIcon runningIcon = JMeterUtils.getImage(IMAGES_PREFIX + iconSize +"/task-recurring.png");
+    private final ImageIcon inErrorIcon = JMeterUtils.getImage(IMAGES_PREFIX + iconSize +"/dialog-error-5.png");
+    private final ImageIcon completedIcon = JMeterUtils.getImage(IMAGES_PREFIX + iconSize +"/task-complete.png");
 
 
     static {

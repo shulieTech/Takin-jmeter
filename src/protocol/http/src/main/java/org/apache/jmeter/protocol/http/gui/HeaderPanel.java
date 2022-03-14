@@ -63,11 +63,11 @@ public class HeaderPanel extends AbstractConfigGui implements ActionListener {
     private static final String CLIPBOARD_LINE_DELIMITER = "\n";
     private static final String CLIPBOARD_COLON_DELIMITER = ":";
     private static final String CLIPBOARD_TAB_DELIMITER = "\t";
-    private static final String ADD_COMMAND = "Add"; // $NON-NLS-1$
-    private static final String DELETE_COMMAND = "Delete"; // $NON-NLS-1$
-    private static final String LOAD_COMMAND = "Load"; // $NON-NLS-1$
-    private static final String SAVE_COMMAND = "Save"; // $NON-NLS-1$
-    private static final String ADD_FROM_CLIPBOARD = "addFromClipboard"; // $NON-NLS-1$
+    private static final String ADD_COMMAND = "Add";
+    private static final String DELETE_COMMAND = "Delete";
+    private static final String LOAD_COMMAND = "Load";
+    private static final String SAVE_COMMAND = "Save";
+    private static final String ADD_FROM_CLIPBOARD = "addFromClipboard";
 
     private final InnerTableModel tableModel;
     private final HeaderManager headerManager;
@@ -119,7 +119,7 @@ public class HeaderPanel extends AbstractConfigGui implements ActionListener {
 
     @Override
     public String getLabelResource() {
-        return "header_manager_title"; // $NON-NLS-1$
+        return "header_manager_title";
     }
 
     private void init() {// called from ctor, so must not be overridable
@@ -236,9 +236,9 @@ public class HeaderPanel extends AbstractConfigGui implements ActionListener {
             if(clipboardContent == null) {
                 return;
             }
-            String[] clipboardLines = clipboardContent.split(CLIPBOARD_LINE_DELIMITER); // $NON-NLS-1$
+            String[] clipboardLines = clipboardContent.split(CLIPBOARD_LINE_DELIMITER);
             for (String clipboardLine : clipboardLines) {
-                int index = clipboardLine.indexOf(CLIPBOARD_COLON_DELIMITER); // $NON-NLS-1$
+                int index = clipboardLine.indexOf(CLIPBOARD_COLON_DELIMITER);
                 if(index < 0) {
                     // when pasting from another header panel the values are separated with '\t'
                     index = clipboardLine.indexOf(CLIPBOARD_TAB_DELIMITER);
@@ -277,7 +277,7 @@ public class HeaderPanel extends AbstractConfigGui implements ActionListener {
 
         JPanel panel = new JPanel(new BorderLayout(0, 5));
         panel.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("headers_stored"))); // $NON-NLS-1$
+                JMeterUtils.getResString("headers_stored")));
         panel.add(GuiUtils.emptyBorder(new JScrollPane(headerTable)), BorderLayout.CENTER);
         panel.add(createButtonPanel(), BorderLayout.SOUTH);
         return panel;
@@ -295,11 +295,11 @@ public class HeaderPanel extends AbstractConfigGui implements ActionListener {
     private JPanel createButtonPanel() {
         boolean tableEmpty = tableModel.getRowCount() == 0;
 
-        JButton addButton = createButton("add", 'A', ADD_COMMAND, true); // $NON-NLS-1$
-        deleteButton = createButton("delete", 'D', DELETE_COMMAND, !tableEmpty); // $NON-NLS-1$
-        JButton loadButton = createButton("load", 'L', LOAD_COMMAND, true); // $NON-NLS-1$
-        saveButton = createButton("save", 'S', SAVE_COMMAND, !tableEmpty); // $NON-NLS-1$
-        JButton addFromClipboard = createButton("add_from_clipboard", 'C', ADD_FROM_CLIPBOARD, true); // $NON-NLS-1$
+        JButton addButton = createButton("add", 'A', ADD_COMMAND, true);
+        deleteButton = createButton("delete", 'D', DELETE_COMMAND, !tableEmpty);
+        JButton loadButton = createButton("load", 'L', LOAD_COMMAND, true);
+        saveButton = createButton("save", 'S', SAVE_COMMAND, !tableEmpty);
+        JButton addFromClipboard = createButton("add_from_clipboard", 'C', ADD_FROM_CLIPBOARD, true);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addButton);

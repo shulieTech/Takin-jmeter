@@ -47,8 +47,8 @@ public class ConversionHelp {
     // Must all be unique
     public static final String ATT_CLASS         = "class"; //$NON-NLS-1$
     // Also used by PropertyConverter classes
-    public static final String ATT_NAME          = "name"; // $NON-NLS-1$
-    public static final String ATT_ELEMENT_TYPE  = "elementType"; // $NON-NLS-1$
+    public static final String ATT_NAME          = "name";
+    public static final String ATT_ELEMENT_TYPE  = "elementType";
 
     private static final String ATT_TE_ENABLED   = "enabled"; //$NON-NLS-1$
     private static final String ATT_TE_TESTCLASS = "testclass"; //$NON-NLS-1$
@@ -84,7 +84,7 @@ public class ConversionHelp {
      */
     public static String encode(String p) {
         if (p == null) {// Nulls cannot be written using PrettyPrintWriter - they cause an NPE
-            return ""; // $NON-NLS-1$
+            return "";
         }
         // Only encode strings if outVersion = 1.0
         if (!"1.0".equals(outVersion)) {//$NON-NLS-1$

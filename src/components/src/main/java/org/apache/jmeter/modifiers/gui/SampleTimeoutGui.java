@@ -66,7 +66,7 @@ public class SampleTimeoutGui extends AbstractPreProcessorGui {
 
     @Override
     public String getLabelResource() {
-        return "sample_timeout_title"; // $NON-NLS-1$
+        return "sample_timeout_title";
     }
 
     /**

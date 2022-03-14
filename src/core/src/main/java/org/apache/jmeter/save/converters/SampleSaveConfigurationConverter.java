@@ -50,22 +50,22 @@ public class SampleSaveConfigurationConverter  extends ReflectionConverter {
         rp = tmp;
     }
 
-    private static final String TRUE = "true"; // $NON-NLS-1$
+    private static final String TRUE = "true";
 
     // N.B. These must agree with the new member names in SampleSaveConfiguration
-    private static final String NODE_FILENAME = "fileName"; // $NON-NLS-1$
-    private static final String NODE_HOSTNAME = "hostname"; // $NON-NLS-1$
-    private static final String NODE_URL = "url"; // $NON-NLS-1$
-    private static final String NODE_BYTES = "bytes"; // $NON-NLS-1$
-    private static final String NODE_SENT_BYTES = "sentBytes"; // $NON-NLS-1$
-    private static final String NODE_THREAD_COUNT = "threadCounts"; // $NON-NLS-1$
-    private static final String NODE_SAMPLE_COUNT = "sampleCount"; // $NON-NLS-1$
-    private static final String NODE_IDLE_TIME = "idleTime"; // $NON-NLS-1$
-    private static final String NODE_CONNECT_TIME = "connectTime"; // $NON-NLS-1$
+    private static final String NODE_FILENAME = "fileName";
+    private static final String NODE_HOSTNAME = "hostname";
+    private static final String NODE_URL = "url";
+    private static final String NODE_BYTES = "bytes";
+    private static final String NODE_SENT_BYTES = "sentBytes";
+    private static final String NODE_THREAD_COUNT = "threadCounts";
+    private static final String NODE_SAMPLE_COUNT = "sampleCount";
+    private static final String NODE_IDLE_TIME = "idleTime";
+    private static final String NODE_CONNECT_TIME = "connectTime";
 
     // Additional member names which are currently not written out
-    private static final String NODE_DELIMITER = "delimiter"; // $NON-NLS-1$
-    private static final String NODE_PRINTMS = "printMilliseconds"; // $NON-NLS-1$
+    private static final String NODE_DELIMITER = "delimiter";
+    private static final String NODE_PRINTMS = "printMilliseconds";
 
 
     static class MyWrapper extends MapperWrapper {
@@ -115,7 +115,7 @@ public class SampleSaveConfigurationConverter  extends ReflectionConverter {
      * @return the version of this converter
      */
     public static String getVersion() {
-        return "$Revision$"; // $NON-NLS-1$
+        return "$Revision$";
     }
 
     /** {@inheritDoc} */

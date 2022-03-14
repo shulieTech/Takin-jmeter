@@ -106,7 +106,7 @@ public abstract class AbstractAction implements Command {
                         String[] option = new String[]{JMeterUtils.getResString("concat_result"),
                                 JMeterUtils.getResString("dont_start"), JMeterUtils.getResString("replace_file")};
                         String question = MessageFormat.format(
-                                JMeterUtils.getResString("ask_existing_file"), // $NON-NLS-1$
+                                JMeterUtils.getResString("ask_existing_file"),
                                 rc.getFilename());
                         // Interactive question
                         int response = JOptionPane.showOptionDialog(GuiPackage.getInstance().getMainFrame(),

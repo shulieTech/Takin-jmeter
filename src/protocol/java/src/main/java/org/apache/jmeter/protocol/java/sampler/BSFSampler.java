@@ -73,15 +73,15 @@ public class BSFSampler extends BSFTestElement implements Sampler, TestBean, Con
 
         // TODO: find out how to retrieve these from the script
         // At present the script has to use SampleResult methods to set them.
-        res.setResponseCode("200"); // $NON-NLS-1$
-        res.setResponseMessage("OK"); // $NON-NLS-1$
+        res.setResponseCode("200");
+        res.setResponseMessage("OK");
         res.setSuccessful(true);
         res.setDataType(SampleResult.TEXT); // Default (can be overridden by the script)
 
         res.sampleStart();
         try {
             initManager(mgr);
-            mgr.declareBean("SampleResult", res, res.getClass()); // $NON-NLS-1$
+            mgr.declareBean("SampleResult", res, res.getClass());
 
             // N.B. some engines (e.g. Javascript) cannot handle certain declareBean() calls
             // after the engine has been initialised, so create the engine last
@@ -105,12 +105,12 @@ public class BSFSampler extends BSFTestElement implements Sampler, TestBean, Con
         } catch (BSFException ex) {
             log.warn("BSF error", ex);
             res.setSuccessful(false);
-            res.setResponseCode("500"); // $NON-NLS-1$
+            res.setResponseCode("500");
             res.setResponseMessage(ex.toString());
         } catch (Exception ex) {// Catch evaluation errors
             log.warn("Problem evaluating the script", ex);
             res.setSuccessful(false);
-            res.setResponseCode("500"); // $NON-NLS-1$
+            res.setResponseCode("500");
             res.setResponseMessage(ex.toString());
         } finally {
             res.sampleEnd();

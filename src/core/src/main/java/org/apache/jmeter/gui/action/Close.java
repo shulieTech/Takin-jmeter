@@ -81,8 +81,8 @@ public class Close extends AbstractActionWithNoRunningTest {
         if (guiPackage.isDirty()) {
             int response;
             if ((response = JOptionPane.showConfirmDialog(GuiPackage.getInstance().getMainFrame(),
-                    JMeterUtils.getResString("cancel_new_to_save"), // $NON-NLS-1$
-                    JMeterUtils.getResString("save?"),  // $NON-NLS-1$
+                    JMeterUtils.getResString("cancel_new_to_save"),
+                    JMeterUtils.getResString("save?"),
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.QUESTION_MESSAGE)) == JOptionPane.YES_OPTION) {
                 ActionRouter.getInstance().doActionNow(new ActionEvent(e.getSource(), e.getID(), ActionNames.SAVE));

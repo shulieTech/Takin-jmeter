@@ -55,7 +55,7 @@ public class CacheManagerGui extends AbstractConfigGui implements ActionListener
 
     @Override
     public String getLabelResource() {
-        return "cache_manager_title"; // $NON-NLS-1$
+        return "cache_manager_title";
     }
 
     @Override
@@ -111,14 +111,14 @@ public class CacheManagerGui extends AbstractConfigGui implements ActionListener
         setLayout(new BorderLayout(0, 5));
         setBorder(makeBorder());
 
-        clearEachIteration = new JCheckBox(JMeterUtils.getResString("clear_cache_per_iter"), false); // $NON-NLS-1$
+        clearEachIteration = new JCheckBox(JMeterUtils.getResString("clear_cache_per_iter"), false);
 
         controlledByThreadGroup =
                 new JCheckBox(JMeterUtils.getResString("cache_clear_controlled_by_threadgroup"), false); //$NON-NLS-1$
         controlledByThreadGroup.setActionCommand(CONTROLLED_BY_THREADGROUP);
         controlledByThreadGroup.addActionListener(this);
 
-        useExpires = new JCheckBox(JMeterUtils.getResString("use_expires"), false); // $NON-NLS-1$
+        useExpires = new JCheckBox(JMeterUtils.getResString("use_expires"), false);
 
         JPanel northPanel = new JPanel();
         northPanel.setLayout(new VerticalLayout(5, VerticalLayout.BOTH));

@@ -43,7 +43,7 @@ public class WhileControllerGui extends AbstractControllerGui {
     private JSyntaxTextArea theCondition;
 
     /** The name of the condition field component. */
-    private static final String CONDITION = "While_Condition"; // $NON-NLS-1$
+    private static final String CONDITION = "While_Condition";
 
     /**
      * Create a new LoopControlPanel as a standalone component.
@@ -90,7 +90,7 @@ public class WhileControllerGui extends AbstractControllerGui {
             if (theCondition.getText().length() > 0) {
                 ((WhileController) controller).setCondition(theCondition.getText());
             } else {
-                ((WhileController) controller).setCondition(""); // $NON-NLS-1$
+                ((WhileController) controller).setCondition("");
             }
         }
     }
@@ -101,12 +101,12 @@ public class WhileControllerGui extends AbstractControllerGui {
     @Override
     public void clearGui() {
         super.clearGui();
-        theCondition.setText(""); // $NON-NLS-1$
+        theCondition.setText("");
     }
 
     @Override
     public String getLabelResource() {
-        return "while_controller_title"; // $NON-NLS-1$
+        return "while_controller_title";
     }
 
     /**

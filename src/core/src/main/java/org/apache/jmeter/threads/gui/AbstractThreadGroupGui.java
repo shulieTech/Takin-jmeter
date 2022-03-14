@@ -92,7 +92,7 @@ public abstract class AbstractThreadGroupGui extends AbstractJMeterGuiComponent 
 
     private JMenu createAddMenu() {
         String addAction = ActionNames.ADD;
-        JMenu addMenu = new JMenu(JMeterUtils.getResString("add")); // $NON-NLS-1$
+        JMenu addMenu = new JMenu(JMeterUtils.getResString("add"));
         addMenu.add(MenuFactory.makeMenu(MenuFactory.SAMPLERS, addAction));
         addMenu.addSeparator();
         addMenu.add(MenuFactory.makeMenu(MenuFactory.CONTROLLERS, addAction));
@@ -139,32 +139,32 @@ public abstract class AbstractThreadGroupGui extends AbstractJMeterGuiComponent 
     private JPanel createOnErrorPanel() {
         JPanel panel = new JPanel(new MigLayout());
         panel.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("sampler_on_error_action"))); // $NON-NLS-1$
+                JMeterUtils.getResString("sampler_on_error_action")));
 
         ButtonGroup group = new ButtonGroup();
 
         continueBox = new JRadioButton(
-                JMeterUtils.getResString("sampler_on_error_continue")); // $NON-NLS-1$
+                JMeterUtils.getResString("sampler_on_error_continue"));
         group.add(continueBox);
         panel.add(continueBox);
 
         startNextLoop = new JRadioButton(
-                JMeterUtils.getResString("sampler_on_error_start_next_loop")); // $NON-NLS-1$
+                JMeterUtils.getResString("sampler_on_error_start_next_loop"));
         group.add(startNextLoop);
         panel.add(startNextLoop);
 
         stopThreadBox = new JRadioButton(
-                JMeterUtils.getResString("sampler_on_error_stop_thread")); // $NON-NLS-1$
+                JMeterUtils.getResString("sampler_on_error_stop_thread"));
         group.add(stopThreadBox);
         panel.add(stopThreadBox);
 
         stopTestBox = new JRadioButton(
-                JMeterUtils.getResString("sampler_on_error_stop_test")); // $NON-NLS-1$
+                JMeterUtils.getResString("sampler_on_error_stop_test"));
         group.add(stopTestBox);
         panel.add(stopTestBox);
 
         stopTestNowBox = new JRadioButton(
-                JMeterUtils.getResString("sampler_on_error_stop_test_now")); // $NON-NLS-1$
+                JMeterUtils.getResString("sampler_on_error_stop_test_now"));
         group.add(stopTestNowBox);
         panel.add(stopTestNowBox);
 

@@ -65,26 +65,26 @@ public class FTPSampler extends AbstractSampler implements Interruptible {
                     "org.apache.jmeter.config.gui.SimpleConfigGui"
             ));
 
-    public static final String SERVER = "FTPSampler.server"; // $NON-NLS-1$
+    public static final String SERVER = "FTPSampler.server";
 
-    public static final String PORT = "FTPSampler.port"; // $NON-NLS-1$
+    public static final String PORT = "FTPSampler.port";
 
     // N.B. Originally there was only one filename, and only get(RETR) was supported
     // To maintain backwards compatibility, the property name needs to remain the same
-    public static final String REMOTE_FILENAME = "FTPSampler.filename"; // $NON-NLS-1$
+    public static final String REMOTE_FILENAME = "FTPSampler.filename";
 
-    public static final String LOCAL_FILENAME = "FTPSampler.localfilename"; // $NON-NLS-1$
+    public static final String LOCAL_FILENAME = "FTPSampler.localfilename";
 
-    public static final String INPUT_DATA = "FTPSampler.inputdata"; // $NON-NLS-1$
+    public static final String INPUT_DATA = "FTPSampler.inputdata";
 
     // Use binary mode file transfer?
-    public static final String BINARY_MODE = "FTPSampler.binarymode"; // $NON-NLS-1$
+    public static final String BINARY_MODE = "FTPSampler.binarymode";
 
     // Are we uploading?
-    public static final String UPLOAD_FILE = "FTPSampler.upload"; // $NON-NLS-1$
+    public static final String UPLOAD_FILE = "FTPSampler.upload";
 
     // Should the file data be saved in the response?
-    public static final String SAVE_RESPONSE = "FTPSampler.saveresponse"; // $NON-NLS-1$
+    public static final String SAVE_RESPONSE = "FTPSampler.saveresponse";
 
     private transient volatile FTPClient savedClient; // used for interrupting the sampler
 
@@ -109,11 +109,11 @@ public class FTPSampler extends AbstractSampler implements Interruptible {
     }
 
     public void setPort(String newPort) {
-        this.setProperty(PORT, newPort, ""); // $NON-NLS-1$
+        this.setProperty(PORT, newPort, "");
     }
 
     public String getPort() {
-        return getPropertyAsString(PORT, ""); // $NON-NLS-1$
+        return getPropertyAsString(PORT, "");
     }
 
     public int getPortAsInt() {
@@ -153,14 +153,14 @@ public class FTPSampler extends AbstractSampler implements Interruptible {
      */
     public String getLabel() {
         StringBuilder sb = new StringBuilder();
-        sb.append("ftp://");// $NON-NLS-1$
+        sb.append("ftp://");
         sb.append(getServer());
         String port = getPort();
         if (port.length() > 0){
             sb.append(':');
             sb.append(port);
         }
-        sb.append("/");// $NON-NLS-1$
+        sb.append("/");
         sb.append(getRemoteFilename());
         sb.append(isBinaryMode() ? " (Binary) " : " (Ascii) ");// $NON-NLS-1$ $NON-NLS-2$
         sb.append(isUpload() ? " <- " : " -> "); // $NON-NLS-1$ $NON-NLS-2$

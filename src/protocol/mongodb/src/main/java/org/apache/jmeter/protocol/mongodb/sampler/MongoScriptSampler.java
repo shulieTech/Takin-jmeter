@@ -60,12 +60,12 @@ public class MongoScriptSampler
 
         res.setSampleLabel(getTitle());
         res.setResponseCodeOK();
-        res.setResponseCode("200"); // $NON-NLS-1$
+        res.setResponseCode("200");
         res.setSuccessful(true);
         res.setResponseMessageOK();
         res.setSamplerData(data);
         res.setDataType(SampleResult.TEXT);
-        res.setContentType("text/plain"); // $NON-NLS-1$
+        res.setContentType("text/plain");
         res.sampleStart();
 
         try {
@@ -78,7 +78,7 @@ public class MongoScriptSampler
             String resultAsString = handler.handle(result);
             res.setResponseData(resultAsString.getBytes());
         } catch (Exception ex) {
-            res.setResponseCode("500"); // $NON-NLS-1$
+            res.setResponseCode("500");
             res.setSuccessful(false);
             res.setResponseMessage(ex.toString());
             res.setResponseData(ex.getMessage().getBytes());

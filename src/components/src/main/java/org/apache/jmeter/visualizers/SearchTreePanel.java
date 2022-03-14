@@ -56,7 +56,7 @@ public class SearchTreePanel extends JPanel implements ActionListener {
 
     private static final Logger log = LoggerFactory.getLogger(SearchTreePanel.class);
 
-    private static final String SEARCH_TEXT_COMMAND = "search_text"; // $NON-NLS-1$
+    private static final String SEARCH_TEXT_COMMAND = "search_text";
 
     private JButton searchButton;
 

@@ -77,21 +77,21 @@ public class JMSSampler extends AbstractSampler implements ThreadListener {
     private static final String DEFAULT_TIMEOUT_STRING = Integer.toString(DEFAULT_TIMEOUT);
 
     // These are JMX names, and must not be changed
-    private static final String JNDI_INITIAL_CONTEXT_FACTORY = "JMSSampler.initialContextFactory"; // $NON-NLS-1$
+    private static final String JNDI_INITIAL_CONTEXT_FACTORY = "JMSSampler.initialContextFactory";
 
-    private static final String JNDI_CONTEXT_PROVIDER_URL = "JMSSampler.contextProviderUrl"; // $NON-NLS-1$
+    private static final String JNDI_CONTEXT_PROVIDER_URL = "JMSSampler.contextProviderUrl";
 
-    private static final String JNDI_PROPERTIES = "JMSSampler.jndiProperties"; // $NON-NLS-1$
+    private static final String JNDI_PROPERTIES = "JMSSampler.jndiProperties";
 
-    private static final String TIMEOUT = "JMSSampler.timeout"; // $NON-NLS-1$
+    private static final String TIMEOUT = "JMSSampler.timeout";
 
-    private static final String JMS_PRIORITY = "JMSSampler.priority"; // $NON-NLS-1$
+    private static final String JMS_PRIORITY = "JMSSampler.priority";
 
-    private static final String JMS_EXPIRATION = "JMSSampler.expiration"; // $NON-NLS-1$
+    private static final String JMS_EXPIRATION = "JMSSampler.expiration";
 
-    private static final String JMS_SELECTOR = "JMSSampler.jmsSelector"; // $NON-NLS-1$
+    private static final String JMS_SELECTOR = "JMSSampler.jmsSelector";
 
-    private static final String JMS_SELECTOR_DEFAULT = ""; // $NON-NLS-1$
+    private static final String JMS_SELECTOR_DEFAULT = "";
 
     /**
      * @deprecated since 4.0 replaced by JMS_COMMUNICATION_STYLE
@@ -99,27 +99,27 @@ public class JMSSampler extends AbstractSampler implements ThreadListener {
     @Deprecated
     public static final String IS_ONE_WAY = "JMSSampler.isFireAndForget"; // $NON-NLS-1$ // NOSONAR
 
-    private static final String JMS_NUMBEROFSAMPLES = "JMSSampler.jmsNumberOfSamplesToAggregate"; // $NON-NLS-1$
+    private static final String JMS_NUMBEROFSAMPLES = "JMSSampler.jmsNumberOfSamplesToAggregate";
 
-    private static final String JMS_NUMBEROFSAMPLES_DEFAULT = "1"; // $NON-NLS-1$
+    private static final String JMS_NUMBEROFSAMPLES_DEFAULT = "1";
 
-    public static final String JMS_COMMUNICATION_STYLE = "JMSSampler.communicationStyle"; // $NON-NLS-1$
+    public static final String JMS_COMMUNICATION_STYLE = "JMSSampler.communicationStyle";
 
-    private static final String JMS_PROPERTIES = "arguments"; // $NON-NLS-1$
+    private static final String JMS_PROPERTIES = "arguments";
 
-    private static final String RECEIVE_QUEUE = "JMSSampler.ReceiveQueue"; // $NON-NLS-1$
+    private static final String RECEIVE_QUEUE = "JMSSampler.ReceiveQueue";
 
-    private static final String XML_DATA = "HTTPSamper.xml_data"; // $NON-NLS-1$
+    private static final String XML_DATA = "HTTPSamper.xml_data";
 
-    private static final String SEND_QUEUE = "JMSSampler.SendQueue"; // $NON-NLS-1$
+    private static final String SEND_QUEUE = "JMSSampler.SendQueue";
 
-    private static final String QUEUE_CONNECTION_FACTORY_JNDI = "JMSSampler.queueconnectionfactory"; // $NON-NLS-1$
+    private static final String QUEUE_CONNECTION_FACTORY_JNDI = "JMSSampler.queueconnectionfactory";
 
-    private static final String IS_NON_PERSISTENT = "JMSSampler.isNonPersistent"; // $NON-NLS-1$
+    private static final String IS_NON_PERSISTENT = "JMSSampler.isNonPersistent";
 
-    private static final String USE_REQ_MSGID_AS_CORRELID = "JMSSampler.useReqMsgIdAsCorrelId"; // $NON-NLS-1$
+    private static final String USE_REQ_MSGID_AS_CORRELID = "JMSSampler.useReqMsgIdAsCorrelId";
 
-    private static final String USE_RES_MSGID_AS_CORRELID = "JMSSampler.useResMsgIdAsCorrelId"; // $NON-NLS-1$
+    private static final String USE_RES_MSGID_AS_CORRELID = "JMSSampler.useResMsgIdAsCorrelId";
 
     private static final boolean USE_RES_MSGID_AS_CORRELID_DEFAULT = false; // Default
                                                                             // to
@@ -148,7 +148,7 @@ public class JMSSampler extends AbstractSampler implements ThreadListener {
     // Should we use java.naming.security.[principal|credentials] to create the
     // QueueConnection?
     private static final boolean USE_SECURITY_PROPERTIES = JMeterUtils
-            .getPropDefault("JMSSampler.useSecurity.properties", true); // $NON-NLS-1$
+            .getPropDefault("JMSSampler.useSecurity.properties", true);
 
     //
     // Member variables

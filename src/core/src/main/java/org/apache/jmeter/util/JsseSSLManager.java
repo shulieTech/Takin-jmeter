@@ -60,12 +60,12 @@ public class JsseSSLManager extends SSLManager {
 
     // Allow reversion to original shared session context
     private static final boolean SHARED_SESSION_CONTEXT =
-        JMeterUtils.getPropDefault("https.sessioncontext.shared",false); // $NON-NLS-1$
+        JMeterUtils.getPropDefault("https.sessioncontext.shared",false);
 
     /**
      * Characters per second, used to slow down sockets
      */
-    public static final int CPS = JMeterUtils.getPropDefault("httpclient.socket.https.cps", 0); // $NON-NLS-1$
+    public static final int CPS = JMeterUtils.getPropDefault("httpclient.socket.https.cps", 0);
 
     static {
         if (log.isInfoEnabled()) {
@@ -204,9 +204,9 @@ public class JsseSSLManager extends SSLManager {
     private SSLContext createContext() throws GeneralSecurityException {
         SSLContext context;
         if (pro != null) {
-            context = SSLContext.getInstance(DEFAULT_SSL_PROTOCOL, pro); // $NON-NLS-1$
+            context = SSLContext.getInstance(DEFAULT_SSL_PROTOCOL, pro);
         } else {
-            context = SSLContext.getInstance(DEFAULT_SSL_PROTOCOL); // $NON-NLS-1$
+            context = SSLContext.getInstance(DEFAULT_SSL_PROTOCOL);
         }
         KeyManagerFactory managerFactory =
             KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());

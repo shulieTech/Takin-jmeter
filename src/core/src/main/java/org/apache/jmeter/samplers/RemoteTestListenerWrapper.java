@@ -48,7 +48,7 @@ public class RemoteTestListenerWrapper extends AbstractTestElement implements Te
         try {
             listener.testStarted();
         } catch (Exception ex) {
-            log.error("Exception on testStarted.", ex); // $NON-NLS-1$
+            log.error("Exception on testStarted.", ex);
         }
 
     }
@@ -58,7 +58,7 @@ public class RemoteTestListenerWrapper extends AbstractTestElement implements Te
         try {
             listener.testEnded();
         } catch (Exception ex) {
-            log.error("Exception on testEnded.", ex); // $NON-NLS-1$
+            log.error("Exception on testEnded.", ex);
         }
     }
 
@@ -67,7 +67,7 @@ public class RemoteTestListenerWrapper extends AbstractTestElement implements Te
         try {
             listener.testStarted(host);
         } catch (Exception ex) {
-            log.error("Exception on testStarted on host {}", host, ex); // $NON-NLS-1$
+            log.error("Exception on testStarted on host {}", host, ex);
         }
     }
 
@@ -76,7 +76,7 @@ public class RemoteTestListenerWrapper extends AbstractTestElement implements Te
         try {
             listener.testEnded(host);
         } catch (Exception ex) {
-            log.error("Exception on testEnded on host {}", host, ex); // $NON-NLS-1$
+            log.error("Exception on testEnded on host {}", host, ex);
         }
     }
 

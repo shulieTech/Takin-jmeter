@@ -36,7 +36,7 @@ public class Document {
 
     // Maximum size to convert a document to text (default 10Mb)
     private static final int MAX_DOCUMENT_SIZE =
-        JMeterUtils.getPropDefault("document.max_size", 10 * 1024 * 1024); // $NON-NLS-1$
+        JMeterUtils.getPropDefault("document.max_size", 10 * 1024 * 1024);
 
     /**
      * Convert to text plain a lot of kind of document (like odt, ods, odp,
@@ -47,7 +47,7 @@ public class Document {
      * @return text from document without format
      */
     public static String getTextFromDocument(byte[] document) {
-        String errMissingTika = JMeterUtils.getResString("view_results_response_missing_tika"); // $NON-NLS-1$
+        String errMissingTika = JMeterUtils.getResString("view_results_response_missing_tika");
         String response = errMissingTika;
         Parser parser = new AutoDetectParser();
         ContentHandler handler = new BodyContentHandler(MAX_DOCUMENT_SIZE > 0 ? MAX_DOCUMENT_SIZE : -1); // -1 to disable the write limit
@@ -71,12 +71,12 @@ public class Document {
             try {
                 stream.close(); // close the stream
             } catch (IOException ioe) {
-                log.warn("Error closing document stream", ioe);// $NON-NLS-1$
+                log.warn("Error closing document stream", ioe);
             }
         }
 
         if (response.length() == 0 && document.length > 0) {
-            log.warn("Probably: {}", errMissingTika);// $NON-NLS-1$
+            log.warn("Probably: {}", errMissingTika);
             response = errMissingTika;
         }
         return response;

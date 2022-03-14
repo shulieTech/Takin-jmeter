@@ -43,12 +43,12 @@ public class HttpSSLProtocolSocketFactory
     private static final String PROTOCOL_LIST =
             JMeterUtils.getPropDefault("https.socket.protocols", ""); // $NON-NLS-1$ $NON-NLS-2$
 
-    private static final String[] protocols = PROTOCOL_LIST.split(" "); // $NON-NLS-1$
+    private static final String[] protocols = PROTOCOL_LIST.split(" ");
 
     private static final String CIPHER_LIST =
             JMeterUtils.getPropDefault("https.cipherSuites", ""); // $NON-NLS-1$ $NON-NLS-2$
 
-    private static final String[] ciphers = CIPHER_LIST.split(", *"); // $NON-NLS-1$
+    private static final String[] ciphers = CIPHER_LIST.split(", *");
 
     static {
         if (!PROTOCOL_LIST.isEmpty()) {

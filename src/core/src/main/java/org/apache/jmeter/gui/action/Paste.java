@@ -85,7 +85,7 @@ public class Paste extends AbstractAction {
                 addNode(newNode, (JMeterTreeNode)node.getChildAt(i));
             }
         } catch (IllegalUserActionException iuae) {
-            log.error("Illegal user action while adding a tree node.", iuae); // $NON-NLS-1$
+            log.error("Illegal user action while adding a tree node.", iuae);
             JMeterUtils.reportErrorToUser(iuae.getMessage());
         }
     }

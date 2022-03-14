@@ -165,7 +165,7 @@ public class ModuleControllerGui extends AbstractControllerGui implements Action
         moduleToRunTreeNodes.setSelectionModel(tsm);
 
         ImageIcon image = JMeterUtils.getImage("warning.png");
-        warningLabel = new JLabel("", image, SwingConstants.LEFT); // $NON-NLS-1$
+        warningLabel = new JLabel("", image, SwingConstants.LEFT);
         JFactory.error(warningLabel);
         warningLabel.setVisible(false);
 
@@ -181,7 +181,7 @@ public class ModuleControllerGui extends AbstractControllerGui implements Action
     /** {@inheritDoc}} */
     @Override
     public String getLabelResource() {
-        return "module_controller_title"; // $NON-NLS-1$
+        return "module_controller_title";
     }
 
     /** {@inheritDoc}} */
@@ -192,7 +192,7 @@ public class ModuleControllerGui extends AbstractControllerGui implements Action
         ModuleController controller = (ModuleController) el;
         this.selected = controller.getSelectedNode();
         if (selected == null && controller.getNodePath() != null) {
-            warningLabel.setText(JMeterUtils.getResString("module_controller_warning") // $NON-NLS-1$
+            warningLabel.setText(JMeterUtils.getResString("module_controller_warning")
                     + renderPath(controller.getNodePath()));
             warningLabel.setVisible(true);
             expandButton.setEnabled(false);
@@ -215,7 +215,7 @@ public class ModuleControllerGui extends AbstractControllerGui implements Action
             }
             buf.append(iter.next());
             if (iter.hasNext()) {
-                buf.append(SEPARATOR); // $NON-NLS-1$
+                buf.append(SEPARATOR);
             }
         }
         return buf.toString();
@@ -295,7 +295,7 @@ public class ModuleControllerGui extends AbstractControllerGui implements Action
         modulesPanel.setLayout(new BoxLayout(modulesPanel, BoxLayout.Y_AXIS));
         modulesPanel.add(Box.createRigidArea(new Dimension(0,5)));
 
-        JLabel nodesLabel = new JLabel(JMeterUtils.getResString("module_controller_module_to_run")); // $NON-NLS-1$
+        JLabel nodesLabel = new JLabel(JMeterUtils.getResString("module_controller_module_to_run"));
         modulesPanel.add(nodesLabel);
         modulesPanel.add(warningLabel);
         add(modulesPanel);

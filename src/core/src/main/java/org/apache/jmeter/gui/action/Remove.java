@@ -37,7 +37,7 @@ public class Remove extends AbstractAction {
     private static final Set<String> commands = new HashSet<>();
 
     // Whether to skip the delete confirmation dialogue
-    private static final boolean SKIP_CONFIRM = JMeterUtils.getPropDefault("confirm.delete.skip", false); // $NON-NLS-1$
+    private static final boolean SKIP_CONFIRM = JMeterUtils.getPropDefault("confirm.delete.skip", false);
 
     static {
         commands.add(ActionNames.REMOVE);
@@ -64,8 +64,8 @@ public class Remove extends AbstractAction {
 
         int isConfirm = SKIP_CONFIRM ? JOptionPane.YES_OPTION :
             JOptionPane.showConfirmDialog(GuiPackage.getInstance().getMainFrame(),
-                JMeterUtils.getResString("remove_confirm_msg"),// $NON-NLS-1$
-                JMeterUtils.getResString("remove_confirm_title"), // $NON-NLS-1$
+                JMeterUtils.getResString("remove_confirm_msg"),
+                JMeterUtils.getResString("remove_confirm_title"),
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
         if (isConfirm == JOptionPane.YES_OPTION) {

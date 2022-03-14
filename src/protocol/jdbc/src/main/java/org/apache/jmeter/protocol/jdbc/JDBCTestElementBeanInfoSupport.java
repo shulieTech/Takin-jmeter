@@ -31,39 +31,39 @@ public abstract class JDBCTestElementBeanInfoSupport extends BeanInfoSupport {
     public JDBCTestElementBeanInfoSupport(Class<? extends TestBean> beanClass) {
         super(beanClass);
 
-        createPropertyGroup("varName", // $NON-NLS-1$
-                new String[]{"dataSource" }); // $NON-NLS-1$
+        createPropertyGroup("varName",
+                new String[]{"dataSource" });
 
-        createPropertyGroup("sql", // $NON-NLS-1$
+        createPropertyGroup("sql",
                 new String[] {
-                "queryType", // $NON-NLS-1$
-                "query", // $NON-NLS-1$
-                "queryArguments", // $NON-NLS-1$
-                "queryArgumentsTypes", // $NON-NLS-1$
-                "variableNames", // $NON-NLS-1$
-                "resultVariable", // $NON-NLS-1$
-                "queryTimeout", // $NON-NLS-1$
-                "resultSetMaxRows", // $NON-NLS-1$
-                "resultSetHandler" // $NON-NLS-1$
+                "queryType",
+                "query",
+                "queryArguments",
+                "queryArgumentsTypes",
+                "variableNames",
+                "resultVariable",
+                "queryTimeout",
+                "resultSetMaxRows",
+                "resultSetHandler"
                 });
 
-        PropertyDescriptor p = property("dataSource"); // $NON-NLS-1$
+        PropertyDescriptor p = property("dataSource");
         p.setValue(NOT_UNDEFINED, Boolean.TRUE);
-        p.setValue(DEFAULT, ""); // $NON-NLS-1$
+        p.setValue(DEFAULT, "");
 
-        p = property("queryArguments"); // $NON-NLS-1$
+        p = property("queryArguments");
         p.setValue(NOT_UNDEFINED, Boolean.TRUE);
-        p.setValue(DEFAULT, ""); // $NON-NLS-1$
+        p.setValue(DEFAULT, "");
 
-        p = property("queryArgumentsTypes"); // $NON-NLS-1$
+        p = property("queryArgumentsTypes");
         p.setValue(NOT_UNDEFINED, Boolean.TRUE);
-        p.setValue(DEFAULT, ""); // $NON-NLS-1$
+        p.setValue(DEFAULT, "");
 
-        p = property("variableNames"); // $NON-NLS-1$
+        p = property("variableNames");
         p.setValue(NOT_UNDEFINED, Boolean.TRUE);
-        p.setValue(DEFAULT, ""); // $NON-NLS-1$
+        p.setValue(DEFAULT, "");
 
-        p = property("resultSetHandler"); // $NON-NLS-1$
+        p = property("resultSetHandler");
         p.setValue(NOT_UNDEFINED, Boolean.TRUE);
         p.setValue(DEFAULT, AbstractJDBCTestElement.RS_STORE_AS_STRING);
         p.setValue(NOT_OTHER, Boolean.TRUE);
@@ -73,19 +73,19 @@ public abstract class JDBCTestElementBeanInfoSupport extends BeanInfoSupport {
                 AbstractJDBCTestElement.RS_COUNT_RECORDS
                 });
 
-        p = property("resultVariable"); // $NON-NLS-1$
-        p.setValue(NOT_UNDEFINED, Boolean.TRUE);
-        p.setValue(DEFAULT, ""); // $NON-NLS-1$
-
-        p = property("queryTimeout"); // $NON-NLS-1$
+        p = property("resultVariable");
         p.setValue(NOT_UNDEFINED, Boolean.TRUE);
         p.setValue(DEFAULT, "");
 
-        p = property("resultSetMaxRows"); // $NON-NLS-1$
+        p = property("queryTimeout");
         p.setValue(NOT_UNDEFINED, Boolean.TRUE);
         p.setValue(DEFAULT, "");
 
-        p = property("queryType"); // $NON-NLS-1$
+        p = property("resultSetMaxRows");
+        p.setValue(NOT_UNDEFINED, Boolean.TRUE);
+        p.setValue(DEFAULT, "");
+
+        p = property("queryType");
         p.setValue(NOT_UNDEFINED, Boolean.TRUE);
         p.setValue(DEFAULT, AbstractJDBCTestElement.SELECT);
         p.setValue(NOT_OTHER,Boolean.TRUE);
@@ -101,10 +101,10 @@ public abstract class JDBCTestElementBeanInfoSupport extends BeanInfoSupport {
                 AbstractJDBCTestElement.AUTOCOMMIT_TRUE,
                 });
 
-        p = property("query", TypeEditor.TextAreaEditor); // $NON-NLS-1$
+        p = property("query", TypeEditor.TextAreaEditor);
         p.setValue(NOT_UNDEFINED, Boolean.TRUE);
-        p.setValue(DEFAULT, ""); // $NON-NLS-1$
-        p.setValue(TEXT_LANGUAGE, "sql");  // $NON-NLS-1$
+        p.setValue(DEFAULT, "");
+        p.setValue(TEXT_LANGUAGE, "sql"); 
 
     }
 }

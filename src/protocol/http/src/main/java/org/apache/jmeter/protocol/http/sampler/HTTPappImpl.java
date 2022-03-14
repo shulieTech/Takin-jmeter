@@ -1336,7 +1336,7 @@ public class HTTPappImpl extends HTTPHCAbstractImpl {
 
         StringBuilder headerBuf = new StringBuilder(40 * (rh.length+1));
         headerBuf.append(response.getStatusLine());// header[0] is not the status line...
-        headerBuf.append("\n"); // $NON-NLS-1$
+        headerBuf.append("\n");
 
         for (Header responseHeader : rh) {
             writeHeader(headerBuf, responseHeader);
@@ -1352,13 +1352,13 @@ public class HTTPappImpl extends HTTPHCAbstractImpl {
     private void writeHeader(StringBuilder headerBuffer, Header header) {
         if(header instanceof BufferedHeader) {
             CharArrayBuffer buffer = ((BufferedHeader)header).getBuffer();
-            headerBuffer.append(buffer.buffer(), 0, buffer.length()).append('\n'); // $NON-NLS-1$
+            headerBuffer.append(buffer.buffer(), 0, buffer.length()).append('\n');
         }
         else {
             headerBuffer.append(header.getName())
-                    .append(": ") // $NON-NLS-1$
+                    .append(": ")
                     .append(header.getValue())
-                    .append('\n'); // $NON-NLS-1$
+                    .append('\n');
         }
     }
 
@@ -1693,7 +1693,7 @@ public class HTTPappImpl extends HTTPHCAbstractImpl {
                             : contentEncoding));
             bos.close();
         } else {
-            postedBody.append("<Entity was not repeatable, cannot view what was sent>"); // $NON-NLS-1$
+            postedBody.append("<Entity was not repeatable, cannot view what was sent>");
         }
     }
 

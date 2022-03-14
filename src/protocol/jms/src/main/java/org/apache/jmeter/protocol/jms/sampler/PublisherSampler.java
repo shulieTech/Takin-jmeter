@@ -114,13 +114,13 @@ public class PublisherSampler extends BaseJMSSampler implements TestStateListene
 
     private static final String NON_PERSISTENT_DELIVERY = "jms.non_persistent"; //$NON-NLS-1$
 
-    private static final String JMS_PROPERTIES = "jms.jmsProperties"; // $NON-NLS-1$
+    private static final String JMS_PROPERTIES = "jms.jmsProperties";
 
-    private static final String JMS_PRIORITY = "jms.priority"; // $NON-NLS-1$
+    private static final String JMS_PRIORITY = "jms.priority";
 
-    private static final String JMS_EXPIRATION = "jms.expiration"; // $NON-NLS-1$
+    private static final String JMS_EXPIRATION = "jms.expiration";
 
-    private static final String JMS_FILE_ENCODING = "jms.file_encoding"; // $NON-NLS-1$
+    private static final String JMS_FILE_ENCODING = "jms.file_encoding";
 
     /** File extensions for text files **/
     private static final String[] TEXT_FILE_EXTS = { ".txt", ".obj" };

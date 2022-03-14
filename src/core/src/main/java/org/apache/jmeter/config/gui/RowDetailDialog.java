@@ -54,15 +54,15 @@ public class RowDetailDialog extends JDialog implements ActionListener, Document
     private static final long serialVersionUID = 6578889215615435475L;
 
     /** Command for moving a row up in the table. */
-    private static final String NEXT = "next"; // $NON-NLS-1$
+    private static final String NEXT = "next";
 
     /** Command for moving a row down in the table. */
-    private static final String PREVIOUS = "previous"; // $NON-NLS-1$
+    private static final String PREVIOUS = "previous";
 
     /** Command for CANCEL. */
-    private static final String CLOSE = "close"; // $NON-NLS-1$
+    private static final String CLOSE = "close";
 
-    private static final String UPDATE = "update"; // $NON-NLS-1$
+    private static final String UPDATE = "update";
 
     private JLabel nameLabel;
 

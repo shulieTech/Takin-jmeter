@@ -36,8 +36,8 @@ public class KeystoreConfig extends ConfigTestElement implements TestBean, TestS
     private static final long serialVersionUID = 1L;
     private static final Logger log = LoggerFactory.getLogger(KeystoreConfig.class);
 
-    private static final String KEY_STORE_START_INDEX = "https.keyStoreStartIndex"; // $NON-NLS-1$
-    private static final String KEY_STORE_END_INDEX   = "https.keyStoreEndIndex"; // $NON-NLS-1$
+    private static final String KEY_STORE_START_INDEX = "https.keyStoreStartIndex";
+    private static final String KEY_STORE_END_INDEX   = "https.keyStoreEndIndex";
 
     private String startIndex;
     private String endIndex;

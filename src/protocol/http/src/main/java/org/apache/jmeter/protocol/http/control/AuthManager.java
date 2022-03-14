@@ -68,11 +68,11 @@ public class AuthManager extends ConfigTestElement implements TestStateListener,
 
     private static final Logger log = LoggerFactory.getLogger(AuthManager.class);
 
-    private static final String CLEAR = "AuthManager.clearEachIteration";// $NON-NLS-1$
+    private static final String CLEAR = "AuthManager.clearEachIteration";
 
     private static final String AUTH_LIST = "AuthManager.auth_list"; //$NON-NLS-1$
 
-    private static final String CONTROLLED_BY_THREADGROUP = "AuthManager.controlledByThreadGroup";// $NON-NLS-1$
+    private static final String CONTROLLED_BY_THREADGROUP = "AuthManager.controlledByThreadGroup";
 
     private static final String[] COLUMN_RESOURCE_NAMES = {
         "auth_base_url", //$NON-NLS-1$

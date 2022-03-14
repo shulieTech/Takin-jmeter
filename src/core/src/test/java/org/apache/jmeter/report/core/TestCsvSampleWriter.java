@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 
 public class TestCsvSampleWriter {
 
-    private static final String LINE_SEP = System.getProperty("line.separator"); // $NON-NLS-1$
+    private static final String LINE_SEP = System.getProperty("line.separator");
 
     private SampleMetadata metadata = new SampleMetadata(',', "a", "b");
 

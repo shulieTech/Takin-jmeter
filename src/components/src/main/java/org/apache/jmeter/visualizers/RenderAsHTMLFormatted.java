@@ -31,8 +31,8 @@ public class RenderAsHTMLFormatted extends SamplerResultTab implements ResultRen
     }
 
     private void showHTMLFormattedResponse(String response) {
-        results.setContentType("text/plain"); // $NON-NLS-1$
-        setTextOptimized(response == null ? "" : Jsoup.parse(response).html()); // $NON-NLS-1$
+        results.setContentType("text/plain");
+        setTextOptimized(response == null ? "" : Jsoup.parse(response).html());
         results.setCaretPosition(0);
         resultsScrollPane.setViewportView(results);
         // Bug 55111 - Refresh JEditor pane size depending on the presence or absence of scrollbars
@@ -43,7 +43,7 @@ public class RenderAsHTMLFormatted extends SamplerResultTab implements ResultRen
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        return JMeterUtils.getResString("view_results_render_html_formatted"); // $NON-NLS-1$
+        return JMeterUtils.getResString("view_results_render_html_formatted");
     }
 
 }

@@ -32,7 +32,7 @@ public class RandomOrderControllerGui extends LogicControllerGui {
 
     @Override
     public String getLabelResource() {
-        return "random_order_control_title"; // $NON-NLS-1$
+        return "random_order_control_title";
     }
 
     /**

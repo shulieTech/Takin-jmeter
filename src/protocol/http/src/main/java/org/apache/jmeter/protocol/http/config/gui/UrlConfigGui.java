@@ -154,7 +154,7 @@ public class UrlConfigGui extends JPanel implements ChangeListener {
     }
 
     public void clear() {
-        domain.setText(""); // $NON-NLS-1$
+        domain.setText("");
         if (notConfigOnly){
             followRedirects.setSelected(true);
             autoRedirects.setSelected(false);
@@ -163,16 +163,16 @@ public class UrlConfigGui extends JPanel implements ChangeListener {
             useMultipart.setSelected(false);
             useBrowserCompatibleMultipartMode.setSelected(HTTPSamplerBase.BROWSER_COMPATIBLE_MULTIPART_MODE_DEFAULT);
         }
-        path.setText(""); // $NON-NLS-1$
-        port.setText(""); // $NON-NLS-1$
-        protocol.setText(""); // $NON-NLS-1$
-        contentEncoding.setText(""); // $NON-NLS-1$
+        path.setText("");
+        port.setText("");
+        protocol.setText("");
+        contentEncoding.setText("");
         argsPanel.clear();
         if(showFileUploadPane) {
             filesPanel.clear();
         }
         if(showRawBodyPane) {
-            postBodyContent.setInitialText("");// $NON-NLS-1$
+            postBodyContent.setInitialText("");
         }
         postContentTabbedPane.setSelectedIndex(TAB_PARAMETERS, false);
     }
@@ -295,7 +295,7 @@ public class UrlConfigGui extends JPanel implements ChangeListener {
 
         // Only display the port number if it is meaningfully specified
         if (portString.equals(HTTPSamplerBase.UNSPECIFIED_PORT_AS_STRING)) {
-            port.setText(""); // $NON-NLS-1$
+            port.setText("");
         } else {
             port.setText(portString);
         }
@@ -320,7 +320,7 @@ public class UrlConfigGui extends JPanel implements ChangeListener {
         JPanel webRequestPanel = new JPanel();
         webRequestPanel.setLayout(new BorderLayout());
         webRequestPanel.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("web_request"))); // $NON-NLS-1$
+                JMeterUtils.getResString("web_request")));
 
         webRequestPanel.add(getPathPanel(), BorderLayout.NORTH);
         webRequestPanel.add(getParameterPanel(), BorderLayout.CENTER);
@@ -336,13 +336,13 @@ public class UrlConfigGui extends JPanel implements ChangeListener {
      */
     protected final JPanel getWebServerPanel() {
         // PROTOCOL
-        protocol = new JLabeledTextField(JMeterUtils.getResString("protocol"), 4); // $NON-NLS-1$
-        port = new JLabeledTextField(JMeterUtils.getResString("web_server_port"), 7); // $NON-NLS-1$
-        domain = new JLabeledTextField(JMeterUtils.getResString("web_server_domain"), 40); // $NON-NLS-1$
+        protocol = new JLabeledTextField(JMeterUtils.getResString("protocol"), 4);
+        port = new JLabeledTextField(JMeterUtils.getResString("web_server_port"), 7);
+        domain = new JLabeledTextField(JMeterUtils.getResString("web_server_domain"), 40);
 
         JPanel webServerPanel = new HorizontalPanel();
         webServerPanel.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("web_server"))); // $NON-NLS-1$
+                JMeterUtils.getResString("web_server")));
         webServerPanel.add(protocol);
         webServerPanel.add(domain);
         webServerPanel.add(port);
@@ -361,16 +361,16 @@ public class UrlConfigGui extends JPanel implements ChangeListener {
     protected Component getPathPanel() {
         path = new JLabeledTextField(JMeterUtils.getResString("path"), 80); //$NON-NLS-1$
         // CONTENT_ENCODING
-        contentEncoding = new JLabeledTextField(JMeterUtils.getResString("content_encoding"), 7); // $NON-NLS-1$
+        contentEncoding = new JLabeledTextField(JMeterUtils.getResString("content_encoding"), 7);
 
         if (notConfigOnly){
-            method = new JLabeledChoice(JMeterUtils.getResString("method"), // $NON-NLS-1$
+            method = new JLabeledChoice(JMeterUtils.getResString("method"),
                     HTTPSamplerBase.getValidMethodsAsArray(), true, false);
             method.addChangeListener(this);
         }
 
         if (notConfigOnly){
-            followRedirects = new JCheckBox(JMeterUtils.getResString("follow_redirects")); // $NON-NLS-1$
+            followRedirects = new JCheckBox(JMeterUtils.getResString("follow_redirects"));
             JFactory.small(followRedirects);
             followRedirects.setSelected(true);
             followRedirects.addChangeListener(this);
@@ -380,15 +380,15 @@ public class UrlConfigGui extends JPanel implements ChangeListener {
             autoRedirects.addChangeListener(this);
             autoRedirects.setSelected(false);// Default changed in 2.3 and again in 2.4
 
-            useKeepAlive = new JCheckBox(JMeterUtils.getResString("use_keepalive")); // $NON-NLS-1$
+            useKeepAlive = new JCheckBox(JMeterUtils.getResString("use_keepalive"));
             JFactory.small(useKeepAlive);
             useKeepAlive.setSelected(true);
 
-            useMultipart = new JCheckBox(JMeterUtils.getResString("use_multipart_for_http_post")); // $NON-NLS-1$
+            useMultipart = new JCheckBox(JMeterUtils.getResString("use_multipart_for_http_post"));
             JFactory.small(useMultipart);
             useMultipart.setSelected(false);
 
-            useBrowserCompatibleMultipartMode = new JCheckBox(JMeterUtils.getResString("use_multipart_mode_browser")); // $NON-NLS-1$
+            useBrowserCompatibleMultipartMode = new JCheckBox(JMeterUtils.getResString("use_multipart_mode_browser"));
             JFactory.small(useBrowserCompatibleMultipartMode);
             useBrowserCompatibleMultipartMode.setSelected(HTTPSamplerBase.BROWSER_COMPATIBLE_MULTIPART_MODE_DEFAULT);
 
@@ -420,13 +420,13 @@ public class UrlConfigGui extends JPanel implements ChangeListener {
     protected JTabbedPane getParameterPanel() {
         postContentTabbedPane = new ValidationTabbedPane();
         argsPanel = new HTTPArgumentsPanel();
-        postContentTabbedPane.add(JMeterUtils.getResString("post_as_parameters"), argsPanel);// $NON-NLS-1$
+        postContentTabbedPane.add(JMeterUtils.getResString("post_as_parameters"), argsPanel);
 
         int indx = TAB_PARAMETERS;
         if(showRawBodyPane) {
             tabRawBodyIndex = ++indx;
-            postBodyContent = JSyntaxTextArea.getInstance(30, 50);// $NON-NLS-1$
-            postContentTabbedPane.add(JMeterUtils.getResString("post_body"), JTextScrollPane.getInstance(postBodyContent));// $NON-NLS-1$
+            postBodyContent = JSyntaxTextArea.getInstance(30, 50);
+            postContentTabbedPane.add(JMeterUtils.getResString("post_body"), JTextScrollPane.getInstance(postBodyContent));
         }
 
         if(showFileUploadPane) {

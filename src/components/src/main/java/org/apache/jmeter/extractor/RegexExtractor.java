@@ -48,7 +48,7 @@ public class RegexExtractor extends AbstractScopedTestElement implements PostPro
     private static final Logger log = LoggerFactory.getLogger(RegexExtractor.class);
 
     // What to match against. N.B. do not change the string value or test plans will break!
-    private static final String MATCH_AGAINST = "RegexExtractor.useHeaders"; // $NON-NLS-1$
+    private static final String MATCH_AGAINST = "RegexExtractor.useHeaders";
     /*
      * Permissible values:
      *  true - match against headers
@@ -58,25 +58,25 @@ public class RegexExtractor extends AbstractScopedTestElement implements PostPro
      *
      *  Do not change these values!
     */
-    public static final String USE_HDRS = "true"; // $NON-NLS-1$
-    public static final String USE_REQUEST_HDRS = "request_headers"; // $NON-NLS-1$
-    public static final String USE_BODY = "false"; // $NON-NLS-1$
-    public static final String USE_BODY_UNESCAPED = "unescaped"; // $NON-NLS-1$
-    public static final String USE_BODY_AS_DOCUMENT = "as_document"; // $NON-NLS-1$
-    public static final String USE_URL = "URL"; // $NON-NLS-1$
-    public static final String USE_CODE = "code"; // $NON-NLS-1$
-    public static final String USE_MESSAGE = "message"; // $NON-NLS-1$
+    public static final String USE_HDRS = "true";
+    public static final String USE_REQUEST_HDRS = "request_headers";
+    public static final String USE_BODY = "false";
+    public static final String USE_BODY_UNESCAPED = "unescaped";
+    public static final String USE_BODY_AS_DOCUMENT = "as_document";
+    public static final String USE_URL = "URL";
+    public static final String USE_CODE = "code";
+    public static final String USE_MESSAGE = "message";
 
-    private static final String REGEX_PROP = "RegexExtractor.regex"; // $NON-NLS-1$
-    private static final String REFNAME_PROP = "RegexExtractor.refname"; // $NON-NLS-1$
-    private static final String MATCH_NUMBER_PROP = "RegexExtractor.match_number"; // $NON-NLS-1$
-    private static final String DEFAULT_PROP = "RegexExtractor.default"; // $NON-NLS-1$
-    private static final String DEFAULT_EMPTY_VALUE_PROP = "RegexExtractor.default_empty_value"; // $NON-NLS-1$
-    private static final String TEMPLATE_PROP = "RegexExtractor.template"; // $NON-NLS-1$
+    private static final String REGEX_PROP = "RegexExtractor.regex";
+    private static final String REFNAME_PROP = "RegexExtractor.refname";
+    private static final String MATCH_NUMBER_PROP = "RegexExtractor.match_number";
+    private static final String DEFAULT_PROP = "RegexExtractor.default";
+    private static final String DEFAULT_EMPTY_VALUE_PROP = "RegexExtractor.default_empty_value";
+    private static final String TEMPLATE_PROP = "RegexExtractor.template";
 
-    private static final String REF_MATCH_NR = "_matchNr"; // $NON-NLS-1$
+    private static final String REF_MATCH_NR = "_matchNr";
 
-    private static final String UNDERSCORE = "_";  // $NON-NLS-1$
+    private static final String UNDERSCORE = "_";
 
     private static final boolean DEFAULT_VALUE_FOR_DEFAULT_EMPTY_VALUE = false;
 
@@ -236,7 +236,7 @@ public class RegexExtractor extends AbstractScopedTestElement implements PostPro
     private void saveGroups(JMeterVariables vars, String basename, MatchResult match) {
         StringBuilder buf = new StringBuilder();
         buf.append(basename);
-        buf.append("_g"); // $NON-NLS-1$
+        buf.append("_g");
         int pfxlen=buf.length();
         String prevString=vars.get(buf.toString());
         int previous=0;
@@ -270,7 +270,7 @@ public class RegexExtractor extends AbstractScopedTestElement implements PostPro
     private void removeGroups(JMeterVariables vars, String basename) {
         StringBuilder buf = new StringBuilder();
         buf.append(basename);
-        buf.append("_g"); // $NON-NLS-1$
+        buf.append("_g");
         int pfxlen=buf.length();
         // How many groups are there?
         int groups;
@@ -311,7 +311,7 @@ public class RegexExtractor extends AbstractScopedTestElement implements PostPro
         List<Object> combined = new ArrayList<>();
         String rawTemplate = getTemplate();
         PatternMatcher matcher = JMeterUtils.getMatcher();
-        Pattern templatePattern = JMeterUtils.getPatternCache().getPattern("\\$(\\d+)\\$"  // $NON-NLS-1$
+        Pattern templatePattern = JMeterUtils.getPatternCache().getPattern("\\$(\\d+)\\$"
                 , Perl5Compiler.READ_ONLY_MASK
                 & Perl5Compiler.SINGLELINE_MASK);
         if (log.isDebugEnabled()) {
@@ -479,17 +479,17 @@ public class RegexExtractor extends AbstractScopedTestElement implements PostPro
     // Allow for property not yet being set (probably only applies to Test cases)
     public boolean useBody() {
         String prop = getPropertyAsString(MATCH_AGAINST);
-        return prop.length()==0 || USE_BODY.equalsIgnoreCase(prop);// $NON-NLS-1$
+        return prop.length()==0 || USE_BODY.equalsIgnoreCase(prop);
     }
 
     public boolean useUnescapedBody() {
         String prop = getPropertyAsString(MATCH_AGAINST);
-        return USE_BODY_UNESCAPED.equalsIgnoreCase(prop);// $NON-NLS-1$
+        return USE_BODY_UNESCAPED.equalsIgnoreCase(prop);
     }
 
     public boolean useBodyAsDocument() {
         String prop = getPropertyAsString(MATCH_AGAINST);
-        return USE_BODY_AS_DOCUMENT.equalsIgnoreCase(prop);// $NON-NLS-1$
+        return USE_BODY_AS_DOCUMENT.equalsIgnoreCase(prop);
     }
 
     public boolean useUrl() {

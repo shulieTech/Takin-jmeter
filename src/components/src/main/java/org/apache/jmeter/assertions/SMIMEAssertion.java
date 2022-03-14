@@ -97,11 +97,11 @@ class SMIMEAssertion {
             if(log.isDebugEnabled()) {
                 log.debug("Content-type: {}", msg.getContentType());
             }
-            if (msg.isMimeType("multipart/signed")) { // $NON-NLS-1$
+            if (msg.isMimeType("multipart/signed")) {
                 MimeMultipart multipart = (MimeMultipart) msg.getContent();
                 signedParser = new SMIMESignedParser(new BcDigestCalculatorProvider(), multipart);
-            } else if (msg.isMimeType("application/pkcs7-mime") // $NON-NLS-1$
-                    || msg.isMimeType("application/x-pkcs7-mime")) { // $NON-NLS-1$
+            } else if (msg.isMimeType("application/pkcs7-mime")
+                    || msg.isMimeType("application/x-pkcs7-mime")) {
                 signedParser = new SMIMESignedParser(new BcDigestCalculatorProvider(), msg);
             }
 
@@ -389,7 +389,7 @@ class SMIMEAssertion {
      * it, if needed;
      */
     private static void checkForBouncycastle() {
-        if (null == Security.getProvider("BC")) { // $NON-NLS-1$
+        if (null == Security.getProvider("BC")) {
             Security.addProvider(new BouncyCastleProvider());
         }
     }

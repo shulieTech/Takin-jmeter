@@ -221,10 +221,10 @@ public class PostWriterTest {
         // Check using a different encoding
 
         String otherEncoding;
-        final String fileEncoding = System.getProperty( "file.encoding");// $NON-NLS-1$
+        final String fileEncoding = System.getProperty( "file.encoding");
         log.info("file.encoding: {}", fileEncoding);
-        if (UTF_8.equalsIgnoreCase(fileEncoding) || "UTF8".equalsIgnoreCase(fileEncoding)){// $NON-NLS-1$
-            otherEncoding="ISO-8859-1"; // $NON-NLS-1$
+        if (UTF_8.equalsIgnoreCase(fileEncoding) || "UTF8".equalsIgnoreCase(fileEncoding)){
+            otherEncoding="ISO-8859-1";
         } else {
             otherEncoding=UTF_8;
         }

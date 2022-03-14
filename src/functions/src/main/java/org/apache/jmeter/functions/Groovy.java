@@ -97,7 +97,7 @@ public class Groovy extends AbstractFunction {
 
             // Pass in some variables
             if (currentSampler != null) {
-                bindings.put("sampler", currentSampler); // $NON-NLS-1$
+                bindings.put("sampler", currentSampler);
             }
 
             if (previousResult != null) {

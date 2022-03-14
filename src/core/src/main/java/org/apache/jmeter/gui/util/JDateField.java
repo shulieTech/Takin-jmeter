@@ -44,7 +44,7 @@ public class JDateField extends JTextField {
     private static final long serialVersionUID = 240L;
 
     // Datefields are not thread-safe
-    private final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss"); // $NON-NLS-1$
+    private final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
     /*
      * The following array must agree with dateFormat

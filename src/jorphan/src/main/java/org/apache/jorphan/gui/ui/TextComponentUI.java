@@ -37,7 +37,7 @@ import org.apiguardian.api.API;
  */
 @API(since = "5.3", status = API.Status.INTERNAL)
 public class TextComponentUI {
-    private static final String OS_NAME = System.getProperty("os.name");// $NON-NLS-1$
+    private static final String OS_NAME = System.getProperty("os.name");
 
     private static final boolean IS_MAC =
             Pattern.compile("mac os x|darwin|osx", Pattern.CASE_INSENSITIVE)

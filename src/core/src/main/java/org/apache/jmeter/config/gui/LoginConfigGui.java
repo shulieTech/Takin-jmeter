@@ -77,7 +77,7 @@ public class LoginConfigGui extends AbstractConfigGui {
 
     @Override
     public String getLabelResource() {
-        return "login_config_element"; // $NON-NLS-1$
+        return "login_config_element";
     }
 
     /**
@@ -148,7 +148,7 @@ public class LoginConfigGui extends AbstractConfigGui {
      */
     private JPanel createUsernamePanel() {
         JPanel panel = new JPanel(new BorderLayout(5, 0));
-        JLabel label = new JLabel(JMeterUtils.getResString("username")); // $NON-NLS-1$
+        JLabel label = new JLabel(JMeterUtils.getResString("username"));
         label.setLabelFor(username);
         panel.add(label, BorderLayout.WEST);
         panel.add(username, BorderLayout.CENTER);
@@ -162,7 +162,7 @@ public class LoginConfigGui extends AbstractConfigGui {
      */
     private JPanel createPasswordPanel() {
         JPanel panel = new JPanel(new BorderLayout(5, 0));
-        JLabel label = new JLabel(JMeterUtils.getResString("password")); // $NON-NLS-1$
+        JLabel label = new JLabel(JMeterUtils.getResString("password"));
         label.setLabelFor(password);
         panel.add(label, BorderLayout.WEST);
         panel.add(password, BorderLayout.CENTER);

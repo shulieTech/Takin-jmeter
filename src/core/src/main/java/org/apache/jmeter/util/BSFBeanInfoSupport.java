@@ -30,7 +30,7 @@ public abstract class BSFBeanInfoSupport extends ScriptingBeanInfoSupport {
     private static final String[] LANGUAGE_TAGS;
 
     static {
-        Properties languages = JMeterUtils.loadProperties("org/apache/bsf/Languages.properties"); // $NON-NLS-1$
+        Properties languages = JMeterUtils.loadProperties("org/apache/bsf/Languages.properties");
         LANGUAGE_TAGS = new String[languages.size()];
         int i = 0;
         for (Object language : languages.keySet()) {

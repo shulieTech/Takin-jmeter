@@ -124,15 +124,15 @@ public abstract class BeanInfoSupport extends SimpleBeanInfo {
 
         try {
             ResourceBundle resourceBundle = ResourceBundle.getBundle(
-                    beanClass.getName() + "Resources",  // $NON-NLS-1$
+                    beanClass.getName() + "Resources",
                     JMeterUtils.getLocale());
 
             // Store the resource bundle as an attribute of the BeanDescriptor:
             getBeanDescriptor().setValue(RESOURCE_BUNDLE, resourceBundle);
             final String dnKey = "displayName";
             // Localize the bean name
-            if (resourceBundle.containsKey(dnKey)) { // $NON-NLS-1$
-                getBeanDescriptor().setDisplayName(resourceBundle.getString(dnKey)); // $NON-NLS-1$
+            if (resourceBundle.containsKey(dnKey)) {
+                getBeanDescriptor().setDisplayName(resourceBundle.getString(dnKey));
             } else {
                 log.debug("Localized display name not available for bean {}", beanClass);
             }
@@ -142,7 +142,7 @@ public abstract class BeanInfoSupport extends SimpleBeanInfo {
                 String name = property.getName();
                 final String propDnKey = name + ".displayName";
                 if(resourceBundle.containsKey(propDnKey)) {
-                    property.setDisplayName(resourceBundle.getString(propDnKey)); // $NON-NLS-1$
+                    property.setDisplayName(resourceBundle.getString(propDnKey));
                 } else {
                     log.debug("Localized display name not available for property {} in {}", name, beanClass);
                 }

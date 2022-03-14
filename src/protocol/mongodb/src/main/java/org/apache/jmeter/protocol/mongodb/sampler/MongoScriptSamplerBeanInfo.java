@@ -61,7 +61,7 @@ public class MongoScriptSamplerBeanInfo
         p.setValue(NOT_UNDEFINED, Boolean.FALSE);
         p.setValue(DEFAULT, "");
         p.setValue(NOT_EXPRESSION, Boolean.TRUE);
-        p.setValue(TEXT_LANGUAGE, "javascript");  // $NON-NLS-1$
+        p.setValue(TEXT_LANGUAGE, "javascript");
 
         if(log.isDebugEnabled()) {
             for (PropertyDescriptor pd : getPropertyDescriptors()) {

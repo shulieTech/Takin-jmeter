@@ -76,7 +76,7 @@ public class JSR223Sampler extends JSR223TestElement implements Cloneable, Sampl
         } catch (IOException | ScriptException e) {
             log.error("Problem in JSR223 script {}, message: {}", getName(), e, e);
             result.setSuccessful(false);
-            result.setResponseCode("500"); // $NON-NLS-1$
+            result.setResponseCode("500");
             result.setResponseMessage(e.toString());
         }
         result.sampleEnd();

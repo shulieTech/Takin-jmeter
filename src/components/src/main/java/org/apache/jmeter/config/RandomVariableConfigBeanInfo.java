@@ -24,17 +24,17 @@ import org.apache.jmeter.testbeans.BeanInfoSupport;
 public class RandomVariableConfigBeanInfo extends BeanInfoSupport {
 
     // These group names must have .displayName properties
-    private static final String VARIABLE_GROUP = "variable"; // $NON-NLS-1$
-    private static final String OPTIONS_GROUP = "options"; // $NON-NLS-1$
-    private static final String RANDOM_GROUP = "random"; // $NON-NLS-1$
+    private static final String VARIABLE_GROUP = "variable";
+    private static final String OPTIONS_GROUP = "options";
+    private static final String RANDOM_GROUP = "random";
 
     // These variable names must have .displayName properties and agree with the getXXX()/setXXX() methods
-    private static final String PER_THREAD = "perThread"; // $NON-NLS-1$
-    private static final String RANDOM_SEED = "randomSeed"; // $NON-NLS-1$
-    private static final String MAXIMUM_VALUE = "maximumValue"; // $NON-NLS-1$
-    private static final String MINIMUM_VALUE = "minimumValue"; // $NON-NLS-1$
-    private static final String OUTPUT_FORMAT = "outputFormat"; // $NON-NLS-1$
-    private static final String VARIABLE_NAME = "variableName"; // $NON-NLS-1$
+    private static final String PER_THREAD = "perThread";
+    private static final String RANDOM_SEED = "randomSeed";
+    private static final String MAXIMUM_VALUE = "maximumValue";
+    private static final String MINIMUM_VALUE = "minimumValue";
+    private static final String OUTPUT_FORMAT = "outputFormat";
+    private static final String VARIABLE_NAME = "variableName";
 
     public    RandomVariableConfigBeanInfo() {
         super(RandomVariableConfig.class);
@@ -45,26 +45,26 @@ public class RandomVariableConfigBeanInfo extends BeanInfoSupport {
 
         p = property(VARIABLE_NAME);
         p.setValue(NOT_UNDEFINED, Boolean.TRUE);
-        p.setValue(DEFAULT, ""); // $NON-NLS-1$
+        p.setValue(DEFAULT, "");
 
         p = property(OUTPUT_FORMAT);
         p.setValue(NOT_UNDEFINED, Boolean.TRUE);
-        p.setValue(DEFAULT, ""); // $NON-NLS-1$
+        p.setValue(DEFAULT, "");
 
         createPropertyGroup(RANDOM_GROUP,
         new String[] { MINIMUM_VALUE, MAXIMUM_VALUE, RANDOM_SEED, });
 
         p = property(MINIMUM_VALUE);
         p.setValue(NOT_UNDEFINED, Boolean.TRUE);
-        p.setValue(DEFAULT, "1"); // $NON-NLS-1$
+        p.setValue(DEFAULT, "1");
 
         p = property(MAXIMUM_VALUE);
         p.setValue(NOT_UNDEFINED, Boolean.TRUE);
-        p.setValue(DEFAULT, ""); // $NON-NLS-1$
+        p.setValue(DEFAULT, "");
 
         p = property(RANDOM_SEED);
         p.setValue(NOT_UNDEFINED, Boolean.TRUE);
-        p.setValue(DEFAULT, ""); // $NON-NLS-1$
+        p.setValue(DEFAULT, "");
 
         createPropertyGroup(OPTIONS_GROUP, new String[] { PER_THREAD, });
 

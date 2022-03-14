@@ -298,7 +298,7 @@ public class CookiePanel extends AbstractConfigGui implements ActionListener {
         northPanel.add(makeTitlePanel());
         JPanel optionsPane = new JPanel();
         optionsPane.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("cookie_options"))); // $NON-NLS-1$
+                JMeterUtils.getResString("cookie_options")));
         optionsPane.setLayout(new VerticalLayout(5, VerticalLayout.BOTH));
         optionsPane.add(clearEachIteration);
         optionsPane.add(controlledByThreadGroup);

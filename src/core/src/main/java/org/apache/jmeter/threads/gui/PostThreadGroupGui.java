@@ -33,7 +33,7 @@ public class PostThreadGroupGui extends ThreadGroupGui implements ItemListener {
 
     @Override
     public String getLabelResource() {
-        return "post_thread_group_title"; // $NON-NLS-1$
+        return "post_thread_group_title";
 
     }
 

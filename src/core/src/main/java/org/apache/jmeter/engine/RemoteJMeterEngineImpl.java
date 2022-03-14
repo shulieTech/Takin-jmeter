@@ -42,7 +42,7 @@ public final class RemoteJMeterEngineImpl extends java.rmi.server.UnicastRemoteO
 
     private static final Logger log = LoggerFactory.getLogger(RemoteJMeterEngineImpl.class);
 
-    static final String JMETER_ENGINE_RMI_NAME = "JMeterEngine"; // $NON-NLS-1$
+    static final String JMETER_ENGINE_RMI_NAME = "JMeterEngine";
 
     private transient JMeterEngine backingEngine;
 
@@ -50,7 +50,7 @@ public final class RemoteJMeterEngineImpl extends java.rmi.server.UnicastRemoteO
 
     // Should we create our own copy of the RMI registry?
     private static final boolean CREATE_SERVER =
-        JMeterUtils.getPropDefault("server.rmi.create", true); // $NON-NLS-1$
+        JMeterUtils.getPropDefault("server.rmi.create", true);
 
     private final Object LOCK = new Object();
 

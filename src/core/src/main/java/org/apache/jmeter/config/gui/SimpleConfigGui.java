@@ -76,9 +76,9 @@ public class SimpleConfigGui extends AbstractConfigGui implements ActionListener
     private final boolean displayName;
 
     /** The resource names of the columns in the table. */
-    private static final String COLUMN_NAMES_0 = "name"; // $NON-NLS-1$
+    private static final String COLUMN_NAMES_0 = "name";
 
-    private static final String COLUMN_NAMES_1 = "value"; // $NON-NLS-1$
+    private static final String COLUMN_NAMES_1 = "value";
 
     /**
      * Create a new standalone SimpleConfigGui.
@@ -104,7 +104,7 @@ public class SimpleConfigGui extends AbstractConfigGui implements ActionListener
 
     @Override
     public String getLabelResource() {
-        return "simple_config_element"; // $NON-NLS-1$
+        return "simple_config_element";
     }
 
     /**
@@ -221,7 +221,7 @@ public class SimpleConfigGui extends AbstractConfigGui implements ActionListener
         add.addActionListener(this);
         add.setEnabled(true);
 
-        delete = new JButton(JMeterUtils.getResString("delete")); // $NON-NLS-1$
+        delete = new JButton(JMeterUtils.getResString("delete"));
         delete.setActionCommand(DELETE);
         delete.addActionListener(this);
 

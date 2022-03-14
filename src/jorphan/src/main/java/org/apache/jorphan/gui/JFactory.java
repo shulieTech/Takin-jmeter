@@ -47,7 +47,7 @@ import org.apiguardian.api.API;
  */
 @API(since = "5.3", status = API.Status.EXPERIMENTAL)
 public class JFactory {
-    private static final String SIZE_VARIANT = "JComponent.sizeVariant"; // $NON-NLS-1$
+    private static final String SIZE_VARIANT = "JComponent.sizeVariant";
 
     private static final DynamicStyle STYLE = new DynamicStyle();
 

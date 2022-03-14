@@ -49,7 +49,7 @@ public class LookAndFeelCommand extends AbstractAction {
 
     private static final Logger log = LoggerFactory.getLogger(LookAndFeelCommand.class);
 
-    private static final String JMETER_LAF = "jmeter.laf"; // $NON-NLS-1$
+    private static final String JMETER_LAF = "jmeter.laf";
 
     private static final Map<String, MenuItem> items = new LinkedHashMap<>();
 
@@ -147,7 +147,7 @@ public class LookAndFeelCommand extends AbstractAction {
             return checkLafName(laf);
         }
 
-        String osName = System.getProperty("os.name") // $NON-NLS-1$
+        String osName = System.getProperty("os.name")
                         .toLowerCase(Locale.ENGLISH);
         // Spaces are not allowed in property names read from files
         laf = JMeterUtils.getProperty(JMETER_LAF+"."+osName.replace(' ', '_'));
@@ -182,7 +182,7 @@ public class LookAndFeelCommand extends AbstractAction {
             return MenuItem.ofDarklafTheme(new DarculaTheme()).command;
         }
 
-        return MenuItem.of("default", jMeterLaf).command; // $NON-NLS-1$
+        return MenuItem.of("default", jMeterLaf).command;
     }
 
     // Check if LAF is a built-in one
@@ -201,7 +201,7 @@ public class LookAndFeelCommand extends AbstractAction {
     }
 
     public static boolean isDarklafTheme() {
-        return "Darklaf".equals(UIManager.getLookAndFeel().getID()); // $NON-NLS-1$
+        return "Darklaf".equals(UIManager.getLookAndFeel().getID());
     }
 
     public static boolean isDark() {

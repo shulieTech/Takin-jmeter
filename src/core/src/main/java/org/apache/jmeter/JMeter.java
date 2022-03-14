@@ -120,11 +120,11 @@ public class JMeter implements JMeterPlugin {
 
     public static final int UDP_PORT_DEFAULT = ShutdownClient.UDP_PORT_DEFAULT;
 
-    public static final String HTTP_PROXY_PASS = "http.proxyPass"; // $NON-NLS-1$
+    public static final String HTTP_PROXY_PASS = "http.proxyPass";
 
-    public static final String HTTP_PROXY_USER = "http.proxyUser"; // $NON-NLS-1$
+    public static final String HTTP_PROXY_USER = "http.proxyUser";
 
-    public static final String JMETER_NON_GUI = "JMeter.NonGui"; // $NON-NLS-1$
+    public static final String JMETER_NON_GUI = "JMeter.NonGui";
 
     public static final String JMETER_REPORT_OUTPUT_DIR_PROPERTY =
             "jmeter.reportgenerator.outputdir"; //$NON-NLS-1$
@@ -141,42 +141,42 @@ public class JMeter implements JMeterPlugin {
     // If the -j  or -l flag is set to LAST or LAST.log|LAST.jtl, then the last loaded file name is used to
     // generate the log file name by removing .JMX and replacing it with .log|.jtl
 
-    private static final int PROXY_PASSWORD = 'a';// $NON-NLS-1$
-    private static final int JMETER_HOME_OPT = 'd';// $NON-NLS-1$
-    private static final int HELP_OPT = 'h';// $NON-NLS-1$
-    private static final int OPTIONS_OPT = '?';// $NON-NLS-1$
+    private static final int PROXY_PASSWORD = 'a';
+    private static final int JMETER_HOME_OPT = 'd';
+    private static final int HELP_OPT = 'h';
+    private static final int OPTIONS_OPT = '?';
     // logging configuration file
-    private static final int JMLOGCONF_OPT = 'i';// $NON-NLS-1$
+    private static final int JMLOGCONF_OPT = 'i';
     // jmeter.log
-    private static final int JMLOGFILE_OPT = 'j';// $NON-NLS-1$
+    private static final int JMLOGFILE_OPT = 'j';
     // sample result log file
-    private static final int LOGFILE_OPT = 'l';// $NON-NLS-1$
-    private static final int NONGUI_OPT = 'n';// $NON-NLS-1$
-    private static final int PROPFILE_OPT = 'p';// $NON-NLS-1$
-    private static final int PROPFILE2_OPT = 'q';// $NON-NLS-1$
-    private static final int REMOTE_OPT = 'r';// $NON-NLS-1$
-    private static final int SERVER_OPT = 's';// $NON-NLS-1$
-    private static final int TESTFILE_OPT = 't';// $NON-NLS-1$
-    private static final int PROXY_USERNAME = 'u';// $NON-NLS-1$
-    private static final int VERSION_OPT = 'v';// $NON-NLS-1$
-    private static final int REPORT_GENERATING_OPT = 'g';// $NON-NLS-1$
-    private static final int REPORT_AT_END_OPT = 'e';// $NON-NLS-1$
-    private static final int REPORT_OUTPUT_FOLDER_OPT = 'o';// $NON-NLS-1$
-    private static final int FORCE_DELETE_RESULT_FILE = 'f';// $NON-NLS-1$
+    private static final int LOGFILE_OPT = 'l';
+    private static final int NONGUI_OPT = 'n';
+    private static final int PROPFILE_OPT = 'p';
+    private static final int PROPFILE2_OPT = 'q';
+    private static final int REMOTE_OPT = 'r';
+    private static final int SERVER_OPT = 's';
+    private static final int TESTFILE_OPT = 't';
+    private static final int PROXY_USERNAME = 'u';
+    private static final int VERSION_OPT = 'v';
+    private static final int REPORT_GENERATING_OPT = 'g';
+    private static final int REPORT_AT_END_OPT = 'e';
+    private static final int REPORT_OUTPUT_FOLDER_OPT = 'o';
+    private static final int FORCE_DELETE_RESULT_FILE = 'f';
 
-    private static final int SYSTEM_PROPERTY = 'D';// $NON-NLS-1$
-    private static final int JMETER_GLOBAL_PROP = 'G';// $NON-NLS-1$
-    private static final int PROXY_SCHEME = 'E';// $NON-NLS-1$
-    private static final int PROXY_HOST = 'H';// $NON-NLS-1$
-    private static final int JMETER_PROPERTY = 'J';// $NON-NLS-1$
-    private static final int LOGLEVEL = 'L';// $NON-NLS-1$
-    private static final int NONPROXY_HOSTS = 'N';// $NON-NLS-1$
-    private static final int PROXY_PORT = 'P';// $NON-NLS-1$
-    private static final int REMOTE_OPT_PARAM = 'R';// $NON-NLS-1$
-    private static final int SYSTEM_PROPFILE = 'S';// $NON-NLS-1$
-    private static final int REMOTE_STOP = 'X';// $NON-NLS-1$
+    private static final int SYSTEM_PROPERTY = 'D';
+    private static final int JMETER_GLOBAL_PROP = 'G';
+    private static final int PROXY_SCHEME = 'E';
+    private static final int PROXY_HOST = 'H';
+    private static final int JMETER_PROPERTY = 'J';
+    private static final int LOGLEVEL = 'L';
+    private static final int NONPROXY_HOSTS = 'N';
+    private static final int PROXY_PORT = 'P';
+    private static final int REMOTE_OPT_PARAM = 'R';
+    private static final int SYSTEM_PROPFILE = 'S';
+    private static final int REMOTE_STOP = 'X';
 
-    private static final String JMX_SUFFIX = ".JMX"; // $NON-NLS-1$
+    private static final String JMX_SUFFIX = ".JMX";
 
     private static final String PACKAGE_PREFIX = "org.apache."; //$NON_NLS-1$
 
@@ -447,7 +447,7 @@ public class JMeter implements JMeterPlugin {
      * <p>
      * Called reflectively by {@link NewDriver#main(String[])}
      * <p>
-     * modify by lipeng 更改入参为PressureEngineParams
+     * modify by 李鹏 更改入参为PressureEngineParams
      *
      * @param params The arguments for JMeter
      */
@@ -511,7 +511,7 @@ public class JMeter implements JMeterPlugin {
 
             updateClassLoader();
             if (log.isDebugEnabled()) {
-                String jcp = System.getProperty("java.class.path");// $NON-NLS-1$
+                String jcp = System.getProperty("java.class.path");
                 String[] bits = jcp.split(File.pathSeparator);
                 log.debug("ClassPath");
                 for (String bit : bits) {
@@ -521,7 +521,7 @@ public class JMeter implements JMeterPlugin {
 
             // Set some (hopefully!) useful properties
             long now = System.currentTimeMillis();
-            JMeterUtils.setProperty("START.MS", Long.toString(now));// $NON-NLS-1$
+            JMeterUtils.setProperty("START.MS", Long.toString(now));
             Date today = new Date(now); // so it agrees with above
             JMeterUtils.setProperty("START.YMD", new SimpleDateFormat("yyyyMMdd").format(today));// $NON-NLS-1$ $NON-NLS-2$
             JMeterUtils.setProperty("START.HMS", new SimpleDateFormat("HHmmss").format(today));// $NON-NLS-1$ $NON-NLS-2$
@@ -537,7 +537,7 @@ public class JMeter implements JMeterPlugin {
             } else if (parser.getArgumentById(SERVER_OPT) != null) {
                 // Start the server
                 try {
-                    RemoteJMeterEngineImpl.startServer(RmiUtils.getRmiRegistryPort()); // $NON-NLS-1$
+                    RemoteJMeterEngineImpl.startServer(RmiUtils.getRmiRegistryPort());
                     startOptionalServers();
                 } catch (Exception ex) {
                     System.err.println("Server failed to start: " + ex);//NOSONAR
@@ -572,8 +572,8 @@ public class JMeter implements JMeterPlugin {
                     CLOption jtl = parser.getArgumentById(LOGFILE_OPT);
                     String jtlFile = null;
                     if (jtl != null) {
-                        jtlFile = processLAST(jtl.getArgument(), ".jtl"); // $NON-NLS-1$
-                        //add by lipeng 添加jtl
+                        jtlFile = processLAST(jtl.getArgument(), ".jtl");
+                        //add by 李鹏 添加jtl
                         if (jtlFile != null) {
                             System.setProperty(PressureConstants.CURRENT_JTL_FILE_NAME_SYSTEM_PROP_KEY, jtlFile.substring(jtlFile.lastIndexOf("/") + 1));
                         }
@@ -593,7 +593,7 @@ public class JMeter implements JMeterPlugin {
         } catch (Throwable e) { // NOSONAR
             log.error("An error occurred: ", e);
             System.out.println("An error occurred: " + e.getMessage());//NOSONAR
-            // 先将问题上报到cloud add by lipeng
+            // 先将问题上报到cloud add by 李鹏
             HttpNotifyTroCloudUtils.notifyTroCloud(params, PressureConstants.ENGINE_STATUS_FAILED, e.getMessage());
             // FIXME Should we exit here ? If we are called by Maven or Jenkins
             System.exit(1);
@@ -646,7 +646,7 @@ public class JMeter implements JMeterPlugin {
     }
 
     private void updatePath(String property, String sep, boolean cp) throws MalformedURLException {
-        String userpath = JMeterUtils.getPropDefault(property, "");// $NON-NLS-1$
+        String userpath = JMeterUtils.getPropDefault(property, "");
         if (userpath.length() <= 0) {
             return;
         }
@@ -673,7 +673,7 @@ public class JMeter implements JMeterPlugin {
      *
      */
     private void startOptionalServers() {
-        int bshport = JMeterUtils.getPropDefault("beanshell.server.port", 0);// $NON-NLS-1$
+        int bshport = JMeterUtils.getPropDefault("beanshell.server.port", 0);
         String bshfile = JMeterUtils.getPropDefault("beanshell.server.file", "");// $NON-NLS-1$ $NON-NLS-2$
         if (bshport > 0) {
             log.info("Starting Beanshell server ({},{})", bshport, bshfile);
@@ -683,12 +683,12 @@ public class JMeter implements JMeterPlugin {
 
         runInitScripts();
 
-        int mirrorPort = JMeterUtils.getPropDefault("mirror.server.port", 0);// $NON-NLS-1$
+        int mirrorPort = JMeterUtils.getPropDefault("mirror.server.port", 0);
         if (mirrorPort > 0) {
             log.info("Starting Mirror server ({})", mirrorPort);
             try {
                 Object instance = ClassTools.construct(
-                        "org.apache.jmeter.protocol.http.control.HttpMirrorControl",// $NON-NLS-1$
+                        "org.apache.jmeter.protocol.http.control.HttpMirrorControl",
                         mirrorPort);
                 ClassTools.invoke(instance, "startHttpMirror");
             } catch (JMeterException e) {
@@ -703,7 +703,7 @@ public class JMeter implements JMeterPlugin {
      */
     void runInitScripts() {
         // Should we run a beanshell script on startup?
-        String bshinit = JMeterUtils.getProperty("beanshell.init.file");// $NON-NLS-1$
+        String bshinit = JMeterUtils.getProperty("beanshell.init.file");
         if (bshinit != null) {
             log.info("Running Beanshell on file: {}", bshinit);
             try {
@@ -717,7 +717,7 @@ public class JMeter implements JMeterPlugin {
         }
 
         // Should we run a JSR223 script on startup?
-        String jsr223Init = JMeterUtils.getProperty(JSR223_INIT_FILE);// $NON-NLS-1$
+        String jsr223Init = JMeterUtils.getProperty(JSR223_INIT_FILE);
         if (jsr223Init != null) {
             log.info("Running JSR-223 init script in file: {}", jsr223Init);
             File file = new File(jsr223Init);
@@ -782,28 +782,28 @@ public class JMeter implements JMeterPlugin {
         if (parser.getArgumentById(PROXY_HOST) != null && parser.getArgumentById(PROXY_PORT) != null) {
             String h = parser.getArgumentById(PROXY_HOST).getArgument();
             String p = parser.getArgumentById(PROXY_PORT).getArgument();
-            System.setProperty("http.proxyHost", h);// $NON-NLS-1$
-            System.setProperty("https.proxyHost", h);// $NON-NLS-1$
-            System.setProperty("http.proxyPort", p);// $NON-NLS-1$
-            System.setProperty("https.proxyPort", p);// $NON-NLS-1$
+            System.setProperty("http.proxyHost", h);
+            System.setProperty("https.proxyHost", h);
+            System.setProperty("http.proxyPort", p);
+            System.setProperty("https.proxyPort", p);
             String proxyScheme = null;
             if (parser.getArgumentById(PROXY_SCHEME) != null) {
                 proxyScheme = parser.getArgumentById(PROXY_SCHEME).getArgument();
                 if (!StringUtils.isBlank(proxyScheme)) {
-                    System.setProperty("http.proxyScheme", proxyScheme);// $NON-NLS-1$
+                    System.setProperty("http.proxyScheme", proxyScheme);
                 }
             }
             if (log.isInfoEnabled()) {
                 log.info("Set proxy Host: {}, Port: {}, Scheme: {}", h, p, proxyScheme != null ? proxyScheme : "Not set");
             }
         } else if (parser.getArgumentById(PROXY_HOST) != null || parser.getArgumentById(PROXY_PORT) != null) {
-            throw new IllegalUserActionException(JMeterUtils.getResString("proxy_cl_error"));// $NON-NLS-1$
+            throw new IllegalUserActionException(JMeterUtils.getResString("proxy_cl_error"));
         }
 
         if (parser.getArgumentById(NONPROXY_HOSTS) != null) {
             String n = parser.getArgumentById(NONPROXY_HOSTS).getArgument();
-            System.setProperty("http.nonProxyHosts", n);// $NON-NLS-1$
-            System.setProperty("https.nonProxyHosts", n);// $NON-NLS-1$
+            System.setProperty("http.nonProxyHosts", n);
+            System.setProperty("https.nonProxyHosts", n);
             log.info("Set http[s].nonProxyHosts: {}", n);
         }
     }
@@ -813,8 +813,8 @@ public class JMeter implements JMeterPlugin {
             JMeterUtils.loadJMeterProperties(parser.getArgumentById(PROPFILE_OPT).getArgument());
         } else {
             JMeterUtils.loadJMeterProperties(NewDriver.getJMeterDir() + File.separator
-                    + "bin" + File.separator // $NON-NLS-1$
-                    + "jmeter.properties");// $NON-NLS-1$
+                    + "bin" + File.separator
+                    + "jmeter.properties");
         }
 
         JMeterUtils.initLocale();
@@ -994,7 +994,7 @@ public class JMeter implements JMeterPlugin {
             throws IllegalUserActionException, ConfigurationException {
         // add a system property so samplers can check to see if JMeter
         // is running in NonGui mode
-        System.setProperty(JMETER_NON_GUI, "true");// $NON-NLS-1$
+        System.setProperty(JMETER_NON_GUI, "true");
         JMeter driver = new JMeter();// TODO - why does it create a new instance?
         driver.remoteProps = this.remoteProps;
         driver.remoteStop = this.remoteStop;
@@ -1375,7 +1375,7 @@ public class JMeter implements JMeterPlugin {
             // This cannot be a JMeter class variable, because properties
             // are not initialised until later.
             final int pauseToCheckForRemainingThreads =
-                    JMeterUtils.getPropDefault("jmeter.exit.check.pause", 2000); // $NON-NLS-1$
+                    JMeterUtils.getPropDefault("jmeter.exit.check.pause", 2000);
 
             if (pauseToCheckForRemainingThreads > 0) {
                 Thread daemon = new Thread() {
@@ -1453,8 +1453,8 @@ public class JMeter implements JMeterPlugin {
     }
 
     private static void startUdpDdaemon(final List<JMeterEngine> engines) {
-        int port = JMeterUtils.getPropDefault("jmeterengine.nongui.port", UDP_PORT_DEFAULT); // $NON-NLS-1$
-        int maxPort = JMeterUtils.getPropDefault("jmeterengine.nongui.maxport", 4455); // $NON-NLS-1$
+        int port = JMeterUtils.getPropDefault("jmeterengine.nongui.port", UDP_PORT_DEFAULT);
+        int maxPort = JMeterUtils.getPropDefault("jmeterengine.nongui.maxport", 4455);
         if (port > 1000) {
             final DatagramSocket socket = getSocket(port, maxPort);
             if (socket != null) {

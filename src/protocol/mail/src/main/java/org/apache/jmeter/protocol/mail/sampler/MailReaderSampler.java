@@ -70,30 +70,30 @@ public class MailReaderSampler extends AbstractSampler implements Interruptible 
             Arrays.asList("org.apache.jmeter.config.gui.SimpleConfigGui"));
 
     //+ JMX attributes - do not change the values
-    private static final String SERVER_TYPE = "host_type"; // $NON-NLS-1$
-    private static final String SERVER = "host"; // $NON-NLS-1$
-    private static final String PORT = "port"; // $NON-NLS-1$
-    private static final String USERNAME = "username"; // $NON-NLS-1$
+    private static final String SERVER_TYPE = "host_type";
+    private static final String SERVER = "host";
+    private static final String PORT = "port";
+    private static final String USERNAME = "username";
     private static final String PASSWORD = "password"; // $NON-NLS-1$ NOSONAR not a hardcoded password
-    private static final String FOLDER = "folder"; // $NON-NLS-1$
-    private static final String DELETE = "delete"; // $NON-NLS-1$
-    private static final String NUM_MESSAGES = "num_messages"; // $NON-NLS-1$
-    private static final String NEW_LINE = "\n"; // $NON-NLS-1$
-    private static final String STORE_MIME_MESSAGE = "storeMimeMessage"; // $NON-NLS-1$
-    private static final String HEADER_ONLY = "headerOnly"; // $NON-NLS-1$
+    private static final String FOLDER = "folder";
+    private static final String DELETE = "delete";
+    private static final String NUM_MESSAGES = "num_messages";
+    private static final String NEW_LINE = "\n";
+    private static final String STORE_MIME_MESSAGE = "storeMimeMessage";
+    private static final String HEADER_ONLY = "headerOnly";
     private static final boolean HEADER_ONLY_DEFAULT = false;
     //-
 
     private static final String RFC_822_DEFAULT_ENCODING = "iso-8859-1"; // RFC 822 uses ascii per default
 
-    public static final String DEFAULT_PROTOCOL = "pop3";  // $NON-NLS-1$
+    public static final String DEFAULT_PROTOCOL = "pop3";
 
     // Use the actual class so the name must be correct.
     private static final String TRUST_ALL_SOCKET_FACTORY = TrustAllSSLSocketFactory.class.getName();
 
-    private static final String FALSE = "false";  // $NON-NLS-1$
+    private static final String FALSE = "false";
 
-    private static final String TRUE = "true";  // $NON-NLS-1$
+    private static final String TRUE = "true";
 
     public boolean isUseLocalTrustStore() {
         return getPropertyAsBoolean(SecuritySettingsPanel.USE_LOCAL_TRUSTSTORE);
@@ -130,7 +130,7 @@ public class MailReaderSampler extends AbstractSampler implements Interruptible 
 
     public MailReaderSampler() {
         setServerType(DEFAULT_PROTOCOL);
-        setFolder("INBOX");  // $NON-NLS-1$
+        setFolder("INBOX");
         setNumMessages(ALL_MESSAGES);
         setDeleteMessages(false);
     }
@@ -159,17 +159,17 @@ public class MailReaderSampler extends AbstractSampler implements Interruptible 
             Properties props = new Properties();
 
             if (isUseStartTLS()) {
-                props.setProperty(mailProp(serverProtocol, "starttls.enable"), TRUE);  // $NON-NLS-1$
+                props.setProperty(mailProp(serverProtocol, "starttls.enable"), TRUE);
                 if (isEnforceStartTLS()){
                     // Requires JavaMail 1.4.2+
-                    props.setProperty(mailProp(serverProtocol, "starttls.require"), TRUE);  // $NON-NLS-1$
+                    props.setProperty(mailProp(serverProtocol, "starttls.require"), TRUE);
                 }
             }
 
             if (isTrustAllCerts()) {
                 if (isUseSSL() || isUseStartTLS()) {
-                    props.setProperty(mailProp(serverProtocol, "ssl.socketFactory.class"), TRUST_ALL_SOCKET_FACTORY);  // $NON-NLS-1$
-                    props.setProperty(mailProp(serverProtocol, "ssl.socketFactory.fallback"), FALSE);  // $NON-NLS-1$
+                    props.setProperty(mailProp(serverProtocol, "ssl.socketFactory.class"), TRUST_ALL_SOCKET_FACTORY);
+                    props.setProperty(mailProp(serverProtocol, "ssl.socketFactory.fallback"), FALSE);
                 }
             } else if (isUseLocalTrustStore()){
                 File truststore = new File(getTrustStoreToUse());
@@ -190,9 +190,9 @@ public class MailReaderSampler extends AbstractSampler implements Interruptible 
                 }
                 if (isUseSSL() || isUseStartTLS()) {
                     // Requires JavaMail 1.4.2+
-                    props.put(mailProp(serverProtocol, "ssl.socketFactory"),   // $NON-NLS-1$
+                    props.put(mailProp(serverProtocol, "ssl.socketFactory"),
                             new LocalTrustStoreSSLSocketFactory(truststore));
-                    props.put(mailProp(serverProtocol, "ssl.socketFactory.fallback"), FALSE);  // $NON-NLS-1$
+                    props.put(mailProp(serverProtocol, "ssl.socketFactory.fallback"), FALSE);
                 }
             }
             addCustomProperties(props);
@@ -223,7 +223,7 @@ public class MailReaderSampler extends AbstractSampler implements Interruptible 
             String pdata = messages.length + " messages found\n";
             parent.setResponseData(pdata,null);
             parent.setDataType(SampleResult.TEXT);
-            parent.setContentType("text/plain"); // $NON-NLS-1$
+            parent.setContentType("text/plain");
 
             final boolean headerOnly = getHeaderOnly();
             busy = true;
@@ -232,7 +232,7 @@ public class MailReaderSampler extends AbstractSampler implements Interruptible 
                 SampleResult child = new SampleResult();
                 child.sampleStart();
 
-                cdata.append("Message "); // $NON-NLS-1$
+                cdata.append("Message ");
                 cdata.append(message.getMessageNumber());
                 child.setSampleLabel(cdata.toString());
                 child.setSamplerData(cdata.toString());
@@ -288,12 +288,12 @@ public class MailReaderSampler extends AbstractSampler implements Interruptible 
             isOK = true;
         } catch (NoClassDefFoundError | IOException ex) {
             log.debug("",ex);// No need to log normally, as we set the status
-            parent.setResponseCode("500"); // $NON-NLS-1$
+            parent.setResponseCode("500");
             parent.setResponseMessage(ex.toString());
         } catch (MessagingException ex) {
             log.debug("", ex);// No need to log normally, as we set the status
-            parent.setResponseCode("500"); // $NON-NLS-1$
-            parent.setResponseMessage(ex.toString() + "\n" + samplerString); // $NON-NLS-1$
+            parent.setResponseCode("500");
+            parent.setResponseMessage(ex.toString() + "\n" + samplerString);
         } finally {
             busy = false;
         }
@@ -321,31 +321,31 @@ public class MailReaderSampler extends AbstractSampler implements Interruptible 
     private void appendMessageData(SampleResult child, Message message)
             throws MessagingException, IOException {
         StringBuilder cdata = new StringBuilder();
-        cdata.append("Date: "); // $NON-NLS-1$
+        cdata.append("Date: ");
         cdata.append(message.getSentDate());// TODO - use a different format here?
         cdata.append(NEW_LINE);
 
-        cdata.append("To: "); // $NON-NLS-1$
+        cdata.append("To: ");
         Address[] recips = message.getAllRecipients(); // may be null
         for (int j = 0; recips != null && j < recips.length; j++) {
             cdata.append(recips[j].toString());
             if (j < recips.length - 1) {
-                cdata.append("; "); // $NON-NLS-1$
+                cdata.append("; ");
             }
         }
         cdata.append(NEW_LINE);
 
-        cdata.append("From: "); // $NON-NLS-1$
+        cdata.append("From: ");
         Address[] from = message.getFrom(); // may be null
         for (int j = 0; from != null && j < from.length; j++) {
             cdata.append(from[j].toString());
             if (j < from.length - 1) {
-                cdata.append("; "); // $NON-NLS-1$
+                cdata.append("; ");
             }
         }
         cdata.append(NEW_LINE);
 
-        cdata.append("Subject: "); // $NON-NLS-1$
+        cdata.append("Subject: ");
         cdata.append(message.getSubject());
         cdata.append(NEW_LINE);
 

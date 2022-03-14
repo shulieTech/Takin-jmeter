@@ -33,7 +33,7 @@ public class SetupThreadGroupGui extends ThreadGroupGui implements ItemListener 
 
     @Override
     public String getLabelResource() {
-        return "setup_thread_group_title"; // $NON-NLS-1$
+        return "setup_thread_group_title";
 
     }
 

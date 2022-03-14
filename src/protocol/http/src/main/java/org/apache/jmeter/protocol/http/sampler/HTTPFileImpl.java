@@ -79,11 +79,11 @@ public class HTTPFileImpl extends HTTPAbstractImpl {
             res.setResponseCodeOK();
             res.setResponseMessageOK();
             res.setSuccessful(true);
-            StringBuilder ctb=new StringBuilder("text/html"); // $NON-NLS-1$
+            StringBuilder ctb=new StringBuilder("text/html");
             // TODO can this be obtained from the file somehow?
             String contentEncoding = getContentEncoding();
             if (contentEncoding.length() > 0) {
-                ctb.append("; charset="); // $NON-NLS-1$
+                ctb.append("; charset=");
                 ctb.append(contentEncoding);
             }
             String ct = ctb.toString();

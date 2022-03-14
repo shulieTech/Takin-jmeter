@@ -68,7 +68,7 @@ public class JMSSamplerGui extends AbstractSamplerGui {
 
     private JLabeledTextField numberOfSamplesToAggregate = new JLabeledTextField("Number of samples to aggregate"); //$NON-NLS-1$
 
-    private JSyntaxTextArea messageContent = JSyntaxTextArea.getInstance(10, 50); // $NON-NLS-1$
+    private JSyntaxTextArea messageContent = JSyntaxTextArea.getInstance(10, 50);
 
     private JLabeledTextField initialContextFactory = new JLabeledTextField(
             JMeterUtils.getResString("jms_initial_context_factory")); //$NON-NLS-1$
@@ -76,15 +76,15 @@ public class JMSSamplerGui extends AbstractSamplerGui {
     private JLabeledTextField providerUrl = new JLabeledTextField(JMeterUtils.getResString("jms_provider_url")); //$NON-NLS-1$
 
     private static final String[] JMS_COMMUNICATION_STYLE_LABELS = new String[] {
-            "request_only", // $NON-NLS-1$
-            "request_reply", // $NON-NLS-1$
-            "read", // $NON-NLS-1$
-            "browse", // $NON-NLS-1$
-            "clear" // $NON-NLS-1$
+            "request_only",
+            "request_reply",
+            "read",
+            "browse",
+            "clear"
     };
 
     private JLabeledChoice jmsCommunicationStyle = new JLabeledChoice(
-            JMeterUtils.getResString("jms_communication_style"), // $NON-NLS-1$
+            JMeterUtils.getResString("jms_communication_style"),
             JMS_COMMUNICATION_STYLE_LABELS);
 
     private JMSPropertiesPanel jmsPropertiesPanel;
@@ -107,18 +107,18 @@ public class JMSSamplerGui extends AbstractSamplerGui {
     @Override
     public void clearGui() {// renamed from clear
         super.clearGui();
-        queueConnectionFactory.setText(""); // $NON-NLS-1$
-        sendQueue.setText(""); // $NON-NLS-1$
-        receiveQueue.setText(""); // $NON-NLS-1$
+        queueConnectionFactory.setText("");
+        sendQueue.setText("");
+        receiveQueue.setText("");
         jmsCommunicationStyle.setSelectedIndex(0);
-        timeout.setText(""); // $NON-NLS-1$
-        expiration.setText(""); // $NON-NLS-1$
-        priority.setText(""); // $NON-NLS-1$
-        jmsSelector.setText(""); // $NON-NLS-1$
-        numberOfSamplesToAggregate.setText(""); // $NON-NLS-1$
-        messageContent.setInitialText(""); // $NON-NLS-1$
-        initialContextFactory.setText(""); // $NON-NLS-1$
-        providerUrl.setText(""); // $NON-NLS-1$
+        timeout.setText("");
+        expiration.setText("");
+        priority.setText("");
+        jmsSelector.setText("");
+        numberOfSamplesToAggregate.setText("");
+        messageContent.setInitialText("");
+        initialContextFactory.setText("");
+        providerUrl.setText("");
         jmsPropertiesPanel.clearGui();
         jndiPropertiesPanel.clear();
     }
@@ -278,7 +278,7 @@ public class JMSSamplerGui extends AbstractSamplerGui {
         messageContentPanel.add(JTextScrollPane.getInstance(messageContent), BorderLayout.CENTER);
         messagePanel.add(messageContentPanel, BorderLayout.CENTER);
 
-        jmsPropertiesPanel = new JMSPropertiesPanel(); // $NON-NLS-1$
+        jmsPropertiesPanel = new JMSPropertiesPanel();
         messagePanel.add(jmsPropertiesPanel, BorderLayout.SOUTH);
 
         Box mainPanel = Box.createVerticalBox();

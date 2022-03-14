@@ -68,7 +68,7 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 public class TimeShift extends AbstractFunction {
     private static final Logger log = LoggerFactory.getLogger(TimeShift.class);
 
-    private static final String KEY = "__timeShift"; // $NON-NLS-1$
+    private static final String KEY = "__timeShift";
 
     private static final List<String> desc = Arrays.asList(JMeterUtils.getResString("time_format_shift"),
             JMeterUtils.getResString("date_to_shift"), JMeterUtils.getResString("value_to_shift"), JMeterUtils.getResString("locale_format"),
@@ -76,9 +76,9 @@ public class TimeShift extends AbstractFunction {
 
     // Ensure that these are set, even if no parameters are provided
     private String format = ""; //$NON-NLS-1$
-    private CompoundVariable dateToShiftCompound; // $NON-NLS-1$
-    private CompoundVariable amountToShiftCompound; // $NON-NLS-1$
-    private Locale locale = JMeterUtils.getLocale(); // $NON-NLS-1$
+    private CompoundVariable dateToShiftCompound;
+    private CompoundVariable amountToShiftCompound;
+    private Locale locale = JMeterUtils.getLocale();
     private String variableName = ""; //$NON-NLS-1$
     private ZoneId systemDefaultZoneID = ZoneId.systemDefault();
 
@@ -150,7 +150,7 @@ public class TimeShift extends AbstractFunction {
             } catch (IllegalArgumentException ex) {
                 log.error("Format date pattern '{}' is invalid "
                         + "(see https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html)",
-                        format, ex); // $NON-NLS-1$
+                        format, ex);
                 return "";
             }
         }
@@ -165,7 +165,7 @@ public class TimeShift extends AbstractFunction {
                 }
             } catch (DateTimeParseException | NumberFormatException ex) {
                 log.error("Failed to parse the date '{}' to shift with formatter '{}'",
-                        dateToShift, formatter, ex); // $NON-NLS-1$
+                        dateToShift, formatter, ex);
             }
         }
 
@@ -178,7 +178,7 @@ public class TimeShift extends AbstractFunction {
                 log.error(
                         "Failed to parse the amount duration '{}' to shift "
                         + "(see https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html#parse-java.lang.CharSequence-) ",
-                        amountToShift, ex); // $NON-NLS-1$
+                        amountToShift, ex);
             }
         }
         String dateString;

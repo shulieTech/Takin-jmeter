@@ -51,15 +51,15 @@ public class FileListPanel extends JPanel implements ActionListener {
 
     private transient ObjectTableModel tableModel = null;
 
-    private static final String ACTION_BROWSE = "browse"; // $NON-NLS-1$
+    private static final String ACTION_BROWSE = "browse";
 
-    private static final String LABEL_LIBRARY = "library"; // $NON-NLS-1$
+    private static final String LABEL_LIBRARY = "library";
 
     private JButton browse = new JButton(JMeterUtils.getResString(ACTION_BROWSE));
 
-    private JButton clear = new JButton(JMeterUtils.getResString("clear")); // $NON-NLS-1$
+    private JButton clear = new JButton(JMeterUtils.getResString("clear"));
 
-    private JButton delete = new JButton(JMeterUtils.getResString("delete")); // $NON-NLS-1$
+    private JButton delete = new JButton(JMeterUtils.getResString("delete"));
 
     private List<ChangeListener> listeners = new LinkedList<>();
 
@@ -71,7 +71,7 @@ public class FileListPanel extends JPanel implements ActionListener {
      * Constructor for the FilePanel object.
      */
     public FileListPanel() {
-        title = ""; // $NON-NLS-1$
+        title = "";
         init();
     }
 
@@ -123,7 +123,7 @@ public class FileListPanel extends JPanel implements ActionListener {
         scrollpane.setPreferredSize(new Dimension(100,80));
         add(scrollpane,BorderLayout.CENTER);
 
-        browse.setActionCommand(ACTION_BROWSE); // $NON-NLS-1$
+        browse.setActionCommand(ACTION_BROWSE);
         browse.addActionListener(this);
         clear.addActionListener(this);
         delete.addActionListener(this);

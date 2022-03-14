@@ -43,15 +43,15 @@ public class ForeachController extends GenericController implements Serializable
 
     private static final long serialVersionUID = 241L;
 
-    private static final String INPUTVAL = "ForeachController.inputVal";// $NON-NLS-1$
+    private static final String INPUTVAL = "ForeachController.inputVal";
 
-    private static final String START_INDEX = "ForeachController.startIndex";// $NON-NLS-1$
+    private static final String START_INDEX = "ForeachController.startIndex";
 
-    private static final String END_INDEX = "ForeachController.endIndex";// $NON-NLS-1$
+    private static final String END_INDEX = "ForeachController.endIndex";
 
-    private static final String RETURNVAL = "ForeachController.returnVal";// $NON-NLS-1$
+    private static final String RETURNVAL = "ForeachController.returnVal";
 
-    private static final String USE_SEPARATOR = "ForeachController.useSeparator";// $NON-NLS-1$
+    private static final String USE_SEPARATOR = "ForeachController.useSeparator";
 
     private static final String INDEX_DEFAULT_VALUE = ""; // start/end index default value for string getters and setters
 
@@ -59,7 +59,7 @@ public class ForeachController extends GenericController implements Serializable
 
     private boolean breakLoop;
 
-    private static final String DEFAULT_SEPARATOR = "_";// $NON-NLS-1$
+    private static final String DEFAULT_SEPARATOR = "_";
 
     public ForeachController() {
     }
@@ -135,7 +135,7 @@ public class ForeachController extends GenericController implements Serializable
     }
 
     private String getSeparator() {
-        return getUseSeparator() ? DEFAULT_SEPARATOR : "";// $NON-NLS-1$
+        return getUseSeparator() ? DEFAULT_SEPARATOR : "";
     }
 
     public void setUseSeparator(boolean b) {

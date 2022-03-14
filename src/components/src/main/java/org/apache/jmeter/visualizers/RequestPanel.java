@@ -57,7 +57,7 @@ public class RequestPanel {
         } catch (IOException e1) {
             // ignored
         }
-        String rawTab = JMeterUtils.getResString(RequestViewRaw.KEY_LABEL); // $NON-NLS-1$
+        String rawTab = JMeterUtils.getResString(RequestViewRaw.KEY_LABEL);
         Object rawObject = null;
         for (String clazz : classesToAdd) {
             try {
@@ -69,7 +69,7 @@ public class RequestPanel {
                     listRequestView.add(requestView);
                 }
             } catch (Exception e) {
-                log.warn("Error in load result render: {}", clazz, e); // $NON-NLS-1$
+                log.warn("Error in load result render: {}", clazz, e);
             }
         }
         // place raw tab in first position (first tab)

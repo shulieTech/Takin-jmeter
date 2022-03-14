@@ -33,19 +33,19 @@ public class Authorization extends AbstractTestElement implements Serializable {
 
     private static final long serialVersionUID = 241L;
 
-    private static final String URL = "Authorization.url"; // $NON-NLS-1$
+    private static final String URL = "Authorization.url";
 
-    private static final String USERNAME = "Authorization.username"; // $NON-NLS-1$
+    private static final String USERNAME = "Authorization.username";
 
     private static final String PASSWORD = "Authorization.password"; // $NON-NLS-1$ NOSONAR no hard coded password
 
-    private static final String DOMAIN = "Authorization.domain"; // $NON-NLS-1$
+    private static final String DOMAIN = "Authorization.domain";
 
-    private static final String REALM = "Authorization.realm"; // $NON-NLS-1$
+    private static final String REALM = "Authorization.realm";
 
-    private static final String MECHANISM = "Authorization.mechanism"; // $NON-NLS-1$
+    private static final String MECHANISM = "Authorization.mechanism";
 
-    private static final String TAB = "\t"; // $NON-NLS-1$
+    private static final String TAB = "\t";
 
     /**
      * create the authorization

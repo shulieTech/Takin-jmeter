@@ -66,7 +66,7 @@ public class HttpMirrorThread implements Runnable {
 
     private static final String STATUS = "status"; //$NON-NLS-1$
 
-    private static final String VERBOSE = "v"; // $NON-NLS-1$
+    private static final String VERBOSE = "v";
 
     /** Socket to client. */
     private final Socket clientSocket;
@@ -309,7 +309,7 @@ public class HttpMirrorThread implements Runnable {
     private static int getPositionOfBody(String stringToCheck) {
         Perl5Matcher localMatcher = JMeterUtils.getMatcher();
         // The headers and body are divided by a blank line (the \r is to allow for the CR before LF)
-        String regularExpression = "^\\r$"; // $NON-NLS-1$
+        String regularExpression = "^\\r$";
         Pattern pattern = JMeterUtils.getPattern(regularExpression,
                 Perl5Compiler.READ_ONLY_MASK
                         | Perl5Compiler.CASE_INSENSITIVE_MASK

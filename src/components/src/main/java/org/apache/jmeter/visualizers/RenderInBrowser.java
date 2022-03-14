@@ -67,11 +67,11 @@ public class RenderInBrowser extends SamplerResultTab implements ResultRenderer 
         }
 
         int htmlIndex = response.indexOf("<HTML"); // could be <HTML lang=""> //
-                                                   // $NON-NLS-1$
+                                                  
 
         // Look for a case variation
         if (htmlIndex < 0) {
-            htmlIndex = response.indexOf("<html"); // ditto // $NON-NLS-1$
+            htmlIndex = response.indexOf("<html"); // ditto
         }
 
         // If we still can't find it, just try using all of the text
@@ -145,7 +145,7 @@ public class RenderInBrowser extends SamplerResultTab implements ResultRenderer 
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        return JMeterUtils.getResString("view_results_render_browser"); // $NON-NLS-1$
+        return JMeterUtils.getResString("view_results_render_browser");
     }
 
     /* (non-Javadoc)

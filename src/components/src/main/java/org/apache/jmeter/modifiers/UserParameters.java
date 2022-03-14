@@ -37,11 +37,11 @@ public class UserParameters extends AbstractTestElement implements Serializable,
 
     private static final long serialVersionUID = 234L;
 
-    public static final String NAMES = "UserParameters.names";// $NON-NLS-1$
+    public static final String NAMES = "UserParameters.names";
 
-    public static final String THREAD_VALUES = "UserParameters.thread_values";// $NON-NLS-1$
+    public static final String THREAD_VALUES = "UserParameters.thread_values";
 
-    public static final String PER_ITERATION = "UserParameters.per_iteration";// $NON-NLS-1$
+    public static final String PER_ITERATION = "UserParameters.per_iteration";
 
     /**
      * Although the lock appears to be an instance lock, in fact the lock is

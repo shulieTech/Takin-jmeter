@@ -80,77 +80,77 @@ public class LDAPExtSampler extends AbstractSampler implements TestStateListener
      * The following strings are used in the test plan, and the values must not be changed
      * if test plans are to be upwardly compatible.
      */
-    public static final String SERVERNAME = "servername"; // $NON-NLS-1$
+    public static final String SERVERNAME = "servername";
 
-    public static final String PORT = "port"; // $NON-NLS-1$
+    public static final String PORT = "port";
 
-    public static final String SECURE = "secure"; // $NON-NLS-1$
+    public static final String SECURE = "secure";
 
     public static final String TRUSTALL = "trustall";
 
-    public static final String ROOTDN = "rootdn"; // $NON-NLS-1$
+    public static final String ROOTDN = "rootdn";
 
-    public static final String TEST = "test"; // $NON-NLS-1$
+    public static final String TEST = "test";
 
     // These are values for the TEST attribute above
-    public static final String ADD = "add"; // $NON-NLS-1$
+    public static final String ADD = "add";
 
-    public static final String MODIFY = "modify"; // $NON-NLS-1$
+    public static final String MODIFY = "modify";
 
-    public static final String BIND = "bind"; // $NON-NLS-1$
+    public static final String BIND = "bind";
 
-    public static final String UNBIND = "unbind"; // $NON-NLS-1$
+    public static final String UNBIND = "unbind";
 
-    public static final String DELETE = "delete"; // $NON-NLS-1$
+    public static final String DELETE = "delete";
 
-    public static final String SEARCH = "search"; // $NON-NLS-1$
+    public static final String SEARCH = "search";
     // end of TEST values
 
-    public static final String SEARCHBASE = "search"; // $NON-NLS-1$
+    public static final String SEARCHBASE = "search";
 
-    public static final String SEARCHFILTER = "searchfilter"; // $NON-NLS-1$
+    public static final String SEARCHFILTER = "searchfilter";
 
-    public static final String ARGUMENTS = "arguments"; // $NON-NLS-1$
+    public static final String ARGUMENTS = "arguments";
 
-    public static final String LDAPARGUMENTS = "ldaparguments"; // $NON-NLS-1$
+    public static final String LDAPARGUMENTS = "ldaparguments";
 
-    public static final String BASE_ENTRY_DN = "base_entry_dn"; // $NON-NLS-1$
+    public static final String BASE_ENTRY_DN = "base_entry_dn";
 
-    public static final String SCOPE = "scope"; // $NON-NLS-1$
+    public static final String SCOPE = "scope";
 
-    public static final String COUNTLIM = "countlimit"; // $NON-NLS-1$
+    public static final String COUNTLIM = "countlimit";
 
-    public static final String TIMELIM = "timelimit"; // $NON-NLS-1$
+    public static final String TIMELIM = "timelimit";
 
-    public static final String ATTRIBS = "attributes"; // $NON-NLS-1$
+    public static final String ATTRIBS = "attributes";
 
-    public static final String RETOBJ = "return_object"; // $NON-NLS-1$
+    public static final String RETOBJ = "return_object";
 
-    public static final String DEREF = "deref_aliases"; // $NON-NLS-1$
+    public static final String DEREF = "deref_aliases";
 
-    public static final String USERDN = "user_dn"; // $NON-NLS-1$
+    public static final String USERDN = "user_dn";
 
-    public static final String USERPW = "user_pw"; // $NON-NLS-1$
+    public static final String USERPW = "user_pw";
 
-    public static final String SBIND = "sbind"; // $NON-NLS-1$
+    public static final String SBIND = "sbind";
 
-    public static final String COMPARE = "compare"; // $NON-NLS-1$
+    public static final String COMPARE = "compare";
 
-    public static final String CONNTO = "connection_timeout"; // $NON-NLS-1$
+    public static final String CONNTO = "connection_timeout";
 
-    public static final String COMPAREDN = "comparedn"; // $NON-NLS-1$
+    public static final String COMPAREDN = "comparedn";
 
-    public static final String COMPAREFILT = "comparefilt"; // $NON-NLS-1$
+    public static final String COMPAREFILT = "comparefilt";
 
-    public static final String PARSEFLAG = "parseflag"; // $NON-NLS-1$
+    public static final String PARSEFLAG = "parseflag";
 
-    public static final String RENAME = "rename"; // $NON-NLS-1$
+    public static final String RENAME = "rename";
 
-    public static final String MODDDN = "modddn"; // $NON-NLS-1$
+    public static final String MODDDN = "modddn";
 
-    public static final String NEWDN = "newdn"; // $NON-NLS-1$
+    public static final String NEWDN = "newdn";
 
-    private static final String SEMI_COLON = ";"; // $NON-NLS-1$
+    private static final String SEMI_COLON = ";";
 
     private static final String RETURN_CODE_PREFIX = "LDAP: error code";
     private static final int ERROR_MSG_START_INDEX = "LDAP: error code 00 -".length();
@@ -159,7 +159,7 @@ public class LDAPExtSampler extends AbstractSampler implements TestStateListener
             new ConcurrentHashMap<>();
 
     private static final int MAX_SORTED_RESULTS =
-        JMeterUtils.getPropDefault("ldapsampler.max_sorted_results", 1000); // $NON-NLS-1$
+        JMeterUtils.getPropDefault("ldapsampler.max_sorted_results", 1000);
 
     public LDAPExtSampler() {
         super();
@@ -543,12 +543,12 @@ public class LDAPExtSampler extends AbstractSampler implements TestStateListener
             }
 
             final String opcode = item.getOpcode();
-            if ("add".equals(opcode)) { // $NON-NLS-1$
+            if ("add".equals(opcode)) {
                 mods[count++] = new ModificationItem(DirContext.ADD_ATTRIBUTE, attr);
-            } else if ("delete".equals(opcode) // $NON-NLS-1$
-                   ||  "remove".equals(opcode)) { // $NON-NLS-1$
+            } else if ("delete".equals(opcode)
+                   ||  "remove".equals(opcode)) {
                 mods[count++] = new ModificationItem(DirContext.REMOVE_ATTRIBUTE, attr);
-            } else if("replace".equals(opcode)) { // $NON-NLS-1$
+            } else if("replace".equals(opcode)) {
                 mods[count++] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, attr);
             } else {
                 log.warn("Invalid opCode: {}", opcode);
@@ -729,50 +729,50 @@ public class LDAPExtSampler extends AbstractSampler implements TestStateListener
     @Override
     public SampleResult sample(Entry e) {
         XMLBuffer xmlBuffer = new XMLBuffer();
-        xmlBuffer.openTag("ldapanswer"); // $NON-NLS-1$
+        xmlBuffer.openTag("ldapanswer");
         SampleResult res = new SampleResult();
         res.setResponseData("successfull", null);
-        res.setResponseMessage("Success"); // $NON-NLS-1$
-        res.setResponseCode("0"); // $NON-NLS-1$
-        res.setContentType("text/xml");// $NON-NLS-1$
+        res.setResponseMessage("Success");
+        res.setResponseCode("0");
+        res.setContentType("text/xml");
         boolean isSuccessful = true;
         res.setSampleLabel(getName());
         DirContext dirContext = ldapContexts.get(getThreadName());
 
         try {
-            xmlBuffer.openTag("operation"); // $NON-NLS-1$
+            xmlBuffer.openTag("operation");
             final String testType = getTest();
-            xmlBuffer.tag("opertype", testType); // $NON-NLS-1$
+            xmlBuffer.tag("opertype", testType);
             log.debug("performing test: {}", testType);
             if (testType.equals(UNBIND)) {
                 res.setSamplerData("Unbind");
-                xmlBuffer.tag("baseobj",getRootdn()); // $NON-NLS-1$
-                xmlBuffer.tag("binddn",getUserDN()); // $NON-NLS-1$
+                xmlBuffer.tag("baseobj",getRootdn());
+                xmlBuffer.tag("binddn",getUserDN());
                 unbindOp(dirContext, res);
             } else if (testType.equals(BIND)) {
                 res.setSamplerData("Bind as "+getUserDN());
-                xmlBuffer.tag("baseobj",getRootdn()); // $NON-NLS-1$
-                xmlBuffer.tag("binddn",getUserDN()); // $NON-NLS-1$
-                xmlBuffer.tag("connectionTO",getConnTimeOut()); // $NON-NLS-1$
+                xmlBuffer.tag("baseobj",getRootdn());
+                xmlBuffer.tag("binddn",getUserDN());
+                xmlBuffer.tag("connectionTO",getConnTimeOut());
                 bindOp(res);
             } else if (testType.equals(SBIND)) {
                 res.setSamplerData("SingleBind as "+getUserDN());
-                xmlBuffer.tag("baseobj",getRootdn()); // $NON-NLS-1$
-                xmlBuffer.tag("binddn",getUserDN()); // $NON-NLS-1$
-                xmlBuffer.tag("connectionTO",getConnTimeOut()); // $NON-NLS-1$
+                xmlBuffer.tag("baseobj",getRootdn());
+                xmlBuffer.tag("binddn",getUserDN());
+                xmlBuffer.tag("connectionTO",getConnTimeOut());
                 singleBindOp(res);
             } else if (testType.equals(COMPARE)) {
                 res.setSamplerData("Compare "+getPropertyAsString(COMPAREFILT) + " "
                                 + getPropertyAsString(COMPAREDN));
-                xmlBuffer.tag("comparedn",getPropertyAsString(COMPAREDN)); // $NON-NLS-1$
-                xmlBuffer.tag("comparefilter",getPropertyAsString(COMPAREFILT)); // $NON-NLS-1$
+                xmlBuffer.tag("comparedn",getPropertyAsString(COMPAREDN));
+                xmlBuffer.tag("comparefilter",getPropertyAsString(COMPAREFILT));
                 NamingEnumeration<SearchResult> cmp=null;
                 try {
                     res.sampleStart();
                     cmp = LdapExtClient.compare(dirContext, getPropertyAsString(COMPAREFILT),
                             getPropertyAsString(COMPAREDN));
                     if (!cmp.hasMore()) {
-                        res.setResponseCode("5"); // $NON-NLS-1$
+                        res.setResponseCode("5");
                         res.setResponseMessage("compareFalse");
                         isSuccessful = false;
                     }
@@ -784,22 +784,22 @@ public class LDAPExtSampler extends AbstractSampler implements TestStateListener
                 }
             } else if (testType.equals(ADD)) {
                 res.setSamplerData("Add object " + getBaseEntryDN());
-                xmlBuffer.tag("attributes",getArguments().toString()); // $NON-NLS-1$
-                xmlBuffer.tag("dn",getBaseEntryDN()); // $NON-NLS-1$
+                xmlBuffer.tag("attributes",getArguments().toString());
+                xmlBuffer.tag("dn",getBaseEntryDN());
                 addTest(dirContext, res);
             } else if (testType.equals(DELETE)) {
                 res.setSamplerData("Delete object " + getBaseEntryDN());
-                xmlBuffer.tag("dn",getBaseEntryDN()); // $NON-NLS-1$
+                xmlBuffer.tag("dn",getBaseEntryDN());
                 deleteTest(dirContext, res);
             } else if (testType.equals(MODIFY)) {
                 res.setSamplerData("Modify object " + getBaseEntryDN());
-                xmlBuffer.tag("dn",getBaseEntryDN()); // $NON-NLS-1$
-                xmlBuffer.tag("attributes",getLDAPArguments().toString()); // $NON-NLS-1$
+                xmlBuffer.tag("dn",getBaseEntryDN());
+                xmlBuffer.tag("attributes",getLDAPArguments().toString());
                 modifyTest(dirContext, res);
             } else if (testType.equals(RENAME)) {
                 res.setSamplerData("ModDN object " + getPropertyAsString(MODDDN) + " to " + getPropertyAsString(NEWDN));
-                xmlBuffer.tag("dn",getPropertyAsString(MODDDN)); // $NON-NLS-1$
-                xmlBuffer.tag("newdn",getPropertyAsString(NEWDN)); // $NON-NLS-1$
+                xmlBuffer.tag("dn",getPropertyAsString(MODDDN));
+                xmlBuffer.tag("newdn",getPropertyAsString(NEWDN));
                 renameTest(dirContext, res);
             } else if (testType.equals(SEARCH)) {
                 final String scopeStr = getScope();
@@ -810,12 +810,12 @@ public class LDAPExtSampler extends AbstractSampler implements TestStateListener
                 final String countLimit = getCountlim();
 
                 res.setSamplerData("Search with filter " + searchFilter);
-                xmlBuffer.tag("searchfilter", StringEscapeUtils.escapeXml10(searchFilter)); // $NON-NLS-1$
-                xmlBuffer.tag("baseobj",getRootdn()); // $NON-NLS-1$
-                xmlBuffer.tag("searchbase",searchBase);// $NON-NLS-1$
-                xmlBuffer.tag("scope" , scopeStr); // $NON-NLS-1$
-                xmlBuffer.tag("countlimit",countLimit); // $NON-NLS-1$
-                xmlBuffer.tag("timelimit",timeLimit); // $NON-NLS-1$
+                xmlBuffer.tag("searchfilter", StringEscapeUtils.escapeXml10(searchFilter));
+                xmlBuffer.tag("baseobj",getRootdn());
+                xmlBuffer.tag("searchbase",searchBase);
+                xmlBuffer.tag("scope" , scopeStr);
+                xmlBuffer.tag("countlimit",countLimit);
+                xmlBuffer.tag("timelimit",timeLimit);
 
                 NamingEnumeration<SearchResult> srch=null;
                 try {
@@ -829,14 +829,14 @@ public class LDAPExtSampler extends AbstractSampler implements TestStateListener
                             isDeref());
                     if (isParseFlag()) {
                         try {
-                            xmlBuffer.openTag("searchresults"); // $NON-NLS-1$
+                            xmlBuffer.openTag("searchresults");
                             writeSearchResults(xmlBuffer, srch);
                         } finally {
-                            xmlBuffer.closeTag("searchresults"); // $NON-NLS-1$
+                            xmlBuffer.closeTag("searchresults");
                         }
                     } else {
-                        xmlBuffer.tag("searchresults", // $NON-NLS-1$
-                                "hasElements="+srch.hasMoreElements()); // $NON-NLS-1$
+                        xmlBuffer.tag("searchresults",
+                                "hasElements="+srch.hasMoreElements());
                     }
                 } finally {
                     if (srch != null){
@@ -852,21 +852,21 @@ public class LDAPExtSampler extends AbstractSampler implements TestStateListener
             final int indexOfLDAPErrCode = returnData.indexOf(RETURN_CODE_PREFIX);
             if (indexOfLDAPErrCode >= 0) {
                 res.setResponseCode(returnData.substring(indexOfLDAPErrCode + RETURN_CODE_PREFIX.length(), indexOfLDAPErrCode + 19));
-                res.setResponseMessage(returnData.substring(indexOfLDAPErrCode + ERROR_MSG_START_INDEX, returnData.indexOf(']'))); // $NON-NLS-1$
+                res.setResponseMessage(returnData.substring(indexOfLDAPErrCode + ERROR_MSG_START_INDEX, returnData.indexOf(']')));
             } else {
                 res.setResponseMessage(returnData);
-                res.setResponseCode("800"); // $NON-NLS-1$
+                res.setResponseCode("800");
             }
             isSuccessful = false;
         }  catch (Exception ex) { // NOSONAR Exception is reported
             String returnData = ex.toString();
             res.setResponseCode("500");
-            res.setResponseMessage(returnData); // $NON-NLS-1$
+            res.setResponseMessage(returnData);
             isSuccessful = false;
         } finally {
-            xmlBuffer.closeTag("operation"); // $NON-NLS-1$
-            xmlBuffer.tag("responsecode",res.getResponseCode()); // $NON-NLS-1$
-            xmlBuffer.tag("responsemessage",res.getResponseMessage()); // $NON-NLS-1$
+            xmlBuffer.closeTag("operation");
+            xmlBuffer.tag("responsecode",res.getResponseCode());
+            xmlBuffer.tag("responsemessage",res.getResponseMessage());
             res.setResponseData(xmlBuffer.toString(), null);
             res.setDataType(SampleResult.TEXT);
             res.setSuccessful(isSuccessful);
@@ -922,10 +922,10 @@ public class LDAPExtSampler extends AbstractSampler implements TestStateListener
         final int size = attrs.size();
         final List<Attribute> sortedAttrs = new ArrayList<>(size);
 
-        xmlb.openTag("searchresult"); // $NON-NLS-1$
-        xmlb.tag("dn", sr.getName()); // $NON-NLS-1$
-        xmlb.tag("returnedattr",Integer.toString(size)); // $NON-NLS-1$
-        xmlb.openTag("attributes"); // $NON-NLS-1$
+        xmlb.openTag("searchresult");
+        xmlb.tag("dn", sr.getName());
+        xmlb.tag("returnedattr",Integer.toString(size));
+        xmlb.openTag("attributes");
 
         try {
             for (NamingEnumeration<? extends Attribute> en = attrs.getAll(); en.hasMore();) {
@@ -950,8 +950,8 @@ public class LDAPExtSampler extends AbstractSampler implements TestStateListener
                 xmlb.tag(attr.getID(),sb);
             }
         } finally {
-            xmlb.closeTag("attributes"); // $NON-NLS-1$
-            xmlb.closeTag("searchresult"); // $NON-NLS-1$
+            xmlb.closeTag("attributes");
+            xmlb.closeTag("searchresult");
         }
     }
 
@@ -1032,12 +1032,12 @@ public class LDAPExtSampler extends AbstractSampler implements TestStateListener
 
     @Override
     public void testStarted() {
-        testStarted(""); // $NON-NLS-1$
+        testStarted("");
     }
 
     @Override
     public void testEnded() {
-        testEnded(""); // $NON-NLS-1$
+        testEnded("");
     }
 
     @Override

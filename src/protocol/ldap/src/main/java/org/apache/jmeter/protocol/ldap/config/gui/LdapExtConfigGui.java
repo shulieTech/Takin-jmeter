@@ -87,23 +87,23 @@ public class LdapExtConfigGui extends AbstractConfigGui implements ItemListener 
      * and then recreates all the GUI classes.
      */
     private final String[] SCOPE_STRINGS = new String[]{
-        JMeterUtils.getResString("ldap_search_baseobject"),// $NON-NLS-1$
-        JMeterUtils.getResString("ldap_search_onelevel"),// $NON-NLS-1$
-        JMeterUtils.getResString("ldap_search_subtree"),// $NON-NLS-1$
+        JMeterUtils.getResString("ldap_search_baseobject"),
+        JMeterUtils.getResString("ldap_search_onelevel"),
+        JMeterUtils.getResString("ldap_search_subtree"),
         };
 
     // Names for the cards
-    private static final String CARDS_DEFAULT = ""; // $NON-NLS-1$
-    private static final String CARDS_ADD = "Add"; // $NON-NLS-1$
-    private static final String CARDS_DELETE = "Delete"; // $NON-NLS-1$
-    private static final String CARDS_BIND = "Bind"; // $NON-NLS-1$
-    private static final String CARDS_RENAME = "Rename"; // $NON-NLS-1$
-    private static final String CARDS_COMPARE = "Compare"; // $NON-NLS-1$
-    private static final String CARDS_SEARCH = "Search"; // $NON-NLS-1$
-    private static final String CARDS_MODIFY = "Modify"; // $NON-NLS-1$
+    private static final String CARDS_DEFAULT = "";
+    private static final String CARDS_ADD = "Add";
+    private static final String CARDS_DELETE = "Delete";
+    private static final String CARDS_BIND = "Bind";
+    private static final String CARDS_RENAME = "Rename";
+    private static final String CARDS_COMPARE = "Compare";
+    private static final String CARDS_SEARCH = "Search";
+    private static final String CARDS_MODIFY = "Modify";
 
     private JLabeledChoice scope =
-        new JLabeledChoice(JMeterUtils.getResString("scope"), // $NON-NLS-1$
+        new JLabeledChoice(JMeterUtils.getResString("scope"),
         SCOPE_STRINGS);
 
     private JTextField countlim = new JTextField(20);
@@ -112,9 +112,9 @@ public class LdapExtConfigGui extends AbstractConfigGui implements ItemListener 
 
     private JTextField attribs = new JTextField(20);
 
-    private JCheckBox retobj = new JCheckBox(JMeterUtils.getResString("retobj")); // $NON-NLS-1$
+    private JCheckBox retobj = new JCheckBox(JMeterUtils.getResString("retobj"));
 
-    private JCheckBox deref = new JCheckBox(JMeterUtils.getResString("deref")); // $NON-NLS-1$
+    private JCheckBox deref = new JCheckBox(JMeterUtils.getResString("deref"));
 
     private JTextField userdn = new JTextField(20);
 
@@ -130,37 +130,37 @@ public class LdapExtConfigGui extends AbstractConfigGui implements ItemListener 
 
     private JTextField connto = new JTextField(20);
 
-    private JCheckBox parseflag = new JCheckBox(JMeterUtils.getResString("ldap_parse_results")); // $NON-NLS-1$
+    private JCheckBox parseflag = new JCheckBox(JMeterUtils.getResString("ldap_parse_results"));
 
-    private JCheckBox secure = new JCheckBox(JMeterUtils.getResString("ldap_secure")); // $NON-NLS-1$
+    private JCheckBox secure = new JCheckBox(JMeterUtils.getResString("ldap_secure"));
 
-    private JCheckBox trustAll = new JCheckBox(JMeterUtils.getResString("ldap_trust_all")); // $NON-NLS-1$
+    private JCheckBox trustAll = new JCheckBox(JMeterUtils.getResString("ldap_trust_all"));
 
-    private JRadioButton addTest = new JRadioButton(JMeterUtils.getResString("addtest")); // $NON-NLS-1$
+    private JRadioButton addTest = new JRadioButton(JMeterUtils.getResString("addtest"));
 
-    private JRadioButton modifyTest = new JRadioButton(JMeterUtils.getResString("modtest")); // $NON-NLS-1$
+    private JRadioButton modifyTest = new JRadioButton(JMeterUtils.getResString("modtest"));
 
-    private JRadioButton deleteTest = new JRadioButton(JMeterUtils.getResString("deltest")); // $NON-NLS-1$
+    private JRadioButton deleteTest = new JRadioButton(JMeterUtils.getResString("deltest"));
 
-    private JRadioButton searchTest = new JRadioButton(JMeterUtils.getResString("searchtest")); // $NON-NLS-1$
+    private JRadioButton searchTest = new JRadioButton(JMeterUtils.getResString("searchtest"));
 
-    private JRadioButton bind = new JRadioButton(JMeterUtils.getResString("bind")); // $NON-NLS-1$
+    private JRadioButton bind = new JRadioButton(JMeterUtils.getResString("bind"));
 
-    private JRadioButton rename = new JRadioButton(JMeterUtils.getResString("rename")); // $NON-NLS-1$
+    private JRadioButton rename = new JRadioButton(JMeterUtils.getResString("rename"));
 
-    private JRadioButton unbind = new JRadioButton(JMeterUtils.getResString("unbind")); // $NON-NLS-1$
+    private JRadioButton unbind = new JRadioButton(JMeterUtils.getResString("unbind"));
 
-    private JRadioButton sbind = new JRadioButton(JMeterUtils.getResString("sbind")); // $NON-NLS-1$
+    private JRadioButton sbind = new JRadioButton(JMeterUtils.getResString("sbind"));
 
-    private JRadioButton compare = new JRadioButton(JMeterUtils.getResString("compare")); // $NON-NLS-1$
+    private JRadioButton compare = new JRadioButton(JMeterUtils.getResString("compare"));
 
     private ButtonGroup bGroup = new ButtonGroup();
 
     private boolean displayName = true;
 
-    private ArgumentsPanel tableAddPanel = new ArgumentsPanel(JMeterUtils.getResString("addtest")); // $NON-NLS-1$
+    private ArgumentsPanel tableAddPanel = new ArgumentsPanel(JMeterUtils.getResString("addtest"));
 
-    private LDAPArgumentsPanel tableModifyPanel = new LDAPArgumentsPanel(JMeterUtils.getResString("modtest")); // $NON-NLS-1$
+    private LDAPArgumentsPanel tableModifyPanel = new LDAPArgumentsPanel(JMeterUtils.getResString("modtest"));
 
     private JPanel cards;
 
@@ -184,7 +184,7 @@ public class LdapExtConfigGui extends AbstractConfigGui implements ItemListener 
 
     @Override
     public String getLabelResource() {
-        return "ldapext_sample_title"; // $NON-NLS-1$
+        return "ldapext_sample_title";
     }
 
     /**
@@ -489,7 +489,7 @@ public class LdapExtConfigGui extends AbstractConfigGui implements ItemListener 
      */
     private JPanel createLabelPanel(String key, JTextField field) {
         JPanel panel = new JPanel(new BorderLayout(5, 0));
-        JLabel label = new JLabel(JMeterUtils.getResString(key)); // $NON-NLS-1$
+        JLabel label = new JLabel(JMeterUtils.getResString(key));
         label.setLabelFor(field);
         panel.add(label, BorderLayout.WEST);
         panel.add(field, BorderLayout.CENTER);
@@ -548,9 +548,9 @@ public class LdapExtConfigGui extends AbstractConfigGui implements ItemListener 
      **************************************************************************/
     private JPanel createTestPanel() {
         JPanel testPanel = new JPanel(new BorderLayout());
-        testPanel.setBorder(BorderFactory.createTitledBorder(JMeterUtils.getResString("test_configuration"))); // $NON-NLS-1$
+        testPanel.setBorder(BorderFactory.createTitledBorder(JMeterUtils.getResString("test_configuration")));
 
-        testPanel.add(new JLabel(JMeterUtils.getResString("testt"))); // $NON-NLS-1$
+        testPanel.add(new JLabel(JMeterUtils.getResString("testt")));
         JPanel rowPanel = new JPanel();
         JPanel row2Panel = new JPanel();
 

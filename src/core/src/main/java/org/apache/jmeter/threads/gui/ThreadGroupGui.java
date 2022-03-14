@@ -157,7 +157,7 @@ public class ThreadGroupGui extends AbstractThreadGroupGui implements ItemListen
 
     @Override
     public String getLabelResource() {
-        return "threadgroup"; // $NON-NLS-1$
+        return "threadgroup";
     }
 
     @Override
@@ -168,15 +168,15 @@ public class ThreadGroupGui extends AbstractThreadGroupGui implements ItemListen
 
     // Initialise the gui field values
     private void initGui(){
-        threadInput.setText("1"); // $NON-NLS-1$
-        rampInput.setText("1"); // $NON-NLS-1$
+        threadInput.setText("1");
+        rampInput.setText("1");
         loopPanel.clearGui();
         if (showDelayedStart) {
             delayedStart.setSelected(false);
         }
         scheduler.setSelected(false);
-        delay.setText(""); // $NON-NLS-1$
-        duration.setText(""); // $NON-NLS-1$
+        delay.setText("");
+        duration.setText("");
         sameUserBox.setSelected(true);
     }
 
@@ -184,10 +184,10 @@ public class ThreadGroupGui extends AbstractThreadGroupGui implements ItemListen
         // THREAD PROPERTIES
         JPanel threadPropsPanel = new JPanel(new MigLayout("fillx, wrap 2", "[][fill,grow]"));
         threadPropsPanel.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("thread_properties"))); // $NON-NLS-1$
+                JMeterUtils.getResString("thread_properties")));
 
         // NUMBER OF THREADS
-        threadPropsPanel.add(labelFor(threadInput, "number_of_threads")); // $NON-NLS-1$
+        threadPropsPanel.add(labelFor(threadInput, "number_of_threads"));
         threadInput.setName(THREAD_NAME);
         threadPropsPanel.add(threadInput);
 
@@ -203,7 +203,7 @@ public class ThreadGroupGui extends AbstractThreadGroupGui implements ItemListen
         threadPropsPanel.add(loopController.getLoops());
         threadPropsPanel.add(sameUserBox, "span 2");
         if (showDelayedStart) {
-            delayedStart = new JCheckBox(JMeterUtils.getResString("delayed_start")); // $NON-NLS-1$
+            delayedStart = new JCheckBox(JMeterUtils.getResString("delayed_start"));
             threadPropsPanel.add(delayedStart, "span 2");
         }
         scheduler.addItemListener(this);

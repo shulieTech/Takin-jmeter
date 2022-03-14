@@ -59,7 +59,7 @@ public class JDBCSampler extends AbstractJDBCTestElement implements Sampler, Tes
         res.setSampleLabel(getName());
         res.setSamplerData(toString());
         res.setDataType(SampleResult.TEXT);
-        res.setContentType("text/plain"); // $NON-NLS-1$
+        res.setContentType("text/plain");
         res.setDataEncoding(ENCODING);
 
         // Assume we will be successful

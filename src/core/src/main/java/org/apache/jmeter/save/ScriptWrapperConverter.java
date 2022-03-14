@@ -34,9 +34,9 @@ import com.thoughtworks.xstream.mapper.Mapper;
  */
 public class ScriptWrapperConverter implements Converter {
 
-    private static final String ATT_PROPERTIES = "properties"; // $NON-NLS-1$
-    private static final String ATT_VERSION = "version"; // $NON-NLS-1$
-    private static final String ATT_JMETER = "jmeter"; // $NON-NLS-1$
+    private static final String ATT_PROPERTIES = "properties";
+    private static final String ATT_VERSION = "version";
+    private static final String ATT_JMETER = "jmeter";
 
     /**
      * Returns the converter version; used to check for possible
@@ -45,7 +45,7 @@ public class ScriptWrapperConverter implements Converter {
      * @return the version of the converter
      */
     public static String getVersion() {
-        return "$Revision$"; // $NON-NLS-1$
+        return "$Revision$";
     }
 
     private final Mapper classMapper;

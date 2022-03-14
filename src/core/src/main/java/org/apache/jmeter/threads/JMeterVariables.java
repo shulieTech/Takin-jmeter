@@ -37,10 +37,10 @@ public class JMeterVariables {
 
     // Property names to preload into JMeter variables:
     private static final String [] PRE_LOAD = {
-      "START.MS",     // $NON-NLS-1$
-      "START.YMD",    // $NON-NLS-1$
+      "START.MS",
+      "START.YMD",
       "START.HMS",    //$NON-NLS-1$
-      "TESTSTART.MS", // $NON-NLS-1$
+      "TESTSTART.MS",
     };
 
     static final String VAR_IS_SAME_USER_KEY = "__jmv_SAME_USER";

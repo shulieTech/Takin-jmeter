@@ -51,8 +51,8 @@ public class Colors {
         Properties defaultProps = JMeterUtils.loadProperties(DEFAULT_COLORS_PROPERTY_FILE);
         if (defaultProps == null) {
             JOptionPane.showMessageDialog(null,
-                    JMeterUtils.getResString("toolbar_icon_set_not_found"), // $NON-NLS-1$
-                    JMeterUtils.getResString("toolbar_icon_set_not_found"), // $NON-NLS-1$
+                    JMeterUtils.getResString("toolbar_icon_set_not_found"),
+                    JMeterUtils.getResString("toolbar_icon_set_not_found"),
                     JOptionPane.WARNING_MESSAGE);
             return null;
         }
@@ -69,8 +69,8 @@ public class Colors {
         if (order == null) {
             log.warn("Could not find order list");
             JOptionPane.showMessageDialog(null,
-                    JMeterUtils.getResString("toolbar_icon_set_not_found"), // $NON-NLS-1$
-                    JMeterUtils.getResString("toolbar_icon_set_not_found"), // $NON-NLS-1$
+                    JMeterUtils.getResString("toolbar_icon_set_not_found"),
+                    JMeterUtils.getResString("toolbar_icon_set_not_found"),
                     JOptionPane.WARNING_MESSAGE);
             return null;
         }
@@ -86,7 +86,7 @@ public class Colors {
                 Color itb = new Color(Integer.parseInt(lcol[0]), Integer.parseInt(lcol[1]), Integer.parseInt(lcol[2]));
                 listColors.add(itb);
             } catch (java.lang.Exception e) {
-                log.warn("Error in colors.properties, current property={}", property); // $NON-NLS-1$
+                log.warn("Error in colors.properties, current property={}", property);
             }
         }
         return listColors;

@@ -86,32 +86,32 @@ public class LdapExtClient {
             throws NamingException {
         DirContext dirContext;
         Hashtable<String, String> env = new Hashtable<>(); // NOSONAR : Env needs to be HashTable
-        env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory"); // $NON-NLS-1$
+        env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
         StringBuilder sb = new StringBuilder(80);
         if (secure) {
-            sb.append("ldaps://"); // $NON-NLS-1$
+            sb.append("ldaps://");
             if (trustAll){
                 log.debug("Using secure connection with trustAll");
                 env.put("java.naming.ldap.factory.socket", TrustAllSSLSocketFactory.class.getName());
             }
         } else {
-            sb.append("ldap://"); // $NON-NLS-1$
+            sb.append("ldap://");
         }
         sb.append(host);
         if (port.length()>0){
-            sb.append(":"); // $NON-NLS-1$
+            sb.append(":");
             sb.append(port);
         }
-        sb.append("/"); // $NON-NLS-1$
+        sb.append("/");
         sb.append(rootdn);
         env.put(Context.PROVIDER_URL,sb.toString());
         if(log.isInfoEnabled()) {
-            log.info("prov_url= {}", env.get(Context.PROVIDER_URL)); // $NON-NLS-1$
+            log.info("prov_url= {}", env.get(Context.PROVIDER_URL));
         }
         if (connTimeOut.length()> 0) {
-            env.put("com.sun.jndi.ldap.connect.timeout", connTimeOut); // $NON-NLS-1$
+            env.put("com.sun.jndi.ldap.connect.timeout", connTimeOut);
         }
-        env.put(Context.REFERRAL, "throw"); // $NON-NLS-1$
+        env.put(Context.REFERRAL, "throw");
         env.put("java.naming.batchsize", "0"); // $NON-NLS-1$  // $NON-NLS-2$
         env.put(Context.SECURITY_CREDENTIALS, password);
         env.put(Context.SECURITY_PRINCIPAL, username);

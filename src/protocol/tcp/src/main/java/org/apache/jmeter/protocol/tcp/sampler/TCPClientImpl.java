@@ -39,8 +39,8 @@ import org.slf4j.LoggerFactory;
 public class TCPClientImpl extends AbstractTCPClient {
     private static final Logger log = LoggerFactory.getLogger(TCPClientImpl.class);
 
-    private static final int EOL_INT = JMeterUtils.getPropDefault("tcp.eolByte", 1000); // $NON-NLS-1$
-    private static final String CHARSET = JMeterUtils.getPropDefault("tcp.charset", Charset.defaultCharset().name()); // $NON-NLS-1$
+    private static final int EOL_INT = JMeterUtils.getPropDefault("tcp.eolByte", 1000);
+    private static final String CHARSET = JMeterUtils.getPropDefault("tcp.charset", Charset.defaultCharset().name());
     // default is not in range of a byte
 
     public TCPClientImpl() {

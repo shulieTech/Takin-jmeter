@@ -83,16 +83,16 @@ public class TableVisualizer extends AbstractVisualizer implements Clearable {
             JMeterUtils.getResString("table_visualizer_warning")); //$NON-NLS-1$
 
     private static final String[] COLUMNS = new String[] {
-            "table_visualizer_sample_num",  // $NON-NLS-1$
-            "table_visualizer_start_time",  // $NON-NLS-1$
-            "table_visualizer_thread_name", // $NON-NLS-1$
-            "sampler_label",                // $NON-NLS-1$
-            "table_visualizer_sample_time", // $NON-NLS-1$
-            "table_visualizer_status",      // $NON-NLS-1$
-            "table_visualizer_bytes",       // $NON-NLS-1$
-            "table_visualizer_sent_bytes",       // $NON-NLS-1$
-            "table_visualizer_latency",     // $NON-NLS-1$
-            "table_visualizer_connect"};    // $NON-NLS-1$
+            "table_visualizer_sample_num", 
+            "table_visualizer_start_time", 
+            "table_visualizer_thread_name",
+            "sampler_label",               
+            "table_visualizer_sample_time",
+            "table_visualizer_status",     
+            "table_visualizer_bytes",      
+            "table_visualizer_sent_bytes",      
+            "table_visualizer_latency",    
+            "table_visualizer_connect"};   
 
     private ObjectTableModel model = null;
 
@@ -138,17 +138,17 @@ public class TableVisualizer extends AbstractVisualizer implements Clearable {
         model = new ObjectTableModel(COLUMNS,
                 TableSample.class,         // The object used for each row
                 new Functor[] {
-                new Functor("getSampleNumberString"),  // $NON-NLS-1$
-                new Functor("getStartTimeFormatted",   // $NON-NLS-1$
+                new Functor("getSampleNumberString"), 
+                new Functor("getStartTimeFormatted",  
                         new Object[]{format}),
-                new Functor("getThreadName"),          // $NON-NLS-1$
-                new Functor("getLabel"),               // $NON-NLS-1$
-                new Functor("getElapsed"),             // $NON-NLS-1$
-                new SampleSuccessFunctor("isSuccess"), // $NON-NLS-1$
-                new Functor("getBytes"),               // $NON-NLS-1$
-                new Functor("getSentBytes"),               // $NON-NLS-1$
-                new Functor("getLatency"),             // $NON-NLS-1$
-                new Functor("getConnectTime") },       // $NON-NLS-1$
+                new Functor("getThreadName"),         
+                new Functor("getLabel"),              
+                new Functor("getElapsed"),            
+                new SampleSuccessFunctor("isSuccess"),
+                new Functor("getBytes"),              
+                new Functor("getSentBytes"),              
+                new Functor("getLatency"),            
+                new Functor("getConnectTime") },      
                 new Functor[] { null, null, null, null, null, null, null, null, null, null },
                 new Class[] {
                 String.class, String.class, String.class, String.class, Long.class, ImageIcon.class, Long.class, Long.class, Long.class, Long.class });
@@ -163,7 +163,7 @@ public class TableVisualizer extends AbstractVisualizer implements Clearable {
 
     @Override
     public String getLabelResource() {
-        return "view_results_in_table"; // $NON-NLS-1$
+        return "view_results_in_table";
     }
 
     protected synchronized void updateTextFields(SampleResult res) {
@@ -198,10 +198,10 @@ public class TableVisualizer extends AbstractVisualizer implements Clearable {
             model.clearData();
             calc.clear();
             newRows.clear();
-            noSamplesField.setText("0"); // $NON-NLS-1$
-            dataField.setText("0"); // $NON-NLS-1$
-            averageField.setText("0"); // $NON-NLS-1$
-            deviationField.setText("0"); // $NON-NLS-1$
+            noSamplesField.setText("0");
+            dataField.setText("0");
+            averageField.setText("0");
+            deviationField.setText("0");
         }
         repaint();
     }
@@ -253,7 +253,7 @@ public class TableVisualizer extends AbstractVisualizer implements Clearable {
 
         // Set up footer of table which displays numerics of the graphs
         JPanel dataPanel = new JPanel();
-        JLabel dataLabel = new JLabel(JMeterUtils.getResString("graph_results_latest_sample")); // $NON-NLS-1$
+        JLabel dataLabel = new JLabel(JMeterUtils.getResString("graph_results_latest_sample"));
         dataLabel.setForeground(Color.black);
         dataField = new JTextField(5);
         dataField.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -264,7 +264,7 @@ public class TableVisualizer extends AbstractVisualizer implements Clearable {
         dataPanel.add(dataField);
 
         JPanel averagePanel = new JPanel();
-        JLabel averageLabel = new JLabel(JMeterUtils.getResString("graph_results_average")); // $NON-NLS-1$
+        JLabel averageLabel = new JLabel(JMeterUtils.getResString("graph_results_average"));
         averageLabel.setForeground(Color.blue);
         averageField = new JTextField(5);
         averageField.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -275,7 +275,7 @@ public class TableVisualizer extends AbstractVisualizer implements Clearable {
         averagePanel.add(averageField);
 
         JPanel deviationPanel = new JPanel();
-        JLabel deviationLabel = new JLabel(JMeterUtils.getResString("graph_results_deviation")); // $NON-NLS-1$
+        JLabel deviationLabel = new JLabel(JMeterUtils.getResString("graph_results_deviation"));
         deviationLabel.setForeground(Color.red);
         deviationField = new JTextField(5);
         deviationField.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -286,7 +286,7 @@ public class TableVisualizer extends AbstractVisualizer implements Clearable {
         deviationPanel.add(deviationField);
 
         JPanel noSamplesPanel = new JPanel();
-        JLabel noSamplesLabel = new JLabel(JMeterUtils.getResString("graph_results_no_samples")); // $NON-NLS-1$
+        JLabel noSamplesLabel = new JLabel(JMeterUtils.getResString("graph_results_no_samples"));
 
         noSamplesField = new JTextField(8);
         noSamplesField.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));

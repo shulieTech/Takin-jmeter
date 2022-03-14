@@ -108,19 +108,19 @@ public class ArgumentsPanel extends AbstractConfigGui implements ActionListener 
     private final boolean disableButtons;
 
     /** Command for adding a row to the table. */
-    private static final String ADD = "add"; // $NON-NLS-1$
+    private static final String ADD = "add";
 
     /** Command for adding rows from the clipboard */
-    private static final String ADD_FROM_CLIPBOARD = "addFromClipboard"; // $NON-NLS-1$
+    private static final String ADD_FROM_CLIPBOARD = "addFromClipboard";
 
     /** Command for removing a row from the table. */
-    private static final String DELETE = "delete"; // $NON-NLS-1$
+    private static final String DELETE = "delete";
 
     /** Command for moving a row up in the table. */
-    private static final String UP = "up"; // $NON-NLS-1$
+    private static final String UP = "up";
 
     /** Command for moving a row down in the table. */
-    private static final String DOWN = "down"; // $NON-NLS-1$
+    private static final String DOWN = "down";
 
     /** When pasting from the clipboard, split lines on linebreak */
     private static final String CLIPBOARD_LINE_DELIMITERS = "\n"; //$NON-NLS-1$
@@ -129,19 +129,19 @@ public class ArgumentsPanel extends AbstractConfigGui implements ActionListener 
     private static final String CLIPBOARD_ARG_DELIMITERS = "\t"; //$NON-NLS-1$
 
     /** Command for showing detail. */
-    private static final String DETAIL = "detail"; // $NON-NLS-1$
+    private static final String DETAIL = "detail";
 
-    public static final String COLUMN_RESOURCE_NAMES_0 = "name"; // $NON-NLS-1$
+    public static final String COLUMN_RESOURCE_NAMES_0 = "name";
 
-    public static final String COLUMN_RESOURCE_NAMES_1 = "value"; // $NON-NLS-1$
+    public static final String COLUMN_RESOURCE_NAMES_1 = "value";
 
-    public static final String COLUMN_RESOURCE_NAMES_2 = "description"; // $NON-NLS-1$
+    public static final String COLUMN_RESOURCE_NAMES_2 = "description";
 
     /**
      * Create a new ArgumentsPanel as a standalone component.
      */
     public ArgumentsPanel() {
-        this(JMeterUtils.getResString("user_defined_variables"),null, true, true);// $NON-NLS-1$
+        this(JMeterUtils.getResString("user_defined_variables"),null, true, true);
     }
 
     /**
@@ -246,7 +246,7 @@ public class ArgumentsPanel extends AbstractConfigGui implements ActionListener 
 
     @Override
     public String getLabelResource() {
-        return "user_defined_variables"; // $NON-NLS-1$
+        return "user_defined_variables";
     }
 
     /* Implements JMeterGUIComponent.createTestElement() */
@@ -271,7 +271,7 @@ public class ArgumentsPanel extends AbstractConfigGui implements ActionListener 
                 if(StringUtils.isEmpty(arg.getName()) && StringUtils.isEmpty(arg.getValue())) {
                     continue;
                 }
-                arg.setMetaData("="); // $NON-NLS-1$
+                arg.setMetaData("=");
                 arguments.addArgument(arg);
             }
         }
@@ -622,23 +622,23 @@ public class ArgumentsPanel extends AbstractConfigGui implements ActionListener 
                 tableModel = new ObjectTableModel(new String[] { COLUMN_RESOURCE_NAMES_0, COLUMN_RESOURCE_NAMES_1, COLUMN_RESOURCE_NAMES_2 },
                     Argument.class,
                     new Functor[] {
-                    new Functor("getName"), // $NON-NLS-1$
-                    new Functor("getValue"),  // $NON-NLS-1$
-                    new Functor("getDescription") },  // $NON-NLS-1$
+                    new Functor("getName"),
+                    new Functor("getValue"),
+                    new Functor("getDescription") },
                     new Functor[] {
-                    new Functor("setName"), // $NON-NLS-1$
-                    new Functor("setValue"), // $NON-NLS-1$
-                    new Functor("setDescription") },  // $NON-NLS-1$
+                    new Functor("setName"),
+                    new Functor("setValue"),
+                    new Functor("setDescription") },
                     new Class[] { String.class, String.class, String.class });
             } else {
                 tableModel = new ObjectTableModel(new String[] { COLUMN_RESOURCE_NAMES_0, COLUMN_RESOURCE_NAMES_1 },
                     Argument.class,
                     new Functor[] {
-                    new Functor("getName"), // $NON-NLS-1$
-                    new Functor("getValue") },  // $NON-NLS-1$
+                    new Functor("getName"),
+                    new Functor("getValue") },
                     new Functor[] {
-                    new Functor("setName"), // $NON-NLS-1$
-                    new Functor("setValue") }, // $NON-NLS-1$
+                    new Functor("setName"),
+                    new Functor("setValue") },
                     new Class[] { String.class, String.class });
             }
         }
@@ -696,27 +696,27 @@ public class ArgumentsPanel extends AbstractConfigGui implements ActionListener 
      */
     private JPanel makeButtonPanel() {
 
-        showDetail = new JButton(JMeterUtils.getResString("detail")); // $NON-NLS-1$
+        showDetail = new JButton(JMeterUtils.getResString("detail"));
         showDetail.setActionCommand(DETAIL);
         showDetail.setEnabled(true);
 
-        add = new JButton(JMeterUtils.getResString("add")); // $NON-NLS-1$
+        add = new JButton(JMeterUtils.getResString("add"));
         add.setActionCommand(ADD);
         add.setEnabled(true);
 
         // A button for adding new arguments to the table from the clipboard
-        JButton addFromClipboard = new JButton(JMeterUtils.getResString("add_from_clipboard")); // $NON-NLS-1$
+        JButton addFromClipboard = new JButton(JMeterUtils.getResString("add_from_clipboard"));
         addFromClipboard.setActionCommand(ADD_FROM_CLIPBOARD);
         addFromClipboard.setEnabled(true);
 
-        delete = new JButton(JMeterUtils.getResString("delete")); // $NON-NLS-1$
+        delete = new JButton(JMeterUtils.getResString("delete"));
         delete.setActionCommand(DELETE);
 
         if (enableUpDown) {
-            up = new JButton(JMeterUtils.getResString("up")); // $NON-NLS-1$
+            up = new JButton(JMeterUtils.getResString("up"));
             up.setActionCommand(UP);
 
-            down = new JButton(JMeterUtils.getResString("down")); // $NON-NLS-1$
+            down = new JButton(JMeterUtils.getResString("down"));
             down.setActionCommand(DOWN);
         }
         checkButtonsStatus();

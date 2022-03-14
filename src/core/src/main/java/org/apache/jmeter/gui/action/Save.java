@@ -68,15 +68,15 @@ public class Save extends AbstractAction {
 
     private static final List<File> EMPTY_FILE_LIST = Collections.emptyList();
 
-    private static final String JMX_BACKUP_ON_SAVE = "jmeter.gui.action.save.backup_on_save"; // $NON-NLS-1$
+    private static final String JMX_BACKUP_ON_SAVE = "jmeter.gui.action.save.backup_on_save";
 
-    private static final String JMX_BACKUP_DIRECTORY = "jmeter.gui.action.save.backup_directory"; // $NON-NLS-1$
+    private static final String JMX_BACKUP_DIRECTORY = "jmeter.gui.action.save.backup_directory";
 
-    private static final String JMX_BACKUP_MAX_HOURS = "jmeter.gui.action.save.keep_backup_max_hours"; // $NON-NLS-1$
+    private static final String JMX_BACKUP_MAX_HOURS = "jmeter.gui.action.save.keep_backup_max_hours";
 
-    private static final String JMX_BACKUP_MAX_COUNT = "jmeter.gui.action.save.keep_backup_max_count"; // $NON-NLS-1$
+    private static final String JMX_BACKUP_MAX_COUNT = "jmeter.gui.action.save.keep_backup_max_count";
 
-    public static final String JMX_FILE_EXTENSION = ".jmx"; // $NON-NLS-1$
+    public static final String JMX_FILE_EXTENSION = ".jmx";
 
     private static final String DEFAULT_BACKUP_DIRECTORY = JMeterUtils.getJMeterHome() + "/backups"; //$NON-NLS-1$
 
@@ -134,8 +134,8 @@ public class Save extends AbstractAction {
             JMeterTreeNode[] nodes = GuiPackage.getInstance().getTreeListener().getSelectedNodes();
             if (nodes.length > 1){
                 JMeterUtils.reportErrorToUser(
-                        JMeterUtils.getResString("save_as_error"), // $NON-NLS-1$
-                        JMeterUtils.getResString("save_as")); // $NON-NLS-1$
+                        JMeterUtils.getResString("save_as_error"),
+                        JMeterUtils.getResString("save_as"));
                 return;
             }
             subTree = GuiPackage.getInstance().getCurrentSubTree();
@@ -147,8 +147,8 @@ public class Save extends AbstractAction {
                 subTree = createTestFragmentNode(nodes);
             } else {
                 JMeterUtils.reportErrorToUser(
-                        JMeterUtils.getResString("save_as_test_fragment_error"), // $NON-NLS-1$
-                        JMeterUtils.getResString("save_as_test_fragment")); // $NON-NLS-1$
+                        JMeterUtils.getResString("save_as_test_fragment_error"),
+                        JMeterUtils.getResString("save_as_test_fragment"));
                 return;
             }
         } else {
@@ -214,8 +214,8 @@ public class Save extends AbstractAction {
         File f = new File(updateFile);
         if(f.exists()) {
             int response = JOptionPane.showConfirmDialog(GuiPackage.getInstance().getMainFrame(),
-                    JMeterUtils.getResString("save_overwrite_existing_file"), // $NON-NLS-1$
-                    JMeterUtils.getResString("save?"),  // $NON-NLS-1$
+                    JMeterUtils.getResString("save_overwrite_existing_file"),
+                    JMeterUtils.getResString("save?"),
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE);
             if (response == JOptionPane.CLOSED_OPTION || response == JOptionPane.NO_OPTION) {

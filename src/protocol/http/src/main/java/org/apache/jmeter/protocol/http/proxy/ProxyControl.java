@@ -125,31 +125,31 @@ public class ProxyControl extends GenericController implements NonTestElement {
     public static final String DEFAULT_PORT_S = Integer.toString(DEFAULT_PORT);
 
     //+ JMX file attributes
-    private static final String PORT = "ProxyControlGui.port"; // $NON-NLS-1$
-    private static final String DOMAINS = "ProxyControlGui.domains"; // $NON-NLS-1$
-    private static final String EXCLUDE_LIST = "ProxyControlGui.exclude_list"; // $NON-NLS-1$
-    private static final String INCLUDE_LIST = "ProxyControlGui.include_list"; // $NON-NLS-1$
-    private static final String CAPTURE_HTTP_HEADERS = "ProxyControlGui.capture_http_headers"; // $NON-NLS-1$
-    private static final String ADD_ASSERTIONS = "ProxyControlGui.add_assertion"; // $NON-NLS-1$
-    private static final String GROUPING_MODE = "ProxyControlGui.grouping_mode"; // $NON-NLS-1$
-    private static final String SAMPLER_TYPE_NAME = "ProxyControlGui.sampler_type_name"; // $NON-NLS-1$
-    private static final String SAMPLER_REDIRECT_AUTOMATICALLY = "ProxyControlGui.sampler_redirect_automatically"; // $NON-NLS-1$
-    private static final String SAMPLER_FOLLOW_REDIRECTS = "ProxyControlGui.sampler_follow_redirects"; // $NON-NLS-1$
-    private static final String USE_KEEPALIVE = "ProxyControlGui.use_keepalive"; // $NON-NLS-1$
-    private static final String SAMPLER_DOWNLOAD_IMAGES = "ProxyControlGui.sampler_download_images"; // $NON-NLS-1$
-    private static final String HTTP_SAMPLER_NAMING_MODE = "ProxyControlGui.proxy_http_sampler_naming_mode"; // $NON-NLS-1$
-    private static final String HTTP_SAMPLER_FORMAT = "ProxyControlGui.proxy_http_sampler_format"; // $NON-NLS-1$
-    private static final String PREFIX_HTTP_SAMPLER_NAME = "ProxyControlGui.proxy_prefix_http_sampler_name"; // $NON-NLS-1$
-    private static final String PROXY_PAUSE_HTTP_SAMPLER = "ProxyControlGui.proxy_pause_http_sampler"; // $NON-NLS-1$
-    private static final String DEFAULT_ENCODING_PROPERTY = "ProxyControlGui.default_encoding"; // $NON-NLS-1$
-    private static final String REGEX_MATCH = "ProxyControlGui.regex_match"; // $NON-NLS-1$
-    private static final String CONTENT_TYPE_EXCLUDE = "ProxyControlGui.content_type_exclude"; // $NON-NLS-1$
-    private static final String CONTENT_TYPE_INCLUDE = "ProxyControlGui.content_type_include"; // $NON-NLS-1$
-    private static final String NOTIFY_CHILD_SAMPLER_LISTENERS_FILTERED = "ProxyControlGui.notify_child_sl_filtered"; // $NON-NLS-1$
+    private static final String PORT = "ProxyControlGui.port";
+    private static final String DOMAINS = "ProxyControlGui.domains";
+    private static final String EXCLUDE_LIST = "ProxyControlGui.exclude_list";
+    private static final String INCLUDE_LIST = "ProxyControlGui.include_list";
+    private static final String CAPTURE_HTTP_HEADERS = "ProxyControlGui.capture_http_headers";
+    private static final String ADD_ASSERTIONS = "ProxyControlGui.add_assertion";
+    private static final String GROUPING_MODE = "ProxyControlGui.grouping_mode";
+    private static final String SAMPLER_TYPE_NAME = "ProxyControlGui.sampler_type_name";
+    private static final String SAMPLER_REDIRECT_AUTOMATICALLY = "ProxyControlGui.sampler_redirect_automatically";
+    private static final String SAMPLER_FOLLOW_REDIRECTS = "ProxyControlGui.sampler_follow_redirects";
+    private static final String USE_KEEPALIVE = "ProxyControlGui.use_keepalive";
+    private static final String SAMPLER_DOWNLOAD_IMAGES = "ProxyControlGui.sampler_download_images";
+    private static final String HTTP_SAMPLER_NAMING_MODE = "ProxyControlGui.proxy_http_sampler_naming_mode";
+    private static final String HTTP_SAMPLER_FORMAT = "ProxyControlGui.proxy_http_sampler_format";
+    private static final String PREFIX_HTTP_SAMPLER_NAME = "ProxyControlGui.proxy_prefix_http_sampler_name";
+    private static final String PROXY_PAUSE_HTTP_SAMPLER = "ProxyControlGui.proxy_pause_http_sampler";
+    private static final String DEFAULT_ENCODING_PROPERTY = "ProxyControlGui.default_encoding";
+    private static final String REGEX_MATCH = "ProxyControlGui.regex_match";
+    private static final String CONTENT_TYPE_EXCLUDE = "ProxyControlGui.content_type_exclude";
+    private static final String CONTENT_TYPE_INCLUDE = "ProxyControlGui.content_type_include";
+    private static final String NOTIFY_CHILD_SAMPLER_LISTENERS_FILTERED = "ProxyControlGui.notify_child_sl_filtered";
 
-    private static final String BEARER_AUTH = "Bearer"; // $NON-NLS-1$
-    private static final String BASIC_AUTH = "Basic"; // $NON-NLS-1$
-    private static final String DIGEST_AUTH = "Digest"; // $NON-NLS-1$
+    private static final String BEARER_AUTH = "Bearer";
+    private static final String BASIC_AUTH = "Basic";
+    private static final String DIGEST_AUTH = "Digest";
 
     //- JMX file attributes
 
@@ -173,12 +173,12 @@ public class ProxyControl extends GenericController implements NonTestElement {
 
     // Proxy configuration SSL
     private static final String CERT_DIRECTORY =
-            JMeterUtils.getPropDefault("proxy.cert.directory", JMeterUtils.getJMeterBinDir()); // $NON-NLS-1$
+            JMeterUtils.getPropDefault("proxy.cert.directory", JMeterUtils.getJMeterBinDir());
 
-    private static final String CERT_FILE_DEFAULT = "proxyserver.jks";// $NON-NLS-1$
+    private static final String CERT_FILE_DEFAULT = "proxyserver.jks";
 
     private static final String CERT_FILE =
-            JMeterUtils.getPropDefault("proxy.cert.file", CERT_FILE_DEFAULT); // $NON-NLS-1$
+            JMeterUtils.getPropDefault("proxy.cert.file", CERT_FILE_DEFAULT);
 
     private static final File CERT_PATH = new File(CERT_DIRECTORY, CERT_FILE);
 
@@ -192,15 +192,15 @@ public class ProxyControl extends GenericController implements NonTestElement {
     // Note: Windows user preferences are stored relative to: HKEY_CURRENT_USER\Software\JavaSoft\Prefs
     private static final Preferences PREFERENCES = Preferences.userNodeForPackage(ProxyControl.class);
 
-    private static final boolean USE_DYNAMIC_KEYS = JMeterUtils.getPropDefault("proxy.cert.dynamic_keys", true); // $NON-NLS-1$
+    private static final boolean USE_DYNAMIC_KEYS = JMeterUtils.getPropDefault("proxy.cert.dynamic_keys", true);
 
     // The alias to be used if dynamic host names are not possible
-    static final String JMETER_SERVER_ALIAS = ":jmeter:"; // $NON-NLS-1$
+    static final String JMETER_SERVER_ALIAS = ":jmeter:";
 
-    public static final int CERT_VALIDITY = JMeterUtils.getPropDefault("proxy.cert.validity", 7); // $NON-NLS-1$
+    public static final int CERT_VALIDITY = JMeterUtils.getPropDefault("proxy.cert.validity", 7);
 
     // If this is defined, it is assumed to be the alias of a user-supplied certificate; overrides dynamic mode
-    static final String CERT_ALIAS = JMeterUtils.getProperty("proxy.cert.alias"); // $NON-NLS-1$
+    static final String CERT_ALIAS = JMeterUtils.getProperty("proxy.cert.alias");
 
     private static final String DEFAULT_SAMPLER_FORMAT = JMeterUtils.getPropDefault("proxy.sampler_format",
             "#{counter,number,000} - #{path} (#{name})");
@@ -241,7 +241,7 @@ public class ProxyControl extends GenericController implements NonTestElement {
      * Whether to use the redirect disabling feature (can be switched off if it does not work)
      */
     private static final boolean USE_REDIRECT_DISABLING =
-            JMeterUtils.getPropDefault("proxy.redirect.disabling", true); // $NON-NLS-1$
+            JMeterUtils.getPropDefault("proxy.redirect.disabling", true);
 
     // Although this field is mutable, it is only accessed within the synchronized method deliverSampler()
     private static String LAST_REDIRECT = null;
@@ -918,7 +918,7 @@ public class ProxyControl extends GenericController implements NonTestElement {
     private void addAssertion(JMeterTreeModel model, JMeterTreeNode node) throws IllegalUserActionException {
         ResponseAssertion ra = new ResponseAssertion();
         ra.setProperty(TestElement.GUI_CLASS, ASSERTION_GUI);
-        ra.setName(JMeterUtils.getResString("assertion_title")); // $NON-NLS-1$
+        ra.setName(JMeterUtils.getResString("assertion_title"));
         ra.setTestFieldResponseData();
         model.addComponent(ra, node);
     }
@@ -940,7 +940,7 @@ public class ProxyControl extends GenericController implements NonTestElement {
     private void addDivider(final JMeterTreeModel model, final JMeterTreeNode node) {
         final GenericController sc = new GenericController();
         sc.setProperty(TestElement.GUI_CLASS, LOGIC_CONTROLLER_GUI);
-        sc.setName("-------------------"); // $NON-NLS-1$
+        sc.setName("-------------------");
         safelyAddComponent(model, node, sc);
     }
 
@@ -1001,7 +1001,7 @@ public class ProxyControl extends GenericController implements NonTestElement {
      */
     private void addTimers(JMeterTreeModel model, JMeterTreeNode node, long deltaT) {
         TestPlan variables = new TestPlan();
-        variables.addParameter("T", Long.toString(deltaT)); // $NON-NLS-1$
+        variables.addParameter("T", Long.toString(deltaT));
         ValueReplacer replacer = new ValueReplacer(variables);
         JMeterTreeNode mySelf = model.getNodeOf(this);
         if(mySelf != null) {
@@ -1313,7 +1313,7 @@ public class ProxyControl extends GenericController implements NonTestElement {
 
                 if (configValue != null && configValue.length() > 0) {
                     if (configValue.equals(value)) {
-                        sampler.setProperty(name, ""); // $NON-NLS-1$
+                        sampler.setProperty(name, "");
                     }
                     // Property was found in a config element. Whether or not
                     // it matched the value in the sampler, we're done with
@@ -1326,11 +1326,11 @@ public class ProxyControl extends GenericController implements NonTestElement {
 
     private String generateMatchUrl(HTTPSamplerBase sampler) {
         StringBuilder buf = new StringBuilder(sampler.getDomain());
-        buf.append(':'); // $NON-NLS-1$
+        buf.append(':');
         buf.append(sampler.getPort());
         buf.append(sampler.getPath());
         if (sampler.getQueryString().length() > 0) {
-            buf.append('?'); // $NON-NLS-1$
+            buf.append('?');
             buf.append(sampler.getQueryString());
         }
         return buf.toString();
@@ -1469,8 +1469,8 @@ public class ProxyControl extends GenericController implements NonTestElement {
             initJMeterKeyStore();
             break;
         case USER_KEYSTORE:
-            storePassword = JMeterUtils.getPropDefault("proxy.cert.keystorepass", DEFAULT_PASSWORD); // $NON-NLS-1$
-            keyPassword = JMeterUtils.getPropDefault("proxy.cert.keypassword", DEFAULT_PASSWORD); // $NON-NLS-1$
+            storePassword = JMeterUtils.getPropDefault("proxy.cert.keystorepass", DEFAULT_PASSWORD);
+            keyPassword = JMeterUtils.getPropDefault("proxy.cert.keypassword", DEFAULT_PASSWORD);
             log.info("HTTP(S) Test Script Recorder will use the keystore '{}' with the alias: '{}'", CERT_PATH_ABS, CERT_ALIAS);
             initUserKeyStore();
             break;

@@ -17,20 +17,20 @@
 
 package org.apache.jmeter.shulie.util;
 
-import java.lang.management.ManagementFactory;
-import java.lang.management.RuntimeMXBean;
 import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.text.DecimalFormat;
 import java.util.Enumeration;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.text.DecimalFormat;
 import java.util.regex.Pattern;
+import java.net.NetworkInterface;
+import java.lang.management.RuntimeMXBean;
+import java.lang.management.ManagementFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jmeter.shulie.constants.PressureConstants;
 
 /**
- * @author lipeng
+ * @author 李鹏
  * @date 2021-05-17 1:41 下午
  */
 public class JmeterTraceIdGenerator {
@@ -38,17 +38,17 @@ public class JmeterTraceIdGenerator {
     private static String IP_16 = "ffffffff";
     private static String IP_int = "255255255255";
     private static String PID = "0000";
-    private static char PID_FLAG = 'd';
+    private static final char PID_FLAG = 'd';
 
-    private static final String regex = "\\b((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\b";
-    private static final Pattern pattern = Pattern.compile(regex);
-    private static AtomicInteger count = new AtomicInteger(1000);
+    private static final String REGEX = "\\b((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\b";
+    private static final Pattern PATTERN = Pattern.compile(REGEX);
+    private static final AtomicInteger COUNT = new AtomicInteger(1000);
 
     static {
         try {
             //保证第一条记录被采样
             int si = PressureConstants.pressureEngineParamsInstance.getSamplingInterval();
-            count.set(si - 1);
+            COUNT.set(si - 1);
 
             String ipAddress = getLocalAddress();
             if (ipAddress != null) {
@@ -70,7 +70,7 @@ public class JmeterTraceIdGenerator {
                 Enumeration<InetAddress> addresses = ni.getInetAddresses();
                 while (addresses.hasMoreElements()) {
                     address = addresses.nextElement();
-                    if (!address.isLoopbackAddress() && address.getHostAddress().indexOf(":") == -1) {
+                    if (!address.isLoopbackAddress() && !address.getHostAddress().contains(":")) {
                         return address.getHostAddress();
                     }
                 }
@@ -87,14 +87,14 @@ public class JmeterTraceIdGenerator {
         }
         if (pid > 65535) {
             String strPid = Integer.toString(pid);
-            strPid = strPid.substring(strPid.length() - 4, strPid.length());
+            strPid = strPid.substring(strPid.length() - 4);
             pid = Integer.parseInt(strPid);
         }
-        String str = Integer.toHexString(pid);
+        StringBuilder str = new StringBuilder(Integer.toHexString(pid));
         while (str.length() < 4) {
-            str = "0" + str;
+            str.insert(0, "0");
         }
-        return str;
+        return str.toString();
     }
 
     /**
@@ -103,7 +103,7 @@ public class JmeterTraceIdGenerator {
      * <p>
      * http://stackoverflow.com/questions/35842/how-can-a-java-program-get-its-own-process-id
      *
-     * @return
+     * @return pid
      */
     static int getPid() {
         RuntimeMXBean runtime = ManagementFactory.getRuntimeMXBean();
@@ -118,9 +118,7 @@ public class JmeterTraceIdGenerator {
     }
 
     private static String getTraceId(String ip, long timestamp, int nextId) {
-        StringBuilder appender = new StringBuilder(32);
-        appender.append(ip).append(timestamp).append(paddingString(nextId)).append(PID_FLAG).append(PID);
-        return appender.toString();
+        return ip + timestamp + paddingString(nextId) + PID_FLAG + PID;
     }
 
     private static String paddingString(int n) {
@@ -158,7 +156,7 @@ public class JmeterTraceIdGenerator {
 
     private static boolean validate(String ip) {
         try {
-            return pattern.matcher(ip).matches();
+            return PATTERN.matcher(ip).matches();
         } catch (Throwable e) {
             return false;
         }
@@ -185,11 +183,11 @@ public class JmeterTraceIdGenerator {
 
     private static int getNextId() {
         int si = PressureConstants.pressureEngineParamsInstance.getSamplingInterval();
-        int max = 10000 - (9999%si+1);
+        int max = 10000 - (9999 % si + 1);
         for (; ; ) {
-            int current = count.get();
+            int current = COUNT.get();
             int next = (current >= max) ? 1 : current + 1;
-            if (count.compareAndSet(current, next)) {
+            if (COUNT.compareAndSet(current, next)) {
                 return next;
             }
         }

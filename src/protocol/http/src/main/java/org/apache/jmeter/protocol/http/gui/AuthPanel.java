@@ -170,7 +170,7 @@ public class AuthPanel extends AbstractConfigGui implements ActionListener {
 
         JPanel optionsPane = new JPanel();
         optionsPane.setBorder(BorderFactory.createTitledBorder(
-                JMeterUtils.getResString("auth_manager_options"))); // $NON-NLS-1$
+                JMeterUtils.getResString("auth_manager_options")));
         optionsPane.setLayout(new VerticalLayout(5, VerticalLayout.BOTH));
         clearEachIteration =
                 new JCheckBox(JMeterUtils.getResString("auth_manager_clear_per_iter"), false); //$NON-NLS-1$

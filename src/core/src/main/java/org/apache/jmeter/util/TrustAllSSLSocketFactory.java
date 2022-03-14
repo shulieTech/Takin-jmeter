@@ -48,7 +48,7 @@ public class TrustAllSSLSocketFactory extends SSLSocketFactory  { // NOSONAR JMe
     public TrustAllSSLSocketFactory(){
         SSLContext sslcontext = null;
         try {
-            sslcontext = SSLContext.getInstance("TLS"); // $NON-NLS-1$
+            sslcontext = SSLContext.getInstance("TLS");
             sslcontext.init( null, new TrustManager[]{
                     new X509ExtendedTrustManager() {
                         @Override

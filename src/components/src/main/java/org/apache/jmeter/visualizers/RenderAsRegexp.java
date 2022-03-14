@@ -53,7 +53,7 @@ import org.apache.oro.text.regex.Perl5Matcher;
  */
 public class RenderAsRegexp implements ResultRenderer, ActionListener {
 
-    private static final String REGEXP_TESTER_COMMAND = "regexp_tester"; // $NON-NLS-1$
+    private static final String REGEXP_TESTER_COMMAND = "regexp_tester";
 
     private JPanel regexpPane;
 
@@ -69,8 +69,8 @@ public class RenderAsRegexp implements ResultRenderer, ActionListener {
     @Override
     public void clearData() {
         // N.B. don't set regexpField to empty to keep regexp
-        this.regexpDataField.setText(""); // $NON-NLS-1$
-        this.regexpResultField.setText(""); // $NON-NLS-1$
+        this.regexpDataField.setText("");
+        this.regexpResultField.setText("");
     }
 
     /** {@inheritDoc} */
@@ -151,8 +151,8 @@ public class RenderAsRegexp implements ResultRenderer, ActionListener {
     @Override
     public void setupTabPane() {
          // Add regexp tester pane
-        if (rightSide.indexOfTab(JMeterUtils.getResString("regexp_tester_title")) < 0) { // $NON-NLS-1$
-            rightSide.addTab(JMeterUtils.getResString("regexp_tester_title"), regexpPane); // $NON-NLS-1$
+        if (rightSide.indexOfTab(JMeterUtils.getResString("regexp_tester_title")) < 0) {
+            rightSide.addTab(JMeterUtils.getResString("regexp_tester_title"), regexpPane);
         }
         clearData();
     }
@@ -189,10 +189,10 @@ public class RenderAsRegexp implements ResultRenderer, ActionListener {
         regexpActionPanel.setLayout(new BoxLayout(regexpActionPanel, BoxLayout.X_AXIS));
         Border margin = new EmptyBorder(5, 5, 0, 5);
         regexpActionPanel.setBorder(margin);
-        regexpField = new JLabeledTextField(JMeterUtils.getResString("regexp_tester_field")); // $NON-NLS-1$
+        regexpField = new JLabeledTextField(JMeterUtils.getResString("regexp_tester_field"));
         regexpActionPanel.add(regexpField, BorderLayout.WEST);
 
-        JButton regexpTester = new JButton(JMeterUtils.getResString("regexp_tester_button_test")); // $NON-NLS-1$
+        JButton regexpTester = new JButton(JMeterUtils.getResString("regexp_tester_button_test"));
         regexpTester.setActionCommand(REGEXP_TESTER_COMMAND);
         regexpTester.addActionListener(this);
         regexpActionPanel.add(regexpTester, BorderLayout.EAST);
@@ -230,14 +230,14 @@ public class RenderAsRegexp implements ResultRenderer, ActionListener {
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        return JMeterUtils.getResString("regexp_tester_title"); // $NON-NLS-1$
+        return JMeterUtils.getResString("regexp_tester_title");
     }
 
     /** {@inheritDoc} */
     @Override
     public void renderImage(SampleResult sampleResult) {
         clearData();
-        regexpDataField.setText(JMeterUtils.getResString("regexp_render_no_text")); // $NON-NLS-1$
+        regexpDataField.setText(JMeterUtils.getResString("regexp_render_no_text"));
     }
 
     /** {@inheritDoc} */

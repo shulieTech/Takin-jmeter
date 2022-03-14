@@ -31,9 +31,9 @@ public class InterleaveControl extends GenericController implements Serializable
 
     private static final long serialVersionUID = 234L;
 
-    private static final String STYLE = "InterleaveControl.style";// $NON-NLS-1$
+    private static final String STYLE = "InterleaveControl.style";
 
-    private static final String ACCROSS_THREADS = "InterleaveControl.accrossThreads";// $NON-NLS-1$
+    private static final String ACCROSS_THREADS = "InterleaveControl.accrossThreads";
 
     public static final int IGNORE_SUB_CONTROLLERS = 0;
 

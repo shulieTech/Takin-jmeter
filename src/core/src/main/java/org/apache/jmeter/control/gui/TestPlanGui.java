@@ -68,10 +68,10 @@ public class TestPlanGui extends AbstractJMeterGuiComponent {
      */
     public TestPlanGui() {
         browseJar = new FileListPanel(JMeterUtils.getResString("test_plan_classpath_browse"), ".jar"); // $NON-NLS-1$ $NON-NLS-2$
-        argsPanel = new ArgumentsPanel(JMeterUtils.getResString("user_defined_variables")); // $NON-NLS-1$
-        serializedMode = new JCheckBox(JMeterUtils.getResString("testplan.serialized")); // $NON-NLS-1$
-        functionalMode = new JCheckBox(JMeterUtils.getResString("functional_mode")); // $NON-NLS-1$
-        tearDownOnShutdown = new JCheckBox(JMeterUtils.getResString("teardown_on_shutdown"), true); // $NON-NLS-1$
+        argsPanel = new ArgumentsPanel(JMeterUtils.getResString("user_defined_variables"));
+        serializedMode = new JCheckBox(JMeterUtils.getResString("testplan.serialized"));
+        functionalMode = new JCheckBox(JMeterUtils.getResString("functional_mode"));
+        tearDownOnShutdown = new JCheckBox(JMeterUtils.getResString("teardown_on_shutdown"), true);
         init();
     }
 
@@ -90,7 +90,7 @@ public class TestPlanGui extends AbstractJMeterGuiComponent {
     @Override
     public JPopupMenu createPopupMenu() {
         JPopupMenu pop = new JPopupMenu();
-        JMenu addMenu = new JMenu(JMeterUtils.getResString("add")); // $NON-NLS-1$
+        JMenu addMenu = new JMenu(JMeterUtils.getResString("add"));
         addMenu.add(MenuFactory.makeMenu(MenuFactory.THREADS, ActionNames.ADD));
         addMenu.addSeparator();
         addMenu.add(MenuFactory.makeMenu(MenuFactory.CONFIG_ELEMENTS, ActionNames.ADD));
@@ -134,7 +134,7 @@ public class TestPlanGui extends AbstractJMeterGuiComponent {
 
     @Override
     public String getLabelResource() {
-        return "test_plan"; // $NON-NLS-1$
+        return "test_plan";
     }
 
     /**
@@ -190,7 +190,7 @@ public class TestPlanGui extends AbstractJMeterGuiComponent {
         southPanel.add(serializedMode);
         southPanel.add(tearDownOnShutdown);
         southPanel.add(functionalMode);
-        JComponent explain = new JLabel(JMeterUtils.getResString("functional_mode_explanation")); // $NON-NLS-1$
+        JComponent explain = new JLabel(JMeterUtils.getResString("functional_mode_explanation"));
         southPanel.add(explain);
         southPanel.add(browseJar);
 

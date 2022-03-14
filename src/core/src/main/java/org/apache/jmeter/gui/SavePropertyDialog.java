@@ -68,7 +68,7 @@ public class SavePropertyDialog extends JDialog implements ActionListener {
      */
     @Deprecated // Constructor only intended for use in testing
     public SavePropertyDialog() {
-        log.warn("Constructor only intended for use in testing"); // $NON-NLS-1$
+        log.warn("Constructor only intended for use in testing");
     }
     /**
      * @param owner The {@link Frame} from which the dialog is displayed
@@ -81,7 +81,7 @@ public class SavePropertyDialog extends JDialog implements ActionListener {
     {
         super(owner, title, modal);
         saveConfig = s;
-        log.debug("SampleSaveConfiguration = {}", saveConfig);// $NON-NLS-1$
+        log.debug("SampleSaveConfiguration = {}", saveConfig);
         initDialog();
     }
 
@@ -96,7 +96,7 @@ public class SavePropertyDialog extends JDialog implements ActionListener {
                         JMeterUtils.getResString(RESOURCE_PREFIX + name),
                         getSaveState(SampleSaveConfiguration.getterName(name)));
                 check.addActionListener(this);
-                final String actionCommand = SampleSaveConfiguration.setterName(name); // $NON-NLS-1$
+                final String actionCommand = SampleSaveConfiguration.setterName(name);
                 check.setActionCommand(actionCommand);
                 if (!functors.containsKey(actionCommand)) {
                     functors.put(actionCommand, new Functor(actionCommand));
@@ -107,7 +107,7 @@ public class SavePropertyDialog extends JDialog implements ActionListener {
             }
         }
         getContentPane().add(checkPanel, BorderLayout.NORTH);
-        JButton exit = new JButton(JMeterUtils.getResString("done")); // $NON-NLS-1$
+        JButton exit = new JButton(JMeterUtils.getResString("done"));
         this.getContentPane().add(exit, BorderLayout.SOUTH);
         exit.addActionListener(e -> dispose());
     }

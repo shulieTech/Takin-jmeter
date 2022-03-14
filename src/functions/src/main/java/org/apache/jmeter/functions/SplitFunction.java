@@ -58,7 +58,7 @@ public class SplitFunction extends AbstractFunction {
 
     private static final List<String> desc = new LinkedList<>();
 
-    private static final String KEY = "__split";// $NON-NLS-1$
+    private static final String KEY = "__split";
 
     // Number of parameters expected - used to reject invalid calls
     private static final int MIN_PARAMETER_COUNT = 2;
@@ -91,15 +91,15 @@ public class SplitFunction extends AbstractFunction {
             splitString = newSplitString.length() > 0 ? newSplitString : splitString;
         }
         log.debug("Split {} using {} into {}", stringToSplit, splitString, varNamePrefix);
-        String[] parts = JOrphanUtils.split(stringToSplit, splitString, "?");// $NON-NLS-1$
+        String[] parts = JOrphanUtils.split(stringToSplit, splitString, "?");
 
         vars.put(varNamePrefix, stringToSplit);
-        vars.put(varNamePrefix + "_n", Integer.toString(parts.length));// $NON-NLS-1$
+        vars.put(varNamePrefix + "_n", Integer.toString(parts.length));
         for (int i = 1; i <= parts.length; i++) {
             if (log.isDebugEnabled()){
                 log.debug(parts[i-1]);
             }
-            vars.put(varNamePrefix + "_" + i, parts[i - 1]);// $NON-NLS-1$
+            vars.put(varNamePrefix + "_" + i, parts[i - 1]);
         }
         vars.remove(varNamePrefix + "_" + (parts.length+1));
         return stringToSplit;

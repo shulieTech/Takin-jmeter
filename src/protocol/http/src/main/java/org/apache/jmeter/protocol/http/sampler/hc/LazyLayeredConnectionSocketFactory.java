@@ -47,10 +47,10 @@ public final class LazyLayeredConnectionSocketFactory implements LayeredConnecti
 
     private static final String[] SUPPORTED_PROTOCOL_LIST =
             PROTOCOL_LIST.isEmpty() ?
-                    null: PROTOCOL_LIST.split(" "); // $NON-NLS-1$
+                    null: PROTOCOL_LIST.split(" ");
     private static final String[] SUPPORTED_CIPHER_LIST =
             CIPHER_LIST.isEmpty() ?
-                    null : CIPHER_LIST.split(" "); // $NON-NLS-1$
+                    null : CIPHER_LIST.split(" ");
 
     private static class AdapteeHolder { // IODH idiom
         private static final LayeredConnectionSocketFactory ADAPTEE = checkAndInit();

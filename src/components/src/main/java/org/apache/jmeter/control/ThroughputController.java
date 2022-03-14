@@ -56,10 +56,10 @@ public class ThroughputController
     public static final int BYNUMBER = 0;
     public static final int BYPERCENT = 1;
 
-    private static final String STYLE = "ThroughputController.style";// $NON-NLS-1$
-    private static final String PERTHREAD = "ThroughputController.perThread";// $NON-NLS-1$
-    private static final String MAXTHROUGHPUT = "ThroughputController.maxThroughput";// $NON-NLS-1$
-    private static final String PERCENTTHROUGHPUT = "ThroughputController.percentThroughput";// $NON-NLS-1$
+    private static final String STYLE = "ThroughputController.style";
+    private static final String PERTHREAD = "ThroughputController.perThread";
+    private static final String MAXTHROUGHPUT = "ThroughputController.maxThroughput";
+    private static final String PERCENTTHROUGHPUT = "ThroughputController.percentThroughput";
 
     private static class MutableInteger {
         private int integer;

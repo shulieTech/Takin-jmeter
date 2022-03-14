@@ -68,10 +68,10 @@ public class LoopControlPanel extends AbstractControllerGui implements ActionLis
     private boolean displayName = true;
 
     /** The name of the infinite checkbox component. */
-    private static final String INFINITE = "Infinite Field"; // $NON-NLS-1$
+    private static final String INFINITE = "Infinite Field";
 
     /** The name of the loops field component. */
-    private static final String LOOPS = "Loops Field"; // $NON-NLS-1$
+    private static final String LOOPS = "Loops Field";
 
     /**
      * Create a new LoopControlPanel as a standalone component.
@@ -158,7 +158,7 @@ public class LoopControlPanel extends AbstractControllerGui implements ActionLis
     public void clearGui() {
         super.clearGui();
 
-        loops.setText("1"); // $NON-NLS-1$
+        loops.setText("1");
         infinite.setSelected(false);
     }
 
@@ -172,7 +172,7 @@ public class LoopControlPanel extends AbstractControllerGui implements ActionLis
     @Override
     public void actionPerformed(ActionEvent event) {
         if (infinite.isSelected()) {
-            loops.setText(""); // $NON-NLS-1$
+            loops.setText("");
             loops.setEnabled(false);
         } else {
             loops.setEnabled(true);
@@ -182,7 +182,7 @@ public class LoopControlPanel extends AbstractControllerGui implements ActionLis
 
     @Override
     public String getLabelResource() {
-        return "loop_controller_title"; // $NON-NLS-1$
+        return "loop_controller_title";
     }
 
     /**
@@ -221,19 +221,19 @@ public class LoopControlPanel extends AbstractControllerGui implements ActionLis
         JPanel loopPanel = new JPanel(new BorderLayout(5, 0));
 
         // LOOP LABEL
-        loopsLabel = new JLabel(JMeterUtils.getResString("iterator_num")); // $NON-NLS-1$
+        loopsLabel = new JLabel(JMeterUtils.getResString("iterator_num"));
         loopPanel.add(loopsLabel, BorderLayout.WEST);
 
         JPanel loopSubPanel = new JPanel(new BorderLayout(5, 0));
 
         // TEXT FIELD
-        loops = new JTextField("1", 5); // $NON-NLS-1$
+        loops = new JTextField("1", 5);
         loops.setName(LOOPS);
         loopsLabel.setLabelFor(loops);
         loopSubPanel.add(loops, BorderLayout.CENTER);
 
         // FOREVER CHECKBOX
-        infinite = new JCheckBox(JMeterUtils.getResString("infinite")); // $NON-NLS-1$
+        infinite = new JCheckBox(JMeterUtils.getResString("infinite"));
         infinite.setActionCommand(INFINITE);
         infinite.addActionListener(this);
         loopSubPanel.add(infinite, BorderLayout.WEST);
@@ -257,7 +257,7 @@ public class LoopControlPanel extends AbstractControllerGui implements ActionLis
      *            the String representation of the number of loops
      */
     private void setState(String loopCount) {
-        if (loopCount.startsWith("-")) { // $NON-NLS-1$
+        if (loopCount.startsWith("-")) {
             setState(LoopController.INFINITE_LOOP_COUNT);
         } else {
             loops.setText(loopCount);
@@ -278,7 +278,7 @@ public class LoopControlPanel extends AbstractControllerGui implements ActionLis
         if (loopCount <= LoopController.INFINITE_LOOP_COUNT) {
             infinite.setSelected(true);
             loops.setEnabled(false);
-            loops.setText(""); // $NON-NLS-1$
+            loops.setText("");
         } else {
             infinite.setSelected(false);
             loops.setEnabled(true);

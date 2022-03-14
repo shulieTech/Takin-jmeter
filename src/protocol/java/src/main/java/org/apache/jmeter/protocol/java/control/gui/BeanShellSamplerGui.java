@@ -100,7 +100,7 @@ public class BeanShellSamplerGui extends AbstractSamplerGui {
 
     @Override
     public String getLabelResource() {
-        return "bsh_sampler_title"; // $NON-NLS-1$
+        return "bsh_sampler_title";
     }
 
     private JPanel createFilenamePanel()
@@ -112,7 +112,7 @@ public class BeanShellSamplerGui extends AbstractSamplerGui {
     }
 
     private JPanel createParameterPanel() {
-        JLabel label = new JLabel(JMeterUtils.getResString("bsh_script_parameters")); // $NON-NLS-1$
+        JLabel label = new JLabel(JMeterUtils.getResString("bsh_script_parameters"));
 
         parameters = new JTextField(10);
         parameters.setName(BeanShellSampler.PARAMETERS);
@@ -125,7 +125,7 @@ public class BeanShellSamplerGui extends AbstractSamplerGui {
     }
 
     private JPanel createResetPanel() {
-        resetInterpreter = new JCheckBox(JMeterUtils.getResString("bsh_script_reset_interpreter")); // $NON-NLS-1$
+        resetInterpreter = new JCheckBox(JMeterUtils.getResString("bsh_script_reset_interpreter"));
         resetInterpreter.setName(BeanShellSampler.PARAMETERS);
 
         JPanel resetInterpreterPanel = new JPanel(new BorderLayout());
@@ -153,7 +153,7 @@ public class BeanShellSamplerGui extends AbstractSamplerGui {
     private JPanel createScriptPanel() {
         scriptField = JSyntaxTextArea.getInstance(20, 20);
 
-        JLabel label = new JLabel(JMeterUtils.getResString("bsh_script")); // $NON-NLS-1$
+        JLabel label = new JLabel(JMeterUtils.getResString("bsh_script"));
         label.setLabelFor(scriptField);
 
         JPanel panel = new JPanel(new BorderLayout());

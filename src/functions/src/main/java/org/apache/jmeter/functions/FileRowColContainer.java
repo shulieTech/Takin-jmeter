@@ -45,8 +45,8 @@ public class FileRowColContainer {
     private final String fileName; // name of the file
 
     public static final String DELIMITER
-        = JMeterUtils.getPropDefault("csvread.delimiter",  // $NON-NLS-1$
-                ","); // $NON-NLS-1$
+        = JMeterUtils.getPropDefault("csvread.delimiter", 
+                ",");
 
     /** Keeping track of which row is next to be read. */
     private int nextRow;
@@ -156,7 +156,7 @@ public class FileRowColContainer {
         }
         if (lastWasDelim) // Catch the trailing delimiter
         {
-            result.add(""); // $NON-NLS-1$
+            result.add("");
         }
         return result;
     }

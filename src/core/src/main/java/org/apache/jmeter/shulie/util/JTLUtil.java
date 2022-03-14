@@ -40,7 +40,7 @@ import org.apache.jmeter.util.JMeterUtils;
 /**
  * JTL工具类
  *
- * @author lipeng
+ * @author 李鹏
  * @date 2021-04-26 2:58 下午
  */
 public abstract class JTLUtil {
@@ -203,7 +203,7 @@ public abstract class JTLUtil {
         boolean responseSuccess = "200".equals(sample.getResponseCode());
 
 
-        //modify by lipeng at 20210426 记录所有断言失败信息 而不是第一个失败信息
+        //modify by 李鹏 at 20210426 记录所有断言失败信息 而不是第一个失败信息
         boolean assertFailed = false;
         List<Map<String, String>> assertResultList = new ArrayList<>();
         AssertionResult[] assertionResults = sample.getAssertionResults();

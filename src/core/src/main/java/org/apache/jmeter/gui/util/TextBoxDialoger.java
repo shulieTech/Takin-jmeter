@@ -48,11 +48,11 @@ import org.apache.jorphan.gui.GuiUtils;
  */
 public class TextBoxDialoger implements ActionListener {
 
-    private static final String CANCEL_COMMAND = "cancel_dialog"; // $NON-NLS-1$
+    private static final String CANCEL_COMMAND = "cancel_dialog";
 
-    private static final String SAVE_CLOSE_COMMAND = "save_close_dialog"; // $NON-NLS-1$
+    private static final String SAVE_CLOSE_COMMAND = "save_close_dialog";
 
-    private static final String CLOSE_COMMAND = "close_dialog"; // $NON-NLS-1$
+    private static final String CLOSE_COMMAND = "close_dialog";
 
     private JDialog dialog;
 

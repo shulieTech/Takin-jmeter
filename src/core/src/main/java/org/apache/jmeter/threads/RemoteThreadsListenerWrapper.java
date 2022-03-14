@@ -50,7 +50,7 @@ public class RemoteThreadsListenerWrapper extends AbstractTestElement implements
         try {
             listener.threadStarted();
         } catch (RemoteException err) {
-            log.error("Exception invoking listener on threadStarted.", err); // $NON-NLS-1$
+            log.error("Exception invoking listener on threadStarted.", err);
         }
     }
 
@@ -59,7 +59,7 @@ public class RemoteThreadsListenerWrapper extends AbstractTestElement implements
         try {
             listener.threadFinished();
         } catch (RemoteException err) {
-            log.error("Exception invoking listener on threadFinished.", err); // $NON-NLS-1$
+            log.error("Exception invoking listener on threadFinished.", err);
         }
     }
 }

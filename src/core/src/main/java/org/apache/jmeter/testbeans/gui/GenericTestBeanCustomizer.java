@@ -199,7 +199,7 @@ public class GenericTestBeanCustomizer extends JPanel implements SharedCustomize
      */
     @Deprecated
     public GenericTestBeanCustomizer(){
-        log.warn("Constructor only intended for use in testing"); // $NON-NLS-1$
+        log.warn("Constructor only intended for use in testing");
     }
     /**
      * Create a customizer for a given test bean type.

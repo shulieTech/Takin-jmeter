@@ -66,7 +66,7 @@ public class TestFragmentControllerGui extends AbstractControllerGui {
 
     @Override
     public String getLabelResource() {
-        return "test_fragment_title"; // $NON-NLS-1$
+        return "test_fragment_title";
     }
 
     /**
@@ -93,7 +93,7 @@ public class TestFragmentControllerGui extends AbstractControllerGui {
     @Override
     public JPopupMenu createPopupMenu() {
         JPopupMenu pop = new JPopupMenu();
-        JMenu addMenu = new JMenu(JMeterUtils.getResString("add")); // $NON-NLS-1$
+        JMenu addMenu = new JMenu(JMeterUtils.getResString("add"));
         addMenu.add(MenuFactory.makeMenu(MenuFactory.CONTROLLERS, ActionNames.ADD));
         addMenu.add(MenuFactory.makeMenu(MenuFactory.CONFIG_ELEMENTS, ActionNames.ADD));
         addMenu.add(MenuFactory.makeMenu(MenuFactory.TIMERS, ActionNames.ADD));
@@ -104,10 +104,10 @@ public class TestFragmentControllerGui extends AbstractControllerGui {
         addMenu.add(MenuFactory.makeMenu(MenuFactory.LISTENERS, ActionNames.ADD));
 
         pop.add(addMenu);
-        pop.add(MenuFactory.makeMenuItemRes("add_think_times",// $NON-NLS-1$
+        pop.add(MenuFactory.makeMenuItemRes("add_think_times",
                 ActionNames.ADD_THINK_TIME_BETWEEN_EACH_STEP));
 
-        pop.add(MenuFactory.makeMenuItemRes("apply_naming",// $NON-NLS-1$
+        pop.add(MenuFactory.makeMenuItemRes("apply_naming",
                 ActionNames.APPLY_NAMING_CONVENTION));
 
         MenuFactory.addEditMenu(pop, true);

@@ -35,7 +35,7 @@ public class TestElementPropertyConverter extends AbstractCollectionConverter {
     private static final Logger log = LoggerFactory.getLogger(TestElementPropertyConverter.class);
 
     private static final String HEADER_CLASSNAME
-        = "org.apache.jmeter.protocol.http.control.Header"; // $NON-NLS-1$
+        = "org.apache.jmeter.protocol.http.control.Header";
 
     /**
      * Returns the converter version; used to check for possible
@@ -44,7 +44,7 @@ public class TestElementPropertyConverter extends AbstractCollectionConverter {
      * @return the version of this converter
      */
     public static String getVersion() {
-        return "$Revision$"; // $NON-NLS-1$
+        return "$Revision$";
     }
 
     /** {@inheritDoc} */
@@ -111,7 +111,7 @@ public class TestElementPropertyConverter extends AbstractCollectionConverter {
                     if (isHeader) {
                         String name = subProp.getName();
                         if (TestElement.NAME.equals(name)) {
-                            subProp.setName("Header.name");// $NON-NLS-1$
+                            subProp.setName("Header.name");
                             // Must be same as Header.HNAME - but that is built
                             // later
                         }
@@ -123,7 +123,7 @@ public class TestElementPropertyConverter extends AbstractCollectionConverter {
             return prop;
         } catch (IllegalArgumentException | ReflectiveOperationException | SecurityException e) {
             log.error("Couldn't unmarshall TestElementProperty", e);
-            return new TestElementProperty("ERROR", new ConfigTestElement());// $NON-NLS-1$
+            return new TestElementProperty("ERROR", new ConfigTestElement());
         }
     }
 

@@ -101,14 +101,14 @@ public class JavaConfigGui extends AbstractConfigGui implements ChangeListener {
     public JavaConfigGui(boolean displayNameField) {
         this.displayName = displayNameField;
         ImageIcon image = JMeterUtils.getImage("warning.png");
-        warningLabel = new JLabel(JMeterUtils.getResString("java_request_warning"), image, SwingConstants.LEFT); // $NON-NLS-1$
+        warningLabel = new JLabel(JMeterUtils.getResString("java_request_warning"), image, SwingConstants.LEFT);
         init();
     }
 
     /** {@inheritDoc} */
     @Override
     public String getLabelResource() {
-        return "java_request_defaults"; // $NON-NLS-1$
+        return "java_request_defaults";
     }
 
     /**
@@ -239,7 +239,7 @@ public class JavaConfigGui extends AbstractConfigGui implements ChangeListener {
      * @return a panel containing the relevant components
      */
     private JPanel createParameterPanel() {
-        argsPanel = new ArgumentsPanel(JMeterUtils.getResString("paramtable")); // $NON-NLS-1$
+        argsPanel = new ArgumentsPanel(JMeterUtils.getResString("paramtable"));
         return argsPanel;
     }
 

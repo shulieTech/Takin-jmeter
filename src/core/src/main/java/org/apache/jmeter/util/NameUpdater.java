@@ -37,14 +37,14 @@ public final class NameUpdater {
     private static final Logger log = LoggerFactory.getLogger(NameUpdater.class);
 
     private static final String NAME_UPDATER_PROPERTIES =
-            "META-INF/resources/org.apache.jmeter.nameupdater.properties"; // $NON-NLS-1$
+            "META-INF/resources/org.apache.jmeter.nameupdater.properties";
 
     static {
         nameMap = new Properties();
         FileInputStream fis = null;
         File f = new File(JMeterUtils.getJMeterHome(),
-                JMeterUtils.getPropDefault("upgrade_properties", // $NON-NLS-1$
-                        "/bin/upgrade.properties")); // $NON-NLS-1$
+                JMeterUtils.getPropDefault("upgrade_properties",
+                        "/bin/upgrade.properties"));
         try {
             fis = new FileInputStream(f);
             nameMap.load(fis);

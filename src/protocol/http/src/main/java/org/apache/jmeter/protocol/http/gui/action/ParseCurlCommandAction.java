@@ -154,7 +154,7 @@ public class ParseCurlCommandAction extends AbstractAction implements MenuCreato
         cURLCommandTA.setCaretPosition(0);
         contentPane.add(JTextScrollPane.getInstance(cURLCommandTA), BorderLayout.CENTER);
         JPanel optionPanel = new JPanel(new BorderLayout(3, 1));
-        filePanel = new FilePanel(JMeterUtils.getResString("curl_import_from_file")); // $NON-NLS-1$
+        filePanel = new FilePanel(JMeterUtils.getResString("curl_import_from_file"));
         optionPanel.add(filePanel,BorderLayout.CENTER);
         uploadCookiesCheckBox =  new JCheckBox(JMeterUtils.getResString("curl_add_cookie_header_to_cookiemanager"), false);
         optionPanel.add(uploadCookiesCheckBox,BorderLayout.NORTH);

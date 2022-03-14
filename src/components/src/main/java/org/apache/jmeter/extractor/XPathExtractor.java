@@ -71,31 +71,31 @@ public class XPathExtractor extends AbstractScopedTestElement implements
     private static final int DEFAULT_VALUE = -1;
     public static final String DEFAULT_VALUE_AS_STRING = Integer.toString(DEFAULT_VALUE);
 
-    private static final String REF_MATCH_NR    = "matchNr"; // $NON-NLS-1$
+    private static final String REF_MATCH_NR    = "matchNr";
 
     //+ JMX file attributes
-    private static final String XPATH_QUERY     = "XPathExtractor.xpathQuery"; // $NON-NLS-1$
-    private static final String REFNAME         = "XPathExtractor.refname"; // $NON-NLS-1$
-    private static final String DEFAULT         = "XPathExtractor.default"; // $NON-NLS-1$
-    private static final String TOLERANT        = "XPathExtractor.tolerant"; // $NON-NLS-1$
-    private static final String NAMESPACE       = "XPathExtractor.namespace"; // $NON-NLS-1$
-    private static final String QUIET           = "XPathExtractor.quiet"; // $NON-NLS-1$
-    private static final String REPORT_ERRORS   = "XPathExtractor.report_errors"; // $NON-NLS-1$
-    private static final String SHOW_WARNINGS   = "XPathExtractor.show_warnings"; // $NON-NLS-1$
-    private static final String DOWNLOAD_DTDS   = "XPathExtractor.download_dtds"; // $NON-NLS-1$
-    private static final String WHITESPACE      = "XPathExtractor.whitespace"; // $NON-NLS-1$
-    private static final String VALIDATE        = "XPathExtractor.validate"; // $NON-NLS-1$
-    private static final String FRAGMENT        = "XPathExtractor.fragment"; // $NON-NLS-1$
-    private static final String MATCH_NUMBER    = "XPathExtractor.matchNumber"; // $NON-NLS-1$
+    private static final String XPATH_QUERY     = "XPathExtractor.xpathQuery";
+    private static final String REFNAME         = "XPathExtractor.refname";
+    private static final String DEFAULT         = "XPathExtractor.default";
+    private static final String TOLERANT        = "XPathExtractor.tolerant";
+    private static final String NAMESPACE       = "XPathExtractor.namespace";
+    private static final String QUIET           = "XPathExtractor.quiet";
+    private static final String REPORT_ERRORS   = "XPathExtractor.report_errors";
+    private static final String SHOW_WARNINGS   = "XPathExtractor.show_warnings";
+    private static final String DOWNLOAD_DTDS   = "XPathExtractor.download_dtds";
+    private static final String WHITESPACE      = "XPathExtractor.whitespace";
+    private static final String VALIDATE        = "XPathExtractor.validate";
+    private static final String FRAGMENT        = "XPathExtractor.fragment";
+    private static final String MATCH_NUMBER    = "XPathExtractor.matchNumber";
     //- JMX file attributes
 
 
     private String concat(String s1,String s2){
-        return s1 + "_" + s2; // $NON-NLS-1$
+        return s1 + "_" + s2;
     }
 
     private String concat(String s1, int i){
-        return s1 + "_" + i; // $NON-NLS-1$
+        return s1 + "_" + i;
     }
 
     /**
@@ -120,8 +120,8 @@ public class XPathExtractor extends AbstractScopedTestElement implements
         } catch (NumberFormatException e) {
             // ignored
         }
-        vars.put(matchNR, "0"); // In case parse fails // $NON-NLS-1$
-        vars.remove(concat(refName,"1")); // In case parse fails // $NON-NLS-1$
+        vars.put(matchNR, "0"); // In case parse fails
+        vars.remove(concat(refName,"1")); // In case parse fails
 
         int matchNumber = getMatchNumber();
         List<String> matches = new ArrayList<>();
@@ -194,7 +194,7 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
     private void addAssertionFailure(final SampleResult previousResult,
             final Throwable thrown, final boolean setFailed) {
-        AssertionResult ass = new AssertionResult(getName()); // $NON-NLS-1$
+        AssertionResult ass = new AssertionResult(getName());
         ass.setFailure(true);
         ass.setFailureMessage(thrown.getLocalizedMessage()+"\nSee log file for further details.");
         previousResult.addAssertionResult(ass);
