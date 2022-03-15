@@ -293,6 +293,7 @@ public class AmdbBackendListenerClient extends AbstractBackendListenerClient imp
         amdbMetricsManager = (HttpJsonMetricsSender)troCloudClazz.getDeclaredConstructor().newInstance();
         String influxdbUrl = context.getParameter("influxdbUrl").trim();
         String influxdbToken = context.getParameter("influxdbToken");
+        System.setProperty("__ENGINE_INFLUXDB_URL__", influxdbUrl);
         amdbMetricsManager.setup(influxdbUrl, influxdbToken);
     }
 
