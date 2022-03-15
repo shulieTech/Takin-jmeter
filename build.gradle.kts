@@ -169,6 +169,14 @@ allprojects {
                 "Shows insights where the dependency is used. For instance: allDependencyInsight --configuration compile --dependency org.jsoup:jsoup"
         }
     }
+    /* 解除注释可以定位已过时API
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile::class) {
+            options.compilerArgs.add("-Xlint:deprecation")
+            options.compilerArgs.add("-Xlint:unchecked")
+        }
+    }
+    */
 }
 
 sonarqube {
@@ -484,7 +492,8 @@ allprojects {
                         filter(org.apache.tools.ant.filters.EscapeUnicode::class)
                         filter(LineEndings.LF)
                     } else if (name.endsWith(".dtd") || name.endsWith(".svg") ||
-                        name.endsWith(".txt")) {
+                        name.endsWith(".txt")
+                    ) {
                         filter(LineEndings.LF)
                     }
                 }
