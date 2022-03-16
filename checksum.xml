@@ -68,6 +68,7 @@
     <trusted-key id='379ce192d401ab61' group='info.picocli' />
     <trusted-key id='b2ca0dfe9ed21c6e' group='io.burt' />
     <trusted-key id='5b30d3b10694f057' group='io.codearte.gradle.nexus' />
+    <trusted-key id='602ec18d20c4661c' group='io.github.x-stream' />
     <trusted-key id='056aca74d46000bf' group='io.netty' />
     <trusted-key id='c8bc16cbcfb1fbc3' group='io.shulie' />
     <trusted-key id='b5afbeb57d3b7084' group='io.shulie.pradar' />
