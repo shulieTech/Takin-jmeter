@@ -1,5 +1,3 @@
-checksum.xml
-buildSrc/checksum.xml
 gradle/wrapper/gradle-wrapper.jar
 .*
 .*/**
