@@ -190,6 +190,7 @@ public class AmdbBackendListenerClient extends AbstractBackendListenerClient imp
         responseMetrics.setActiveThreads(metric.getActiveThreads());
         //add by lipeng 添加sumRt
         responseMetrics.setSumRt(metric.getSumRt());
+        responseMetrics.setSuccessHits(metric.getSuccessHits());
         //把他放在最后，getPercentMap中有清数据
         responseMetrics.setPercentData(DataUtil.percentMapToString(metric.getPercentMap()));
         responseMetrics.setTps(metric.getTotal() / Double.valueOf(SEND_INTERVAL));

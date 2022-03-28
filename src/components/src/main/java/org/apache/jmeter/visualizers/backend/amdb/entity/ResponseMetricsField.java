@@ -52,6 +52,7 @@ public class ResponseMetricsField  {
     private String percentData;
     private Double tps;
     private int hits;
+    private int successHits;
 
     //public String getTransaction() {
     //    return transaction;
@@ -171,5 +172,17 @@ public class ResponseMetricsField  {
 
     public void setHits(int hits) {
         this.hits = hits;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public int getSuccessHits() {
+        return successHits;
+    }
+
+    public void setSuccessHits(int successHits) {
+        this.successHits = successHits;
     }
 }

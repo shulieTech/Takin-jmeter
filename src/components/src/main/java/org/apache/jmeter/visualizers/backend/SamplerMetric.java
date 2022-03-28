@@ -42,7 +42,7 @@ public class SamplerMetric {
     private static final Logger logger = LoggerFactory.getLogger(SamplerMetric.class);
     private static final int SLIDING_WINDOW_SIZE = JMeterUtils.getPropDefault("backend_metrics_window", 100);
     private static final int LARGE_SLIDING_WINDOW_SIZE = JMeterUtils.getPropDefault("backend_metrics_large_window",
-            5000);
+        5000);
 
     private static volatile WindowMode globalWindowMode = WindowMode.get();
 
@@ -69,6 +69,7 @@ public class SamplerMetric {
     private int successes;
     private int failures;
     private int hits;
+    private int successHits;
     private Map<ErrorMetric, Integer> errors = new HashMap<>();
     private long sentBytes;
     private long receivedBytes;
@@ -214,7 +215,7 @@ public class SamplerMetric {
      */
     private void addNetworkData(SampleResult result, boolean isCumulated) {
         if (isCumulated && TransactionController.isFromTransactionController(result)
-                && result.getSubResults().length == 0) { // Transaction controller without generate parent sampler
+            && result.getSubResults().length == 0) { // Transaction controller without generate parent sampler
             return;
         }
         sentBytes += result.getSentBytes();
@@ -230,15 +231,31 @@ public class SamplerMetric {
     private void addHits(SampleResult result, boolean isCumulated) {
         SampleResult[] subResults = result.getSubResults();
         if (isCumulated && TransactionController.isFromTransactionController(result)
-                && subResults.length == 0) { // Transaction controller without generate parent sampler
+            && subResults.length == 0) { // Transaction controller without generate parent sampler
             return;
         }
         if (!(TransactionController.isFromTransactionController(result) && subResults.length > 0)) {
             hits += result.getSampleCount();
+            if (!ifServerError(result.getResponseCode()) && !ifConnectionRefused(result.getResponseData())){
+                successHits += result.getSampleCount();
+            }
         }
         for (SampleResult subResult : subResults) {
             addHits(subResult, isCumulated);
         }
+    }
+
+    private static final List<String> SERVER_ERROR_CODE = Arrays.asList("500","501","502","503","504","505");
+    private static boolean ifServerError(String code){
+        return SERVER_ERROR_CODE.contains(code.trim());
+    }
+
+    private static boolean ifConnectionRefused(byte[] responseData){
+        if(Objects.nonNull(responseData)){
+            String responseString = new String(responseData);
+            return responseString.contains("Connection refused") || responseString.contains("connection refused") || responseString.contains("拒绝连接");
+        }
+        return false;
     }
 
     /**
@@ -300,6 +317,7 @@ public class SamplerMetric {
         sumRt = 0;
         sumActiveThreads = 0;
         count = 0;
+        successHits = 0;
     }
 
     public int getActiveThreads() {
@@ -508,5 +526,13 @@ public class SamplerMetric {
 
     public void setTransactionUrl(String transactionUrl) {
         this.transactionUrl = transactionUrl;
+    }
+
+    public int getSuccessHits() {
+        return successHits;
+    }
+
+    public void setSuccessHits(int successHits) {
+        this.successHits = successHits;
     }
 }
