@@ -39,10 +39,16 @@ public class JmeterTraceIdGenerator {
     private static String IP_int = "255255255255";
     private static String PID = "0000";
     private static final char PID_FLAG = 'd';
+    private static String TAG = "01"; //0x01 代表压测引擎生成的数据 转换PID=>ReportId
+    private static String REPORT_ID = System.getProperty("__ENGINE_REPORT_ID__", "0");
 
-    private static final String REGEX = "\\b((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\b";
+    private static final String REGEX
+        = "\\b((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.("
+        + "(?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\b";
     private static final Pattern PATTERN = Pattern.compile(REGEX);
     private static final AtomicInteger COUNT = new AtomicInteger(1000);
+    private static final String[] X36_ARRAY
+        = "0,1,2,3,4,5,6,7,8,9,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z".split(",");
 
     static {
         try {
@@ -57,6 +63,8 @@ public class JmeterTraceIdGenerator {
             }
 
             PID = getHexPid(getPid());
+            String reportId = System.getProperty("__ENGINE_REPORT_ID__", "0");
+            REPORT_ID = digits36(Long.parseLong(reportId));
         } catch (Throwable e) {
         }
     }
@@ -117,8 +125,12 @@ public class JmeterTraceIdGenerator {
         return pid;
     }
 
+    //private static String getTraceId(String ip, long timestamp, int nextId) {
+    //    return ip + timestamp + paddingString(nextId) + PID_FLAG + PID;
+    //}
+
     private static String getTraceId(String ip, long timestamp, int nextId) {
-        return ip + timestamp + paddingString(nextId) + PID_FLAG + PID;
+        return ip + timestamp + paddingString(nextId) + PID_FLAG + REPORT_ID + TAG;
     }
 
     private static String paddingString(int n) {
@@ -200,4 +212,21 @@ public class JmeterTraceIdGenerator {
         return 0;
     }
 
+    private static String digits36(Long num) {
+        StringBuilder sBuffer = new StringBuilder();
+
+        if (num == 0) {
+            sBuffer.append("0");
+        }
+        while (num > 0) {
+            sBuffer.append(X36_ARRAY[(int)(num % 36)]);
+            num = num / 36;
+        }
+
+        StringBuilder str = new StringBuilder(sBuffer.reverse().toString());
+        while (str.length() < 5) {
+            str.insert(0, "0");
+        }
+        return str.toString();
+    }
 }
