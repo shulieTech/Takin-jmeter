@@ -33,6 +33,11 @@ public class PressureConstants {
     public static final String CURRENT_JTL_FILE_NAME_SYSTEM_PROP_KEY = "__CURRENT_PTL_FILE_NAME__";
 
     /**
+     * 调试模式code
+     */
+    public static final String INSPECTION_MODE_CODE = "4";
+
+    /**
      * 试跑模式code
      */
     public static final String TRY_RUN_MODE_CODE = "5";

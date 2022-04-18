@@ -564,6 +564,9 @@ public class JMeterThread implements Runnable, Interruptible {
         if (PressureConstants.TRY_RUN_MODE_CODE.equals(pressureEngineModeCode)) {
             threadVars.put(PressureConstants.TRACE_ID_KEY, JmeterTraceIdGenerator.generateAllSampled());
         }
+        else if (PressureConstants.INSPECTION_MODE_CODE.equals(pressureEngineModeCode)) {
+            threadVars.put(PressureConstants.TRACE_ID_KEY, JmeterTraceIdGenerator.generateAllSampled());
+        }
         //非试跑
         else {
             threadVars.put(PressureConstants.TRACE_ID_KEY, JmeterTraceIdGenerator.generate());
