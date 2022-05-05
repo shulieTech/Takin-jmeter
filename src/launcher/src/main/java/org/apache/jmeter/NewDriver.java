@@ -288,7 +288,7 @@ public final class NewDriver {
     private static PressureEngineParams getPressureEngineParams(String[] args) {
         PressureEngineParams result = new PressureEngineParams();
         //sceneId
-        long sceneId = Long.parseLong(System.getProperty("SceneId", "0"));
+        String sceneId = System.getProperty("SceneId", "0");
         result.setSceneId(sceneId);
         System.setProperty("SCENE_ID", sceneId + "");
         //reportId

@@ -39,7 +39,7 @@ public class JedisUtil {
 
     public static String getRedisMasterKey() {
         if (StringUtils.isBlank(redisMasterKey)) {
-            Long sid = PressureConstants.pressureEngineParamsInstance.getSceneId();
+            String sid = PressureConstants.pressureEngineParamsInstance.getSceneId();
             String sceneId = null != sid ? String.valueOf(sid) : System.getProperty("SCENE_ID");
             Long resultId = PressureConstants.pressureEngineParamsInstance.getResultId();
             String reportId = null != resultId ? String.valueOf(resultId) : System.getProperty("__ENGINE_REPORT_ID__");

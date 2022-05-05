@@ -27,7 +27,7 @@ import java.util.Arrays;
  */
 public class PressureEngineParams {
 
-    private Long sceneId;
+    private String sceneId;
 
     private Long resultId;
 
@@ -49,11 +49,11 @@ public class PressureEngineParams {
         this.jmeterArgs = jmeterArgs;
     }
 
-    public Long getSceneId() {
+    public String getSceneId() {
         return sceneId;
     }
 
-    public void setSceneId(Long sceneId) {
+    public void setSceneId(String sceneId) {
         this.sceneId = sceneId;
     }
 
@@ -99,7 +99,7 @@ public class PressureEngineParams {
 
     public PressureEngineParams() {}
 
-    public PressureEngineParams(Long sceneId, Long resultId, Long customerId, String callbackUrl, int samplingInterval,String podNumber) {
+    public PressureEngineParams(String sceneId, Long resultId, Long customerId, String callbackUrl, int samplingInterval,String podNumber) {
         this.sceneId = sceneId;
         this.resultId = resultId;
         this.customerId = customerId;
@@ -108,7 +108,7 @@ public class PressureEngineParams {
         this.podNumber = podNumber;
     }
 
-    public static PressureEngineParams create(Long sceneId, Long resultId, Long customerId, String callbackUrl, int samplingInterval,String podNumber) {
+    public static PressureEngineParams create(String sceneId, Long resultId, Long customerId, String callbackUrl, int samplingInterval,String podNumber) {
         return new PressureEngineParams(sceneId, resultId, customerId, callbackUrl, samplingInterval,podNumber);
     }
 
