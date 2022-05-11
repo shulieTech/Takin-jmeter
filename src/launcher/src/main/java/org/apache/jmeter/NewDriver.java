@@ -298,6 +298,9 @@ public final class NewDriver {
         //dynamicTpsUrl
         String dynamicTaskTpsUrl = System.getProperty("dynamicTaskTpsUrl");
         System.setProperty("__ENGINE_DYNAMIC_TASK_TPS_URL__", dynamicTaskTpsUrl);
+        //csvPositionUrl
+        String csvPositionUrl = System.getProperty("csvPositionUrl");
+        System.setProperty("__ENGINE_CSV_POSITION_URL__", csvPositionUrl);
         //customerId
         long customerId = Long.parseLong(System.getProperty("CustomerId", "0"));
         result.setCustomerId(customerId);
