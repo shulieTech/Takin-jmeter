@@ -111,6 +111,7 @@ dependencies {
     implementation("io.shulie.flpt:jmeter-redis-tool")
     implementation("io.shulie.flpt:jmeter-executor-tool")
     implementation("io.shulie.flpt:jmeter-amdb-tool")
+    implementation("cn.hutool:hutool-all:5.4.0")
     // add end
     // TODO: JMeter bundles Xerces, however the reason is unknown
     runtimeOnly("xerces:xercesImpl")

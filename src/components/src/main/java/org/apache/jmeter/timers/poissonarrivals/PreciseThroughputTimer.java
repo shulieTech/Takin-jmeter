@@ -32,6 +32,7 @@ import java.util.concurrent.locks.Lock;
 import org.apache.jmeter.gui.GUIMenuSortOrder;
 import org.apache.jmeter.gui.TestElementMetadata;
 import org.apache.jmeter.shulie.data.DynamicContext;
+import org.apache.jmeter.shulie.data.DynamicContextByLongPolling;
 import org.apache.jmeter.testbeans.TestBean;
 import org.apache.jmeter.testbeans.gui.GenericTestBeanCustomizer;
 import org.apache.jmeter.testelement.AbstractTestElement;
@@ -158,7 +159,7 @@ public class PreciseThroughputTimer extends AbstractTestElement implements Clone
             return;
         }
         String threadGroupTestName = tg.getName();
-        Double dynamicTps = DynamicContext.getTpsTargetLevel(threadGroupTestName);
+        Double dynamicTps = DynamicContextByLongPolling.getTpsTargetLevel(threadGroupTestName);
         if (null == dynamicTps || dynamicTps <= 0) {
             return;
         }

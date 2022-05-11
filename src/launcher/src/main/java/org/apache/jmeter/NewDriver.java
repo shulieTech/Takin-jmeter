@@ -72,7 +72,7 @@ public final class NewDriver {
         StringTokenizer tok = new StringTokenizer(initialClasspath, File.pathSeparator);
         // Java on Mac OS can add a second entry to the initial classpath
         if (tok.countTokens() == 1
-            || (tok.countTokens() == 2 && OS_NAME_LC.startsWith("mac os x"))) {
+                || (tok.countTokens() == 2 && OS_NAME_LC.startsWith("mac os x"))) {
             File jar = new File(tok.nextToken());
             try {
                 tmpDir = jar.getCanonicalFile().getParentFile().getParent();
@@ -102,9 +102,9 @@ public final class NewDriver {
 
         // Add standard jar locations to initial classpath
         StringBuilder classpath = new StringBuilder();
-        File[] libDirs = new File[] {new File(JMETER_INSTALLATION_DIRECTORY + File.separator + "lib"),
-            new File(JMETER_INSTALLATION_DIRECTORY + File.separator + "lib" + File.separator + "ext"),
-            new File(JMETER_INSTALLATION_DIRECTORY + File.separator + "lib" + File.separator + "junit")};
+        File[] libDirs = new File[]{new File(JMETER_INSTALLATION_DIRECTORY + File.separator + "lib"),
+                new File(JMETER_INSTALLATION_DIRECTORY + File.separator + "lib" + File.separator + "ext"),
+                new File(JMETER_INSTALLATION_DIRECTORY + File.separator + "lib" + File.separator + "junit")};
         for (File libDir : libDirs) {
             File[] libJars = libDir.listFiles((dir, name) -> name.endsWith(".jar"));
             if (libJars == null) {
@@ -139,8 +139,8 @@ public final class NewDriver {
         // ClassFinder needs the classpath
         System.setProperty(JAVA_CLASS_PATH, initialClasspath + classpath);
         loader = AccessController.doPrivileged(
-            (PrivilegedAction<DynamicClassLoader>)() ->
-                new DynamicClassLoader(jars.toArray(new URL[jars.size()]))
+                (PrivilegedAction<DynamicClassLoader>) () ->
+                        new DynamicClassLoader(jars.toArray(new URL[jars.size()]))
         );
     }
 
@@ -201,7 +201,7 @@ public final class NewDriver {
      *
      * @param path to add to the loader and system classpath
      * @throws MalformedURLException if <code>path</code> can not be transformed to a valid
-     * {@link URL}
+     *                               {@link URL}
      */
     public static void addPath(String path) throws MalformedURLException {
         File file = new File(path);
@@ -295,6 +295,9 @@ public final class NewDriver {
         long reportId = Long.parseLong(System.getProperty("ReportId", "0"));
         result.setResultId(reportId);
         System.setProperty("__ENGINE_REPORT_ID__", reportId + "");
+        //dynamicTpsUrl
+        String dynamicTaskTpsUrl = System.getProperty("dynamicTaskTpsUrl");
+        System.setProperty("__ENGINE_DYNAMIC_TASK_TPS_URL__", dynamicTaskTpsUrl);
         //customerId
         long customerId = Long.parseLong(System.getProperty("CustomerId", "0"));
         result.setCustomerId(customerId);
@@ -322,7 +325,7 @@ public final class NewDriver {
         PrintWriter printWriter = new PrintWriter(stringWriter);
         throwable.printStackTrace(printWriter);
         builder.append(stringWriter)
-            .append("\r\n");
+                .append("\r\n");
         return builder.toString();
     }
 
@@ -337,7 +340,7 @@ public final class NewDriver {
             PrintWriter printWriter = new PrintWriter(stringWriter);
             exception.printStackTrace(printWriter);
             builder.append(stringWriter)
-                .append("\r\n");
+                    .append("\r\n");
         }
         return builder.toString();
     }
@@ -384,14 +387,14 @@ public final class NewDriver {
      * Find command line argument option value by the id and name.
      */
     private static String getCommandLineArgument(String[] args, int id, String name) {
-        final String shortArgName = "-" + ((char)id);
+        final String shortArgName = "-" + ((char) id);
         final String longArgName = "--" + name;
 
         String value = null;
 
         for (int i = 0; i < args.length; i++) {
             if ((shortArgName.equals(args[i]) && i < args.length - 1)
-                || longArgName.equals(args[i])) {
+                    || longArgName.equals(args[i])) {
                 if (!args[i + 1].startsWith("-")) {
                     value = args[i + 1];
                 }

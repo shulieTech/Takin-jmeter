@@ -70,6 +70,7 @@ dependencies {
     // add end
     implementation("io.shulie.flpt:jmeter-redis-tool")
     implementation("io.shulie.flpt:jmeter-executor-tool")
+    implementation("cn.hutool:hutool-all:5.4.0")
 
     // we use bcmail for compilation only, and bcmail is not shipped in the release
     compileOnly("org.bouncycastle:bcmail-jdk15on")
