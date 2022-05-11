@@ -21,6 +21,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.hutool.http.HttpRequest;
+
 /**
  * ClassName:    HttpUtils
  * Package:    org.apache.jmeter.shulie.util
@@ -34,9 +35,18 @@ public class HttpUtils {
 
     public static JSONObject get(String url) {
         String response = HttpRequest
-            .get(url)
-            .header(LONG_POLLING_HEADER, LONG_POLLING_REQUEST_TIMEOUT)
-            .execute().body();
+                .get(url)
+                .header(LONG_POLLING_HEADER, LONG_POLLING_REQUEST_TIMEOUT)
+                .execute().body();
+        return JSON.parseObject(response);
+    }
+
+    public static JSONObject post(String url, JSONObject params) {
+        String response = HttpRequest
+                .post(url)
+                .body(params.toString())
+                .header(LONG_POLLING_HEADER, LONG_POLLING_REQUEST_TIMEOUT)
+                .execute().body();
         return JSON.parseObject(response);
     }
 }
