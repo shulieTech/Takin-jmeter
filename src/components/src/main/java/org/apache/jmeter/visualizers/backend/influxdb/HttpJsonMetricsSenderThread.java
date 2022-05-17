@@ -51,15 +51,6 @@ public class HttpJsonMetricsSenderThread {
     }
 
     public void start() {
-        PrintWriter pw = null;
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                pw.flush();
-                pw.close();
-            }
-        });
         Runnable runnable = () -> {
             for (; ; ) {
                 List<AbstractMetrics> metrics = null;
