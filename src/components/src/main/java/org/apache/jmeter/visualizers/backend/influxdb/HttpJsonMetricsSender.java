@@ -18,6 +18,8 @@
 package org.apache.jmeter.visualizers.backend.influxdb;
 
 import java.io.PrintWriter;
+import java.net.ConnectException;
+import java.net.SocketException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -137,6 +139,7 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
             thread = new HttpJsonMetricsSenderThread(this);
             thread.start();
         }catch (Exception e){
+            e.printStackTrace();
             log.error("初始化HttpJsonMetricsSender异常");
             HttpNotifyTroCloudUtils.notifyTroCloud(PressureConstants.pressureEngineParamsInstance, PressureConstants.ENGINE_STATUS_FAILED, "初始化HttpJsonMetricsSender异常:请检查指标上报url");
         }
