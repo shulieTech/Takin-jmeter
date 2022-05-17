@@ -105,36 +105,43 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
     @Override
     public void setup(String influxdbUrl, String influxDBToken, PrintWriter pw) throws Exception {
         this.pw = pw;
-        // Create I/O reactor configuration
-        IOReactorConfig ioReactorConfig = IOReactorConfig
-                .custom()
-                .setIoThreadCount(1)
-                .setConnectTimeout(JMeterUtils.getPropDefault("backend_influxdb.connection_timeout", BACKEND_CONNECTION_TIMEOUT))
-                .setSoTimeout(JMeterUtils.getPropDefault("backend_influxdb.socket_timeout", BACKEND_SOCKET_TIMEOUT))
-                .build();
-        // Create a custom I/O reactor
-        ConnectingIOReactor ioReactor = new DefaultConnectingIOReactor(ioReactorConfig);
+        try {
+            // Create I/O reactor configuration
+            IOReactorConfig ioReactorConfig = IOReactorConfig
+                    .custom()
+                    .setIoThreadCount(1)
+                    .setConnectTimeout(JMeterUtils.getPropDefault("backend_influxdb.connection_timeout", BACKEND_CONNECTION_TIMEOUT))
+                    .setSoTimeout(JMeterUtils.getPropDefault("backend_influxdb.socket_timeout", BACKEND_SOCKET_TIMEOUT))
+                    .build();
+            // Create a custom I/O reactor
+            ConnectingIOReactor ioReactor = new DefaultConnectingIOReactor(ioReactorConfig);
 
-        // Create a connection manager with custom configuration.
-        PoolingNHttpClientConnectionManager connManager =
-                new PoolingNHttpClientConnectionManager(ioReactor);
+            // Create a connection manager with custom configuration.
+            PoolingNHttpClientConnectionManager connManager =
+                    new PoolingNHttpClientConnectionManager(ioReactor);
 
-        httpClient = HttpAsyncClientBuilder.create()
-                .setConnectionManager(connManager)
-                .setMaxConnPerRoute(2)
-                .setMaxConnTotal(2)
-                .setUserAgent("ApacheJMeter" + JMeterUtils.getJMeterVersion())
-                .disableCookieManagement()
-                .disableConnectionState()
-                .build();
-        url = new URL(influxdbUrl);
-        token = influxDBToken;
-        SEND_INTERVAL = JMeterUtils.getPropDefault("backend_influxdb.send_interval", 5);
-        httpRequest = createRequest(url, token);
-        httpClient.execute(httpRequest, null);
-        httpClient.start();
-        thread = new HttpJsonMetricsSenderThread(this);
-        thread.start();
+            httpClient = HttpAsyncClientBuilder.create()
+                    .setConnectionManager(connManager)
+                    .setMaxConnPerRoute(2)
+                    .setMaxConnTotal(2)
+                    .setUserAgent("ApacheJMeter" + JMeterUtils.getJMeterVersion())
+                    .disableCookieManagement()
+                    .disableConnectionState()
+                    .build();
+            url = new URL(influxdbUrl);
+            token = influxDBToken;
+            SEND_INTERVAL = JMeterUtils.getPropDefault("backend_influxdb.send_interval", 5);
+            httpRequest = createRequest(url, token);
+            httpClient.start();
+            //测试指标上报接口
+            httpClient.execute(httpRequest, null).get();
+            thread = new HttpJsonMetricsSenderThread(this);
+            thread.start();
+        }catch (Exception e){
+            e.printStackTrace();
+            log.error("初始化HttpJsonMetricsSender异常");
+            HttpNotifyTroCloudUtils.notifyTroCloud(PressureConstants.pressureEngineParamsInstance, PressureConstants.ENGINE_STATUS_FAILED, "初始化HttpJsonMetricsSender异常:请检查指标上报url");
+        }
     }
 
     /**
