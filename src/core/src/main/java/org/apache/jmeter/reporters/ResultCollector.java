@@ -173,7 +173,7 @@ public class ResultCollector extends AbstractListenerElement implements SampleLi
      */
     private volatile Summariser summariser;
 
-    private static  LogPusher pusher = null;
+    private static LogPusher pusher = null;
 
     /**
      * No-arg constructor.
@@ -364,8 +364,7 @@ public class ResultCollector extends AbstractListenerElement implements SampleLi
                         out = getFileWriter(getFilename(), getSaveConfig());
                         //生成unReportJtl文件
                         if (Objects.nonNull(pusher) && Objects.nonNull(out)) {
-                            String fileName = System.getProperty(PressureConstants.CURRENT_JTL_FILE_NAME_SYSTEM_PROP_KEY);
-                            fileName = fileName.substring(0, fileName.lastIndexOf(".")) + ".jtl.err";
+                            String fileName = "pressure-" + GlobalVariables.VERSION + "-" + PressureConstants.pressureEngineParamsInstance.getPodNumber() + ".jtl.err";
                             File file = new File(jtlFile);
                             String parent = file.getParent();
                             String unReportJtlFilePath = parent + "/" + fileName;
