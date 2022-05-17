@@ -363,7 +363,7 @@ public class ResultCollector extends AbstractListenerElement implements SampleLi
                         // Note: getFileWriter ignores a null filename
                         out = getFileWriter(getFilename(), getSaveConfig());
                         //生成unReportJtl文件
-                        if (Objects.nonNull(pusher)) {
+                        if (Objects.nonNull(pusher) && Objects.nonNull(out)) {
                             String fileName = System.getProperty(PressureConstants.CURRENT_JTL_FILE_NAME_SYSTEM_PROP_KEY);
                             fileName = fileName.substring(0, fileName.lastIndexOf(".")) + ".jtl.err";
                             File file = new File(jtlFile);
