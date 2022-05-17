@@ -33,6 +33,7 @@ import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.jmeter.config.PressurePtlFileConfig;
@@ -49,6 +50,7 @@ import org.apache.jmeter.save.SaveService;
 import org.apache.jmeter.services.CsvPositionRecord;
 import org.apache.jmeter.services.FileServer;
 import org.apache.jmeter.shulie.constants.PressureConstants;
+import org.apache.jmeter.shulie.data.pusher.LogPusher;
 import org.apache.jmeter.testelement.TestStateListener;
 import org.apache.jmeter.testelement.property.BooleanProperty;
 import org.apache.jmeter.testelement.property.ObjectProperty;
@@ -59,7 +61,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.shulie.jmeter.tool.amdb.GlobalVariables;
-import io.shulie.jmeter.tool.amdb.log.data.pusher.LogPusher;
 import io.shulie.jmeter.tool.executors.ExecutorServiceFactory;
 
 /**
@@ -67,7 +68,7 @@ import io.shulie.jmeter.tool.executors.ExecutorServiceFactory;
  * The class must be thread-safe because it is shared between threads (NoThreadClone).
  */
 public class ResultCollector extends AbstractListenerElement implements SampleListener, Clearable, Serializable,
-    TestStateListener, Remoteable, NoThreadClone {
+        TestStateListener, Remoteable, NoThreadClone {
     /**
      * Keep track of the file writer and the configuration,
      * as the instance used to close them is not the same as the instance that creates
@@ -120,7 +121,7 @@ public class ResultCollector extends AbstractListenerElement implements SampleLi
     private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
     private static final int MIN_XML_FILE_LEN = XML_HEADER.length() + TESTRESULTS_START.length()
-        + TESTRESULTS_END.length();
+            + TESTRESULTS_END.length();
 
     public static final String FILENAME = "filename";
 
@@ -195,8 +196,8 @@ public class ResultCollector extends AbstractListenerElement implements SampleLi
     // N.B. clone only seems to be used for client-server tests
     @Override
     public Object clone() {
-        ResultCollector clone = (ResultCollector)super.clone();
-        clone.setSaveConfig((SampleSaveConfiguration)clone.getSaveConfig().clone());
+        ResultCollector clone = (ResultCollector) super.clone();
+        clone.setSaveConfig((SampleSaveConfiguration) clone.getSaveConfig().clone());
         // Unfortunately AbstractTestElement does not call super.clone()
         clone.summariser = this.summariser;
         return clone;
@@ -289,10 +290,10 @@ public class ResultCollector extends AbstractListenerElement implements SampleLi
      * @return whether to log/display the sample
      */
     public static boolean isSampleWanted(boolean success, boolean errorOnly,
-        boolean successOnly) {
+                                         boolean successOnly) {
         return (!errorOnly && !successOnly) ||
-            (success && successOnly) ||
-            (!success && errorOnly);
+                (success && successOnly) ||
+                (!success && errorOnly);
         // successOnly and errorOnly cannot both be set
     }
 
@@ -343,21 +344,32 @@ public class ResultCollector extends AbstractListenerElement implements SampleLi
     public void testStarted(String host) {
         synchronized (LOCK) {
             // Only add the hook once
-            if (instanceCount == 0) {
-                shutdownHook = new Thread(new ShutdownHook());
-                Runtime.getRuntime().addShutdownHook(shutdownHook);
-                //全局加一个异步线程处理jtl文件flush
-                //add by 李鹏 at 20210813
-                initializeFileFlushThread();
-                //add end
-                initializeLogPusher();
-            }
-            instanceCount++;
+            LogPusher pusher = null;
             try {
+                if (instanceCount == 0) {
+                    shutdownHook = new Thread(new ShutdownHook());
+                    Runtime.getRuntime().addShutdownHook(shutdownHook);
+                    //全局加一个异步线程处理jtl文件flush
+                    //add by 李鹏 at 20210813
+                    initializeFileFlushThread();
+                    //add end
+                    pusher = initializeLogPusher();
+                }
+                instanceCount++;
                 if (out == null) {
                     try {
+                        String jtlFile = getFilename();
                         // Note: getFileWriter ignores a null filename
                         out = getFileWriter(getFilename(), getSaveConfig());
+                        //生成unReportJtl文件
+                        if (Objects.nonNull(pusher)) {
+                            String fileName = System.getProperty(PressureConstants.CURRENT_JTL_FILE_NAME_SYSTEM_PROP_KEY);
+                            fileName = fileName.substring(0, fileName.lastIndexOf(".")) + ".jtl.err";
+                            File file = new File(jtlFile);
+                            String parent = file.getParent();
+                            String unReportJtlFilePath = parent + "/" + fileName;
+                            pusher.setPw(getFileWriter(unReportJtlFilePath, getSaveConfig()));
+                        }
                     } catch (FileNotFoundException e) {
                         out = null;
                     }
@@ -396,19 +408,22 @@ public class ResultCollector extends AbstractListenerElement implements SampleLi
         }
     }
 
-    private void initializeLogPusher() {
+    private LogPusher initializeLogPusher() throws IOException {
         if (PressurePtlFileConfig.PTL_UPLOAD_FROM_ENGINE.equals(PressurePtlFileConfig.defaultConfig.getPtlUploadFrom())) {
             if (GlobalVariables.logBlockQueue == null) {
                 GlobalVariables.initBlockQueue();
             }
-            ExecutorServiceFactory.GLOBAL_EXECUTOR_SERVICE.execute(new LogPusher(GlobalVariables.logBlockQueue, 1,
-                String.valueOf(PressureConstants.pressureEngineParamsInstance.getResultId())));
+            LogPusher pusher = new LogPusher(GlobalVariables.logBlockQueue, 1,
+                    String.valueOf(PressureConstants.pressureEngineParamsInstance.getResultId()));
+            ExecutorServiceFactory.GLOBAL_EXECUTOR_SERVICE.execute(pusher);
+            return pusher;
         }
+        return null;
     }
 
     /**
      * 初始化异步文件flush线程
-     *
+     * <p>
      * 每5s flush jtl
      *
      * @author 李鹏
@@ -468,7 +483,7 @@ public class ResultCollector extends AbstractListenerElement implements SampleLi
                              // Assume XStream
                              BufferedInputStream bufferedInputStream = new BufferedInputStream(fis)) {
                             SaveService.loadTestResults(bufferedInputStream,
-                                new ResultCollectorHelper(this, visualizer));
+                                    new ResultCollectorHelper(this, visualizer));
                             parsedOK = true;
                         } catch (Exception e) {
                             if (log.isWarnEnabled()) {
@@ -482,14 +497,14 @@ public class ResultCollector extends AbstractListenerElement implements SampleLi
             } finally {
                 if (!parsedOK) {
                     GuiPackage.showErrorMessage(
-                        "Error loading results file - see log file",
-                        "Result file loader");
+                            "Error loading results file - see log file",
+                            "Result file loader");
                 }
             }
         } else {
             GuiPackage.showErrorMessage(
-                "Error loading results file - could not open file",
-                "Result file loader");
+                    "Error loading results file - could not open file",
+                    "Result file loader");
         }
     }
 
@@ -530,7 +545,7 @@ public class ResultCollector extends AbstractListenerElement implements SampleLi
     }
 
     private static PrintWriter getFileWriter(final String pFilename, SampleSaveConfiguration saveConfig)
-        throws IOException {
+            throws IOException {
         if (pFilename == null || pFilename.length() == 0) {
             return null;
         }
@@ -564,7 +579,7 @@ public class ResultCollector extends AbstractListenerElement implements SampleLi
                 }
             }
             writer = new PrintWriter(new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(filename,
-                trimmed)), SaveService.getFileEncoding(StandardCharsets.UTF_8.name())), SAVING_AUTOFLUSH);
+                    trimmed)), SaveService.getFileEncoding(StandardCharsets.UTF_8.name())), SAVING_AUTOFLUSH);
             if (log.isDebugEnabled()) {
                 log.debug("Opened file: {} in thread {}", filename, Thread.currentThread().getName());
             }
@@ -594,7 +609,9 @@ public class ResultCollector extends AbstractListenerElement implements SampleLi
             while ((line = raf.readLine()) != null) {
                 end = line.indexOf(TESTRESULTS_END);
                 // found the string
-                if (end >= 0) {break;}
+                if (end >= 0) {
+                    break;
+                }
                 pos = raf.getFilePointer();
             }
             if (line == null) {
@@ -626,7 +643,7 @@ public class ResultCollector extends AbstractListenerElement implements SampleLi
 
     /**
      * When a test result is received, display it and save it.
-     *
+     * <p>
      * 每个请求完成后都会触发到这里  当然必须有监听器 mark by 李鹏
      *
      * @param event the sample event that was received
@@ -719,7 +736,7 @@ public class ResultCollector extends AbstractListenerElement implements SampleLi
             ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
             Class<?> recordClass = classLoader.loadClass("org.apache.jmeter.shulie.services.CsvPosition");
             Object instance = recordClass.newInstance();
-            CsvPositionRecord record = (CsvPositionRecord)instance;
+            CsvPositionRecord record = (CsvPositionRecord) instance;
             record.recordCsvPosition();
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             log.error("最后一次更新缓存");
@@ -731,7 +748,7 @@ public class ResultCollector extends AbstractListenerElement implements SampleLi
      */
     public SampleSaveConfiguration getSaveConfig() {
         try {
-            return (SampleSaveConfiguration)getProperty(SAVE_CONFIG).getObjectValue();
+            return (SampleSaveConfiguration) getProperty(SAVE_CONFIG).getObjectValue();
         } catch (ClassCastException e) {
             setSaveConfig(new SampleSaveConfiguration());
             return getSaveConfig();
