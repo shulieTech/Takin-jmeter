@@ -20,12 +20,15 @@ package org.apache.jmeter.visualizers.backend.influxdb;
 import static org.apache.jmeter.visualizers.backend.influxdb.entity.Constants.METRICS_EVENTS_ENDED;
 import static org.apache.jmeter.visualizers.backend.influxdb.entity.Constants.METRICS_EVENTS_STARTED;
 
+import java.io.PrintWriter;
+import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cn.hutool.core.io.FileUtil;
 import com.alibaba.fastjson.TypeReference;
 
 import org.apache.commons.lang3.StringUtils;
@@ -90,6 +93,8 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
     private ScheduledFuture<?> timerHandle;
 
     private Map<String, BusinessActivityConfig> bizMap = new HashMap<>();
+
+    private PrintWriter pw;
 
     public InfluxdbBackendListenerClient() {
         super();
@@ -231,7 +236,9 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
         influxdbMetricsManager = (HttpJsonMetricsSender)troCloudClazz.getDeclaredConstructor().newInstance();
         String influxdbUrl = context.getParameter("influxdbUrl").trim();
         String influxdbToken = context.getParameter("influxdbToken");
-        influxdbMetricsManager.setup(influxdbUrl, influxdbToken);
+        String metricsFile = context.getParameter("metricsFile").trim();
+        pw = FileUtil.getPrintWriter(metricsFile, Charset.defaultCharset().name(), false);
+        influxdbMetricsManager.setup(influxdbUrl, influxdbToken, pw);
     }
 
     private void initPercentiles(BackendListenerContext context) {
@@ -294,6 +301,9 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
         log.info("Sending last metrics");
         sendMetrics();
         influxdbMetricsManager.destroy();
+        //metrics文件
+        pw.flush();
+        pw.close();
         super.teardownTest(context);
     }
 

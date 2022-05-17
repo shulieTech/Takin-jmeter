@@ -17,10 +17,12 @@
 
 package org.apache.jmeter.visualizers.backend.influxdb;
 
+import java.io.PrintWriter;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -81,6 +83,7 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
 
     private Future<HttpResponse> lastRequest;
     private HttpJsonMetricsSenderThread thread;
+    private PrintWriter pw;
 
     HttpJsonMetricsSender() {
         super();
@@ -93,32 +96,33 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
      *
      * @param influxdbUrl   example : http://localhost:8086/write?db=myd&rp=one_week
      * @param influxDBToken example: my-token
-     * @see InfluxdbMetricsSender#setup(String, String)
+     * @see InfluxdbMetricsSender#setup(String, String, PrintWriter)
      */
     @Override
-    public void setup(String influxdbUrl, String influxDBToken) throws Exception {
+    public void setup(String influxdbUrl, String influxDBToken, PrintWriter pw) throws Exception {
+        this.pw = pw;
         // Create I/O reactor configuration
         IOReactorConfig ioReactorConfig = IOReactorConfig
-            .custom()
-            .setIoThreadCount(1)
-            .setConnectTimeout(JMeterUtils.getPropDefault("backend_influxdb.connection_timeout", BACKEND_CONNECTION_TIMEOUT))
-            .setSoTimeout(JMeterUtils.getPropDefault("backend_influxdb.socket_timeout", BACKEND_SOCKET_TIMEOUT))
-            .build();
+                .custom()
+                .setIoThreadCount(1)
+                .setConnectTimeout(JMeterUtils.getPropDefault("backend_influxdb.connection_timeout", BACKEND_CONNECTION_TIMEOUT))
+                .setSoTimeout(JMeterUtils.getPropDefault("backend_influxdb.socket_timeout", BACKEND_SOCKET_TIMEOUT))
+                .build();
         // Create a custom I/O reactor
         ConnectingIOReactor ioReactor = new DefaultConnectingIOReactor(ioReactorConfig);
 
         // Create a connection manager with custom configuration.
         PoolingNHttpClientConnectionManager connManager =
-            new PoolingNHttpClientConnectionManager(ioReactor);
+                new PoolingNHttpClientConnectionManager(ioReactor);
 
         httpClient = HttpAsyncClientBuilder.create()
-            .setConnectionManager(connManager)
-            .setMaxConnPerRoute(2)
-            .setMaxConnTotal(2)
-            .setUserAgent("ApacheJMeter" + JMeterUtils.getJMeterVersion())
-            .disableCookieManagement()
-            .disableConnectionState()
-            .build();
+                .setConnectionManager(connManager)
+                .setMaxConnPerRoute(2)
+                .setMaxConnTotal(2)
+                .setUserAgent("ApacheJMeter" + JMeterUtils.getJMeterVersion())
+                .disableCookieManagement()
+                .disableConnectionState()
+                .build();
         url = new URL(influxdbUrl);
         token = influxDBToken;
         SEND_INTERVAL = JMeterUtils.getPropDefault("backend_influxdb.send_interval", 5);
@@ -136,10 +140,10 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
      */
     private HttpPost createRequest(URL url, String token) throws URISyntaxException {
         RequestConfig defaultRequestConfig = RequestConfig.custom()
-            .setConnectTimeout(JMeterUtils.getPropDefault("backend_influxdb.connection_timeout", BACKEND_CONNECTION_TIMEOUT))
-            .setSocketTimeout(JMeterUtils.getPropDefault("backend_influxdb.socket_timeout", BACKEND_SOCKET_TIMEOUT))
-            .setConnectionRequestTimeout(JMeterUtils.getPropDefault("backend_influxdb.connection_request_timeout", 100))
-            .build();
+                .setConnectTimeout(JMeterUtils.getPropDefault("backend_influxdb.connection_timeout", BACKEND_CONNECTION_TIMEOUT))
+                .setSocketTimeout(JMeterUtils.getPropDefault("backend_influxdb.socket_timeout", BACKEND_SOCKET_TIMEOUT))
+                .setConnectionRequestTimeout(JMeterUtils.getPropDefault("backend_influxdb.connection_request_timeout", 100))
+                .build();
 
         HttpPost currentHttpRequest = new HttpPost(url.toURI());
         currentHttpRequest.setConfig(defaultRequestConfig);
@@ -184,12 +188,14 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
     }
 
     //TODO mark by 李鹏 这里改为直接向influxdb写数据 而不是传到cloud
-    public boolean writeAndSendMetrics(List<AbstractMetrics> copyMetrics) {
+    public boolean writeAndSendMetrics(List<AbstractMetrics> copyMetrics, int times) {
+        boolean flag = false;
+        String sendData = "";
         try {
             if (httpRequest == null) {
                 httpRequest = createRequest(url, token);
             }
-            String sendData = JacksonUtil.toJson(copyMetrics);
+            sendData = JacksonUtil.toJson(copyMetrics);
             log.info("send data:" + sendData);
             //请求数据
             httpRequest.setEntity(new StringEntity(sendData, ContentType.APPLICATION_JSON));
@@ -197,9 +203,15 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
             lastRequest = httpClient.execute(httpRequest, callback);
             HttpResponse response = lastRequest.get();
             int code = response.getStatusLine().getStatusCode();
-            return MetricUtils.isSuccessCode(code);
+            flag = MetricUtils.isSuccessCode(code);
+            return flag;
         } catch (URISyntaxException | JsonProcessingException | InterruptedException | ExecutionException ex) {
             log.error(ex.getMessage(), ex);
+        }finally {
+            //不成功的指标数据写入文件
+            if (!flag && times > 5 && Objects.nonNull(pw)) {
+                pw.write(sendData + "\r");
+            }
         }
         return false;
     }
@@ -230,8 +242,8 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
                 //                        }
             } else {
                 log.error(
-                    "Error writing metrics to Collection centre Url: {}, responseCode: {}, responseBody: {}",
-                    url, code, getBody(response));
+                        "Error writing metrics to Collection centre Url: {}, responseCode: {}, responseBody: {}",
+                        url, code, getBody(response));
             }
         }
 

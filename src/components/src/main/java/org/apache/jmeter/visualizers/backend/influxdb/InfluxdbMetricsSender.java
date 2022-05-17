@@ -20,6 +20,8 @@ package org.apache.jmeter.visualizers.backend.influxdb;
 import org.apache.jmeter.visualizers.backend.influxdb.entity.EventMetrics;
 import org.apache.jmeter.visualizers.backend.influxdb.entity.ResponseMetrics;
 
+import java.io.PrintWriter;
+
 /**
  * InfluxDB Sender interface
  *
@@ -49,7 +51,7 @@ interface InfluxdbMetricsSender {
      * @param influxDBToken authorization token to influxdb 2.0
      * @throws Exception when setup fails
      */
-    void setup(String influxDBUrl, String influxDBToken) throws Exception; // NOSONAR
+    void setup(String influxDBUrl, String influxDBToken, PrintWriter pw) throws Exception; // NOSONAR
 
     /**
      * Destroy sender
