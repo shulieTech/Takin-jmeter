@@ -49,7 +49,7 @@ public class HttpNotifyTroCloudUtils {
     public static void notifyTroCloud(final PressureEngineParams params, final String status, final String errMsg) {
         //launcher包中没有日志组件，使用systemout打印日志
         Map<String, Object> requestParams = new HashMap<>();
-        requestParams.put("sceneId", params.getSceneId());
+        requestParams.put("resourceId", params.getSceneId());
         requestParams.put("resultId", params.getResultId());
         requestParams.put("customerId", params.getCustomerId());
         //pod 序号
