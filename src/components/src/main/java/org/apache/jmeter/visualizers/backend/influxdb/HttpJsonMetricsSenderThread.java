@@ -22,6 +22,7 @@ import org.checkerframework.checker.units.qual.A;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -50,28 +51,37 @@ public class HttpJsonMetricsSenderThread {
     }
 
     public void start() {
+        PrintWriter pw = null;
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                pw.flush();
+                pw.close();
+            }
+        });
         Runnable runnable = () -> {
-            for (;;) {
+            for (; ; ) {
                 List<AbstractMetrics> metrics = null;
                 try {
                     metrics = queue.take();
                 } catch (InterruptedException e) {
-                    log.error("Error take metrics from queue!queue.size="+queue.size());
+                    log.error("Error take metrics from queue!queue.size=" + queue.size());
                 }
-                if (null != metrics && metrics.size()>0 && !sender.writeAndSendMetrics(metrics)) {
+                int times = 1;//重试次数
+                if (null != metrics && metrics.size() > 0 && !sender.writeAndSendMetrics(metrics, times)) {
                     long t = System.currentTimeMillis();
-                    int i=0;
                     do {
                         try {
-                            log.error("retry send data times:"+(++i)+",t="+(System.currentTimeMillis()-t));
+                            log.error("retry send data times:" + (++times) + ",t=" + (System.currentTimeMillis() - t));
                             Thread.sleep(500);
                         } catch (InterruptedException e) {
                             log.error("Thread sleep error!", e);
                         }
-                    } while (!sender.writeAndSendMetrics(metrics));
+                    } while (!sender.writeAndSendMetrics(metrics, times));
                 }
                 queueSize.decrementAndGet();
-                if (null != destroyCb && queue.size()<=0) {
+                if (null != destroyCb && queue.size() <= 0) {
                     await();
                 }
             }
@@ -97,8 +107,8 @@ public class HttpJsonMetricsSenderThread {
      */
     public void destroy() {
         log.info("start to destroy!");
-        if (queueSize.get()>0) {
-            log.info("destroy blocked, queue is not empty!queueSize="+queueSize.get());
+        if (queueSize.get() > 0) {
+            log.info("destroy blocked, queue is not empty!queueSize=" + queueSize.get());
             await();
             log.info("destroy block releaseed!");
         }
