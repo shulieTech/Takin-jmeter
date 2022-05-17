@@ -173,6 +173,8 @@ public class ResultCollector extends AbstractListenerElement implements SampleLi
      */
     private volatile Summariser summariser;
 
+    private static  LogPusher pusher = null;
+
     /**
      * No-arg constructor.
      */
@@ -344,7 +346,6 @@ public class ResultCollector extends AbstractListenerElement implements SampleLi
     public void testStarted(String host) {
         synchronized (LOCK) {
             // Only add the hook once
-            LogPusher pusher = null;
             try {
                 if (instanceCount == 0) {
                     shutdownHook = new Thread(new ShutdownHook());
