@@ -17,36 +17,36 @@
 
 package org.apache.jmeter.visualizers.backend.influxdb;
 
-import static org.apache.jmeter.visualizers.backend.influxdb.entity.Constants.METRICS_EVENTS_ENDED;
-import static org.apache.jmeter.visualizers.backend.influxdb.entity.Constants.METRICS_EVENTS_STARTED;
+import com.alibaba.fastjson.TypeReference;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.jmeter.config.Arguments;
+import org.apache.jmeter.samplers.SampleResult;
+import org.apache.jmeter.save.SaveService;
+import org.apache.jmeter.shulie.constants.PressureConstants;
+import org.apache.jmeter.shulie.util.DataUtil;
+import org.apache.jmeter.shulie.util.JsonUtil;
+import org.apache.jmeter.shulie.util.NumberUtil;
+import org.apache.jmeter.util.JMeterUtils;
+import org.apache.jmeter.visualizers.backend.AbstractBackendListenerClient;
+import org.apache.jmeter.visualizers.backend.BackendListenerContext;
+import org.apache.jmeter.visualizers.backend.SamplerMetric;
+import org.apache.jmeter.visualizers.backend.UserMetric;
+import org.apache.jmeter.visualizers.backend.influxdb.entity.BusinessActivityConfig;
+import org.apache.jmeter.visualizers.backend.influxdb.entity.EventMetrics;
+import org.apache.jmeter.visualizers.backend.influxdb.entity.ResponseMetrics;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.PrintWriter;
-import java.nio.charset.Charset;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import cn.hutool.core.io.FileUtil;
-import com.alibaba.fastjson.TypeReference;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.jmeter.config.Arguments;
-import org.apache.jmeter.samplers.SampleResult;
-import org.apache.jmeter.shulie.constants.PressureConstants;
-import org.apache.jmeter.shulie.util.DataUtil;
-import org.apache.jmeter.shulie.util.NumberUtil;
-import org.apache.jmeter.shulie.util.ThreadUtil;
-import org.apache.jmeter.threads.JMeterContextService;
-import org.apache.jmeter.util.JMeterUtils;
-import org.apache.jmeter.visualizers.backend.*;
-import org.apache.jmeter.visualizers.backend.influxdb.entity.BusinessActivityConfig;
-import org.apache.jmeter.visualizers.backend.influxdb.entity.EventMetrics;
-import org.apache.jmeter.visualizers.backend.influxdb.entity.ResponseMetrics;
-import org.apache.jmeter.shulie.util.JsonUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static org.apache.jmeter.visualizers.backend.influxdb.entity.Constants.METRICS_EVENTS_ENDED;
+import static org.apache.jmeter.visualizers.backend.influxdb.entity.Constants.METRICS_EVENTS_STARTED;
 
 /**
  * Implementation of {@link AbstractBackendListenerClient} to write in an InfluxDB using
@@ -237,7 +237,7 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
         String influxdbUrl = context.getParameter("influxdbUrl").trim();
         String influxdbToken = context.getParameter("influxdbToken");
         String metricsFile = context.getParameter("metricsFile").trim();
-        pw = FileUtil.getPrintWriter(metricsFile, Charset.defaultCharset().name(), false);
+        pw = getFileWriter(metricsFile);
         influxdbMetricsManager.setup(influxdbUrl, influxdbToken, pw);
     }
 
@@ -333,5 +333,32 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
     //    private interface PercentileProvider {
     //        double getPercentileValue(double percentile);
     //    }
+
+    private PrintWriter getFileWriter(String filename){
+        PrintWriter writer = null;
+        try {
+            File pdir = new File(filename).getParentFile();
+            if (pdir != null) {
+                // returns false if directory already exists, so need to check again
+                if (pdir.mkdirs()) {
+                    if (log.isInfoEnabled()) {
+                        log.info("Folder at {} was created", pdir.getAbsolutePath());
+                    }
+                } // else if you might have been created by another process so not a problem
+                if (!pdir.exists()) {
+                    log.warn("Error creating directories for {}", pdir);
+                }
+            }
+            writer = new PrintWriter(new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(filename,
+                    true)), SaveService.getFileEncoding(StandardCharsets.UTF_8.name())), true);
+            if (log.isDebugEnabled()) {
+                log.debug("Opened file: {} in thread {}", filename, Thread.currentThread().getName());
+            }
+        } catch (UnsupportedEncodingException | FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return writer;
+    }
+
 
 }
