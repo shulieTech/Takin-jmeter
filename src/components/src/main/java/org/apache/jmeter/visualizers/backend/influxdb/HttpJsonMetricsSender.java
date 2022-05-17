@@ -130,7 +130,10 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
             token = influxDBToken;
             SEND_INTERVAL = JMeterUtils.getPropDefault("backend_influxdb.send_interval", 5);
             httpRequest = createRequest(url, token);
+            httpClient.execute(httpRequest, null);
             httpClient.start();
+            //测试指标上报接口
+            httpClient.execute(httpRequest, null).get();
             thread = new HttpJsonMetricsSenderThread(this);
             thread.start();
         }catch (Exception e){
@@ -218,6 +221,7 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
             //不成功的指标数据写入文件
             if (!flag && times > 5 && Objects.nonNull(pw)) {
                 pw.write(sendData + "\r");
+                return !flag;
             }
         }
         return false;
