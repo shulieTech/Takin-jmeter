@@ -22,9 +22,7 @@ import com.alibaba.fastjson.JSONObject;
 import io.shulie.jmeter.tool.executors.ExecutorServiceFactory;
 import org.apache.jmeter.shulie.consts.ThroughputConstants;
 import org.apache.jmeter.shulie.model.TaskDynamicTps;
-import org.apache.jmeter.shulie.util.HttpUtils;
-import org.apache.jmeter.shulie.util.JedisUtil;
-import org.apache.jmeter.shulie.util.NumberUtil;
+import org.apache.jmeter.shulie.util.HttpUtil;
 import org.apache.jmeter.util.JMeterUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,7 +96,7 @@ public class DynamicContextByLongPolling {
      */
     private static void flushTpsTargetLevel() {
         try {
-            JSONObject json = HttpUtils.get(dynamicTaskTpsUrl);
+            JSONObject json = HttpUtil.get(dynamicTaskTpsUrl);
             if (!json.getBoolean("success") || !json.containsKey("data") || Objects.isNull(json.get("data"))) {
                 return;
             }
