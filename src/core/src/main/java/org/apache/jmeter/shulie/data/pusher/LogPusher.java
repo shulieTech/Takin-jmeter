@@ -125,7 +125,7 @@ public class LogPusher implements Runnable {
         StringBuilder stringBuilder = new StringBuilder();
         while (count < GlobalVariables.UPLOAD_SIZE && !this.queue.isEmpty()) {
             Object log = this.queue.poll();
-            if (Objects.nonNull(log)) {
+            if (StringUtils.isNotBlank(log.toString())) {
                 GlobalVariables.uploadCount.getAndIncrement();
                 logCount.getAndIncrement();
                 stringBuilder.append(log.toString()).append("\r\n");
