@@ -31,8 +31,7 @@ import org.apache.jmeter.services.PositionFileInputStream;
 import org.apache.jmeter.services.PositionFileServer;
 import org.apache.jmeter.shulie.constants.PressureConstants;
 import org.apache.jmeter.shulie.model.CsvFilePosition;
-import org.apache.jmeter.shulie.util.HttpUtils;
-import org.apache.jmeter.shulie.util.JedisUtil;
+import org.apache.jmeter.shulie.util.HttpUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -86,7 +85,7 @@ public class CsvPosition implements CsvPositionRecord {
                                     setReadPosition(readPosition);
                                     setEndPosition(endPosition);
                                 }};
-                                HttpUtils.post(url, JSON.parseObject(JSON.toJSONString(csvFilePosition)));
+                                HttpUtil.post(url, JSON.parseObject(JSON.toJSONString(csvFilePosition)));
                             }
                         }
                     }

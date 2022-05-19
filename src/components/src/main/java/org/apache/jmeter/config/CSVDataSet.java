@@ -34,7 +34,7 @@ import org.apache.jmeter.services.PositionFileInputStream;
 import org.apache.jmeter.services.PositionFileServer;
 import org.apache.jmeter.shulie.constants.PressureConstants;
 import org.apache.jmeter.shulie.model.CsvFilePosition;
-import org.apache.jmeter.shulie.util.HttpUtils;
+import org.apache.jmeter.shulie.util.HttpUtil;
 import org.apache.jmeter.testbeans.TestBean;
 import org.apache.jmeter.testbeans.gui.GenericTestBeanCustomizer;
 import org.apache.jmeter.testelement.property.JMeterProperty;
@@ -374,7 +374,7 @@ public class CSVDataSet extends ConfigTestElement
                     setEndPosition(endPosition);
                 }};
                 log.info("缓存文件读取位点信息{}", csvFilePosition);
-                HttpUtils.post(url, JSON.parseObject(JSON.toJSONString(csvFilePosition)));
+                HttpUtil.post(url, JSON.parseObject(JSON.toJSONString(csvFilePosition)));
 //                redisUtil.hset(key, field, JSON.toJSONString(value));
             } catch (IOException e) {
                 log.error("获取可读文件大小失败{}", e.getMessage());
