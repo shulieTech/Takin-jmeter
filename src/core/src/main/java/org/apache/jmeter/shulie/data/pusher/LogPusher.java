@@ -156,6 +156,10 @@ public class LogPusher implements Runnable {
      * @param dataLog
      */
     public void writeUnReportLog(String dataLog) {
-        pw.write(dataLog + "\r");
+        if (dataLog.charAt(dataLog.length() - 1) == '\n') {
+            pw.write(dataLog + "\r");
+        } else {
+            pw.write(dataLog);
+        }
     }
 }
