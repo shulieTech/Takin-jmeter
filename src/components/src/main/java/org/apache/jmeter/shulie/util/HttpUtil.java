@@ -21,6 +21,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.hutool.http.HttpRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * ClassName:    HttpUtils
@@ -29,7 +31,7 @@ import cn.hutool.http.HttpRequest;
  * Datetime:    2022/3/4   7:12 下午
  * Author:   chenhongqiao@shulie.com
  */
-public class HttpUtils {
+public class HttpUtil {
     public static final String LONG_POLLING_HEADER = "Long-Pulling-Timeout";
     public static final String LONG_POLLING_REQUEST_TIMEOUT = "30000";
 
