@@ -48,7 +48,7 @@ public class CsvPosition implements CsvPositionRecord {
     @Override
     public void recordCsvPosition() {
         if (PositionFileServer.positionMap.size() > 0) {
-            RedisUtil redisUtil = JedisUtil.getRedisUtil();
+//            RedisUtil redisUtil = JedisUtil.getRedisUtil();
             String sceneId;
             String url = System.getProperty("__ENGINE_CSV_POSITION_URL__", "");
             //sceneId=resourceId
@@ -56,7 +56,7 @@ public class CsvPosition implements CsvPositionRecord {
             sceneId = null != sId ? sId : System.getProperty("SCENE_ID");
             //TaskId
             Long tId = PressureConstants.pressureEngineParamsInstance.getResultId();
-            String taskId = null != sId ? String.valueOf(tId) : System.getProperty("__ENGINE_REPORT_ID__");
+            String taskId = null != tId ? String.valueOf(tId) : System.getProperty("__ENGINE_REPORT_ID__");
             String key = String.format("CSV_READ_POSITION_%s", sceneId);
             String podNumber = StringUtils.isBlank(System.getProperty("pod.number")) ? "1" : System.getProperty("pod.number");
             log.info("最后一次缓存文件读取位点信息。SCENE_ID:{},POD_NUM:{}", sceneId, podNumber);
@@ -80,7 +80,7 @@ public class CsvPosition implements CsvPositionRecord {
 
                                 CsvFilePosition csvFilePosition = new CsvFilePosition() {{
                                     setTaskId(taskId);
-                                    setFileName(key);
+                                    setFileName(entry.getKey());
                                     setPodNum(podNumber);
                                     setStartPosition(startPosition);
                                     setReadPosition(readPosition);

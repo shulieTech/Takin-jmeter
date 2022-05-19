@@ -17,24 +17,9 @@
 
 package org.apache.jmeter.config;
 
-import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.ResourceBundle;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-
 import io.shulie.jmeter.tool.executors.ExecutorServiceFactory;
-
-import io.shulie.jmeter.tool.redis.RedisUtil;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.jmeter.engine.event.LoopIterationEvent;
@@ -48,8 +33,8 @@ import org.apache.jmeter.services.FileService;
 import org.apache.jmeter.services.PositionFileInputStream;
 import org.apache.jmeter.services.PositionFileServer;
 import org.apache.jmeter.shulie.constants.PressureConstants;
-import org.apache.jmeter.shulie.consts.ThroughputConstants;
-import org.apache.jmeter.shulie.util.JedisUtil;
+import org.apache.jmeter.shulie.model.CsvFilePosition;
+import org.apache.jmeter.shulie.util.HttpUtils;
 import org.apache.jmeter.testbeans.TestBean;
 import org.apache.jmeter.testbeans.gui.GenericTestBeanCustomizer;
 import org.apache.jmeter.testelement.property.JMeterProperty;
@@ -62,7 +47,14 @@ import org.apache.jorphan.util.JOrphanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import redis.clients.jedis.Jedis;
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.io.IOException;
+import java.util.Objects;
+import java.util.ResourceBundle;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Read lines from a file and split int variables.
@@ -349,13 +341,17 @@ public class CSVDataSet extends ConfigTestElement
 
     public void cachePosition(PositionFileInputStream inputStream, String fileName) {
         String key = String.format("CSV_READ_POSITION_%s", PressureConstants.pressureEngineParamsInstance.getSceneId());
+        String url = System.getProperty("__ENGINE_CSV_POSITION_URL__", "");
+        //TaskId
+        Long tId = PressureConstants.pressureEngineParamsInstance.getResultId();
+        String taskId = null != tId ? String.valueOf(tId) : System.getProperty("__ENGINE_REPORT_ID__");
         String podNum = StringUtils.isBlank(System.getProperty("pod.number")) ? "1" : System.getProperty("pod.number");
         String field = String.format("%s_pod_num_%s", fileName, podNum);
         System.setProperty("SCENE_ID", PressureConstants.pressureEngineParamsInstance.getSceneId() + "");
         Pair<Long, Long> pair = getPosition(null, fileName);
         final long startPosition = pair.getLeft();
         final long endPosition = pair.getRight();
-        RedisUtil redisUtil = JedisUtil.getRedisUtil();
+//        RedisUtil redisUtil = JedisUtil.getRedisUtil();
         ExecutorServiceFactory.GLOBAL_SCHEDULE_EXECUTOR_SERVICE.scheduleAtFixedRate(() -> {
             try {
                 long position;
@@ -364,12 +360,22 @@ public class CSVDataSet extends ConfigTestElement
                     available = 0;
                 }
                 position = endPosition - available;
-                Map<String, Long> value = new HashMap<>(3);
-                value.put("startPosition", startPosition);
-                value.put("readPosition", position);
-                value.put("endPosition", endPosition);
-                log.info("缓存文件读取位点信息{}", value);
-                redisUtil.hset(key, field, JSON.toJSONString(value));
+//                Map<String, Long> value = new HashMap<>(3);
+//                value.put("startPosition", startPosition);
+//                value.put("readPosition", position);
+//                value.put("endPosition", endPosition);
+//                log.info("缓存文件读取位点信息{}", value);
+                CsvFilePosition csvFilePosition = new CsvFilePosition() {{
+                    setTaskId(taskId);
+                    setFileName(fileName);
+                    setPodNum(podNum);
+                    setStartPosition(startPosition);
+                    setReadPosition(position);
+                    setEndPosition(endPosition);
+                }};
+                log.info("缓存文件读取位点信息{}", csvFilePosition);
+                HttpUtils.post(url, JSON.parseObject(JSON.toJSONString(csvFilePosition)));
+//                redisUtil.hset(key, field, JSON.toJSONString(value));
             } catch (IOException e) {
                 log.error("获取可读文件大小失败{}", e.getMessage());
             }
