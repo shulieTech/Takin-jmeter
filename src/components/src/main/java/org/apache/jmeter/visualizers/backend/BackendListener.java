@@ -31,6 +31,7 @@ import java.util.concurrent.atomic.LongAdder;
 import java.util.concurrent.locks.LockSupport;
 
 import org.apache.jmeter.config.Arguments;
+import org.apache.jmeter.engine.StandardJMeterEngine;
 import org.apache.jmeter.engine.util.NoThreadClone;
 import org.apache.jmeter.samplers.Remoteable;
 import org.apache.jmeter.samplers.SampleEvent;
@@ -392,7 +393,9 @@ public class BackendListener
         //var = null; noNull = false; break
 
         //等待所有线程结束
-        JMeterContextService.getContext().getThreadGroup().waitThreadsStopped();
+        JMeterContextService.getContext().getEngine().isActive();
+        log.info("engine: {}, active: {}", JMeterContextService.getContext().getEngine(), JMeterContextService.getContext().getEngine().isActive());
+        log.info("group: {}", JMeterContextService.getContext().getThreadGroup());
 //        while (Objects.nonNull(JMeterContextService.getClientSideVariables())){
 //            try {
 //                Thread.sleep(100);
