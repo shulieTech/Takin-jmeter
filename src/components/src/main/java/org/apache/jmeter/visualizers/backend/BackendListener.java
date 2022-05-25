@@ -392,14 +392,15 @@ public class BackendListener
         //var = null; noNull = false; break
 
         //等待所有线程结束
-        while (Objects.nonNull(JMeterContextService.getClientSideVariables())){
-            try {
-                Thread.sleep(100);
-                log.info("is not all stoped");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        JMeterContextService.getContext().getThreadGroup().waitThreadsStopped();
+//        while (Objects.nonNull(JMeterContextService.getClientSideVariables())){
+//            try {
+//                Thread.sleep(100);
+//                log.info("is not all stopped");
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
         try {
             listenerClientData.queue.put(FINAL_SAMPLE_RESULT);
         } catch (Exception ex) {
