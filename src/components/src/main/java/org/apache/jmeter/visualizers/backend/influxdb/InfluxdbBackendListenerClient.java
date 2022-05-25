@@ -191,9 +191,11 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
     private AtomicInteger total = new AtomicInteger(0);
     private AtomicInteger failed = new AtomicInteger(0);
     private void addMetric(SampleResult sampleResult) {
-        Matcher matcher = samplersToFilter.matcher(sampleResult.getSampleLabel());
-        if (!summaryOnly && (matcher.find())) {
-            addMetricSelf(sampleResult);
+        if (Objects.nonNull(samplersToFilter)) {
+            Matcher matcher = samplersToFilter.matcher(sampleResult.getSampleLabel());
+            if (!summaryOnly && (matcher.find())) {
+                addMetricSelf(sampleResult);
+            }
         }
         if (null != sampleResult.getSubResults() && sampleResult.getSubResults().length > 0) {
             for (SampleResult r : sampleResult.getSubResults()) {
@@ -205,7 +207,7 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
             if(!sampleResult.isSuccessful()){
                 failed.incrementAndGet();
             }
-            log.info("count:{}, failed: {}", total.incrementAndGet(),  failed.get());
+            log.info("count:{}, failed: {}", total.addAndGet(sampleResult.getSampleCount()),  failed.get());
         }
     }
 
