@@ -228,6 +228,15 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
         this.timerHandle = scheduler.scheduleAtFixedRate(this, 0, SEND_INTERVAL, TimeUnit.SECONDS);
         //测试 每500ms获取一次数据
         //        this.timerHandle = scheduler.scheduleAtFixedRate(this, 0, 500, TimeUnit.MILLISECONDS);
+        Runtime.getRuntime().addShutdownHook(new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                //关闭前 再刷一次数据
+                log.info("余下指标数据：%s", metricsPerSampler.size());
+                sendMetrics();
+            }
+        });
     }
 
     private void initInfluxdbMetricsManager(BackendListenerContext context) throws Exception {
