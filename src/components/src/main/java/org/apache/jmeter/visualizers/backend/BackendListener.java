@@ -44,7 +44,7 @@ import org.apache.jmeter.testelement.property.TestElementProperty;
 import org.apache.jmeter.threads.AbstractThreadGroup;
 import org.apache.jmeter.threads.JMeterContext;
 import org.apache.jmeter.threads.JMeterContextService;
-import org.apache.jmeter.threads.ThreadGroup;
+import org.apache.jmeter.threads.JMeterThread;
 import org.apache.jmeter.visualizers.backend.graphite.GraphiteBackendListenerClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,8 +55,8 @@ import org.slf4j.LoggerFactory;
  * @since 2.13
  */
 public class BackendListener
-    extends AbstractTestElement
-    implements Backend, Serializable, SampleListener, TestStateListener, NoThreadClone, Remoteable {
+        extends AbstractTestElement
+        implements Backend, Serializable, SampleListener, TestStateListener, NoThreadClone, Remoteable {
 
     private static final class ListenerClientData {
         private BackendListenerClient client;
@@ -110,7 +110,7 @@ public class BackendListener
      * per server. But we need the total to be shared.
      */
     private static final Map<String, ListenerClientData> queuesByTestElementName =
-        new ConcurrentHashMap<>();
+            new ConcurrentHashMap<>();
 
     /**
      * Name of the test element. Set up by testStarted().
@@ -132,7 +132,7 @@ public class BackendListener
      */
     @Override
     public Object clone() {
-        BackendListener clone = (BackendListener)super.clone();
+        BackendListener clone = (BackendListener) super.clone();
         clone.clientClass = this.clientClass;
         return clone;
     }
@@ -158,6 +158,7 @@ public class BackendListener
 
     private static AtomicInteger total = new AtomicInteger(0);
     private static AtomicInteger failed = new AtomicInteger(0);
+
     @Override
     public void sampleOccurred(SampleEvent event) {
         Arguments args = getArguments();
@@ -216,15 +217,15 @@ public class BackendListener
                     while (!endOfLoop) {
                         if (isDebugEnabled) {
                             log.debug("Thread: {} taking SampleResult from queue: {}", Thread.currentThread().getName(),
-                                listenerClientData.queue.size());
+                                    listenerClientData.queue.size());
                         }
                         //marked by 李鹏  这里使用take  如果队列为空则阻塞 这里阻塞的是消费线程 不影响压测线程
                         SampleResult sampleResult = listenerClientData.queue.take();
                         if (isDebugEnabled) {
                             log.debug("Thread: {} took SampleResult: {}, isFinal: {}",
-                                Thread.currentThread().getName(),
-                                sampleResult,
-                                sampleResult == FINAL_SAMPLE_RESULT);
+                                    Thread.currentThread().getName(),
+                                    sampleResult,
+                                    sampleResult == FINAL_SAMPLE_RESULT);
                         }
                         // try to process as many as possible
                         // The == comparison is not a mistake
@@ -232,19 +233,19 @@ public class BackendListener
                             sampleResults.add(sampleResult);
                             if (isDebugEnabled) {
                                 log.debug("Thread: {} polling from queue: {}", Thread.currentThread().getName(),
-                                    listenerClientData.queue.size());
+                                        listenerClientData.queue.size());
                             }
                             //下一条数据
                             sampleResult = listenerClientData.queue.poll(); // returns null if nothing on queue currently
                             if (isDebugEnabled) {
                                 log.debug("Thread: {} took from queue: {}, isFinal: {}", Thread.currentThread().getName(),
-                                    sampleResult, sampleResult == FINAL_SAMPLE_RESULT);
+                                        sampleResult, sampleResult == FINAL_SAMPLE_RESULT);
                             }
                         }
                         if (isDebugEnabled) {
                             log.debug("Thread: {} exiting with FINAL EVENT: {}, null: {}",
-                                Thread.currentThread().getName(), sampleResult == FINAL_SAMPLE_RESULT,
-                                sampleResult == null);
+                                    Thread.currentThread().getName(), sampleResult == FINAL_SAMPLE_RESULT,
+                                    sampleResult == null);
                         }
                         sendToListener(backendListenerClient, context, sampleResults);
                         if (!endOfLoop) {
@@ -271,10 +272,11 @@ public class BackendListener
      * @param sampleResults         List of {@link SampleResult}
      */
     private static AtomicInteger totalSize = new AtomicInteger(0);
+
     private static void sendToListener(
-        BackendListenerClient backendListenerClient,
-        BackendListenerContext context,
-        List<SampleResult> sampleResults) {
+            BackendListenerClient backendListenerClient,
+            BackendListenerContext context,
+            List<SampleResult> sampleResults) {
         if (!sampleResults.isEmpty()) {
             log.info("send size: {}", totalSize.addAndGet(sampleResults.size()));
             backendListenerClient.handleSampleResults(sampleResults, context);
@@ -293,7 +295,7 @@ public class BackendListener
             return new ErrorBackendListenerClient();
         }
         try {
-            return (BackendListenerClient)clientClass.getDeclaredConstructor().newInstance();
+            return (BackendListenerClient) clientClass.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             log.error("Exception creating: {}", clientClass, e);
             return new ErrorBackendListenerClient();
@@ -331,7 +333,7 @@ public class BackendListener
                 // that only 1 instance of BackendListenerClient is used
                 clientClass = initClass(); // may be null
                 BackendListenerClient backendListenerClient = createBackendListenerClientImpl(clientClass);
-                BackendListenerContext context = new BackendListenerContext((Arguments)getArguments().clone());
+                BackendListenerContext context = new BackendListenerContext((Arguments) getArguments().clone());
 
                 listenerClientData = new ListenerClientData();
                 listenerClientData.queue = new ArrayBlockingQueue<>(queueSize);
@@ -341,9 +343,9 @@ public class BackendListener
                 listenerClientData.client = backendListenerClient;
                 if (log.isInfoEnabled()) {
                     log.info("{}: Starting worker with class: {} and queue capacity: {}", getName(), clientClass,
-                        getQueueSize());
+                            getQueueSize());
                 }
-                Worker worker = new Worker(backendListenerClient, (Arguments)getArguments().clone(), listenerClientData);
+                Worker worker = new Worker(backendListenerClient, (Arguments) getArguments().clone(), listenerClientData);
                 worker.setDaemon(true);
                 worker.start();
                 if (log.isInfoEnabled()) {
@@ -389,21 +391,8 @@ public class BackendListener
                 log.error("No listener client data found for BackendListener {}", myName);
             }
         }
-        //var = 1; noNull = true; sleep
-        //var = null; noNull = false; break
-
         //等待所有线程结束
-        JMeterContextService.getContext().getEngine().isActive();
-        log.info("engine: {}, active: {}", JMeterContextService.getContext().getEngine(), JMeterContextService.getContext().getEngine().isActive());
-        log.info("group: {}", JMeterContextService.getContext().getThreadGroup());
-//        while (Objects.nonNull(JMeterContextService.getClientSideVariables())){
-//            try {
-//                Thread.sleep(100);
-//                log.info("is not all stopped");
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        waitAllJmeterThreadStopped();
         try {
             listenerClientData.queue.put(FINAL_SAMPLE_RESULT);
         } catch (Exception ex) {
@@ -411,8 +400,8 @@ public class BackendListener
         }
         if (listenerClientData.queueWaits.longValue() > 0) {
             log.warn(
-                "QueueWaits: {}; QueueWaitTime: {} (nanoseconds), you may need to increase queue capacity, see property 'backend_queue_capacity'",
-                listenerClientData.queueWaits, listenerClientData.queueWaitTime);
+                    "QueueWaits: {}; QueueWaitTime: {} (nanoseconds), you may need to increase queue capacity, see property 'backend_queue_capacity'",
+                    listenerClientData.queueWaits, listenerClientData.queueWaitTime);
         }
         try {
             listenerClientData.latch.await();
@@ -426,6 +415,24 @@ public class BackendListener
     @Override
     public void testEnded() {
         testEnded("local"); //$NON-NLS-1$
+    }
+
+    public void waitAllJmeterThreadStopped() {
+        ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
+        int total = Thread.activeCount();
+        Thread[] threads = new Thread[total];
+        threadGroup.enumerate(threads);
+        for (Thread t : threads) {
+            log.info("name: {}, active: {}, interrupted", t.getName(), t.isAlive(), t.isInterrupted());
+            while (t.isAlive() && t.getName().indexOf("@MD5") >= 0) {
+                try {
+                    t.join(5000);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+            System.out.println(t.getName());
+        }
     }
 
     /**
@@ -467,7 +474,7 @@ public class BackendListener
     public void setArguments(Arguments args) {
         // Bug 59173 - don't save new default argument
         args.removeArgument(GraphiteBackendListenerClient.USE_REGEXP_FOR_SAMPLERS_LIST,
-            GraphiteBackendListenerClient.USE_REGEXP_FOR_SAMPLERS_LIST_DEFAULT);
+                GraphiteBackendListenerClient.USE_REGEXP_FOR_SAMPLERS_LIST_DEFAULT);
         setProperty(new TestElementProperty(ARGUMENTS, args));
     }
 
@@ -478,7 +485,7 @@ public class BackendListener
      * @return the arguments
      */
     public Arguments getArguments() {
-        return (Arguments)getProperty(ARGUMENTS).getObjectValue();
+        return (Arguments) getProperty(ARGUMENTS).getObjectValue();
     }
 
     /**
