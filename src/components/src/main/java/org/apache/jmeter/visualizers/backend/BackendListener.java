@@ -265,12 +265,13 @@ public class BackendListener
      * @param context               {@link BackendListenerContext}
      * @param sampleResults         List of {@link SampleResult}
      */
+    private static AtomicInteger totalSize = new AtomicInteger(0);
     private static void sendToListener(
         BackendListenerClient backendListenerClient,
         BackendListenerContext context,
         List<SampleResult> sampleResults) {
         if (!sampleResults.isEmpty()) {
-            log.info("send size: {}", sampleResults.size());
+            log.info("send size: {}", totalSize.addAndGet(sampleResults.size()));
             backendListenerClient.handleSampleResults(sampleResults, context);
             sampleResults.clear();
         }
