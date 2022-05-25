@@ -270,6 +270,7 @@ public class BackendListener
         BackendListenerContext context,
         List<SampleResult> sampleResults) {
         if (!sampleResults.isEmpty()) {
+            log.info("send size: {}", sampleResults.size());
             backendListenerClient.handleSampleResults(sampleResults, context);
             sampleResults.clear();
         }
