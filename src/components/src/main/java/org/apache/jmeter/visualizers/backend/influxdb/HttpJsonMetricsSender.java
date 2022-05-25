@@ -137,7 +137,7 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
             httpClient.execute(httpRequest, null).get();
             thread = new HttpJsonMetricsSenderThread(this);
             thread.start();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             log.error("初始化HttpJsonMetricsSender异常");
             HttpNotifyTroCloudUtils.notifyTroCloud(PressureConstants.pressureEngineParamsInstance, PressureConstants.ENGINE_STATUS_FAILED, "初始化HttpJsonMetricsSender异常:请检查指标上报url");
@@ -219,7 +219,7 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
             return flag;
         } catch (URISyntaxException | JsonProcessingException | InterruptedException | ExecutionException ex) {
             log.error(ex.getMessage(), ex);
-        }finally {
+        } finally {
             //不成功的指标数据写入文件
             if (!flag && times > 5 && Objects.nonNull(pw)) {
                 pw.write(sendData + "\r\n");
