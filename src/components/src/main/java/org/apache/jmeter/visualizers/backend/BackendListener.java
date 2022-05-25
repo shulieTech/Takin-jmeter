@@ -156,8 +156,8 @@ public class BackendListener
         return Thread.currentThread().getName() + "@" + Integer.toHexString(hashCode()) + "-" + getName();
     }
 
-    private static AtomicInteger total = new AtomicInteger(0);
-    private static AtomicInteger failed = new AtomicInteger(0);
+//    private static AtomicInteger total = new AtomicInteger(0);
+//    private static AtomicInteger failed = new AtomicInteger(0);
 
     @Override
     public void sampleOccurred(SampleEvent event) {
@@ -172,10 +172,10 @@ public class BackendListener
             return;
         }
         try {
-            if (!sr.isSuccessful()) {
-                failed.incrementAndGet();
-            }
-            log.info("backendListener count:{}, failed: {}", total.addAndGet(sr.getSampleCount()), failed.get());
+//            if (!sr.isSuccessful()) {
+//                failed.incrementAndGet();
+//            }
+//            log.debug("backendListener count:{}, failed: {}", total.addAndGet(sr.getSampleCount()), failed.get());
 
             if (!listenerClientData.queue.offer(sr)) { // we failed to add the element first time
                 listenerClientData.queueWaits.add(1L);
@@ -271,14 +271,13 @@ public class BackendListener
      * @param context               {@link BackendListenerContext}
      * @param sampleResults         List of {@link SampleResult}
      */
-    private static AtomicInteger totalSize = new AtomicInteger(0);
-
+//    private static AtomicInteger totalSize = new AtomicInteger(0);
     private static void sendToListener(
             BackendListenerClient backendListenerClient,
             BackendListenerContext context,
             List<SampleResult> sampleResults) {
         if (!sampleResults.isEmpty()) {
-            log.info("send size: {}", totalSize.addAndGet(sampleResults.size()));
+//            log.info("send size: {}", totalSize.addAndGet(sampleResults.size()));
             backendListenerClient.handleSampleResults(sampleResults, context);
             sampleResults.clear();
         }
@@ -424,7 +423,7 @@ public class BackendListener
         threadGroup.enumerate(threads);
         for (Thread t : threads) {
             log.info("name: {}, active: {}, interrupted", t.getName(), t.isAlive(), t.isInterrupted());
-            while (t.isAlive() && t.getName().indexOf("@MD5") >= 0) {
+            while (t.isAlive() && t.getName().indexOf(getPropertyAsString(TestElement.NAME)) >= 0) {
                 try {
                     t.join(5000);
                 } catch (InterruptedException e) {
