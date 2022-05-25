@@ -42,6 +42,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -187,7 +188,8 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
             }
         }
     }
-
+    private AtomicInteger total = new AtomicInteger(0);
+    private AtomicInteger failed = new AtomicInteger(0);
     private void addMetric(SampleResult sampleResult) {
         Matcher matcher = samplersToFilter.matcher(sampleResult.getSampleLabel());
         if (!summaryOnly && (matcher.find())) {
@@ -200,6 +202,10 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
         } else {
             SamplerMetric cumulatedMetrics = getSamplerMetricInfluxdb(CUMULATED_METRICS, sampleResult.getTransactionUrl());
             cumulatedMetrics.addCumulated(sampleResult);
+            if(!sampleResult.isSuccessful()){
+                failed.incrementAndGet();
+            }
+            log.info("count:{}, failed: {}", total.incrementAndGet(),  failed.get());
         }
     }
 
