@@ -137,19 +137,6 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
             httpClient.execute(httpRequest, null).get();
             thread = new HttpJsonMetricsSenderThread(this);
             thread.start();
-
-            Runtime.getRuntime().addShutdownHook(new Thread() {
-                @Override
-                public void run() {
-                    super.run();
-                    List<AbstractMetrics> metrics = thread.getQueue().poll();
-                    log.info("余下指标数据：{}", metrics);
-                    if (null != metrics && metrics.size() > 0) {
-                        writeAndSendMetrics(metrics, 6);
-                        thread.getQueueSize().decrementAndGet();
-                    }
-                }
-            });
         } catch (Exception e) {
             e.printStackTrace();
             log.error("初始化HttpJsonMetricsSender异常");

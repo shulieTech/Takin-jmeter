@@ -40,6 +40,10 @@ import org.apache.jmeter.testelement.AbstractTestElement;
 import org.apache.jmeter.testelement.TestElement;
 import org.apache.jmeter.testelement.TestStateListener;
 import org.apache.jmeter.testelement.property.TestElementProperty;
+import org.apache.jmeter.threads.AbstractThreadGroup;
+import org.apache.jmeter.threads.JMeterContext;
+import org.apache.jmeter.threads.JMeterContextService;
+import org.apache.jmeter.threads.ThreadGroup;
 import org.apache.jmeter.visualizers.backend.graphite.GraphiteBackendListenerClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -382,6 +386,18 @@ public class BackendListener
                 }
             } else {
                 log.error("No listener client data found for BackendListener {}", myName);
+            }
+        }
+        //var = 1; noNull = true; sleep
+        //var = null; noNull = false; break
+
+        //等待所有线程结束
+        while (Objects.nonNull(JMeterContextService.getClientSideVariables())){
+            try {
+                Thread.sleep(100);
+                log.info("is not all stoped");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
         try {
