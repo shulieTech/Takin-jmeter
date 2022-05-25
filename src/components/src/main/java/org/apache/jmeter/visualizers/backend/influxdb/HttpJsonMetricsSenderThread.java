@@ -109,4 +109,9 @@ public class HttpJsonMetricsSenderThread {
     public LinkedBlockingQueue<List<AbstractMetrics>> getQueue() {
         return queue;
     }
+
+    public AtomicInteger getQueueSize() {
+        return queueSize;
+    }
+
 }
