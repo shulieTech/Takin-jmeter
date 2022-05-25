@@ -105,4 +105,8 @@ public class HttpJsonMetricsSenderThread {
         }
         log.info("destroyed!");
     }
+
+    public LinkedBlockingQueue<List<AbstractMetrics>> getQueue() {
+        return queue;
+    }
 }

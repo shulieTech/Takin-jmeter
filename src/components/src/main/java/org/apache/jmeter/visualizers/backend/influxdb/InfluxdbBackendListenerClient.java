@@ -233,7 +233,7 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
             public void run() {
                 super.run();
                 //关闭前 再刷一次数据
-                log.info("余下指标数据：%s", metricsPerSampler.size());
+                log.info("余下指标数据：{}", metricsPerSampler.size());
                 sendMetrics();
             }
         });
