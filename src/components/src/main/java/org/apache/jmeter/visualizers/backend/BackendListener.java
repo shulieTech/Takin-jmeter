@@ -21,10 +21,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.concurrent.locks.LockSupport;
 
@@ -149,6 +151,8 @@ public class BackendListener
         return Thread.currentThread().getName() + "@" + Integer.toHexString(hashCode()) + "-" + getName();
     }
 
+    private static AtomicInteger total = new AtomicInteger(0);
+    private static AtomicInteger failed = new AtomicInteger(0);
     @Override
     public void sampleOccurred(SampleEvent event) {
         Arguments args = getArguments();
@@ -162,6 +166,13 @@ public class BackendListener
             return;
         }
         try {
+            if (Objects.equals(sr.getSampleLabel(), "all")) {
+                if (!sr.isSuccessful()) {
+                    failed.incrementAndGet();
+                }
+                log.info("count:{}, failed: {}", total.addAndGet(sr.getSampleCount()), failed.get());
+            }
+
             if (!listenerClientData.queue.offer(sr)) { // we failed to add the element first time
                 listenerClientData.queueWaits.add(1L);
                 long t1 = System.nanoTime();
