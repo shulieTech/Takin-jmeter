@@ -91,7 +91,13 @@ public class JedisUtil {
             RedisConfig redisConfig = new RedisConfig();
             redisConfig.setNodes(engineRedisSentinelNodes);
             redisConfig.setMaster(engineRedisSentinelMaster);
-            redisConfig.setHost(engineRedisAddress);
+            if (StringUtils.indexOf(engineRedisAddress, ",") != -1) {
+                //集群模式
+                redisConfig.setClusterNodes(engineRedisAddress);
+            } else {
+                //单例模式
+                redisConfig.setHost(engineRedisAddress);
+            }
             redisConfig.setPort(Integer.parseInt(engineRedisPort));
             redisConfig.setPassword(engineRedisPassword);
             redisConfig.setMaxIdle(1);
