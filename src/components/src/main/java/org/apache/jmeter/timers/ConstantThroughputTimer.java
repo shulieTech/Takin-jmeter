@@ -26,7 +26,6 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.apache.jmeter.gui.GUIMenuSortOrder;
 import org.apache.jmeter.gui.TestElementMetadata;
-import org.apache.jmeter.shulie.data.DynamicContext;
 import org.apache.jmeter.shulie.data.DynamicContextByLongPolling;
 import org.apache.jmeter.testbeans.TestBean;
 import org.apache.jmeter.testbeans.gui.GenericTestBeanCustomizer;
@@ -163,8 +162,8 @@ public class ConstantThroughputTimer extends AbstractTestElement implements Time
     }
 
     public double getTpsFactor() {
-        if (null != DynamicContext.TPS_FACTOR) {
-            return DynamicContext.TPS_FACTOR;
+        if (null != DynamicContextByLongPolling.TPS_FACTOR) {
+            return DynamicContextByLongPolling.TPS_FACTOR;
         }
         return tpsFactor;
     }
