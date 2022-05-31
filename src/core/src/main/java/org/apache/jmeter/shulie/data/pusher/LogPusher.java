@@ -17,7 +17,6 @@
 
 package org.apache.jmeter.shulie.data.pusher;
 
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Objects;
@@ -33,7 +32,6 @@ import io.shulie.jmeter.tool.amdb.log.data.pusher.push.ServerOptions;
 import io.shulie.jmeter.tool.amdb.log.data.pusher.push.tcp.TcpDataPusher;
 import io.shulie.jmeter.tool.amdb.log.data.pusher.server.ServerAddrProvider;
 import io.shulie.jmeter.tool.amdb.log.data.pusher.server.ServerProviderOptions;
-import io.shulie.jmeter.tool.amdb.log.data.pusher.server.impl.DefaultServerAddrProvider;
 import io.shulie.jmeter.tool.amdb.zookeeper.ZkClientSpec;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jmeter.shulie.constants.PressureConstants;
@@ -88,7 +86,7 @@ public class LogPusher implements Runnable {
         boolean init = pusher.init(serverOptions);
         if (!init) {
             logger.error("初始化DataPusher异常");
-            HttpNotifyTroCloudUtils.notifyTroCloud(PressureConstants.pressureEngineParamsInstance, PressureConstants.ENGINE_STATUS_FAILED, "JTL日志上报服务异常:服务连接失败");
+            HttpNotifyTroCloudUtils.notifyTroCloud(PressureConstants.pressureEngineParamsInstance, PressureConstants.ENGINE_STATUS_FAILED, "JTL日志上报服务异常:服务连接失败，请检查zk配置");
             return;
         }
         pusher.start();
