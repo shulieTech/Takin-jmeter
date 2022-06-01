@@ -421,19 +421,25 @@ public class BackendListener
 
     public void waitAllJmeterThreadStopped() {
         try {
-            ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
-            int total = Thread.activeCount();
-            Thread[] threads = new Thread[total];
-            threadGroup.enumerate(threads);
-            for (Thread t : threads) {
-                if (Objects.isNull(t)) {
-                    continue;
+            boolean allThreadStopped;
+            do{
+                allThreadStopped = true;
+                ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
+                int total = Thread.activeCount();
+                Thread[] threads = new Thread[total];
+                threadGroup.enumerate(threads);
+                for (Thread t : threads) {
+                    if (Objects.isNull(t)) {
+                        continue;
+                    }
+                    if (StringUtils.indexOf(t.getName(), getPropertyAsString(TestElement.NAME)) != -1) {
+                        log.info("name: {}, active: {}, interrupted: {}", t.getName(), t.isAlive(), t.isInterrupted());
+                        t.join();
+                        allThreadStopped = false;
+                    }
                 }
-                log.info("name: {}, active: {}, interrupted: {}", t.getName(), t.isAlive(), t.isInterrupted());
-                if (StringUtils.indexOf(t.getName(), getPropertyAsString(TestElement.NAME)) != -1) {
-                    t.join();
-                }
-            }
+            }while (!allThreadStopped);
+
         } catch (Exception e) {
             try {
                 //如果失败 sleep 1000ms 保证线程能全部关闭
