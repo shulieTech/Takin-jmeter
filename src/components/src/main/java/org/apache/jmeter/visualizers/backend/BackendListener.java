@@ -429,18 +429,12 @@ public class BackendListener
                 if (Objects.isNull(t)) {
                     continue;
                 }
-                log.info("name: {}, active: {}, interrupted", t.getName(), t.isAlive(), t.isInterrupted());
+                log.info("name: {}, active: {}, interrupted: {}", t.getName(), t.isAlive(), t.isInterrupted());
                 if (StringUtils.indexOf(t.getName(), getPropertyAsString(TestElement.NAME)) != -1) {
-                    while (t.isAlive()) {
-                        try {
-                            Thread.sleep(10);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                    t.join();
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             try {
                 //如果失败 sleep 1000ms 保证线程能全部关闭
                 Thread.sleep(2000);
