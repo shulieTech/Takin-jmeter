@@ -432,7 +432,7 @@ public class BackendListener
                     if (Objects.isNull(t)) {
                         continue;
                     }
-                    if (StringUtils.indexOf(t.getName(), getPropertyAsString(TestElement.NAME)) != -1) {
+                    if (StringUtils.indexOf(t.getName(), "ThreadStarter") != -1) {
                         log.info("id:{} name: {}, active: {}, interrupted: {}", t.getId(), t.getName(), t.isAlive(), t.isInterrupted());
                         t.join();
                         allThreadStopped = false;
