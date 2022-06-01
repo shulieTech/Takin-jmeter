@@ -160,8 +160,8 @@ public class BackendListener
         return Thread.currentThread().getName() + "@" + Integer.toHexString(hashCode()) + "-" + getName();
     }
 
-//    private static AtomicInteger total = new AtomicInteger(0);
-//    private static AtomicInteger failed = new AtomicInteger(0);
+    private static AtomicInteger total = new AtomicInteger(0);
+    private static AtomicInteger failed = new AtomicInteger(0);
 
     @Override
     public void sampleOccurred(SampleEvent event) {
@@ -176,10 +176,10 @@ public class BackendListener
             return;
         }
         try {
-//            if (!sr.isSuccessful()) {
-//                failed.incrementAndGet();
-//            }
-//            log.debug("backendListener count:{}, failed: {}", total.addAndGet(sr.getSampleCount()), failed.get());
+            if (!sr.isSuccessful()) {
+                failed.incrementAndGet();
+            }
+            log.info("backendListener count:{}, failed: {}", total.addAndGet(sr.getSampleCount()), failed.get());
 
             if (!listenerClientData.queue.offer(sr)) { // we failed to add the element first time
                 listenerClientData.queueWaits.add(1L);

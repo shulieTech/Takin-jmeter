@@ -188,8 +188,8 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
             }
         }
     }
-//    private AtomicInteger total = new AtomicInteger(0);
-//    private AtomicInteger failed = new AtomicInteger(0);
+    private AtomicInteger total = new AtomicInteger(0);
+    private AtomicInteger failed = new AtomicInteger(0);
     private void addMetric(SampleResult sampleResult) {
         if (Objects.nonNull(samplersToFilter)) {
             Matcher matcher = samplersToFilter.matcher(sampleResult.getSampleLabel());
@@ -204,10 +204,10 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
         } else {
             SamplerMetric cumulatedMetrics = getSamplerMetricInfluxdb(CUMULATED_METRICS, sampleResult.getTransactionUrl());
             cumulatedMetrics.addCumulated(sampleResult);
-//            if(!sampleResult.isSuccessful()){
-//                failed.incrementAndGet();
-//            }
-//            log.info("backendClient count:{}, failed: {}", total.addAndGet(sampleResult.getSampleCount()),  failed.get());
+            if(!sampleResult.isSuccessful()){
+                failed.incrementAndGet();
+            }
+            log.info("backendClient count:{}, failed: {}", total.addAndGet(sampleResult.getSampleCount()),  failed.get());
         }
     }
 
