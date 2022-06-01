@@ -433,13 +433,14 @@ public class BackendListener
                         continue;
                     }
                     if (StringUtils.indexOf(t.getName(), getPropertyAsString(TestElement.NAME)) != -1) {
-                        log.info("name: {}, active: {}, interrupted: {}", t.getName(), t.isAlive(), t.isInterrupted());
+                        log.info("id:{} name: {}, active: {}, interrupted: {}", t.getId(), t.getName(), t.isAlive(), t.isInterrupted());
                         t.join();
                         allThreadStopped = false;
                     }
                 }
             }while (!allThreadStopped);
-
+            //等待100ms
+            Thread.sleep(100);
         } catch (Exception e) {
             try {
                 //如果失败 sleep 1000ms 保证线程能全部关闭
