@@ -30,6 +30,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.concurrent.locks.LockSupport;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.engine.StandardJMeterEngine;
 import org.apache.jmeter.engine.util.NoThreadClone;
@@ -118,6 +119,9 @@ public class BackendListener
     private transient String myName;
 
     private transient ListenerClientData listenerClientData;
+    //记录发出总数
+    private static AtomicInteger totalSize = new AtomicInteger(0);
+
 
     /**
      * Create a BackendListener.
@@ -175,7 +179,7 @@ public class BackendListener
 //            if (!sr.isSuccessful()) {
 //                failed.incrementAndGet();
 //            }
-//            log.debug("backendListener count:{}, failed: {}", total.addAndGet(sr.getSampleCount()), failed.get());
+//            log.info("backendListener count:{}, failed: {}", total.addAndGet(sr.getSampleCount()), failed.get());
 
             if (!listenerClientData.queue.offer(sr)) { // we failed to add the element first time
                 listenerClientData.queueWaits.add(1L);
@@ -271,13 +275,12 @@ public class BackendListener
      * @param context               {@link BackendListenerContext}
      * @param sampleResults         List of {@link SampleResult}
      */
-//    private static AtomicInteger totalSize = new AtomicInteger(0);
     private static void sendToListener(
             BackendListenerClient backendListenerClient,
             BackendListenerContext context,
             List<SampleResult> sampleResults) {
         if (!sampleResults.isEmpty()) {
-//            log.info("send size: {}", totalSize.addAndGet(sampleResults.size()));
+            log.info("send size: {}", totalSize.addAndGet(sampleResults.size()));
             backendListenerClient.handleSampleResults(sampleResults, context);
             sampleResults.clear();
         }
@@ -417,20 +420,29 @@ public class BackendListener
     }
 
     public void waitAllJmeterThreadStopped() {
-        ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
-        int total = Thread.activeCount();
-        Thread[] threads = new Thread[total];
-        threadGroup.enumerate(threads);
-        for (Thread t : threads) {
-            log.info("name: {}, active: {}, interrupted", t.getName(), t.isAlive(), t.isInterrupted());
-            while (t.isAlive() && t.getName().indexOf(getPropertyAsString(TestElement.NAME)) >= 0) {
-                try {
-                    t.join(5000);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
+        try {
+            ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
+            int total = Thread.activeCount();
+            Thread[] threads = new Thread[total];
+            threadGroup.enumerate(threads);
+            for (Thread t : threads) {
+                if (Objects.isNull(t)) {
+                    continue;
+                }
+                if (StringUtils.indexOf(t.getName(), "ThreadStarter") != -1) {
+//                    log.info("name: {}, active: {}, interrupted", t.getName(), t.isAlive(), t.isInterrupted());
+                    t.join();
                 }
             }
-            System.out.println(t.getName());
+            //等待100ms
+            Thread.sleep(100);
+        } catch (Exception e) {
+            try {
+                //如果失败 sleep 1000ms 保证线程能全部关闭
+                Thread.sleep(2000);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
