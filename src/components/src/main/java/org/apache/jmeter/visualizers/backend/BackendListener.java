@@ -421,24 +421,19 @@ public class BackendListener
 
     public void waitAllJmeterThreadStopped() {
         try {
-            boolean allThreadStopped;
-            do{
-                allThreadStopped = true;
-                ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
-                int total = Thread.activeCount();
-                Thread[] threads = new Thread[total];
-                threadGroup.enumerate(threads);
-                for (Thread t : threads) {
-                    if (Objects.isNull(t)) {
-                        continue;
-                    }
-                    if (StringUtils.indexOf(t.getName(), "ThreadStarter") != -1) {
-                        log.info("id:{} name: {}, active: {}, interrupted: {}", t.getId(), t.getName(), t.isAlive(), t.isInterrupted());
-                        t.join();
-                        allThreadStopped = false;
-                    }
+            ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
+            int total = Thread.activeCount();
+            Thread[] threads = new Thread[total];
+            threadGroup.enumerate(threads);
+            for (Thread t : threads) {
+                if (Objects.isNull(t)) {
+                    continue;
                 }
-            }while (!allThreadStopped);
+                if (StringUtils.indexOf(t.getName(), "ThreadStarter") != -1) {
+                    log.info("name: {}, active: {}, interrupted", t.getName(), t.isAlive(), t.isInterrupted());
+                    t.join();
+                }
+            }
             //等待100ms
             Thread.sleep(100);
         } catch (Exception e) {
