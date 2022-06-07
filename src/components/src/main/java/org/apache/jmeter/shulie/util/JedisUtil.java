@@ -97,8 +97,8 @@ public class JedisUtil {
             } else {
                 //单例模式
                 redisConfig.setHost(engineRedisAddress);
+                redisConfig.setPort(Integer.parseInt(engineRedisPort));
             }
-            redisConfig.setPort(Integer.parseInt(engineRedisPort));
             redisConfig.setPassword(engineRedisPassword);
             redisConfig.setMaxIdle(1);
             redisConfig.setMaxTotal(1);
