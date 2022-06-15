@@ -59,11 +59,14 @@ public class LogPusher implements Runnable {
 
     private PrintWriter pw;
 
+    private boolean isEnded;
+
     public LogPusher(Queue<String> queue, int threadIndex, String reportId) {
         this.queue = queue;
         this.threadIndex = threadIndex;
         this.reportId = reportId;
         logCount = new AtomicLong(0);
+        isEnded = false;
     }
 
     public void start() {
@@ -116,6 +119,7 @@ public class LogPusher implements Runnable {
                 }
             }
         }
+        isEnded = true;
         logger.info("日志上传完成--线程ID:{},线程名称:{},结束时间：{},报告ID:{}，上传数量:{}", threadId, this.threadName,
                 System.currentTimeMillis(), this.reportId, logCount.get());
         pusher.stop();
@@ -163,5 +167,9 @@ public class LogPusher implements Runnable {
         } else {
             pw.write(dataLog);
         }
+    }
+
+    public boolean isEnded() {
+        return isEnded;
     }
 }

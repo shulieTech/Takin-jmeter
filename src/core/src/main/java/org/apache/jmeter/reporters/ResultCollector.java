@@ -396,7 +396,7 @@ public class ResultCollector extends AbstractListenerElement implements SampleLi
             if (GlobalVariables.stopFlag.compareAndSet(false, true)) {
                 log.info("获取到压测结束标识，已入队【{}】条日志", GlobalVariables.enqueueCount.get());
                 log.info("已上传【{}】条日志", GlobalVariables.uploadCount.get());
-                while (!GlobalVariables.logBlockQueue.isEmpty()) {
+                while (!GlobalVariables.logBlockQueue.isEmpty() || !pusher.isEnded()) {
                     log.info("等待日志上传完成。。。队列剩余日志数量【{}】", GlobalVariables.logBlockQueue.size());
                     try {
                         TimeUnit.MILLISECONDS.sleep(300);
