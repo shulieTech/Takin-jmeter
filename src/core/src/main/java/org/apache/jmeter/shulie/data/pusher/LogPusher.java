@@ -56,7 +56,6 @@ public class LogPusher implements Runnable {
     private AtomicLong logCount;
 
     private AtomicLong totalCount;
-    private AtomicLong emptyCount;
 
     private Queue<String> queue;
 
@@ -68,7 +67,6 @@ public class LogPusher implements Runnable {
         this.reportId = reportId;
         logCount = new AtomicLong(0);
         totalCount = new AtomicLong(0);
-        emptyCount = new AtomicLong(0);
     }
 
     public void start() {
@@ -133,7 +131,7 @@ public class LogPusher implements Runnable {
         }
         logger.info("日志上传完成--线程ID:{},线程名称:{},结束时间：{},报告ID:{}，上传数量:{}", threadId, this.threadName,
                 System.currentTimeMillis(), this.reportId, logCount.get());
-        logger.info("total:{}, empty:{}", totalCount.get(), emptyCount.get());
+        logger.info("total:{}", totalCount.get());
         pusher.stop();
         //关闭文件
     }
@@ -150,7 +148,6 @@ public class LogPusher implements Runnable {
                 stringBuilder.append(log.toString()).append("\r\n");
                 count += log.toString().getBytes().length;
             } else {
-                emptyCount.incrementAndGet();
                 try {
                     TimeUnit.MILLISECONDS.sleep(10);
                 } catch (InterruptedException e) {
