@@ -119,6 +119,7 @@ public class LogPusher implements Runnable {
         }
         logger.info("日志上传完成--线程ID:{},线程名称:{},结束时间：{},报告ID:{}，上传数量:{}", threadId, this.threadName,
                 System.currentTimeMillis(), this.reportId, logCount.get());
+        logger.info("total:{}, empty:{}", totalCount.get(), emptyCount.get());
         pusher.stop();
         //关闭文件
     }
