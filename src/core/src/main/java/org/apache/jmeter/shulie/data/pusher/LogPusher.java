@@ -109,7 +109,7 @@ public class LogPusher implements Runnable {
                 while (!call && count > 0) {
                     count--;
                     call = logCallback.call(logData.getBytes(), DataType.TRACE_LOG, GlobalVariables.VERSION);
-                    logger.info("上报jtl失败 重试:{}, 数据:{}", 3 - count, logCount.get() - send);
+                    logger.info("上报jtl失败 重试:{}, 数据:{}, call:{}", 3 - count, logCount.get() - send, call);
                 }
                 if (!call) {
                     logger.info("jtl日志写入错误文件{}", Objects.isNull(pw));
