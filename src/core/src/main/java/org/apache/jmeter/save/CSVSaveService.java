@@ -1178,18 +1178,15 @@ public final class CSVSaveService {
         String resultLog = JTLUtil.resultToDelimitedString(result, saveConfig, traceBizData);
         if (PressurePtlFileConfig.PTL_UPLOAD_FROM_ENGINE.equals(PressurePtlFileConfig.defaultConfig.getPtlUploadFrom())) {
             GlobalVariables.enqueueCount.getAndIncrement();
-            boolean offer;
-            do{
-                offer = GlobalVariables.logBlockQueue.offer(resultLog);
-                if(!offer) {
-                    log.info("jtl日志入队失败");
-                    try {
-                        Thread.sleep(10);//sleep 10ms
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+            boolean offer = GlobalVariables.logBlockQueue.offer(resultLog);
+            if(!offer) {
+                log.info("jtl日志入队失败");
+                try {
+                    GlobalVariables.logBlockQueue.put(resultLog);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-            }while (!offer);
+            }
         }
         if (PressurePtlFileConfig.defaultConfig.isPtlEnable()) {
             if (JTLUtil.ifWrite("200".equals(result.getResponseCode()), result.getTime())) {
