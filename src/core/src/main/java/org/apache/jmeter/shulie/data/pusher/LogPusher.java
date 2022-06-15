@@ -97,12 +97,15 @@ public class LogPusher implements Runnable {
         //打开文件
         OutputStreamWriter out = null;
         while (!GlobalVariables.stopFlag.get() || !queue.isEmpty()) {
+            long send = logCount.get();
             String logData = pollLogData();
+            logger.info("this time send count:{}", logCount.get() - send);
             if (StringUtils.isNotBlank(logData)) {
                 boolean call = logCallback.call(logData.getBytes(), DataType.TRACE_LOG, GlobalVariables.VERSION);
                 int count = 3;
                 while (!call && count > 0) {
                     count--;
+                    logger.info("上报jtl失败 重试:{}, 数据:{}", 3 - count, logCount.get() - send);
                     call = logCallback.call(logData.getBytes(), DataType.TRACE_LOG, GlobalVariables.VERSION);
                 }
                 if (!call) {
