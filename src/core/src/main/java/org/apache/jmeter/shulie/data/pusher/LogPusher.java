@@ -59,11 +59,14 @@ public class LogPusher implements Runnable {
 
     private PrintWriter pw;
 
+    private boolean isEnded;
+
     public LogPusher(Queue<String> queue, int threadIndex, String reportId) {
         this.queue = queue;
         this.threadIndex = threadIndex;
         this.reportId = reportId;
         logCount = new AtomicLong(0);
+        isEnded = false;
     }
 
     public void start() {
@@ -97,15 +100,19 @@ public class LogPusher implements Runnable {
         //打开文件
         OutputStreamWriter out = null;
         while (!GlobalVariables.stopFlag.get() || !queue.isEmpty()) {
+            long send = logCount.get();
             String logData = pollLogData();
+            logger.info("this time send count:{}", logCount.get() - send);
             if (StringUtils.isNotBlank(logData)) {
                 boolean call = logCallback.call(logData.getBytes(), DataType.TRACE_LOG, GlobalVariables.VERSION);
                 int count = 3;
                 while (!call && count > 0) {
                     count--;
                     call = logCallback.call(logData.getBytes(), DataType.TRACE_LOG, GlobalVariables.VERSION);
+                    logger.info("上报jtl失败 重试:{}, 数据:{}, call:{}", 3 - count, logCount.get() - send, call);
                 }
                 if (!call) {
+                    logger.info("jtl日志写入错误文件{}", Objects.isNull(pw));
                     //重试三次以后 写入文件
                     if (Objects.nonNull(pw)) {
                         writeUnReportLog(logData);
@@ -113,6 +120,7 @@ public class LogPusher implements Runnable {
                 }
             }
         }
+        isEnded = true;
         logger.info("日志上传完成--线程ID:{},线程名称:{},结束时间：{},报告ID:{}，上传数量:{}", threadId, this.threadName,
                 System.currentTimeMillis(), this.reportId, logCount.get());
         pusher.stop();
@@ -160,5 +168,9 @@ public class LogPusher implements Runnable {
         } else {
             pw.write(dataLog);
         }
+    }
+
+    public boolean isEnded() {
+        return isEnded;
     }
 }
