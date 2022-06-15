@@ -25,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 import com.pamirs.pradar.log.parser.DataType;
+import com.pamirs.pradar.remoting.exception.RemotingConnectException;
 import io.shulie.jmeter.tool.amdb.GlobalVariables;
 import io.shulie.jmeter.tool.amdb.log.data.pusher.callback.LogCallback;
 import io.shulie.jmeter.tool.amdb.log.data.pusher.push.DataPusher;
@@ -54,6 +55,8 @@ public class LogPusher implements Runnable {
 
     private AtomicLong logCount;
 
+    private AtomicLong totalCount;
+
     private Queue<String> queue;
 
     private PrintWriter pw;
@@ -63,6 +66,7 @@ public class LogPusher implements Runnable {
         this.threadIndex = threadIndex;
         this.reportId = reportId;
         logCount = new AtomicLong(0);
+        totalCount = new AtomicLong(0);
     }
 
     public void start() {
@@ -98,12 +102,25 @@ public class LogPusher implements Runnable {
         while (!GlobalVariables.stopFlag.get() || !queue.isEmpty()) {
             String logData = pollLogData();
             if (StringUtils.isNotBlank(logData)) {
-                boolean call = logCallback.call(logData.getBytes(), DataType.TRACE_LOG, GlobalVariables.VERSION);
-                int count = 3;
-                while (!call && count > 0) {
+//                boolean call = logCallback.call(logData.getBytes(), DataType.TRACE_LOG, GlobalVariables.VERSION);
+//                while (!call && count > 0) {
+//                    count--;
+//                    try{
+//                        call = logCallback.call(logData.getBytes(), DataType.TRACE_LOG, GlobalVariables.VERSION);
+//                    }catch (Exception e){
+//                        logger.error("第{}次上报jtl日志失败", 3 - count);
+//                    }
+//                }
+                int count = 4;
+                boolean call = false;
+                do {
                     count--;
-                    call = logCallback.call(logData.getBytes(), DataType.TRACE_LOG, GlobalVariables.VERSION);
-                }
+                    try {
+                        call = logCallback.call(logData.getBytes(), DataType.TRACE_LOG, GlobalVariables.VERSION);
+                    } catch (Exception e) {
+                        logger.error("第{}次上报jtl日志失败", 4 - count);
+                    }
+                } while (!call && count > 0);
                 if (!call) {
                     //重试三次以后 写入文件
                     if (Objects.nonNull(pw)) {
@@ -114,6 +131,7 @@ public class LogPusher implements Runnable {
         }
         logger.info("日志上传完成--线程ID:{},线程名称:{},结束时间：{},报告ID:{}，上传数量:{}", threadId, this.threadName,
                 System.currentTimeMillis(), this.reportId, logCount.get());
+        logger.info("total:{}", totalCount.get());
         pusher.stop();
         //关闭文件
     }
@@ -123,6 +141,7 @@ public class LogPusher implements Runnable {
         StringBuilder stringBuilder = new StringBuilder();
         while (count < GlobalVariables.UPLOAD_SIZE && !this.queue.isEmpty()) {
             Object log = this.queue.poll();
+            totalCount.incrementAndGet();
             if (StringUtils.isNotBlank(log.toString())) {
                 GlobalVariables.uploadCount.getAndIncrement();
                 logCount.getAndIncrement();
