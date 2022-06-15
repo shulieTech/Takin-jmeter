@@ -25,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 import com.pamirs.pradar.log.parser.DataType;
+import com.pamirs.pradar.remoting.exception.RemotingConnectException;
 import io.shulie.jmeter.tool.amdb.GlobalVariables;
 import io.shulie.jmeter.tool.amdb.log.data.pusher.callback.LogCallback;
 import io.shulie.jmeter.tool.amdb.log.data.pusher.push.DataPusher;
@@ -107,7 +108,11 @@ public class LogPusher implements Runnable {
                 int count = 3;
                 while (!call && count > 0) {
                     count--;
-                    call = logCallback.call(logData.getBytes(), DataType.TRACE_LOG, GlobalVariables.VERSION);
+                    try{
+                        call = logCallback.call(logData.getBytes(), DataType.TRACE_LOG, GlobalVariables.VERSION);
+                    }catch (Exception e){
+                        logger.error("第{}次上报jtl日志失败", 3 - count);
+                    }
                 }
                 if (!call) {
                     //重试三次以后 写入文件
