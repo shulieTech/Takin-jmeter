@@ -108,10 +108,11 @@ public class LogPusher implements Runnable {
                 int count = 3;
                 while (!call && count > 0) {
                     count--;
-                    logger.info("上报jtl失败 重试:{}, 数据:{}", 3 - count, logCount.get() - send);
                     call = logCallback.call(logData.getBytes(), DataType.TRACE_LOG, GlobalVariables.VERSION);
+                    logger.info("上报jtl失败 重试:{}, 数据:{}", 3 - count, logCount.get() - send);
                 }
                 if (!call) {
+                    logger.info("jtl日志写入错误文件{}", Objects.isNull(pw));
                     //重试三次以后 写入文件
                     if (Objects.nonNull(pw)) {
                         writeUnReportLog(logData);
