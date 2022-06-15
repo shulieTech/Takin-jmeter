@@ -104,16 +104,25 @@ public class LogPusher implements Runnable {
         while (!GlobalVariables.stopFlag.get() || !queue.isEmpty()) {
             String logData = pollLogData();
             if (StringUtils.isNotBlank(logData)) {
-                boolean call = logCallback.call(logData.getBytes(), DataType.TRACE_LOG, GlobalVariables.VERSION);
-                int count = 3;
-                while (!call && count > 0) {
+//                boolean call = logCallback.call(logData.getBytes(), DataType.TRACE_LOG, GlobalVariables.VERSION);
+//                while (!call && count > 0) {
+//                    count--;
+//                    try{
+//                        call = logCallback.call(logData.getBytes(), DataType.TRACE_LOG, GlobalVariables.VERSION);
+//                    }catch (Exception e){
+//                        logger.error("第{}次上报jtl日志失败", 3 - count);
+//                    }
+//                }
+                int count = 4;
+                boolean call = false;
+                do {
                     count--;
-                    try{
+                    try {
                         call = logCallback.call(logData.getBytes(), DataType.TRACE_LOG, GlobalVariables.VERSION);
-                    }catch (Exception e){
-                        logger.error("第{}次上报jtl日志失败", 3 - count);
+                    } catch (Exception e) {
+                        logger.error("第{}次上报jtl日志失败", 4 - count);
                     }
-                }
+                } while (!call && count > 0);
                 if (!call) {
                     //重试三次以后 写入文件
                     if (Objects.nonNull(pw)) {
