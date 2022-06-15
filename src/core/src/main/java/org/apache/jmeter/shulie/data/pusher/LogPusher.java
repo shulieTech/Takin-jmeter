@@ -54,6 +54,9 @@ public class LogPusher implements Runnable {
 
     private AtomicLong logCount;
 
+    private AtomicLong totalCount;
+    private AtomicLong emptyCount;
+
     private Queue<String> queue;
 
     private PrintWriter pw;
@@ -63,6 +66,8 @@ public class LogPusher implements Runnable {
         this.threadIndex = threadIndex;
         this.reportId = reportId;
         logCount = new AtomicLong(0);
+        totalCount = new AtomicLong(0);
+        emptyCount = new AtomicLong(0);
     }
 
     public void start() {
@@ -123,12 +128,14 @@ public class LogPusher implements Runnable {
         StringBuilder stringBuilder = new StringBuilder();
         while (count < GlobalVariables.UPLOAD_SIZE && !this.queue.isEmpty()) {
             Object log = this.queue.poll();
+            totalCount.incrementAndGet();
             if (StringUtils.isNotBlank(log.toString())) {
                 GlobalVariables.uploadCount.getAndIncrement();
                 logCount.getAndIncrement();
                 stringBuilder.append(log.toString()).append("\r\n");
                 count += log.toString().getBytes().length;
             } else {
+                emptyCount.incrementAndGet();
                 try {
                     TimeUnit.MILLISECONDS.sleep(10);
                 } catch (InterruptedException e) {
