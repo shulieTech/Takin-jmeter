@@ -1182,7 +1182,6 @@ public final class CSVSaveService {
             do{
                 offer = GlobalVariables.logBlockQueue.offer(resultLog);
                 if(!offer) {
-                    log.info("jtl日志入队失败");
                     try {
                         Thread.sleep(10);//sleep 10ms
                     } catch (InterruptedException e) {
