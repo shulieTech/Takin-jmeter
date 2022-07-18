@@ -1146,7 +1146,7 @@ public final class CSVSaveService {
                 } else {
                     //满足任意一个即可
                     for (String performanceTestHeader : JTLUtil.PERFOMANCE_TEST_HEADERS) {
-                        if (header.startsWith(performanceTestHeader)) {
+                        if (header.equals(performanceTestHeader)) {
                             performanceTest = true;
                             break;
                         }
