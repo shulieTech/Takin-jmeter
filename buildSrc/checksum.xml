@@ -70,8 +70,8 @@
     <dependency group='redis.clients' module='jedis' version='3.3.0'>
       <sha512>46F188DD310C7C9D77EAEF3E85A6FE5A47FD3CD809467C5B35D7D9A79DC8B99E9B7F43C631A96DE0E98C08F644EA64B37168724C5FB1FECCABAD388DADC79626</sha512>
     </dependency>
-      <dependency group='com.alibaba' module='fastjson' version='1.2.72'>
-          <sha512>98D10F2AAC83CC3D97B9E7EAB82825892E62CCD9457F8B60D574775F5EEB3AFA2EEE06539995692F33C811C5D35E754F0E79DEC2529F58900427CEC595496D7B</sha512>
-      </dependency>
+    <dependency group='com.alibaba' module='fastjson' version='1.2.83'>
+      <sha512>b34b2c6b2a2440f6f3794afffd87f71d06036cb3b7f6dba5c13e4d9cc7576b0a4db7c844a0b8bab163320a53f565081c10607f337dc34c76e932f4a14ad77e73</sha512>
+    </dependency>
   </dependencies>
 </dependency-verification>

@@ -102,15 +102,21 @@ dependencies {
     implementation("org.mozilla:rhino")
     implementation("org.slf4j:jcl-over-slf4j")
     // add by lipeng 添加fastjson
-    implementation("com.alibaba:fastjson")
+    implementation("com.alibaba:fastjson:1.2.83")
     // add end
     // add by xr.l 添加agent上传日志依赖包
-    implementation("io.shulie.pradar:log-remoting:2.0.4")
-    implementation("io.shulie.surge.data:common:1.0")
+    implementation("io.shulie.pradar:log-remoting:2.0.4"){
+        exclude("com.alibaba","fastjson")
+    }
+    implementation("io.shulie.surge.data:common:1.0"){
+        exclude("com.alibaba","fastjson")
+    }
 
     implementation("io.shulie.flpt:jmeter-redis-tool")
     implementation("io.shulie.flpt:jmeter-executor-tool")
-    implementation("io.shulie.flpt:jmeter-amdb-tool")
+    implementation("io.shulie.flpt:jmeter-amdb-tool"){
+        exclude("com.alibaba","fastjson")
+    }
     implementation("cn.hutool:hutool-all:5.4.0")
     // add end
     // TODO: JMeter bundles Xerces, however the reason is unknown

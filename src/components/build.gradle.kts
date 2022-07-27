@@ -66,7 +66,7 @@ dependencies {
     implementation("redis.clients:jedis")
     // add end
     // add by lipeng 添加fastjson
-    implementation("com.alibaba:fastjson")
+    implementation("com.alibaba:fastjson:1.2.83")
     // add end
     implementation("io.shulie.flpt:jmeter-redis-tool")
     implementation("io.shulie.flpt:jmeter-executor-tool")
