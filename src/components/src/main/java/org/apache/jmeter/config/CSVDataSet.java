@@ -221,7 +221,7 @@ public class CSVDataSet extends ConfigTestElement
                 threadVars.put(vars[a], lineValues[a]);
             }
         } catch (IOException e) { // treat the same as EOF
-            log.error(e.toString());
+            log.error("read line happend exception.", e);
         }
         //文件名
         String fileName = getFilename().trim();
