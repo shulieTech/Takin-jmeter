@@ -166,6 +166,7 @@ public class LogPusher implements Runnable {
         } else {
             pw.write(dataLog);
         }
+        pw.flush();
     }
 
     public boolean isEnded() {
