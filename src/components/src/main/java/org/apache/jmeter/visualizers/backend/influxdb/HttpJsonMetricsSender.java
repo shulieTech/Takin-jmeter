@@ -223,6 +223,7 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
             //不成功的指标数据写入文件
             if (!flag && times > 5 && Objects.nonNull(pw)) {
                 pw.write(sendData + "\r\n");
+                pw.flush();
                 return !flag;
             }
         }
