@@ -344,7 +344,14 @@ public class FileServer implements FileService {
                 throw new IOException("File " + filename + " already in use");
             }
             BufferedReader reader = (BufferedReader) fileEntry.inputOutputObject;
-            String line = reader.readLine();
+            String line;
+            try {
+                line = reader.readLine();
+            } catch (IOException e) {
+                fileEntry.inputOutputObject = createBufferedReader(fileEntry, recycle);
+                reader = (BufferedReader) fileEntry.inputOutputObject;
+                line = reader.readLine();
+            }
             if (line == null && recycle) {
                 reader.close();
                 reader = createBufferedReader(fileEntry,recycle);
