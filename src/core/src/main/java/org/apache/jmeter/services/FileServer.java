@@ -348,9 +348,8 @@ public class FileServer implements FileService {
             try {
                 line = reader.readLine();
             } catch (IOException e) {
-                fileEntry.inputOutputObject = createBufferedReader(fileEntry, recycle);
-                reader = (BufferedReader) fileEntry.inputOutputObject;
-                line = reader.readLine();
+                log.error("csv readline exception：{}", e.getMessage());
+                line = null;
             }
             if (line == null && recycle) {
                 reader.close();
