@@ -75,11 +75,12 @@ public class LogPusher implements Runnable {
         Thread.currentThread().setName(this.threadName);
         logger.info("启动第{}个日志上传线程,线程ID:{},启动时间:{}", threadIndex, threadId, System.currentTimeMillis());
         String zkServers = System.getProperty("zkServers");
+        String zkPath = System.getProperty("zkPath");
         ZkClientSpec clientSpec = new ZkClientSpec();
         clientSpec.setZkServers(zkServers);
         clientSpec.setThreadName("cf_" + this.threadName);
         ServerProviderOptions options = new ServerProviderOptions();
-        options.setServerZkPath(GlobalVariables.AMDB_SERVER_ZK_PATH);
+        options.setServerZkPath(zkPath);
         options.setSpec(clientSpec);
         ServerAddrProvider provider = new DefaultServerAddrProvider(options);
         DataPusher pusher = new TcpDataPusher();
