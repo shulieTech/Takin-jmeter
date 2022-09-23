@@ -117,6 +117,8 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
             //计算时间窗口
             if (Objects.isNull(timeWindow)) {
                 timeWindow = CollectorUtil.getTimeWindowTime(System.currentTimeMillis());
+            } else {
+                timeWindow = CollectorUtil.getNextTimeWindow(timeWindow);
             }
             //算线程数单独拎出来，不要每个活动都去算，提升效率
             //            int activeThreadNum = getActiveThreadNum();
@@ -146,7 +148,6 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
         responseMetrics.setMaxRt(NumberUtil.maybeNaN(metric.getAllMaxTime()));
         responseMetrics.setMinRt(NumberUtil.maybeNaN(metric.getAllMinTime()));
         responseMetrics.setTimestamp(timeWindow);
-        timeWindow = CollectorUtil.getNextTimeWindow(timeWindow);
         responseMetrics.setRt(NumberUtil.maybeNaN(metric.getAllMean()));
         //modify by 李鹏 当transcation为all时返回的saCount均设置为0，因为all的sa count为空，让cloud去聚合all的sacount数据
         // 平台会设置每个业务活动的目标rt，而不会给all设置目标rt，设置目标rt根据脚本后端监听器中的businessMap参数传递过来
