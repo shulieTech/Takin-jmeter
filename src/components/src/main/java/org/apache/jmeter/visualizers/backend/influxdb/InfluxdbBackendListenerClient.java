@@ -23,6 +23,7 @@ import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.samplers.SampleResult;
 import org.apache.jmeter.save.SaveService;
 import org.apache.jmeter.shulie.constants.PressureConstants;
+import org.apache.jmeter.shulie.util.CollectorUtil;
 import org.apache.jmeter.shulie.util.DataUtil;
 import org.apache.jmeter.shulie.util.JsonUtil;
 import org.apache.jmeter.shulie.util.NumberUtil;
@@ -97,6 +98,8 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
 
     private PrintWriter pw;
 
+    private Long timeWindow;//时间窗口
+
     public InfluxdbBackendListenerClient() {
         super();
     }
@@ -138,7 +141,11 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
         responseMetrics.setFailCount(metric.getFailures());
         responseMetrics.setMaxRt(NumberUtil.maybeNaN(metric.getAllMaxTime()));
         responseMetrics.setMinRt(NumberUtil.maybeNaN(metric.getAllMinTime()));
-        responseMetrics.setTimestamp(System.currentTimeMillis());
+        if(Objects.isNull(timeWindow)){
+            timeWindow = CollectorUtil.getTimeWindowTime(System.currentTimeMillis());
+        }
+        responseMetrics.setTimestamp(timeWindow);
+        timeWindow = CollectorUtil.getNextTimeWindow(timeWindow);
         responseMetrics.setRt(NumberUtil.maybeNaN(metric.getAllMean()));
         //modify by 李鹏 当transcation为all时返回的saCount均设置为0，因为all的sa count为空，让cloud去聚合all的sacount数据
         // 平台会设置每个业务活动的目标rt，而不会给all设置目标rt，设置目标rt根据脚本后端监听器中的businessMap参数传递过来
