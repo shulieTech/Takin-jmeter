@@ -114,6 +114,10 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
 
     private void sendMetrics() {
         synchronized (LOCK) {
+            //计算时间窗口
+            if (Objects.isNull(timeWindow)) {
+                timeWindow = CollectorUtil.getTimeWindowTime(System.currentTimeMillis());
+            }
             //算线程数单独拎出来，不要每个活动都去算，提升效率
             //            int activeThreadNum = getActiveThreadNum();
             UserMetric userMetrics = getUserMetrics();
@@ -141,9 +145,6 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
         responseMetrics.setFailCount(metric.getFailures());
         responseMetrics.setMaxRt(NumberUtil.maybeNaN(metric.getAllMaxTime()));
         responseMetrics.setMinRt(NumberUtil.maybeNaN(metric.getAllMinTime()));
-        if(Objects.isNull(timeWindow)){
-            timeWindow = CollectorUtil.getTimeWindowTime(System.currentTimeMillis());
-        }
         responseMetrics.setTimestamp(timeWindow);
         timeWindow = CollectorUtil.getNextTimeWindow(timeWindow);
         responseMetrics.setRt(NumberUtil.maybeNaN(metric.getAllMean()));
