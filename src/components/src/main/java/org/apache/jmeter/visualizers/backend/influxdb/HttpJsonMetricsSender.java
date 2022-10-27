@@ -62,12 +62,12 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
     /**
      * 后端监听器链接超时时间
      */
-    private static final int BACKEND_CONNECTION_TIMEOUT = 1000;
+    private static final int BACKEND_CONNECTION_TIMEOUT = 10000;
 
     /**
      * 后端监听器链接socket时间
      */
-    private static final int BACKEND_SOCKET_TIMEOUT = 1000;
+    private static final int BACKEND_SOCKET_TIMEOUT = 10000;
 
     private final Object lock = new Object();
 
@@ -198,7 +198,7 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
             HttpResponse response = lastRequest.get();
             int code = response.getStatusLine().getStatusCode();
             return MetricUtils.isSuccessCode(code);
-        } catch (URISyntaxException | JsonProcessingException | InterruptedException | ExecutionException ex) {
+        } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
         }
         return false;
