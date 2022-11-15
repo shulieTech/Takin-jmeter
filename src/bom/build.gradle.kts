@@ -166,5 +166,6 @@ dependencies {
         apiv("io.shulie.flpt:jmeter-redis-tool", "jmeter-redis-tool")
         apiv("io.shulie.flpt:jmeter-executor-tool", "jmeter-executor-tool")
         apiv("io.shulie.flpt:jmeter-amdb-tool", "jmeter-amdb-tool")
+        apiv("io.shulie.takin:takin-message-sdk-kafka", "takin-message-sdk-kafka")
     }
 }

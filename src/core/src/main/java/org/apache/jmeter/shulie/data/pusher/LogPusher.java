@@ -20,11 +20,13 @@ package org.apache.jmeter.shulie.data.pusher;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Objects;
+import java.util.Properties;
 import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 import com.pamirs.pradar.log.parser.DataType;
+import com.pamirs.pradar.remoting.protocol.CommandVersion;
 import io.shulie.jmeter.tool.amdb.GlobalVariables;
 import io.shulie.jmeter.tool.amdb.log.data.pusher.callback.LogCallback;
 import io.shulie.jmeter.tool.amdb.log.data.pusher.push.DataPusher;
@@ -33,6 +35,9 @@ import io.shulie.jmeter.tool.amdb.log.data.pusher.push.tcp.TcpDataPusher;
 import io.shulie.jmeter.tool.amdb.log.data.pusher.server.ServerAddrProvider;
 import io.shulie.jmeter.tool.amdb.log.data.pusher.server.ServerProviderOptions;
 import io.shulie.jmeter.tool.amdb.zookeeper.ZkClientSpec;
+import io.shulie.takin.sdk.kafka.MessageSendCallBack;
+import io.shulie.takin.sdk.kafka.MessageSendService;
+import io.shulie.takin.sdk.kafka.impl.KafkaSendServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jmeter.shulie.constants.PressureConstants;
 import org.apache.jmeter.shulie.util.HttpNotifyTroCloudUtils;
@@ -61,6 +66,8 @@ public class LogPusher implements Runnable {
 
     private boolean isEnded;
 
+    private MessageSendService messageSendService;
+
     public LogPusher(Queue<String> queue, int threadIndex, String reportId) {
         this.queue = queue;
         this.threadIndex = threadIndex;
@@ -74,55 +81,34 @@ public class LogPusher implements Runnable {
         this.threadName = this.threadName + this.reportId + "_" + this.threadIndex;
         Thread.currentThread().setName(this.threadName);
         logger.info("启动第{}个日志上传线程,线程ID:{},启动时间:{}", threadIndex, threadId, System.currentTimeMillis());
-        String zkServers = System.getProperty("zkServers");
-        String zkPath = System.getProperty("zkPath");
-        ZkClientSpec clientSpec = new ZkClientSpec();
-        clientSpec.setZkServers(zkServers);
-        clientSpec.setThreadName("cf_" + this.threadName);
-        ServerProviderOptions options = new ServerProviderOptions();
-        options.setServerZkPath(zkPath);
-        options.setSpec(clientSpec);
-        ServerAddrProvider provider = new DefaultServerAddrProvider(options);
-        DataPusher pusher = new TcpDataPusher();
-        pusher.setServerAddrProvider(provider);
-        ServerOptions serverOptions = new ServerOptions() {{
-            setTimeout(3 * 1000);
-        }};
-        boolean init = pusher.init(serverOptions);
-        if (!init) {
-            logger.error("初始化DataPusher异常");
-            HttpNotifyTroCloudUtils.notifyTroCloud(PressureConstants.pressureEngineParamsInstance, PressureConstants.ENGINE_STATUS_FAILED, "JTL日志上报服务异常:服务连接失败，请检查zk配置");
-            return;
-        }
-        pusher.start();
-        LogCallback logCallback = pusher.getLogCallback();
+        String serviceConfig = System.getProperty("serviceConfig");
+        messageSendService = new KafkaSendServiceImpl();
+        messageSendService.init(new Properties(), serviceConfig, null);
         logger.info("日志上传开始--线程ID:{},线程名称:{},开始时间：{},报告ID:{}", threadId, this.threadName, System.currentTimeMillis(),
                 reportId);
         //打开文件
         OutputStreamWriter out = null;
         while (!GlobalVariables.stopFlag.get() || !queue.isEmpty()) {
-            long send = logCount.get();
             String logData = pollLogData();
             if (StringUtils.isNotBlank(logData)) {
-                boolean call = logCallback.call(logData.getBytes(), DataType.TRACE_LOG, GlobalVariables.VERSION);
-                int count = 3;
-                while (!call && count > 0) {
-                    count--;
-                    call = logCallback.call(logData.getBytes(), DataType.TRACE_LOG, GlobalVariables.VERSION);
-                    logger.info("上报jtl失败 重试:{}, 数据:{}, call:{}", 3 - count, logCount.get() - send, call);
-                }
-                if (!call) {
-                    //重试三次以后 写入文件
-                    if (Objects.nonNull(pw)) {
+                messageSendService.send(DataType.TRACE_LOG, CommandVersion.V1, logData, "127.0.0.1", new MessageSendCallBack() {
+                    @Override
+                    public void success() {
+                    }
+
+                    @Override
+                    public void fail(String errorMessage) {
+                        //消息发送失败，将数据写入文件
+                        logger.info("上报jtl失败,数据写入文件。。");
                         writeUnReportLog(logData);
                     }
-                }
+                });
             }
         }
         isEnded = true;
         logger.info("日志上传完成--线程ID:{},线程名称:{},结束时间：{},报告ID:{}，上传数量:{}", threadId, this.threadName,
                 System.currentTimeMillis(), this.reportId, logCount.get());
-        pusher.stop();
+        messageSendService.stop();
         //关闭文件
     }
 

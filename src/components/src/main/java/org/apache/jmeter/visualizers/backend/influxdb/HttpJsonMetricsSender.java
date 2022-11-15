@@ -22,14 +22,15 @@ import java.net.ConnectException;
 import java.net.SocketException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import io.shulie.takin.sdk.kafka.MessageSendCallBack;
+import io.shulie.takin.sdk.kafka.MessageSendService;
+import io.shulie.takin.sdk.kafka.impl.KafkaSendServiceImpl;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
@@ -88,6 +89,7 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
     private Future<HttpResponse> lastRequest;
     private HttpJsonMetricsSenderThread thread;
     private PrintWriter pw;
+    private MessageSendService messageSendService;
 
     HttpJsonMetricsSender() {
         super();
@@ -106,35 +108,9 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
     public void setup(String influxdbUrl, String influxDBToken, PrintWriter pw) throws Exception {
         this.pw = pw;
         try {
-            // Create I/O reactor configuration
-            IOReactorConfig ioReactorConfig = IOReactorConfig
-                    .custom()
-                    .setIoThreadCount(1)
-                    .setConnectTimeout(JMeterUtils.getPropDefault("backend_influxdb.connection_timeout", BACKEND_CONNECTION_TIMEOUT))
-                    .setSoTimeout(JMeterUtils.getPropDefault("backend_influxdb.socket_timeout", BACKEND_SOCKET_TIMEOUT))
-                    .build();
-            // Create a custom I/O reactor
-            ConnectingIOReactor ioReactor = new DefaultConnectingIOReactor(ioReactorConfig);
-
-            // Create a connection manager with custom configuration.
-            PoolingNHttpClientConnectionManager connManager =
-                    new PoolingNHttpClientConnectionManager(ioReactor);
-
-            httpClient = HttpAsyncClientBuilder.create()
-                    .setConnectionManager(connManager)
-                    .setMaxConnPerRoute(2)
-                    .setMaxConnTotal(2)
-                    .setUserAgent("ApacheJMeter" + JMeterUtils.getJMeterVersion())
-                    .disableCookieManagement()
-                    .disableConnectionState()
-                    .build();
-            url = new URL(influxdbUrl);
-            token = influxDBToken;
-            SEND_INTERVAL = JMeterUtils.getPropDefault("backend_influxdb.send_interval", 5);
-            httpRequest = createRequest(url, token);
-            httpClient.start();
-            //测试指标上报接口
-            httpClient.execute(httpRequest, null).get();
+            String serviceConfig = System.getProperty("serviceConfig");
+            messageSendService = new KafkaSendServiceImpl();
+            messageSendService.init(new Properties(), serviceConfig, null);
             thread = new HttpJsonMetricsSenderThread(this);
             thread.start();
         } catch (Exception e) {
@@ -228,6 +204,28 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
             }
         }
         return false;
+    }
+
+    public void writeAndSendMetrics(List<AbstractMetrics> metrics) {
+        try {
+            String sendData = JacksonUtil.toJson(metrics);
+            Map<String,String> headers = new HashMap<>();
+            headers.put(AUTHORIZATION_HEADER_NAME, AUTHORIZATION_HEADER_VALUE + token);
+            messageSendService.send("/notify/job/pressure/metrics/upload", headers, sendData, null, new MessageSendCallBack() {
+                @Override
+                public void success() {}
+
+                @Override
+                public void fail(String errorMessage) {
+                    log.error("发送Metrics数据出现异常,数据写入文件:{}", errorMessage);
+                    pw.write(sendData + "\r\n");
+                    pw.flush();
+                }
+            });
+        } catch (JsonProcessingException e) {
+            log.error("发送Metrics数据出现异常",e);
+        }
+
     }
 
     private class MetricsSenderCallback implements FutureCallback<HttpResponse> {

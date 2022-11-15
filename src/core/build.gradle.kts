@@ -114,6 +114,7 @@ dependencies {
 
     implementation("io.shulie.flpt:jmeter-redis-tool")
     implementation("io.shulie.flpt:jmeter-executor-tool")
+    implementation("io.shulie.takin:takin-message-sdk-kafka")
     implementation("io.shulie.flpt:jmeter-amdb-tool"){
         exclude("com.alibaba","fastjson")
     }

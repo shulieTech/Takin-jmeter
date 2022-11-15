@@ -70,6 +70,7 @@ dependencies {
     // add end
     implementation("io.shulie.flpt:jmeter-redis-tool")
     implementation("io.shulie.flpt:jmeter-executor-tool")
+    implementation("io.shulie.takin:takin-message-sdk-kafka")
     implementation("cn.hutool:hutool-all:5.4.0")
 
     // we use bcmail for compilation only, and bcmail is not shipped in the release
