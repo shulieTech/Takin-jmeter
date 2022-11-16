@@ -28,8 +28,11 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import com.alibaba.fastjson.JSON;
+import io.shulie.takin.sdk.kafka.HttpSender;
 import io.shulie.takin.sdk.kafka.MessageSendCallBack;
 import io.shulie.takin.sdk.kafka.MessageSendService;
+import io.shulie.takin.sdk.kafka.impl.KafkaSendServiceFactory;
 import io.shulie.takin.sdk.kafka.impl.KafkaSendServiceImpl;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -85,10 +88,13 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
     private URL url;
     private String token;
     private Integer SEND_INTERVAL;
+    private Long pressureId;
+    private Long pressureExampleId;
 
     private Future<HttpResponse> lastRequest;
     private HttpJsonMetricsSenderThread thread;
     private PrintWriter pw;
+    private Long jobId;
     private MessageSendService messageSendService;
 
     HttpJsonMetricsSender() {
@@ -108,9 +114,17 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
     public void setup(String influxdbUrl, String influxDBToken, PrintWriter pw) throws Exception {
         this.pw = pw;
         try {
-            String serviceConfig = System.getProperty("serviceConfig");
-            messageSendService = new KafkaSendServiceImpl();
-            messageSendService.init(new Properties(), serviceConfig, null);
+            String substring = influxdbUrl.substring(influxdbUrl.indexOf("?"), influxdbUrl.length());
+            String[] split = substring.split("&");
+            for (String s : split){
+                String[] strings = s.split("=");
+                if (strings.length > 1){
+                    if ("jobId".equals(strings[0])){
+                        jobId = Long.parseLong(strings[1]);
+                    }
+                }
+            }
+            messageSendService = new KafkaSendServiceFactory().getKafkaMessageInstance();
             thread = new HttpJsonMetricsSenderThread(this);
             thread.start();
         } catch (Exception e) {
@@ -208,12 +222,14 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
 
     public void writeAndSendMetrics(List<AbstractMetrics> metrics) {
         try {
-            String sendData = JacksonUtil.toJson(metrics);
-            Map<String,String> headers = new HashMap<>();
-            headers.put(AUTHORIZATION_HEADER_NAME, AUTHORIZATION_HEADER_VALUE + token);
-            messageSendService.send("/notify/job/pressure/metrics/upload", headers, sendData, null, new MessageSendCallBack() {
+            Map<String,Object> body = new HashMap<>();
+            body.put("data", metrics);
+            body.put("jobId", jobId);
+            String sendData = JacksonUtil.toJson(body);
+            messageSendService.send("/notify/job/pressure/metrics/upload_old", new HashMap<>(), JSON.toJSONString(body), new MessageSendCallBack() {
                 @Override
-                public void success() {}
+                public void success() {
+                }
 
                 @Override
                 public void fail(String errorMessage) {
@@ -221,6 +237,9 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
                     pw.write(sendData + "\r\n");
                     pw.flush();
                 }
+            }, new HttpSender() {
+                @Override
+                public void sendMessage() {}
             });
         } catch (JsonProcessingException e) {
             log.error("发送Metrics数据出现异常",e);
@@ -291,6 +310,7 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
         // Give some time to send last metrics before shutting down
         log.info("Destroying ");
         thread.destroy();
+        messageSendService.stop();
         try {
             lastRequest.get(5, TimeUnit.SECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
