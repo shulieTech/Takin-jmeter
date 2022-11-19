@@ -81,9 +81,8 @@ public class LogPusher implements Runnable {
         this.threadName = this.threadName + this.reportId + "_" + this.threadIndex;
         Thread.currentThread().setName(this.threadName);
         logger.info("启动第{}个日志上传线程,线程ID:{},启动时间:{}", threadIndex, threadId, System.currentTimeMillis());
-        String serviceConfig = System.getProperty("serviceConfig");
         messageSendService = new KafkaSendServiceImpl();
-        messageSendService.init(new Properties(), serviceConfig, null);
+        messageSendService.init();
         logger.info("日志上传开始--线程ID:{},线程名称:{},开始时间：{},报告ID:{}", threadId, this.threadName, System.currentTimeMillis(),
                 reportId);
         //打开文件
