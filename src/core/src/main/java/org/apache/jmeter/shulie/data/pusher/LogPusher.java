@@ -17,32 +17,20 @@
 
 package org.apache.jmeter.shulie.data.pusher;
 
+import com.pamirs.pradar.log.parser.DataType;
+import io.shulie.jmeter.tool.amdb.GlobalVariables;
+import io.shulie.takin.sdk.kafka.MessageSendCallBack;
+import io.shulie.takin.sdk.kafka.MessageSendService;
+import io.shulie.takin.sdk.kafka.impl.KafkaSendServiceFactory;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.Objects;
-import java.util.Properties;
 import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
-
-import com.pamirs.pradar.log.parser.DataType;
-import com.pamirs.pradar.remoting.protocol.CommandVersion;
-import io.shulie.jmeter.tool.amdb.GlobalVariables;
-import io.shulie.jmeter.tool.amdb.log.data.pusher.callback.LogCallback;
-import io.shulie.jmeter.tool.amdb.log.data.pusher.push.DataPusher;
-import io.shulie.jmeter.tool.amdb.log.data.pusher.push.ServerOptions;
-import io.shulie.jmeter.tool.amdb.log.data.pusher.push.tcp.TcpDataPusher;
-import io.shulie.jmeter.tool.amdb.log.data.pusher.server.ServerAddrProvider;
-import io.shulie.jmeter.tool.amdb.log.data.pusher.server.ServerProviderOptions;
-import io.shulie.jmeter.tool.amdb.zookeeper.ZkClientSpec;
-import io.shulie.takin.sdk.kafka.MessageSendCallBack;
-import io.shulie.takin.sdk.kafka.MessageSendService;
-import io.shulie.takin.sdk.kafka.impl.KafkaSendServiceImpl;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.jmeter.shulie.constants.PressureConstants;
-import org.apache.jmeter.shulie.util.HttpNotifyTroCloudUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author moriarty
@@ -66,8 +54,6 @@ public class LogPusher implements Runnable {
 
     private boolean isEnded;
 
-    private MessageSendService messageSendService;
-
     public LogPusher(Queue<String> queue, int threadIndex, String reportId) {
         this.queue = queue;
         this.threadIndex = threadIndex;
@@ -81,8 +67,9 @@ public class LogPusher implements Runnable {
         this.threadName = this.threadName + this.reportId + "_" + this.threadIndex;
         Thread.currentThread().setName(this.threadName);
         logger.info("启动第{}个日志上传线程,线程ID:{},启动时间:{}", threadIndex, threadId, System.currentTimeMillis());
-        messageSendService = new KafkaSendServiceImpl();
-        messageSendService.init();
+
+        MessageSendService messageSendService = new KafkaSendServiceFactory().getKafkaMessageInstance();
+
         logger.info("日志上传开始--线程ID:{},线程名称:{},开始时间：{},报告ID:{}", threadId, this.threadName, System.currentTimeMillis(),
                 reportId);
         //打开文件
@@ -90,7 +77,7 @@ public class LogPusher implements Runnable {
         while (!GlobalVariables.stopFlag.get() || !queue.isEmpty()) {
             String logData = pollLogData();
             if (StringUtils.isNotBlank(logData)) {
-                messageSendService.send(DataType.TRACE_LOG, 16, logData, "127.0.0.1", new MessageSendCallBack() {
+                messageSendService.send(DataType.PRESSURE_ENGINE_TRACE_LOG, 16, logData, "127.0.0.1", new MessageSendCallBack() {
                     @Override
                     public void success() {
                     }
