@@ -72,7 +72,7 @@ dependencies {
     implementation("io.shulie.flpt:jmeter-executor-tool")
     implementation("io.shulie.takin:takin-message-sdk-kafka")
 //    implementation("org.slf4j:jcl-over-slf4j")
-    implementation("org.slf4j:slf4j-api")
+//    implementation("org.slf4j:slf4j-api")
     implementation("cn.hutool:hutool-all:5.4.0")
 
     // we use bcmail for compilation only, and bcmail is not shipped in the release
