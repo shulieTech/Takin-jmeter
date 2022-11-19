@@ -90,7 +90,7 @@ public class LogPusher implements Runnable {
         while (!GlobalVariables.stopFlag.get() || !queue.isEmpty()) {
             String logData = pollLogData();
             if (StringUtils.isNotBlank(logData)) {
-                messageSendService.send(DataType.TRACE_LOG, CommandVersion.V1, logData, "127.0.0.1", new MessageSendCallBack() {
+                messageSendService.send(DataType.TRACE_LOG, 16, logData, "127.0.0.1", new MessageSendCallBack() {
                     @Override
                     public void success() {
                     }
