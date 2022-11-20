@@ -17,8 +17,8 @@
 
 package org.apache.jmeter.shulie.data.pusher;
 
-import com.pamirs.pradar.log.parser.DataType;
 import io.shulie.jmeter.tool.amdb.GlobalVariables;
+import io.shulie.takin.sdk.kafka.DataType;
 import io.shulie.takin.sdk.kafka.MessageSendCallBack;
 import io.shulie.takin.sdk.kafka.MessageSendService;
 import io.shulie.takin.sdk.kafka.impl.KafkaSendServiceFactory;
@@ -26,7 +26,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Queue;
 import java.util.concurrent.TimeUnit;
