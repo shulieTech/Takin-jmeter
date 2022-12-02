@@ -71,7 +71,7 @@ public class LogPusher implements Runnable {
 
         logger.info("日志上传开始--线程ID:{},线程名称:{},开始时间：{},报告ID:{}", threadId, this.threadName, System.currentTimeMillis(),
                 reportId);
-        //打开文件
+        //读取队列，发送消息到kafka
         while (!GlobalVariables.stopFlag.get() || !queue.isEmpty()) {
             String logData = pollLogData();
             if (StringUtils.isNotBlank(logData)) {
