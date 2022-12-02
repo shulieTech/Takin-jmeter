@@ -97,15 +97,12 @@ public class LogPusher implements Runnable {
     }
 
     private String pollLogData() {
-        long count = 0;
-        StringBuilder stringBuilder = new StringBuilder();
-        while (count < GlobalVariables.UPLOAD_SIZE && !this.queue.isEmpty()) {
+        while (!this.queue.isEmpty()) {
             Object log = this.queue.poll();
             if (StringUtils.isNotBlank(log.toString())) {
                 GlobalVariables.uploadCount.getAndIncrement();
                 logCount.getAndIncrement();
-                stringBuilder.append(log.toString()).append("\r\n");
-                count += log.toString().getBytes().length;
+                return log.toString();
             } else {
                 try {
                     TimeUnit.MILLISECONDS.sleep(10);
@@ -114,7 +111,7 @@ public class LogPusher implements Runnable {
                 }
             }
         }
-        return stringBuilder.toString();
+        return null;
     }
 
     @Override
