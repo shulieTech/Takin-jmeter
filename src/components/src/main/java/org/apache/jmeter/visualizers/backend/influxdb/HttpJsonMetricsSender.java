@@ -35,6 +35,7 @@ import io.shulie.takin.sdk.kafka.MessageSendService;
 import io.shulie.takin.sdk.kafka.impl.KafkaSendServiceFactory;
 import io.shulie.takin.sdk.kafka.impl.KafkaSendServiceImpl;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.config.RequestConfig;
@@ -123,6 +124,10 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
                         jobId = Long.parseLong(strings[1]);
                     }
                 }
+            }
+            String saslJaasConfig = System.getProperty("sasl.jaas.config","");
+            if (!"".equals(saslJaasConfig)) {
+                System.setProperty("sasl.jaas.config", StringEscapeUtils.unescapeJava(saslJaasConfig));
             }
             messageSendService = new KafkaSendServiceFactory().getKafkaMessageInstance();
             thread = new HttpJsonMetricsSenderThread(this);

@@ -22,6 +22,7 @@ import io.shulie.takin.sdk.kafka.DataType;
 import io.shulie.takin.sdk.kafka.MessageSendCallBack;
 import io.shulie.takin.sdk.kafka.MessageSendService;
 import io.shulie.takin.sdk.kafka.impl.KafkaSendServiceFactory;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,7 +67,10 @@ public class LogPusher implements Runnable {
         this.threadName = this.threadName + this.reportId + "_" + this.threadIndex;
         Thread.currentThread().setName(this.threadName);
         logger.info("启动第{}个日志上传线程,线程ID:{},启动时间:{}", threadIndex, threadId, System.currentTimeMillis());
-
+        String saslJaasConfig = System.getProperty("sasl.jaas.config","");
+        if (!"".equals(saslJaasConfig)) {
+            System.setProperty("sasl.jaas.config", StringEscapeUtils.unescapeJava(saslJaasConfig));
+        }
         MessageSendService messageSendService = new KafkaSendServiceFactory().getKafkaMessageInstance();
 
         logger.info("日志上传开始--线程ID:{},线程名称:{},开始时间：{},报告ID:{}", threadId, this.threadName, System.currentTimeMillis(),
