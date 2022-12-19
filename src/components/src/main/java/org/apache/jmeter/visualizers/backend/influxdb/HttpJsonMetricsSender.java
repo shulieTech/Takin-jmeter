@@ -127,7 +127,9 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
             }
             String saslJaasConfig = System.getProperty("sasl.jaas.config","");
             if (!"".equals(saslJaasConfig)) {
-                System.setProperty("sasl.jaas.config", StringEscapeUtils.unescapeJava(saslJaasConfig));
+                Base64.Decoder decoder = Base64.getDecoder();
+                String string = new String(decoder.decode(saslJaasConfig));
+                System.setProperty("sasl.jaas.config", string);
             }
             messageSendService = new KafkaSendServiceFactory().getKafkaMessageInstance();
             thread = new HttpJsonMetricsSenderThread(this);

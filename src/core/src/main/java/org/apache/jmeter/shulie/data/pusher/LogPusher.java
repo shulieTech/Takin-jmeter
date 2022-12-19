@@ -28,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.PrintWriter;
+import java.util.Base64;
 import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
@@ -69,7 +70,9 @@ public class LogPusher implements Runnable {
         logger.info("启动第{}个日志上传线程,线程ID:{},启动时间:{}", threadIndex, threadId, System.currentTimeMillis());
         String saslJaasConfig = System.getProperty("sasl.jaas.config","");
         if (!"".equals(saslJaasConfig)) {
-            System.setProperty("sasl.jaas.config", StringEscapeUtils.unescapeJava(saslJaasConfig));
+            Base64.Decoder decoder = Base64.getDecoder();
+            String string = new String(decoder.decode(saslJaasConfig));
+            System.setProperty("sasl.jaas.config", string);
         }
         MessageSendService messageSendService = new KafkaSendServiceFactory().getKafkaMessageInstance();
 
