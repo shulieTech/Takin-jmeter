@@ -28,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Queue;
 import java.util.concurrent.TimeUnit;
@@ -71,7 +72,7 @@ public class LogPusher implements Runnable {
         String saslJaasConfig = System.getProperty("sasl.jaas.config","");
         if (!"".equals(saslJaasConfig)) {
             Base64.Decoder decoder = Base64.getDecoder();
-            String string = new String(decoder.decode(saslJaasConfig));
+            String string = new String(decoder.decode(saslJaasConfig), StandardCharsets.UTF_8);
             System.setProperty("sasl.jaas.config", string);
         }
         MessageSendService messageSendService = new KafkaSendServiceFactory().getKafkaMessageInstance();

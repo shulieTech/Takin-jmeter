@@ -22,6 +22,7 @@ import java.net.ConnectException;
 import java.net.SocketException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -128,7 +129,7 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
             String saslJaasConfig = System.getProperty("sasl.jaas.config","");
             if (!"".equals(saslJaasConfig)) {
                 Base64.Decoder decoder = Base64.getDecoder();
-                String string = new String(decoder.decode(saslJaasConfig));
+                String string = new String(decoder.decode(saslJaasConfig), StandardCharsets.UTF_8);
                 System.setProperty("sasl.jaas.config", string);
             }
             messageSendService = new KafkaSendServiceFactory().getKafkaMessageInstance();
