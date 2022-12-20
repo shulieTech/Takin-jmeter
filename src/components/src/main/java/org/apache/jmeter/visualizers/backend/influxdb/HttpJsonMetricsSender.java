@@ -126,7 +126,7 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
                     }
                 }
             }
-            String saslJaasConfig = System.getProperty("sasl.jaas.config","");
+            String saslJaasConfig = System.getProperty("sasl.jaas.config.base64","");
             if (!"".equals(saslJaasConfig)) {
                 Base64.Decoder decoder = Base64.getDecoder();
                 String string = new String(decoder.decode(saslJaasConfig), StandardCharsets.UTF_8);

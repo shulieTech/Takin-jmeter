@@ -69,7 +69,7 @@ public class LogPusher implements Runnable {
         this.threadName = this.threadName + this.reportId + "_" + this.threadIndex;
         Thread.currentThread().setName(this.threadName);
         logger.info("启动第{}个日志上传线程,线程ID:{},启动时间:{}", threadIndex, threadId, System.currentTimeMillis());
-        String saslJaasConfig = System.getProperty("sasl.jaas.config","");
+        String saslJaasConfig = System.getProperty("sasl.jaas.config.base64","");
         if (!"".equals(saslJaasConfig)) {
             Base64.Decoder decoder = Base64.getDecoder();
             String string = new String(decoder.decode(saslJaasConfig), StandardCharsets.UTF_8);
