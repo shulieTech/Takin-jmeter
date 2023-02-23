@@ -49,6 +49,7 @@ import org.apache.jmeter.shulie.constants.PressureConstants;
 import org.apache.jmeter.shulie.util.JTLUtil;
 import org.apache.jmeter.shulie.util.model.TraceBizData;
 import org.apache.jmeter.threads.JMeterContextService;
+import org.apache.jmeter.shulie.util.JmeterTraceIdGenerator;
 import org.apache.jmeter.util.JMeterUtils;
 import org.apache.jmeter.visualizers.Visualizer;
 import org.apache.jorphan.reflect.Functor;
@@ -1152,7 +1153,17 @@ public final class CSVSaveService {
                         }
                     }
                 }
+            } else {
+                //允许其他类型的Sampler，比如JavaSampler
+                traceId = JmeterTraceIdGenerator.generateAllSampled();
+                reportId = String.valueOf(PressureConstants.pressureEngineParamsInstance.getResultId());
+                //performanceTest = true;
+                TraceBizData traceBizData = TraceBizData.create(traceId, reportId, performanceTest);
+                if (JTLUtil.isTraceSampled(traceId, samplingInterval)) {
+                    writeLog(sampleResult, out, saveConfig, traceBizData);
+                }
             }
+
             TraceBizData traceBizData = TraceBizData.create(traceId, reportId, performanceTest);
             if (JTLUtil.isTraceSampled(traceId, samplingInterval)) {
                 writeLog(sampleResult, out, saveConfig, traceBizData);
