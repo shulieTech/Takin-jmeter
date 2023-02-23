@@ -47,6 +47,7 @@ import org.apache.jmeter.samplers.SampleSaveConfiguration;
 import org.apache.jmeter.samplers.StatisticalSampleResult;
 import org.apache.jmeter.shulie.constants.PressureConstants;
 import org.apache.jmeter.shulie.util.JTLUtil;
+import org.apache.jmeter.shulie.util.JmeterTraceIdGenerator;
 import org.apache.jmeter.shulie.util.model.TraceBizData;
 import org.apache.jmeter.threads.JMeterContextService;
 import org.apache.jmeter.util.JMeterUtils;
