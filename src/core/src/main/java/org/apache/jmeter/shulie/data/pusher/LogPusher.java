@@ -89,6 +89,7 @@ public class LogPusher implements Runnable {
                 messageSendService.send(DataType.PRESSURE_ENGINE_TRACE_LOG, 16, logData, "127.0.0.1", new MessageSendCallBack() {
                     @Override
                     public void success() {
+                        logger.info("发送成功，发送数据为：" + logData);
                         call[0] = true;
                     }
 
@@ -133,7 +134,7 @@ public class LogPusher implements Runnable {
         //关闭文件
     }
 
-    private String pollLogData() {
+    private synchronized String pollLogData() {
         long count = 0;
         StringBuilder stringBuilder = new StringBuilder();
         while (count < 100 * 1024 && !this.queue.isEmpty()) {
