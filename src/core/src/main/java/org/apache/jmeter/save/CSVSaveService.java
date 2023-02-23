@@ -1157,6 +1157,15 @@ public final class CSVSaveService {
             if (JTLUtil.isTraceSampled(traceId, samplingInterval)) {
                 writeLog(sampleResult, out, saveConfig, traceBizData);
             }
+        } else {
+            //允许其他类型的Sampler，比如JavaSampler
+            traceId = JmeterTraceIdGenerator.generateAllSampled();
+            reportId = String.valueOf(PressureConstants.pressureEngineParamsInstance.getResultId());
+            //performanceTest = true;
+            TraceBizData traceBizData = TraceBizData.create(traceId, reportId, performanceTest);
+            if (JTLUtil.isTraceSampled(traceId, samplingInterval)) {
+                writeLog(sampleResult, out, saveConfig, traceBizData);
+            }
         }
         if (Objects.nonNull(sampleResult.getSubResults()) && sampleResult.getSubResults().length > 0) {
             for (SampleResult result : sampleResult.getSubResults()) {
