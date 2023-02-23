@@ -59,7 +59,18 @@ public class HttpJsonMetricsSenderThread {
                 } catch (InterruptedException e) {
                     log.error("Error take metrics from queue!queue.size=" + queue.size());
                 }
-                sender.writeAndSendMetrics(metrics);
+                int times = 1;//重试次数
+                if (null != metrics && metrics.size() > 0 && !sender.writeAndSendMetrics(metrics, times)) {
+                    long t = System.currentTimeMillis();
+                    do {
+                        try {
+                            log.error("retry send data times:" + (++times) + ",t=" + (System.currentTimeMillis() - t));
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            log.error("Thread sleep error!", e);
+                        }
+                    } while (!sender.writeAndSendMetrics(metrics, times));
+                }
                 queueSize.decrementAndGet();
                 if (null != destroyCb && queue.size() <= 0) {
                     await();

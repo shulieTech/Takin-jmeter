@@ -198,38 +198,39 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
     }
 
     //TODO mark by 李鹏 这里改为直接向influxdb写数据 而不是传到cloud
-    public boolean writeAndSendMetrics(List<AbstractMetrics> copyMetrics, int times) {
-        boolean flag = false;
-        String sendData = "";
-        try {
-            if (httpRequest == null) {
-                httpRequest = createRequest(url, token);
-            }
-            sendData = JacksonUtil.toJson(copyMetrics);
-            log.info("send data:" + sendData);
-            //请求数据
-            httpRequest.setEntity(new StringEntity(sendData, ContentType.APPLICATION_JSON));
-            MetricsSenderCallback callback = new MetricsSenderCallback(httpRequest, copyMetrics);
-            lastRequest = httpClient.execute(httpRequest, callback);
-            HttpResponse response = lastRequest.get();
-            int code = response.getStatusLine().getStatusCode();
-            flag = MetricUtils.isSuccessCode(code);
-            return flag;
-        } catch (URISyntaxException | JsonProcessingException | InterruptedException | ExecutionException ex) {
-            log.error(ex.getMessage(), ex);
-        } finally {
-            //不成功的指标数据写入文件
-            if (!flag && times > 5 && Objects.nonNull(pw)) {
-                pw.write(sendData + "\r\n");
-                pw.flush();
-                return !flag;
-            }
-        }
-        return false;
-    }
+//    public boolean writeAndSendMetrics(List<AbstractMetrics> copyMetrics, int times) {
+//        boolean flag = false;
+//        String sendData = "";
+//        try {
+//            if (httpRequest == null) {
+//                httpRequest = createRequest(url, token);
+//            }
+//            sendData = JacksonUtil.toJson(copyMetrics);
+//            log.info("send data:" + sendData);
+//            //请求数据
+//            httpRequest.setEntity(new StringEntity(sendData, ContentType.APPLICATION_JSON));
+//            MetricsSenderCallback callback = new MetricsSenderCallback(httpRequest, copyMetrics);
+//            lastRequest = httpClient.execute(httpRequest, callback);
+//            HttpResponse response = lastRequest.get();
+//            int code = response.getStatusLine().getStatusCode();
+//            flag = MetricUtils.isSuccessCode(code);
+//            return flag;
+//        } catch (URISyntaxException | JsonProcessingException | InterruptedException | ExecutionException ex) {
+//            log.error(ex.getMessage(), ex);
+//        } finally {
+//            //不成功的指标数据写入文件
+//            if (!flag && times > 5 && Objects.nonNull(pw)) {
+//                pw.write(sendData + "\r\n");
+//                pw.flush();
+//                return !flag;
+//            }
+//        }
+//        return false;
+//    }
 
-    public void writeAndSendMetrics(List<AbstractMetrics> metrics) {
+    public boolean writeAndSendMetrics(List<AbstractMetrics> metrics, int times) {
         try {
+            final boolean[] flag = {false};
             Map<String,Object> body = new HashMap<>();
             body.put("data", metrics);
             body.put("jobId", jobId);
@@ -237,22 +238,30 @@ class HttpJsonMetricsSender extends AbstractInfluxdbMetricsSender {
             messageSendService.send("/notify/job/pressure/metrics/upload_old", new HashMap<>(), JSON.toJSONString(body), new MessageSendCallBack() {
                 @Override
                 public void success() {
+                    log.info("发送Metrics数据成功，metrics size为" + metrics.size());
+                    flag[0] = true;
                 }
 
                 @Override
                 public void fail(String errorMessage) {
-                    log.error("发送Metrics数据出现异常,数据写入文件:{}", errorMessage);
-                    pw.write(sendData + "\r\n");
-                    pw.flush();
+                    flag[0] = false;
+                    log.error("发送Metrics数据出现异常:{}", errorMessage);
                 }
             }, new HttpSender() {
                 @Override
                 public void sendMessage() {}
             });
+            if (!flag[0] && times > 5 && Objects.nonNull(pw)) {
+                log.error("发送Metrics数据出现异常且超过失败次数,数据写入文件");
+                pw.write(sendData + "\r\n");
+                pw.flush();
+                return !flag[0];
+            }
+            return flag[0];
         } catch (JsonProcessingException e) {
             log.error("发送Metrics数据出现异常",e);
         }
-
+        return false;
     }
 
     private class MetricsSenderCallback implements FutureCallback<HttpResponse> {

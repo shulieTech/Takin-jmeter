@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.Objects;
 import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
@@ -81,20 +82,48 @@ public class LogPusher implements Runnable {
                 reportId);
         //读取队列，发送消息到kafka
         while (!GlobalVariables.stopFlag.get() || !queue.isEmpty()) {
+            long send = logCount.get();
             String logData = pollLogData();
             if (StringUtils.isNotBlank(logData)) {
+                final boolean[] call = {false};
                 messageSendService.send(DataType.PRESSURE_ENGINE_TRACE_LOG, 16, logData, "127.0.0.1", new MessageSendCallBack() {
                     @Override
                     public void success() {
+                        call[0] = true;
                     }
 
                     @Override
                     public void fail(String errorMessage) {
                         //消息发送失败，将数据写入文件
-                        logger.info("上报jtl失败,数据写入文件。。");
-                        writeUnReportLog(logData);
+                        logger.info("上报jtl失败，失败信息为:" + errorMessage);
+                        call[0] = false;
                     }
                 });
+
+                int count = 3;
+                while (!call[0] && count > 0) {
+                    count--;
+                    messageSendService.send(DataType.PRESSURE_ENGINE_TRACE_LOG, 16, logData, "127.0.0.1", new MessageSendCallBack() {
+                        @Override
+                        public void success() {
+                            call[0] = true;
+                        }
+
+                        @Override
+                        public void fail(String errorMessage) {
+                            //消息发送失败，将数据写入文件
+                            logger.info("上报jtl失败，失败信息为:" + errorMessage);
+                            call[0] = false;
+                        }
+                    });
+                    logger.info("上报jtl失败 重试:{}, 数据:{}, call:{}", 3 - count, logCount.get() - send, call[0]);
+                }
+                if (!call[0]) {
+                    //重试三次以后 写入文件
+                    if (Objects.nonNull(pw)) {
+                        writeUnReportLog(logData);
+                    }
+                }
             }
         }
         isEnded = true;
@@ -105,12 +134,14 @@ public class LogPusher implements Runnable {
     }
 
     private String pollLogData() {
-        while (!this.queue.isEmpty()) {
+        long count = 0;
+        StringBuilder stringBuilder = new StringBuilder();
+        while (count < 100 * 1024 && !this.queue.isEmpty()) {
             Object log = this.queue.poll();
             if (StringUtils.isNotBlank(log.toString())) {
-                GlobalVariables.uploadCount.getAndIncrement();
                 logCount.getAndIncrement();
-                return log.toString();
+                stringBuilder.append(log.toString()).append("\r\n");
+                count += log.toString().getBytes().length;
             } else {
                 try {
                     TimeUnit.MILLISECONDS.sleep(10);
@@ -119,7 +150,7 @@ public class LogPusher implements Runnable {
                 }
             }
         }
-        return null;
+        return stringBuilder.toString();
     }
 
     @Override
