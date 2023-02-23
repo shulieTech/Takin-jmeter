@@ -137,7 +137,7 @@ public class LogPusher implements Runnable {
     private synchronized String pollLogData() {
         long count = 0;
         StringBuilder stringBuilder = new StringBuilder();
-        while (count < 100 * 1024 && !this.queue.isEmpty()) {
+        while (count < 30 * 1024 && !this.queue.isEmpty()) {
             Object log = this.queue.poll();
             if (StringUtils.isNotBlank(log.toString())) {
                 logCount.getAndIncrement();
