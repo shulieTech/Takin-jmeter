@@ -385,6 +385,16 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
     //业务活动url  不同的实现返回不同的值， http返回uri  mq返回topic dubbo返回类名加方法名
     private String transactionUrl;
 
+    private boolean isTransaction;
+
+    public void setTransaction(boolean isTransaction) {
+        this.isTransaction = isTransaction;
+    }
+
+    public boolean isTransaction() {
+        return isTransaction;
+    }
+
     public String getTransactionUrl() {
         return transactionUrl;
     }

@@ -68,6 +68,7 @@ public class TransactionSampler extends AbstractSampler {
         setName(name); // ensure name is available for debugging
         transactionSampleResult = new SampleResult();
         transactionSampleResult.setSampleLabel(name);
+        transactionSampleResult.setTransaction(true);
         // Assume success
         transactionSampleResult.setSuccessful(true);
         transactionSampleResult.sampleStart();

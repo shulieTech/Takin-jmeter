@@ -221,6 +221,9 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
     }
 
     private void addMetricSelf(SampleResult sampleResult) {
+        if (sampleResult.isTransaction()) {
+            return;
+        }
         SamplerMetric samplerMetric = getSamplerMetricInfluxdb(sampleResult.getSampleLabel(), sampleResult.getTransactionUrl());
         samplerMetric.add(sampleResult);
     }
