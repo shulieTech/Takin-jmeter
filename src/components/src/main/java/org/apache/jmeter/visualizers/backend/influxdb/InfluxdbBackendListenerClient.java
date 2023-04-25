@@ -68,6 +68,8 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
     private static final Object LOCK = new Object();
     private static final Map<String, String> DEFAULT_ARGS = new LinkedHashMap<>();
 
+    private static final Set<String> labelSet = new HashSet<>();
+
     static {
         DEFAULT_ARGS.put("influxdbMetricsSender", HttpJsonMetricsSender.class.getName());
         DEFAULT_ARGS.put("influxdbUrl", "http://host_to_change:8086/write?db=jmeter");
@@ -274,6 +276,10 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
     }
 
     private SamplerMetric getSamplerMetricInfluxdb(String sampleLabel, String transactionUrl) {
+        if(!labelSet.contains(sampleLabel)) {
+            log.info("sampleLabel={}", sampleLabel);
+            labelSet.add(sampleLabel);
+        }
         SamplerMetric samplerMetric = metricsPerSampler.get(sampleLabel);
         if (samplerMetric != null) {
             return samplerMetric;
