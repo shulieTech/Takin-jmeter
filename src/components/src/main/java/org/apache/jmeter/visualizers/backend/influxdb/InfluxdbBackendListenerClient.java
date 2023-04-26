@@ -277,7 +277,7 @@ public class InfluxdbBackendListenerClient extends AbstractBackendListenerClient
 
     private SamplerMetric getSamplerMetricInfluxdb(String sampleLabel, String transactionUrl) {
         if(!labelSet.contains(sampleLabel)) {
-            log.info("sampleLabel={}", sampleLabel);
+            log.info("sampleLabel={}, transactionUrl={}", sampleLabel, transactionUrl);
             labelSet.add(sampleLabel);
         }
         SamplerMetric samplerMetric = metricsPerSampler.get(sampleLabel);
