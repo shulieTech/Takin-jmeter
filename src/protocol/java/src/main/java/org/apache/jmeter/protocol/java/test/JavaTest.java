@@ -174,16 +174,10 @@ public class JavaTest extends AbstractJavaSamplerClient implements Serializable,
 
         success = "OK".equalsIgnoreCase(context.getParameter(SUCCESS_NAME, SUCCESS_DEFAULT));
 
-        /**
-         * 直接取TestName
-         * 否则当写JavaRequest程序时，如果加了sampleResult.setSampleLabel("xxx")语句，会导致label取xxx，从而压测报告看不到数据
-         */
-        label = context.getParameter(TestElement.NAME); // default to name of element
-
-//        label = context.getParameter(LABEL_NAME, "");
-//        if (label.length() == 0) {
-//            label = context.getParameter(TestElement.NAME); // default to name of element
-//        }
+        label = context.getParameter(LABEL_NAME, "");
+        if (label.length() == 0) {
+            label = context.getParameter(TestElement.NAME); // default to name of element
+        }
 
         samplerData = context.getParameter(SAMPLER_DATA_NAME, SAMPLER_DATA_DEFAULT);
 
