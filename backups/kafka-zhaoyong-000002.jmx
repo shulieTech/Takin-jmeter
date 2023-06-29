@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.3.1-SNAPSHOT 66665b2">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="测试计划" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组" enabled="true">
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
+          <stringProp name="LoopController.loops">1</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="Java请求" enabled="true">
+          <stringProp name="classname">co.signal.kafkameter.KafkaProducerSampler</stringProp>
+          <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="kafka_brokers" elementType="Argument">
+                <stringProp name="Argument.metadata">=</stringProp>
+                <stringProp name="Argument.name">kafka_brokers</stringProp>
+                <stringProp name="Argument.value">192.168.1.61:9092</stringProp>
+              </elementProp>
+              <elementProp name="kafka_topic" elementType="Argument">
+                <stringProp name="Argument.metadata">=</stringProp>
+                <stringProp name="Argument.name">kafka_topic</stringProp>
+                <stringProp name="Argument.value">wus_topic</stringProp>
+              </elementProp>
+              <elementProp name="kafka_key" elementType="Argument">
+                <stringProp name="Argument.metadata">=</stringProp>
+                <stringProp name="Argument.name">kafka_key</stringProp>
+                <stringProp name="Argument.value">${PARAMETER_KAFKA_KEY}</stringProp>
+              </elementProp>
+              <elementProp name="kafka_message" elementType="Argument">
+                <stringProp name="Argument.metadata">=</stringProp>
+                <stringProp name="Argument.name">kafka_message</stringProp>
+                <stringProp name="Argument.value">11111111</stringProp>
+              </elementProp>
+              <elementProp name="kafka_message_serializer" elementType="Argument">
+                <stringProp name="Argument.metadata">=</stringProp>
+                <stringProp name="Argument.name">kafka_message_serializer</stringProp>
+                <stringProp name="Argument.value">org.apache.kafka.common.serialization.StringSerializer</stringProp>
+              </elementProp>
+              <elementProp name="kafka_key_serializer" elementType="Argument">
+                <stringProp name="Argument.metadata">=</stringProp>
+                <stringProp name="Argument.name">kafka_key_serializer</stringProp>
+                <stringProp name="Argument.value">org.apache.kafka.common.serialization.StringSerializer</stringProp>
+              </elementProp>
+              <elementProp name="kafka_ssl_keystore" elementType="Argument">
+                <stringProp name="Argument.metadata">=</stringProp>
+                <stringProp name="Argument.name">kafka_ssl_keystore</stringProp>
+                <stringProp name="Argument.value">${PARAMETER_KAFKA_SSL_KEYSTORE}</stringProp>
+              </elementProp>
+              <elementProp name="kafka_ssl_keystore_password" elementType="Argument">
+                <stringProp name="Argument.metadata">=</stringProp>
+                <stringProp name="Argument.name">kafka_ssl_keystore_password</stringProp>
+                <stringProp name="Argument.value">${PARAMETER_KAFKA_SSL_KEYSTORE_PASSWORD}</stringProp>
+              </elementProp>
+              <elementProp name="kafka_ssl_truststore" elementType="Argument">
+                <stringProp name="Argument.metadata">=</stringProp>
+                <stringProp name="Argument.name">kafka_ssl_truststore</stringProp>
+                <stringProp name="Argument.value">${PARAMETER_KAFKA_SSL_TRUSTSTORE}</stringProp>
+              </elementProp>
+              <elementProp name="kafka_ssl_truststore_password" elementType="Argument">
+                <stringProp name="Argument.metadata">=</stringProp>
+                <stringProp name="Argument.name">kafka_ssl_truststore_password</stringProp>
+                <stringProp name="Argument.value">${PARAMETER_KAFKA_SSL_TRUSTSTORE_PASSWORD}</stringProp>
+              </elementProp>
+              <elementProp name="kafka_use_ssl" elementType="Argument">
+                <stringProp name="Argument.metadata">=</stringProp>
+                <stringProp name="Argument.name">kafka_use_ssl</stringProp>
+                <stringProp name="Argument.value">${PARAMETER_KAFKA_USE_SSL}</stringProp>
+              </elementProp>
+              <elementProp name="kafka_compression_type" elementType="Argument">
+                <stringProp name="Argument.metadata">=</stringProp>
+                <stringProp name="Argument.name">kafka_compression_type</stringProp>
+                <stringProp name="Argument.value"></stringProp>
+              </elementProp>
+              <elementProp name="kafka_partition" elementType="Argument">
+                <stringProp name="Argument.metadata">=</stringProp>
+                <stringProp name="Argument.name">kafka_partition</stringProp>
+                <stringProp name="Argument.value"></stringProp>
+              </elementProp>
+              <elementProp name="p-pradar-traceid" elementType="Argument">
+                <stringProp name="Argument.metadata">=</stringProp>
+                <stringProp name="Argument.name">p-pradar-traceid</stringProp>
+                <stringProp name="Argument.value">${pradarTraceId}</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </JavaSampler>
+        <hashTree/>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

@@ -17,6 +17,7 @@
 
 package org.apache.jmeter.shulie.data.pusher;
 
+import cn.hutool.core.thread.NamedThreadFactory;
 import io.shulie.jmeter.tool.amdb.GlobalVariables;
 import io.shulie.takin.sdk.kafka.DataType;
 import io.shulie.takin.sdk.kafka.MessageSendCallBack;
@@ -32,6 +33,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Objects;
 import java.util.Queue;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -86,24 +89,8 @@ public class LogPusher implements Runnable {
             String logData = pollLogData();
             if (StringUtils.isNotBlank(logData)) {
                 final boolean[] call = {false};
-                messageSendService.send(DataType.PRESSURE_ENGINE_TRACE_LOG, 16, logData, "127.0.0.1", new MessageSendCallBack() {
-                    @Override
-                    public void success() {
-                        logger.info("发送成功，发送数据为：" + logData);
-                        call[0] = true;
-                    }
-
-                    @Override
-                    public void fail(String errorMessage) {
-                        //消息发送失败，将数据写入文件
-                        logger.info("上报jtl失败，失败信息为:" + errorMessage);
-                        call[0] = false;
-                    }
-                });
-
                 int count = 3;
                 while (!call[0] && count > 0) {
-                    count--;
                     messageSendService.send(DataType.PRESSURE_ENGINE_TRACE_LOG, 16, logData, "127.0.0.1", new MessageSendCallBack() {
                         @Override
                         public void success() {
@@ -117,7 +104,10 @@ public class LogPusher implements Runnable {
                             call[0] = false;
                         }
                     });
-                    logger.info("上报jtl失败 重试:{}, 数据:{}, call:{}", 3 - count, logCount.get() - send, call[0]);
+                    if (!call[0]){
+                        logger.info("上报jtl失败 重试:{}, 数据:{}, call:{}", 3 - count, logCount.get() - send, call[0]);
+                    }
+                    count--;
                 }
                 if (!call[0]) {
                     //重试三次以后 写入文件
@@ -134,29 +124,32 @@ public class LogPusher implements Runnable {
         //关闭文件
     }
 
-    private synchronized String pollLogData() {
-        long count = 0;
-        StringBuilder stringBuilder = new StringBuilder();
-        while (count < 5 * 1024 && !this.queue.isEmpty()) {
+    private String pollLogData() {
+        while (true) {
             Object log = this.queue.poll();
-            if (StringUtils.isNotBlank(log.toString())) {
-                logCount.getAndIncrement();
-                stringBuilder.append(log.toString()).append("\r\n");
-                count += log.toString().getBytes().length;
+            if (log != null && StringUtils.isNotBlank(log.toString())) {
+//                logCount.getAndIncrement();
+                return log.toString();
             } else {
                 try {
-                    TimeUnit.MILLISECONDS.sleep(10);
+                    TimeUnit.MILLISECONDS.sleep(2);
                 } catch (InterruptedException e) {
                     logger.error("日志上传异常--异常信息：{}", e.toString());
                 }
             }
         }
-        return stringBuilder.toString();
     }
 
     @Override
     public void run() {
-        start();
+        ScheduledExecutorService kafkaSend = Executors.newScheduledThreadPool(2, new NamedThreadFactory("send-trace", true));
+        kafkaSend.execute(this::start);
+        try {
+            TimeUnit.MILLISECONDS.sleep(10);
+        } catch (InterruptedException e) {
+            logger.error("日志上传异常,休眠异常--异常信息：{}", e.toString());
+        }
+        kafkaSend.execute(this::start);
     }
 
     public void setPw(PrintWriter pw) {

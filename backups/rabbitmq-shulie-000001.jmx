@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.3.1-SNAPSHOT 76562b9">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="测试计划" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组" enabled="true">
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
+          <stringProp name="LoopController.loops">1</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <io.shulie.jmeter.plugins.rabbit.RabbitPublisherSampler guiclass="io.shulie.jmeter.plugins.rabbit.gui.RabbitPublisherSamplerGui" testclass="io.shulie.jmeter.plugins.rabbit.RabbitPublisherSampler" testname="Rabbit-MQ(生产者)" enabled="true">
+          <elementProp name="RabbitPublisher.Headers" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <boolProp name="RabbitSampler.Redeclare">false</boolProp>
+          <stringProp name="RabbitPublisher.Message"></stringProp>
+          <stringProp name="RabbitSampler.Host">192.168.1.95</stringProp>
+          <stringProp name="RabbitSampler.MessageExpires"></stringProp>
+          <stringProp name="RabbitPublisher.ReplyToQueue"></stringProp>
+          <stringProp name="RabbitSampler.Username">guest</stringProp>
+          <stringProp name="RabbitSampler.Iterations">1</stringProp>
+          <boolProp name="RabbitSampler.ExchangeDurable">true</boolProp>
+          <stringProp name="RabbitSampler.Exchange">1234</stringProp>
+          <stringProp name="RabbitPublisher.ContentType"></stringProp>
+          <stringProp name="RabbitSampler.ExchangeType">topic</stringProp>
+          <stringProp name="RabbitSampler.Queue">AUTO_CONSUME_TOPIC-2</stringProp>
+          <stringProp name="RabbitPublisher.CorrelationId"></stringProp>
+          <boolProp name="RabbitPublisher.Persistent">false</boolProp>
+          <stringProp name="RabbitPublisher.MessageRoutingKey"></stringProp>
+          <boolProp name="RabbitSampler.ExchangeAutoDelete">true</boolProp>
+          <stringProp name="RabbitSampler.MessageTTL"></stringProp>
+          <stringProp name="RabbitSampler.Timeout">1000</stringProp>
+          <stringProp name="RabbitSampler.VirtualHost">/</stringProp>
+          <stringProp name="RabbitSampler.SSL">false</stringProp>
+          <stringProp name="RabbitSampler.Port">5672</stringProp>
+          <stringProp name="RabbitSampler.QueueExclusive">false</stringProp>
+          <stringProp name="RabbitSampler.RoutingKey"></stringProp>
+          <stringProp name="RabbitPublisher.MessageType"></stringProp>
+          <stringProp name="RabbitPublisher.MessageId"></stringProp>
+          <stringProp name="RabbitSampler.QueueDurable">true</stringProp>
+          <stringProp name="RabbitSampler.QueueAutoDelete">false</stringProp>
+          <boolProp name="RabbitPublisher.UseTx">false</boolProp>
+          <boolProp name="RabbitSampler.ExchangeRedeclare">false</boolProp>
+          <stringProp name="RabbitSampler.Password">guest</stringProp>
+        </io.shulie.jmeter.plugins.rabbit.RabbitPublisherSampler>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="察看结果树" enabled="true">
+          <stringProp name="filename"></stringProp>
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

@@ -138,7 +138,7 @@ val gatherBinaryLicenses by tasks.registering(GatherLicenseTask::class) {
         expectedLicense = SpdxLicense.MIT
     }
 
-    overrideLicense("org.slf4j:slf4j-api:1.7.30") {
+    overrideLicense("org.slf4j:slf4j-api:2.0.3") {
         expectedLicense = SpdxLicense.MIT
     }
 
