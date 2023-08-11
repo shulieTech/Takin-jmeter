@@ -48,12 +48,12 @@
 
   <Loggers>
 
-    <Root level="info">
+    <Root level="warn">
       <AppenderRef ref="jmeter-log" />
       <AppenderRef ref="gui-log-event" />
     </Root>
 
-    <Logger name="org.apache.jmeter.junit" level="debug" />
+    <Logger name="org.apache.jmeter.junit" level="warn" />
     <!--
     <Logger name="org.apache.jmeter.control" level="debug" />
     <Logger name="org.apache.jmeter.testbeans" level="debug" />
@@ -72,7 +72,7 @@
     <Logger name="org.apache.jmeter.protocol.java" level="warn" />
     <Logger name="org.apache.jmeter.testelements.property" level="debug" />
     -->
-    <Logger name="org.apache.jorphan" level="info" />
+    <Logger name="org.apache.jorphan" level="warn" />
 
     <!--
       # Apache HttpClient logging examples
