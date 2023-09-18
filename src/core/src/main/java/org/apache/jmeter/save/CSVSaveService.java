@@ -17,24 +17,7 @@
 
 package org.apache.jmeter.save;
 
-import java.io.BufferedReader;
-import java.io.CharArrayWriter;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.Writer;
-import java.nio.charset.StandardCharsets;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import javax.swing.table.DefaultTableModel;
-
+import io.shulie.jmeter.tool.amdb.GlobalVariables;
 import org.apache.commons.collections4.map.LinkedMap;
 import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -47,9 +30,8 @@ import org.apache.jmeter.samplers.SampleSaveConfiguration;
 import org.apache.jmeter.samplers.StatisticalSampleResult;
 import org.apache.jmeter.shulie.constants.PressureConstants;
 import org.apache.jmeter.shulie.util.JTLUtil;
-import org.apache.jmeter.shulie.util.model.TraceBizData;
-import org.apache.jmeter.threads.JMeterContextService;
 import org.apache.jmeter.shulie.util.JmeterTraceIdGenerator;
+import org.apache.jmeter.shulie.util.model.TraceBizData;
 import org.apache.jmeter.util.JMeterUtils;
 import org.apache.jmeter.visualizers.Visualizer;
 import org.apache.jorphan.reflect.Functor;
@@ -61,7 +43,14 @@ import org.apache.oro.text.regex.Perl5Matcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.shulie.jmeter.tool.amdb.GlobalVariables;
+import javax.swing.table.DefaultTableModel;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * This class provides a means for saving/reading test results as CSV files.
@@ -127,6 +116,9 @@ public final class CSVSaveService {
     };
 
     private static final String LINE_SEP = System.getProperty("line.separator");
+
+    static ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
+
 
     /**
      * Private constructor to prevent instantiation.
@@ -1203,8 +1195,12 @@ public final class CSVSaveService {
         }
         if (PressurePtlFileConfig.defaultConfig.isPtlEnable()) {
             if (JTLUtil.ifWrite("200".equals(result.getResponseCode()), result.getTime())) {
-                out.println(resultLog + "\r");
+                singleThreadExecutor.execute(() -> asyncWritePtl2File(out, resultLog+"\r"));
             }
         }
+    }
+
+    private static void asyncWritePtl2File(PrintWriter out, String content) {
+        out.println(content);
     }
 }
