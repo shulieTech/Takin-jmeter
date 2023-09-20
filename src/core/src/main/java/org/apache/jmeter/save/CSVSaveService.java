@@ -1122,7 +1122,7 @@ public final class CSVSaveService {
                 performanceTest = true;
             }
             TraceBizData traceBizData = TraceBizData.create(traceId, reportId, performanceTest);
-            if (JTLUtil.isTraceSampled(traceId, samplingInterval)) {
+            if (checkIsWrite2Ptl(sampleResult.isSuccessful(), traceId, samplingInterval)) {
                 writeLog(sampleResult, out, saveConfig, traceBizData);
             }
         }
@@ -1147,7 +1147,7 @@ public final class CSVSaveService {
                 }
             }
             TraceBizData traceBizData = TraceBizData.create(traceId, reportId, performanceTest);
-            if (JTLUtil.isTraceSampled(traceId, samplingInterval)) {
+            if (checkIsWrite2Ptl(sampleResult.isSuccessful(), traceId, samplingInterval)) {
                 writeLog(sampleResult, out, saveConfig, traceBizData);
             }
         } else {
@@ -1156,7 +1156,7 @@ public final class CSVSaveService {
             reportId = String.valueOf(PressureConstants.pressureEngineParamsInstance.getResultId());
             //performanceTest = true;
             TraceBizData traceBizData = TraceBizData.create(traceId, reportId, performanceTest);
-            if (JTLUtil.isTraceSampled(traceId, samplingInterval)) {
+            if (checkIsWrite2Ptl(sampleResult.isSuccessful(), traceId, samplingInterval)) {
                 writeLog(sampleResult, out, saveConfig, traceBizData);
             }
         }
@@ -1198,6 +1198,20 @@ public final class CSVSaveService {
                 singleThreadExecutor.execute(() -> asyncWritePtl2File(out, resultLog+"\r"));
             }
         }
+    }
+
+    /**
+     * 失败的都写，成功的走采样率
+     * @param isSuccess
+     * @param traceId
+     * @param samplingInterval
+     * @return
+     */
+    private static boolean checkIsWrite2Ptl(Boolean isSuccess, String traceId, Integer samplingInterval) {
+        if(!isSuccess) {
+            return true;
+        }
+        return JTLUtil.isTraceSampled(traceId, samplingInterval);
     }
 
     private static void asyncWritePtl2File(PrintWriter out, String content) {
