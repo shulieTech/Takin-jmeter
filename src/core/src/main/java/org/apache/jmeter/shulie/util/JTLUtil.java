@@ -194,7 +194,7 @@ public abstract class JTLUtil {
                 text.append(sample.getMqPartition());
             } else {
                 text.append("UNKNOW");
-                text.append("JavaRequest");
+                text.append(sample.getSampleLabel());
                 text.append("POST");
             }
         } else {
