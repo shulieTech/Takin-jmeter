@@ -185,12 +185,18 @@ public abstract class JTLUtil {
         text.append(sample.getTime());
         URL url = sample.getURL();
         if (null == url) {
-            //mq类型
-            text.append(sample.getMqType());
-            //serviceName
-            text.append(sample.getMqTopic());
-            //methodName
-            text.append(sample.getMqPartition());
+            if (null != sample.getMqType()) {
+                //mq类型
+                text.append(sample.getMqType());
+                //serviceName
+                text.append(sample.getMqTopic());
+                //methodName
+                text.append(sample.getMqPartition());
+            } else {
+                text.append("JMETER");
+                text.append(sample.getSampleLabel());
+                text.append("JMETER");
+            }
         } else {
             //middlewarename
             text.append(url.getProtocol());

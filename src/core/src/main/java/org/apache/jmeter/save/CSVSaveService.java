@@ -32,6 +32,8 @@ import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -47,6 +49,7 @@ import org.apache.jmeter.samplers.SampleSaveConfiguration;
 import org.apache.jmeter.samplers.StatisticalSampleResult;
 import org.apache.jmeter.shulie.constants.PressureConstants;
 import org.apache.jmeter.shulie.util.JTLUtil;
+import org.apache.jmeter.shulie.util.JmeterTraceIdGenerator;
 import org.apache.jmeter.shulie.util.model.TraceBizData;
 import org.apache.jmeter.threads.JMeterContextService;
 import org.apache.jmeter.util.JMeterUtils;
@@ -126,6 +129,8 @@ public final class CSVSaveService {
     };
 
     private static final String LINE_SEP = System.getProperty("line.separator");
+
+    static ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
 
     /**
      * Private constructor to prevent instantiation.
@@ -1157,6 +1162,14 @@ public final class CSVSaveService {
             if (JTLUtil.isTraceSampled(traceId, samplingInterval)) {
                 writeLog(sampleResult, out, saveConfig, traceBizData);
             }
+        } else {
+            //允许其他类型的Sampler，比如JavaSampler
+            traceId = JmeterTraceIdGenerator.generateAllSampled();
+            if (JTLUtil.isTraceSampled(traceId, samplingInterval)) {
+                reportId = String.valueOf(PressureConstants.pressureEngineParamsInstance.getResultId());
+                TraceBizData traceBizData = TraceBizData.create(traceId, reportId, performanceTest);
+                writeLog(sampleResult, out, saveConfig, traceBizData);
+            }
         }
         if (Objects.nonNull(sampleResult.getSubResults()) && sampleResult.getSubResults().length > 0) {
             for (SampleResult result : sampleResult.getSubResults()) {
@@ -1182,7 +1195,7 @@ public final class CSVSaveService {
         }
         if (PressurePtlFileConfig.defaultConfig.isPtlEnable()) {
             if (JTLUtil.ifWrite("200".equals(result.getResponseCode()), result.getTime())) {
-                out.println(resultLog + "\r");
+                singleThreadExecutor.execute(() -> out.println(resultLog + "\r"));
             }
         }
     }
