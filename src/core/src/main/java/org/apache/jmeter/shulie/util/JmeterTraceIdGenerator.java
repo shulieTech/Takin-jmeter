@@ -133,13 +133,25 @@ public class JmeterTraceIdGenerator {
         return ip + timestamp + paddingString(nextId) + PID_FLAG + REPORT_ID + TAG;
     }
 
+    private static String getTraceIdByReportId(String reportId, long timestamp, int nextId) {
+        if(reportId.length() <= IP_16.length()) {
+            StringBuffer prefix = new StringBuffer(reportId);
+            for (int i = 0; i < IP_16.length() - reportId.length(); i++) {
+                prefix.append("f");
+            }
+            return prefix.toString() + timestamp + paddingString(nextId) + PID_FLAG + REPORT_ID + TAG;
+        } else {
+            return IP_16 + timestamp + paddingString(nextId) + PID_FLAG + REPORT_ID + TAG;
+        }
+    }
+
     private static String paddingString(int n) {
         DecimalFormat df = new DecimalFormat("0000");
         return df.format(n);
     }
 
     public static String generate() {
-        return getTraceId(IP_16, System.currentTimeMillis(), getNextId());
+        return getTraceIdByReportId(REPORT_ID, System.currentTimeMillis(), getNextId());
     }
 
     public static String generateAllSampled() {

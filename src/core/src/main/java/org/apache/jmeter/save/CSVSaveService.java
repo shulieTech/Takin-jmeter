@@ -1133,8 +1133,8 @@ public final class CSVSaveService {
             if (sampleResult.getMqTopic().startsWith("PT_")) {
                 performanceTest = true;
             }
-            TraceBizData traceBizData = TraceBizData.create(traceId, reportId, performanceTest);
             if (JTLUtil.isTraceSampled(traceId, samplingInterval)) {
+                TraceBizData traceBizData = TraceBizData.create(traceId, reportId, performanceTest);
                 writeLog(sampleResult, out, saveConfig, traceBizData);
             }
         }
@@ -1158,8 +1158,8 @@ public final class CSVSaveService {
                     }
                 }
             }
-            TraceBizData traceBizData = TraceBizData.create(traceId, reportId, performanceTest);
             if (JTLUtil.isTraceSampled(traceId, samplingInterval)) {
+                TraceBizData traceBizData = TraceBizData.create(traceId, reportId, performanceTest);
                 writeLog(sampleResult, out, saveConfig, traceBizData);
             }
         } else {
