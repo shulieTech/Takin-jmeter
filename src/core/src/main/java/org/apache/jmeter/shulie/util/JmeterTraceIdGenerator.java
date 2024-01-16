@@ -41,6 +41,8 @@ public class JmeterTraceIdGenerator {
     private static final char PID_FLAG = 'd';
     private static String TAG = "01"; //0x01 代表压测引擎生成的数据 转换PID=>ReportId
     private static String REPORT_ID = System.getProperty("__ENGINE_REPORT_ID__", "0");
+    private static String REPORT_ID_LONG = System.getProperty("__ENGINE_REPORT_ID__", "0");
+    private static String POD_NUMBER = System.getProperty("pod.number", "0");
 
     private static final String REGEX
         = "\\b((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.("
@@ -64,7 +66,7 @@ public class JmeterTraceIdGenerator {
 
             PID = getHexPid(getPid());
             String reportId = System.getProperty("__ENGINE_REPORT_ID__", "0");
-            REPORT_ID = digits36(Long.parseLong(reportId));
+            REPORT_ID = digits36(Long.parseLong(reportId + POD_NUMBER));
         } catch (Throwable e) {
         }
     }
@@ -151,7 +153,7 @@ public class JmeterTraceIdGenerator {
     }
 
     public static String generate() {
-        return getTraceIdByReportId(REPORT_ID, System.currentTimeMillis(), getNextId());
+        return getTraceIdByReportId(REPORT_ID_LONG, System.currentTimeMillis(), getNextId());
     }
 
     public static String generateAllSampled() {
