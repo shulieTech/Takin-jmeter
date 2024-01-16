@@ -136,10 +136,11 @@ public class JmeterTraceIdGenerator {
     }
 
     private static String getTraceIdByReportId(String reportId, long timestamp, int nextId) {
-        if(reportId.length() <= IP_16.length()) {
-            StringBuffer prefix = new StringBuffer(reportId);
-            for (int i = 0; i < IP_16.length() - reportId.length(); i++) {
-                prefix.append("f");
+        String hexReportId = Long.toHexString(Long.parseLong(reportId));
+        if(hexReportId.length() <= IP_16.length()) {
+            StringBuffer prefix = new StringBuffer(hexReportId);
+            for (int i = 0; i < IP_16.length() - hexReportId.length(); i++) {
+                prefix.append("z");
             }
             return prefix.toString() + timestamp + paddingString(nextId) + PID_FLAG + REPORT_ID + TAG;
         } else {
