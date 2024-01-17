@@ -194,8 +194,9 @@ public abstract class JTLUtil {
                 text.append(sample.getMqPartition());
             } else {
                 text.append("JMETER");
-                int pos = StringUtils.indexOf(sample.getSampleLabel(), "@MD5:");
-                text.append(pos > -1 ? sample.getSampleLabel().substring(0, pos) : sample.getSampleLabel());
+                String sampleLabel = StringUtils.replace(sample.getSampleLabel(), " ", "");
+                int pos = StringUtils.indexOf(sampleLabel, "@MD5:");
+                text.append(pos > -1 ? sampleLabel.substring(0, pos) : sampleLabel);
                 text.append("JMETER");
             }
         } else {

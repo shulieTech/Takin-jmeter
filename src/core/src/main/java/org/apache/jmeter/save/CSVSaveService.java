@@ -1164,7 +1164,7 @@ public final class CSVSaveService {
             }
         } else {
             //允许其他类型的Sampler，比如JavaSampler
-            traceId = JmeterTraceIdGenerator.generateAllSampled();
+            traceId = JmeterTraceIdGenerator.generate();
             if (JTLUtil.isTraceSampled(traceId, samplingInterval)) {
                 reportId = String.valueOf(PressureConstants.pressureEngineParamsInstance.getResultId());
                 TraceBizData traceBizData = TraceBizData.create(traceId, reportId, performanceTest);
