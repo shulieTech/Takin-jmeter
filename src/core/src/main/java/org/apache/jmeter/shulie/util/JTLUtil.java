@@ -195,6 +195,7 @@ public abstract class JTLUtil {
             } else {
                 text.append("JMETER");
                 String sampleLabel = StringUtils.replace(sample.getSampleLabel(), " ", "");
+                sampleLabel = StringUtils.replace(sampleLabel, "|", "");
                 int pos = StringUtils.indexOf(sampleLabel, "@MD5:");
                 text.append(pos > -1 ? sampleLabel.substring(0, pos) : sampleLabel);
                 text.append("JMETER");
