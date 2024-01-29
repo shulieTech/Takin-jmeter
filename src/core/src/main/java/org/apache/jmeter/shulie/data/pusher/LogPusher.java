@@ -125,7 +125,7 @@ public class LogPusher implements Runnable {
     }
 
     private String pollLogData() {
-        while (true) {
+        while (!GlobalVariables.stopFlag.get() || !queue.isEmpty()) {
             Object log = this.queue.poll();
             if (log != null && StringUtils.isNotBlank(log.toString())) {
 //                logCount.getAndIncrement();
@@ -138,6 +138,7 @@ public class LogPusher implements Runnable {
                 }
             }
         }
+        return null;
     }
 
     @Override
