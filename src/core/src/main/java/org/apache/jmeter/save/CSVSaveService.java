@@ -1133,7 +1133,7 @@ public final class CSVSaveService {
             if (sampleResult.getMqTopic().startsWith("PT_")) {
                 performanceTest = true;
             }
-            if (JTLUtil.isTraceSampled(traceId, samplingInterval)) {
+            if (checkIsWrite2Ptl(sampleResult.isSuccessful(), traceId, samplingInterval)) {
                 TraceBizData traceBizData = TraceBizData.create(traceId, reportId, performanceTest);
                 writeLog(sampleResult, out, saveConfig, traceBizData);
             }
@@ -1158,14 +1158,14 @@ public final class CSVSaveService {
                     }
                 }
             }
-            if (JTLUtil.isTraceSampled(traceId, samplingInterval)) {
+            if (checkIsWrite2Ptl(sampleResult.isSuccessful(), traceId, samplingInterval)) {
                 TraceBizData traceBizData = TraceBizData.create(traceId, reportId, performanceTest);
                 writeLog(sampleResult, out, saveConfig, traceBizData);
             }
         } else {
             //允许其他类型的Sampler，比如JavaSampler
             traceId = JmeterTraceIdGenerator.generate();
-            if (JTLUtil.isTraceSampled(traceId, samplingInterval)) {
+            if (checkIsWrite2Ptl(sampleResult.isSuccessful(), traceId, samplingInterval)) {
                 reportId = String.valueOf(PressureConstants.pressureEngineParamsInstance.getResultId());
                 TraceBizData traceBizData = TraceBizData.create(traceId, reportId, performanceTest);
                 writeLog(sampleResult, out, saveConfig, traceBizData);
@@ -1198,5 +1198,19 @@ public final class CSVSaveService {
                 singleThreadExecutor.execute(() -> out.println(resultLog + "\r"));
             }
         }
+    }
+
+    /**
+     * 失败的都写，成功的走采样率
+     * @param isSuccess
+     * @param traceId
+     * @param samplingInterval
+     * @return
+     */
+    private static boolean checkIsWrite2Ptl(Boolean isSuccess, String traceId, Integer samplingInterval) {
+        if(!isSuccess) {
+            return true;
+        }
+        return JTLUtil.isTraceSampled(traceId, samplingInterval);
     }
 }
