@@ -158,6 +158,9 @@ public class JmeterTraceIdGenerator {
     }
 
     public static String generateAllSampled() {
+        if(StringUtils.isNotBlank(REPORT_ID_LONG)) {
+            return getTraceIdByReportId(REPORT_ID_LONG, System.currentTimeMillis(), getNextAllSampleId());
+        }
         return getTraceId(IP_16, System.currentTimeMillis(), getNextAllSampleId());
     }
 
