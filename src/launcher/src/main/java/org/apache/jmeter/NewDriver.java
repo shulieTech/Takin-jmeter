@@ -296,10 +296,10 @@ public final class NewDriver {
         result.setResultId(reportId);
         System.setProperty("__ENGINE_REPORT_ID__", reportId + "");
         //dynamicTpsUrl
-        String dynamicTaskTpsUrl = System.getProperty("dynamicTaskTpsUrl");
+        String dynamicTaskTpsUrl = System.getProperty("dynamicTaskTpsUrl", "http://127.0.0.1:8080");
         System.setProperty("__ENGINE_DYNAMIC_TASK_TPS_URL__", dynamicTaskTpsUrl);
         //csvPositionUrl
-        String csvPositionUrl = System.getProperty("csvPositionUrl");
+        String csvPositionUrl = System.getProperty("csvPositionUrl", "http://127.0.0.1:8080");
         System.setProperty("__ENGINE_CSV_POSITION_URL__", csvPositionUrl);
         //customerId
         long customerId = Long.parseLong(System.getProperty("CustomerId", "0"));
@@ -312,7 +312,7 @@ public final class NewDriver {
         result.setPodNumber(podNumber);
         System.setProperty("pod.number", podNumber);
         //callbackUrl
-        result.setCallbackUrl(System.getProperty("CallbackUrl"));
+        result.setCallbackUrl(System.getProperty("CallbackUrl", "http://127.0.0.1:8080"));
         //jmeter args
         result.setJmeterArgs(args);
         return result;
