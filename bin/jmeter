@@ -196,4 +196,4 @@ else
     ARGS=""
 fi
 
-"$JAVA_HOME/bin/java" -Dedas.config.center.ip=127.0.0.1 $ARGS $JVM_ARGS $JMETER_OPTS -jar "$PRGDIR/ApacheJMeter.jar" "$@"
+"$JAVA_HOME/bin/java" $ARGS $JVM_ARGS $JMETER_OPTS -jar "$PRGDIR/ApacheJMeter.jar" "$@"
