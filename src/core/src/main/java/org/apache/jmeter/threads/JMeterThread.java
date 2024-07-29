@@ -570,11 +570,15 @@ public class JMeterThread implements Runnable, Interruptible {
         }
         //add end
 
+        //给jmeter插件中使用
+        current.setProperty(PressureConstants.TRACE_ID_KEY, threadVars.get(PressureConstants.TRACE_ID_KEY));
+
         delay(pack.getTimers());
         SampleResult result = null;
         if (running) {
             Sampler sampler = pack.getSampler();
             result = doSampling(threadContext, sampler);
+            result.setPluginTraceId(sampler.getPropertyAsString(PressureConstants.TRACE_ID_KEY));
         }
         // If we got any results, then perform processing on the result
         if (result != null) {

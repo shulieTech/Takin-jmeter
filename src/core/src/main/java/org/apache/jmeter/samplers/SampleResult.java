@@ -225,6 +225,16 @@ public class SampleResult implements Serializable, Cloneable, Searchable {
 
     private String mqTraceId;
 
+    private String pluginTraceId;
+
+    public String getPluginTraceId() {
+        return pluginTraceId;
+    }
+
+    public void setPluginTraceId(String pluginTraceId) {
+        this.pluginTraceId = pluginTraceId;
+    }
+
     public String getMqTraceId() {
         return mqTraceId;
     }
