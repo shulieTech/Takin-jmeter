@@ -224,12 +224,16 @@ public abstract class JTLUtil {
             }
         }
 
-        text.append(sample.isSuccessful() ? "00" : responseSuccess && assertFailed ? "05" : "01");
+        String resultCode = sample.isSuccessful() ? "00" : responseSuccess && assertFailed ? "05" : "01";
+        text.append(resultCode);
         //request
         //如果报文大于截取长度 需要截取
         String requestString = sample.getQueryString();
         if (PressurePtlFileConfig.defaultConfig.isPtlCutoff() && StringUtils.isNotBlank(requestString) && requestString.length() > STRING_TRUNCATE_LENGTH) {
-            requestString = requestString.substring(0, STRING_TRUNCATE_LENGTH) + "..";
+            //resultCode  00 成功  01 响应失败  05 断言失败 响应成功才进行断言
+            if (sample.isSuccessful()) {
+                requestString = requestString.substring(0, STRING_TRUNCATE_LENGTH) + "..";
+            }
         }
         Matcher requestMatcher = LINE_PATTERN.matcher(requestString);
         requestString = requestMatcher.replaceAll(EMPTY_TEXT);
@@ -241,8 +245,10 @@ public abstract class JTLUtil {
         byte[] responseBytes = sample.getResponseData();
         if (PressurePtlFileConfig.defaultConfig.isPtlCutoff() && responseBytes.length > STRING_TRUNCATE_LENGTH) {
             try {
-                responseString = new String(responseBytes, 0, STRING_TRUNCATE_LENGTH
-                        , sample.getDataEncodingWithDefault()) + "..";
+                if (sample.isSuccessful()) {
+                    responseString = new String(responseBytes, 0, STRING_TRUNCATE_LENGTH
+                            , sample.getDataEncodingWithDefault()) + "..";
+                }
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
