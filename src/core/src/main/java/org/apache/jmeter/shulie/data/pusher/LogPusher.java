@@ -79,7 +79,12 @@ public class LogPusher implements Runnable {
         clientSpec.setZkServers(zkServers);
         clientSpec.setThreadName("cf_" + this.threadName);
         ServerProviderOptions options = new ServerProviderOptions();
-        options.setServerZkPath(GlobalVariables.AMDB_SERVER_ZK_PATH);
+        String zkPath = System.getProperty("zkPath");
+        if(StringUtils.isNotBlank(zkPath)) {
+            options.setServerZkPath(zkPath);
+        } else {
+            options.setServerZkPath(GlobalVariables.AMDB_SERVER_ZK_PATH);
+        }
         options.setSpec(clientSpec);
         ServerAddrProvider provider = new DefaultServerAddrProvider(options);
         DataPusher pusher = new TcpDataPusher();
