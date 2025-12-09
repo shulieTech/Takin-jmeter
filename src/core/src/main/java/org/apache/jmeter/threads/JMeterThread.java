@@ -297,7 +297,7 @@ public class JMeterThread implements Runnable, Interruptible {
                 // It would be possible to add finally for Thread Loop here
                 if (threadGroupLoopController.isDone()) {
                     running = false;
-                    log.info("Thread is done: {}", threadName);
+                    //log.info("Thread is done: {}", threadName);
                 }
             }
         }
@@ -326,7 +326,7 @@ public class JMeterThread implements Runnable, Interruptible {
             try {
                 interruptLock.lock();  // make sure current interrupt is finished, prevent another starting yet
                 threadContext.clear();
-                log.info("Thread finished: {}", threadName);
+                //log.info("Thread finished: {}", threadName);
                 threadFinished(iterationListener);
                 monitor.threadFinished(this); // Tell the monitor we are done
                 JMeterContextService.removeContext(); // Remove the ThreadLocal entry
@@ -743,9 +743,9 @@ public class JMeterThread implements Runnable, Interruptible {
         }
 
         rampUpDelay(); // TODO - how to handle thread stopped here
-        if (log.isInfoEnabled()) {
-            log.info("Thread started: {}", Thread.currentThread().getName());
-        }
+//        if (log.isInfoEnabled()) {
+//            log.info("Thread started: {}", Thread.currentThread().getName());
+//        }
         /*
          * Setting SamplingStarted before the controllers are initialised allows
          * them to access the running values of functions and variables (however

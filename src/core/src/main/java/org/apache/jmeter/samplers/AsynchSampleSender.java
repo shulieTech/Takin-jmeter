@@ -42,7 +42,7 @@ public class AsynchSampleSender extends AbstractSampleSender implements Serializ
     // Create unique object as marker for end of queue
     private static transient final SampleEvent FINAL_EVENT = new SampleEvent();
 
-    private static final int DEFAULT_QUEUE_SIZE = 100;
+    private static final int DEFAULT_QUEUE_SIZE = 2000;
 
     private static final int SERVER_CONFIGURED_CAPACITY = JMeterUtils.getPropDefault("asynch.batch.queue.size", DEFAULT_QUEUE_SIZE);
 
