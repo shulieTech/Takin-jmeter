@@ -134,15 +134,18 @@ public class LogPusher implements Runnable {
         long count = 0;
         StringBuilder stringBuilder = new StringBuilder();
         while (count < GlobalVariables.UPLOAD_SIZE && !this.queue.isEmpty()) {
-            Object log = this.queue.poll();
-            if (StringUtils.isNotBlank(log.toString())) {
+            String log = this.queue.poll().toString();
+            if (StringUtils.isNotBlank(log)) {
                 GlobalVariables.uploadCount.getAndIncrement();
                 logCount.getAndIncrement();
-                stringBuilder.append(log.toString()).append("\r\n");
-                count += log.toString().getBytes().length;
+                count += log.getBytes().length;
+                if(count > GlobalVariables.UPLOAD_SIZE) {
+                    logger.warn("当前logData有{}几条日志,总大小:{}byte", logCount.get(), count);
+                }
+                stringBuilder.append(log).append("\r\n");
             } else {
                 try {
-                    TimeUnit.MILLISECONDS.sleep(10);
+                    TimeUnit.MILLISECONDS.sleep(500);
                 } catch (InterruptedException e) {
                     logger.error("日志上传异常--异常信息：{}", e.toString());
                 }
