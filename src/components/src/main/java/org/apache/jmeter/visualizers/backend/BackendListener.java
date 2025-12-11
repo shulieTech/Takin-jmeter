@@ -99,7 +99,7 @@ public class BackendListener
      */
     private Class<?> clientClass;
 
-    public static final String DEFAULT_QUEUE_SIZE = "10000";
+    public static final String DEFAULT_QUEUE_SIZE = "20000";
 
     /**
      * Create unique object as marker for end of queue
